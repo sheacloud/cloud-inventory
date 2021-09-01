@@ -18,6 +18,8 @@ type InstanceModel struct {
 	IamInstanceProfile IamInstanceProfileModel `parquet:"name=iam_instance_profile"`
 	InstanceId         string                  `parquet:"name=instance_id, type=BYTE_ARRAY, convertedtype=UTF8"`
 	InstanceType       string                  `parquet:"name=instance_type, type=BYTE_ARRAY, convertedtype=UTF8"`
+	SubnetId           string                  `parquet:"name=subnet_id, type=BYTE_ARRAY, convertedtype=UTF8"`
+	VpcId              string                  `parquet:"name=vpc_id, type=BYTE_ARRAY, convertedtype=UTF8"`
 }
 
 type IamInstanceProfileModel struct {
