@@ -5,13 +5,15 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	awsec2 "github.com/aws/aws-sdk-go-v2/service/ec2"
-	"gitlab.com/sheacloud-infrastructure/aws/data-warehouse/internal/parquetwriter"
+	ec2types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
+	"github.com/sheacloud/aws-infra-warehouse/internal/parquetwriter"
 )
 
 var (
 	Controller = Ec2Controller{
 		DataSources: map[string]func(ctx context.Context, accountId, region string, client *awsec2.Client, parquetConfig parquetwriter.ParquetConfig) error{},
 	}
+	serviceName = "ec2"
 )
 
 type Ec2Controller struct {
@@ -39,4 +41,12 @@ func (e *Ec2Controller) Process(ctx context.Context, accountId, region string, c
 	} else {
 		return errMap
 	}
+}
+
+func GetTagMap(tags []ec2types.Tag) map[string]string {
+	tagMap := make(map[string]string)
+	for _, tag := range tags {
+		tagMap[*tag.Key] = *tag.Value
+	}
+	return tagMap
 }

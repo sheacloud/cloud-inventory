@@ -1,0 +1,51 @@
+ec2
+    DHCP option sets
+    inject instance with instance type info
+    internet gateways
+    managed prefix lists
+    NAT gateways
+    NACLS
+    Route tables
+    security groups
+    transit gateway attachments
+    transit gateways
+    transit gateway route tables
+    transit gateway peering
+    VPC endpoints
+
+Lambda
+    functions
+
+S3
+    Buckets
+
+Cloudwatch
+    Log streams
+
+Route53
+    Private hosted zones
+
+IAM
+    Roles
+    policies
+    users
+
+DynamoDB
+    Tables
+
+RDS
+    DBs
+
+Redshift
+    Clusters
+
+EFS
+    Filesystems
+
+ECS
+    Clusters
+    Services
+    Tasks?
+
+EKS
+    Clusters
