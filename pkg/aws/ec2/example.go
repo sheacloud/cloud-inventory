@@ -62,10 +62,8 @@ func exampleDataSource(ctx context.Context, client ExampleDataSourceClient, stor
 			model.Region = storageConfig.Region
 
 			errors := storageContextSet.Store(ctx, model)
-			if errors != nil {
-				for storageContext, err := range errors {
-					storage.LogContextError(storageContext, fmt.Sprintf("Error storing ExampleModel: %v", err))
-				}
+			for storageContext, err := range errors {
+				storage.LogContextError(storageContext, fmt.Sprintf("Error storing ExampleModel: %v", err))
 			}
 		}
 	}

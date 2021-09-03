@@ -170,10 +170,8 @@ func instanceDataSource(ctx context.Context, client InstanceDataSourceClient, st
 				model.Region = storageConfig.Region
 
 				errors := storageContextSet.Store(ctx, model)
-				if errors != nil {
-					for storageContext, err := range errors {
-						storage.LogContextError(storageContext, fmt.Sprintf("Error storing InstanceModel: %v", err))
-					}
+				for storageContext, err := range errors {
+					storage.LogContextError(storageContext, fmt.Sprintf("Error storing InstanceModel: %v", err))
 				}
 			}
 		}

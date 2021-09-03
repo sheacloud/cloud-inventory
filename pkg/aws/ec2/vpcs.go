@@ -89,10 +89,8 @@ func vpcDataSource(ctx context.Context, client VpcDataSourceClient, storageConfi
 			model.Region = storageConfig.Region
 
 			errors := storageContextSet.Store(ctx, model)
-			if errors != nil {
-				for storageContext, err := range errors {
-					storage.LogContextError(storageContext, fmt.Sprintf("Error storing VpcModel: %v", err))
-				}
+			for storageContext, err := range errors {
+				storage.LogContextError(storageContext, fmt.Sprintf("Error storing VpcModel: %v", err))
 			}
 		}
 	}

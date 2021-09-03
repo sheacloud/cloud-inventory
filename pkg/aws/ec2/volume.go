@@ -86,10 +86,8 @@ func volumeDataSource(ctx context.Context, client VolumeDataSourceClient, storag
 			model.Region = storageConfig.Region
 
 			errors := storageContextSet.Store(ctx, model)
-			if errors != nil {
-				for storageContext, err := range errors {
-					storage.LogContextError(storageContext, fmt.Sprintf("Error storing VolumeModel: %v", err))
-				}
+			for storageContext, err := range errors {
+				storage.LogContextError(storageContext, fmt.Sprintf("Error storing VolumeModel: %v", err))
 			}
 		}
 	}

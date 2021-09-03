@@ -76,7 +76,6 @@ func subnetDataSource(ctx context.Context, client SubnetDataSourceClient, storag
 				"error":       err,
 			}).Error("error calling DescribeSubnets")
 			return err
-			return err
 		}
 
 		for _, subnet := range output.Subnets {
@@ -88,10 +87,8 @@ func subnetDataSource(ctx context.Context, client SubnetDataSourceClient, storag
 			model.Region = storageConfig.Region
 
 			errors := storageContextSet.Store(ctx, model)
-			if errors != nil {
-				for storageContext, err := range errors {
-					storage.LogContextError(storageContext, fmt.Sprintf("Error storing SubnetModel: %v", err))
-				}
+			for storageContext, err := range errors {
+				storage.LogContextError(storageContext, fmt.Sprintf("Error storing SubnetModel: %v", err))
 			}
 		}
 	}
