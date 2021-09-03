@@ -12,6 +12,20 @@ ec2
     transit gateway route tables
     transit gateway peering
     VPC endpoints
+    AMIs
+
+ELB/v2
+    ELBs
+    ALBs
+    NLBs
+    Target groups
+
+SQS
+    queues
+
+SNS
+    topics
+    subscriptions
 
 Lambda
     functions

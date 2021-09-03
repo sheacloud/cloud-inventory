@@ -2,10 +2,11 @@ package ec2
 
 import (
 	"context"
+	"fmt"
 
 	awsec2 "github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
-	"github.com/sheacloud/aws-infra-warehouse/internal/parquetwriter"
+	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
 )
 
@@ -30,6 +31,8 @@ type SubnetModel struct {
 	SubnetId                    string                                `parquet:"name=subnet_id, type=BYTE_ARRAY, convertedtype=UTF8"`
 	Tags                        map[string]string                     `parquet:"name=tags, type=MAP, keytype=BYTE_ARRAY, keyconvertedtype=UTF8, valuetype=BYTE_ARRAY, valueconvertedtype=UTF8"`
 	VpcId                       string                                `parquet:"name=vpc_id, type=BYTE_ARRAY, convertedtype=UTF8"`
+	AccountId                   string                                `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
+	Region                      string                                `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
 }
 
 type SubnetIpv6CidrBlockAssociationModel struct {
@@ -47,17 +50,17 @@ type SubnetDataSourceClient interface {
 	DescribeSubnets(context.Context, *awsec2.DescribeSubnetsInput, ...func(*awsec2.Options)) (*awsec2.DescribeSubnetsOutput, error)
 }
 
-func SubnetDataSource(ctx context.Context, accountId, region string, client *awsec2.Client, parquetConfig parquetwriter.ParquetConfig) error {
-	return subnetDataSource(ctx, accountId, region, client, parquetConfig)
+func SubnetDataSource(ctx context.Context, client *awsec2.Client, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+	return subnetDataSource(ctx, client, storageConfig, storageManager)
 }
 
 // function with client as a specific interface, allowing mocking/testing
-func subnetDataSource(ctx context.Context, accountId, region string, client SubnetDataSourceClient, parquetConfig parquetwriter.ParquetConfig) error {
-	s3ParquetWriter, err := parquetwriter.NewS3ParquetWriter(new(SubnetModel), accountId, region, serviceName, "subnets", parquetConfig)
+func subnetDataSource(ctx context.Context, client SubnetDataSourceClient, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(SubnetModel))
 	if err != nil {
 		return err
 	}
-	defer s3ParquetWriter.Close(ctx)
+	defer storageContextSet.Close(ctx)
 
 	paginator := awsec2.NewDescribeSubnetsPaginator(client, &awsec2.DescribeSubnetsInput{})
 
@@ -65,12 +68,14 @@ func subnetDataSource(ctx context.Context, accountId, region string, client Subn
 		output, err := paginator.NextPage(ctx)
 		if err != nil {
 			logrus.WithFields(logrus.Fields{
-				"service":     serviceName,
-				"data_source": "subnets",
-				"account_id":  accountId,
-				"region":      region,
+				"service":     storageConfig.Service,
+				"data_source": storageConfig.DataSource,
+				"account_id":  storageConfig.AccountId,
+				"region":      storageConfig.Region,
+				"cloud":       storageConfig.Cloud,
 				"error":       err,
 			}).Error("error calling DescribeSubnets")
+			return err
 			return err
 		}
 
@@ -79,8 +84,15 @@ func subnetDataSource(ctx context.Context, accountId, region string, client Subn
 			copier.Copy(&model, &subnet)
 
 			model.Tags = GetTagMap(subnet.Tags)
+			model.AccountId = storageConfig.AccountId
+			model.Region = storageConfig.Region
 
-			s3ParquetWriter.Write(model)
+			errors := storageContextSet.Store(ctx, model)
+			if errors != nil {
+				for storageContext, err := range errors {
+					storage.LogContextError(storageContext, fmt.Sprintf("Error storing SubnetModel: %v", err))
+				}
+			}
 		}
 	}
 

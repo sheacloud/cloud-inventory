@@ -9,8 +9,10 @@ import (
 	"github.com/fatih/structtag"
 	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/hcl/v2/gohcl"
+	"github.com/hashicorp/hcl/v2/hclsyntax"
 	"github.com/hashicorp/hcl/v2/hclwrite"
-	"github.com/sheacloud/aws-infra-warehouse/pkg/service/ec2"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/ec2"
+	"github.com/spf13/viper"
 )
 
 var (
@@ -20,7 +22,34 @@ var (
 		reflect.Int:    "int",
 		reflect.Int32:  "int",
 	}
+
+	parquetS3Viper = viper.New()
+	logViper       = viper.New()
 )
+
+func initLogOptions() {
+	logViper.SetEnvPrefix("log")
+	logViper.AutomaticEnv()
+
+	logViper.BindEnv("level")
+	logViper.SetDefault("level", "info")
+
+	logViper.BindEnv("caller")
+	logViper.SetDefault("caller", false)
+}
+
+func initParquetS3Options() {
+	parquetS3Viper.SetEnvPrefix("parquet_s3")
+	parquetS3Viper.AutomaticEnv()
+
+	parquetS3Viper.BindEnv("path_prefix")
+	parquetS3Viper.SetDefault("path_prefix", "parquet/")
+}
+
+func init() {
+	initLogOptions()
+	initParquetS3Options()
+}
 
 type BaseConfig struct {
 	Resources []GlueCatalogTable `hcl:"resource,block"`
@@ -46,9 +75,9 @@ type StorageDescriptor struct {
 }
 
 type SerDeInfo struct {
-	Name                 string         `hcl:"name"`
-	SerializationLibrary string         `hcl:"serialization_library"`
-	Parameters           map[string]int `hcl:"parameters"`
+	Name                 string            `hcl:"name"`
+	SerializationLibrary string            `hcl:"serialization_library"`
+	Parameters           map[string]string `hcl:"parameters"`
 }
 
 type Columns struct {
@@ -151,42 +180,30 @@ func ConvertStructToGlueTable(obj interface{}, service, datasource string) (Glue
 		DatabaseName:  "replace-me",
 		TableType:     "EXTERNAL_TABLE",
 		Parameters: map[string]string{
-			"EXTERNAL":            "TRUE",
-			"parquet.compression": "SNAPPY",
+			"EXTERNAL":                      "TRUE",
+			"parquet.compression":           "SNAPPY",
+			"projection.report_date.type":   "date",
+			"projection.report_date.range":  "NOW-3YEARS,NOW",
+			"projection.report_date.format": "yyyy-MM-dd",
+			"projection.enabled":            "true",
 		},
 		StorageDescriptor: StorageDescriptor{
-			Location:     fmt.Sprintf("s3://sheacloud-test-parquet/parquet/%s/%s/", service, datasource),
+			Location:     "replaceme",
 			InputFormat:  "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat",
 			OutputFormat: "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat",
 			SerDeInfo: SerDeInfo{
 				Name:                 "my-stream",
 				SerializationLibrary: "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe",
-				Parameters: map[string]int{
-					"serialization.format": 1,
+				Parameters: map[string]string{
+					"serialization.format": "1",
 				},
 			},
 			Columns: []Columns{},
 		},
 		PartitionKeys: []PartitionKeys{
 			{
-				Name: "year",
-				Type: "int",
-			},
-			{
-				Name: "month",
-				Type: "int",
-			},
-			{
-				Name: "day",
-				Type: "int",
-			},
-			{
-				Name: "accountid",
-				Type: "string",
-			},
-			{
-				Name: "region",
-				Type: "string",
+				Name: "report_date",
+				Type: "date",
 			},
 		},
 	}
@@ -224,7 +241,7 @@ func ConvertStructToGlueTable(obj interface{}, service, datasource string) (Glue
 }
 
 func main() {
-	terraformDirectory := "./terraform/services/"
+	terraformDirectory := "./terraform/aws/"
 	tableMapping := map[string]map[string]interface{}{
 		"ec2": {
 			"instances":          new(ec2.InstanceModel),
@@ -276,6 +293,48 @@ func main() {
 					Name: "glue_database_name",
 				},
 			})
+			//update storage location to use interpolation
+			storageDescriptor := tableBlock.Body().FirstMatchingBlock("storage_descriptor", []string{})
+			// construct an interpolated string - see https://stackoverflow.com/questions/67945463/how-to-use-hcl-write-to-set-expressions-with for justification for this complexity
+			locationTokens := hclwrite.Tokens{
+				{
+					Type:  hclsyntax.TokenOQuote,
+					Bytes: []byte("\""),
+				},
+				{
+					Type:  hclsyntax.TokenQuotedLit,
+					Bytes: []byte("s3://"),
+				},
+				{
+					Type:  hclsyntax.TokenTemplateInterp,
+					Bytes: []byte("${"),
+				},
+				{
+					Type:  hclsyntax.TokenIdent,
+					Bytes: []byte("var"),
+				},
+				{
+					Type:  hclsyntax.TokenDot,
+					Bytes: []byte("."),
+				},
+				{
+					Type:  hclsyntax.TokenIdent,
+					Bytes: []byte("bucket_name"),
+				},
+				{
+					Type:  hclsyntax.TokenTemplateSeqEnd,
+					Bytes: []byte("}"),
+				},
+				{
+					Type:  hclsyntax.TokenQuotedLit,
+					Bytes: []byte(fmt.Sprintf("/%saws/%s/%s/", parquetS3Viper.GetString("path_prefix"), service, datasource)),
+				},
+				{
+					Type:  hclsyntax.TokenCQuote,
+					Bytes: []byte("\""),
+				},
+			}
+			storageDescriptor.Body().SetAttributeRaw("location", locationTokens)
 
 			filename := fmt.Sprintf("%s/%s.tf", path, datasource)
 			err = os.WriteFile(filename, hclFile.Bytes(), 0755)

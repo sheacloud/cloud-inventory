@@ -2,11 +2,12 @@ package ec2
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	awsec2 "github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
-	"github.com/sheacloud/aws-infra-warehouse/internal/parquetwriter"
+	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
 )
 
@@ -31,6 +32,8 @@ type VolumeModel struct {
 	Throughput         int32             `parquet:"name=throughput, type=INT32"`
 	VolumeId           string            `parquet:"name=volume_id, type=BYTE_ARRAY, convertedtype=UTF8"`
 	VolumeType         string            `parquet:"name=volume_type, type=BYTE_ARRAY, convertedtype=UTF8, encoding=PLAIN_DICTIONARY"`
+	AccountId          string            `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
+	Region             string            `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
 }
 
 type VolumeAttachmentModel struct {
@@ -45,17 +48,17 @@ type VolumeDataSourceClient interface {
 	DescribeVolumes(context.Context, *awsec2.DescribeVolumesInput, ...func(*awsec2.Options)) (*awsec2.DescribeVolumesOutput, error)
 }
 
-func VolumeDataSource(ctx context.Context, accountId, region string, client *awsec2.Client, parquetConfig parquetwriter.ParquetConfig) error {
-	return volumeDataSource(ctx, accountId, region, client, parquetConfig)
+func VolumeDataSource(ctx context.Context, client *awsec2.Client, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+	return volumeDataSource(ctx, client, storageConfig, storageManager)
 }
 
 // function with client as a specific interface, allowing mocking/testing
-func volumeDataSource(ctx context.Context, accountId, region string, client VolumeDataSourceClient, parquetConfig parquetwriter.ParquetConfig) error {
-	s3ParquetWriter, err := parquetwriter.NewS3ParquetWriter(new(VolumeModel), accountId, region, serviceName, "volumes", parquetConfig)
+func volumeDataSource(ctx context.Context, client VolumeDataSourceClient, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(VolumeModel))
 	if err != nil {
 		return err
 	}
-	defer s3ParquetWriter.Close(ctx)
+	defer storageContextSet.Close(ctx)
 
 	paginator := awsec2.NewDescribeVolumesPaginator(client, &awsec2.DescribeVolumesInput{})
 
@@ -63,10 +66,11 @@ func volumeDataSource(ctx context.Context, accountId, region string, client Volu
 		output, err := paginator.NextPage(ctx)
 		if err != nil {
 			logrus.WithFields(logrus.Fields{
-				"service":     serviceName,
-				"data_source": "volume",
-				"account_id":  accountId,
-				"region":      region,
+				"service":     storageConfig.Service,
+				"data_source": storageConfig.DataSource,
+				"account_id":  storageConfig.AccountId,
+				"region":      storageConfig.Region,
+				"cloud":       storageConfig.Cloud,
 				"error":       err,
 			}).Error("error calling DescribeVolumes")
 			return err
@@ -78,8 +82,15 @@ func volumeDataSource(ctx context.Context, accountId, region string, client Volu
 
 			model.Tags = GetTagMap(volume.Tags)
 			model.CreateTimeMillis = model.CreateTime.UTC().UnixMilli()
+			model.AccountId = storageConfig.AccountId
+			model.Region = storageConfig.Region
 
-			s3ParquetWriter.Write(model)
+			errors := storageContextSet.Store(ctx, model)
+			if errors != nil {
+				for storageContext, err := range errors {
+					storage.LogContextError(storageContext, fmt.Sprintf("Error storing VolumeModel: %v", err))
+				}
+			}
 		}
 	}
 

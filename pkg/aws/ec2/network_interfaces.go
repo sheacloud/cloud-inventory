@@ -2,10 +2,11 @@ package ec2
 
 import (
 	"context"
+	"fmt"
 
 	awsec2 "github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
-	"github.com/sheacloud/aws-infra-warehouse/internal/parquetwriter"
+	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
 )
 
@@ -33,6 +34,8 @@ type NetworkInterfaceModel struct {
 	SubnetId           string                                  `parquet:"name=subnet_id, type=BYTE_ARRAY, convertedtype=UTF8"`
 	TagSet             map[string]string                       `parquet:"name=tags, type=MAP, keytype=BYTE_ARRAY, keyconvertedtype=UTF8, valuetype=BYTE_ARRAY, valueconvertedtype=UTF8"`
 	VpcId              string                                  `parquet:"name=vpc_id, type=BYTE_ARRAY, convertedtype=UTF8"`
+	AccountId          string                                  `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
+	Region             string                                  `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
 }
 
 type NetworkInterfacePrivateIpAddressModel struct {
@@ -66,17 +69,17 @@ type NetworkInterfaceDataSourceClient interface {
 	DescribeNetworkInterfaces(context.Context, *awsec2.DescribeNetworkInterfacesInput, ...func(*awsec2.Options)) (*awsec2.DescribeNetworkInterfacesOutput, error)
 }
 
-func NetworkInterfaceDataSource(ctx context.Context, accountId, region string, client *awsec2.Client, parquetConfig parquetwriter.ParquetConfig) error {
-	return networkInterfaceDataSource(ctx, accountId, region, client, parquetConfig)
+func NetworkInterfaceDataSource(ctx context.Context, client *awsec2.Client, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+	return networkInterfaceDataSource(ctx, client, storageConfig, storageManager)
 }
 
 // function with client as a specific interface, allowing mocking/testing
-func networkInterfaceDataSource(ctx context.Context, accountId, region string, client NetworkInterfaceDataSourceClient, parquetConfig parquetwriter.ParquetConfig) error {
-	s3ParquetWriter, err := parquetwriter.NewS3ParquetWriter(new(NetworkInterfaceModel), accountId, region, serviceName, "network_interfaces", parquetConfig)
+func networkInterfaceDataSource(ctx context.Context, client NetworkInterfaceDataSourceClient, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(NetworkInterfaceModel))
 	if err != nil {
 		return err
 	}
-	defer s3ParquetWriter.Close(ctx)
+	defer storageContextSet.Close(ctx)
 
 	paginator := awsec2.NewDescribeNetworkInterfacesPaginator(client, &awsec2.DescribeNetworkInterfacesInput{})
 
@@ -84,10 +87,11 @@ func networkInterfaceDataSource(ctx context.Context, accountId, region string, c
 		output, err := paginator.NextPage(ctx)
 		if err != nil {
 			logrus.WithFields(logrus.Fields{
-				"service":     serviceName,
-				"data_source": "network_interfaces",
-				"account_id":  accountId,
-				"region":      region,
+				"service":     storageConfig.Service,
+				"data_source": storageConfig.DataSource,
+				"account_id":  storageConfig.AccountId,
+				"region":      storageConfig.Region,
+				"cloud":       storageConfig.Cloud,
 				"error":       err,
 			}).Error("error calling DescribeNetworkInterfaces")
 			return err
@@ -98,8 +102,15 @@ func networkInterfaceDataSource(ctx context.Context, accountId, region string, c
 			copier.Copy(&model, &networkInterface)
 
 			model.TagSet = GetTagMap(networkInterface.TagSet)
+			model.AccountId = storageConfig.AccountId
+			model.Region = storageConfig.Region
 
-			s3ParquetWriter.Write(model)
+			errors := storageContextSet.Store(ctx, model)
+			if errors != nil {
+				for storageContext, err := range errors {
+					storage.LogContextError(storageContext, fmt.Sprintf("Error storing NetworkInterfaceModel: %v", err))
+				}
+			}
 		}
 	}
 

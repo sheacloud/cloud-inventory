@@ -1,8 +1,9 @@
-resource "aws_glue_catalog_database" "data_warehouse" {
-  name = "datawarehouse"
+resource "aws_glue_catalog_database" "cloud_inventory" {
+  name = "cloud-inventory"
 }
 
 module "ec2" {
-  source = "./services/ec2"
-  glue_database_name = aws_glue_catalog_database.data_warehouse.name
+  source = "./aws/ec2"
+  glue_database_name = aws_glue_catalog_database.cloud_inventory.name
+  bucket_name = aws_s3_bucket.cloud_inventory.bucket
 }

@@ -2,11 +2,12 @@ package ec2
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	awsec2 "github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
-	"github.com/sheacloud/aws-infra-warehouse/internal/parquetwriter"
+	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
 )
 
@@ -43,6 +44,8 @@ type InstanceModel struct {
 	VirtualizationType    string                           `parquet:"name=virtualization_type, type=BYTE_ARRAY, convertedtype=UTF8"`
 	VpcId                 string                           `parquet:"name=vpc_id, type=BYTE_ARRAY, convertedtype=UTF8"`
 	Tags                  map[string]string                `parquet:"name=tags, type=MAP, keytype=BYTE_ARRAY, keyconvertedtype=UTF8, valuetype=BYTE_ARRAY, valueconvertedtype=UTF8"`
+	AccountId             string                           `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
+	Region                string                           `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
 }
 
 type StateReasonModel struct {
@@ -128,17 +131,17 @@ type InstanceDataSourceClient interface {
 	DescribeInstances(context.Context, *awsec2.DescribeInstancesInput, ...func(*awsec2.Options)) (*awsec2.DescribeInstancesOutput, error)
 }
 
-func InstanceDataSource(ctx context.Context, accountId, region string, client *awsec2.Client, parquetConfig parquetwriter.ParquetConfig) error {
-	return instanceDataSource(ctx, accountId, region, client, parquetConfig)
+func InstanceDataSource(ctx context.Context, client *awsec2.Client, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+	return instanceDataSource(ctx, client, storageConfig, storageManager)
 }
 
 // function with client as a specific interface, allowing mocking/testing
-func instanceDataSource(ctx context.Context, accountId, region string, client InstanceDataSourceClient, parquetConfig parquetwriter.ParquetConfig) error {
-	s3ParquetWriter, err := parquetwriter.NewS3ParquetWriter(new(InstanceModel), accountId, region, serviceName, "instances", parquetConfig)
+func instanceDataSource(ctx context.Context, client InstanceDataSourceClient, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(InstanceModel))
 	if err != nil {
 		return err
 	}
-	defer s3ParquetWriter.Close(ctx)
+	defer storageContextSet.Close(ctx)
 
 	paginator := awsec2.NewDescribeInstancesPaginator(client, &awsec2.DescribeInstancesInput{})
 
@@ -146,10 +149,11 @@ func instanceDataSource(ctx context.Context, accountId, region string, client In
 		output, err := paginator.NextPage(ctx)
 		if err != nil {
 			logrus.WithFields(logrus.Fields{
-				"service":     serviceName,
-				"data_source": "instance",
-				"account_id":  accountId,
-				"region":      region,
+				"service":     storageConfig.Service,
+				"data_source": storageConfig.DataSource,
+				"account_id":  storageConfig.AccountId,
+				"region":      storageConfig.Region,
+				"cloud":       storageConfig.Cloud,
 				"error":       err,
 			}).Error("error calling DescribeInstances")
 			return err
@@ -162,8 +166,15 @@ func instanceDataSource(ctx context.Context, accountId, region string, client In
 
 				model.Tags = GetTagMap(instance.Tags)
 				model.LaunchTimeMillis = model.LaunchTime.UTC().UnixMilli()
+				model.AccountId = storageConfig.AccountId
+				model.Region = storageConfig.Region
 
-				s3ParquetWriter.Write(model)
+				errors := storageContextSet.Store(ctx, model)
+				if errors != nil {
+					for storageContext, err := range errors {
+						storage.LogContextError(storageContext, fmt.Sprintf("Error storing InstanceModel: %v", err))
+					}
+				}
 			}
 		}
 	}

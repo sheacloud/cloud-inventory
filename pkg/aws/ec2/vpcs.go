@@ -2,10 +2,11 @@ package ec2
 
 import (
 	"context"
+	"fmt"
 
 	awsec2 "github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
-	"github.com/sheacloud/aws-infra-warehouse/internal/parquetwriter"
+	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
 )
 
@@ -24,6 +25,8 @@ type VpcModel struct {
 	State                       string                             `parquet:"name=state, type=BYTE_ARRAY, convertedtype=UTF8"`
 	Tags                        map[string]string                  `parquet:"name=tags, type=MAP, keytype=BYTE_ARRAY, keyconvertedtype=UTF8, valuetype=BYTE_ARRAY, valueconvertedtype=UTF8"`
 	VpcId                       string                             `parquet:"name=vpc_id, type=BYTE_ARRAY, convertedtype=UTF8"`
+	AccountId                   string                             `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
+	Region                      string                             `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
 }
 
 type VpcIpv6CidrBlockAssociationModel struct {
@@ -49,17 +52,17 @@ type VpcDataSourceClient interface {
 	DescribeVpcs(context.Context, *awsec2.DescribeVpcsInput, ...func(*awsec2.Options)) (*awsec2.DescribeVpcsOutput, error)
 }
 
-func VpcDataSource(ctx context.Context, accountId, region string, client *awsec2.Client, parquetConfig parquetwriter.ParquetConfig) error {
-	return vpcDataSource(ctx, accountId, region, client, parquetConfig)
+func VpcDataSource(ctx context.Context, client *awsec2.Client, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+	return vpcDataSource(ctx, client, storageConfig, storageManager)
 }
 
 // function with client as a specific interface, allowing mocking/testing
-func vpcDataSource(ctx context.Context, accountId, region string, client VpcDataSourceClient, parquetConfig parquetwriter.ParquetConfig) error {
-	s3ParquetWriter, err := parquetwriter.NewS3ParquetWriter(new(ExampleModel), accountId, region, serviceName, "vpcs", parquetConfig)
+func vpcDataSource(ctx context.Context, client VpcDataSourceClient, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(VpcModel))
 	if err != nil {
 		return err
 	}
-	defer s3ParquetWriter.Close(ctx)
+	defer storageContextSet.Close(ctx)
 
 	paginator := awsec2.NewDescribeVpcsPaginator(client, &awsec2.DescribeVpcsInput{})
 
@@ -67,22 +70,30 @@ func vpcDataSource(ctx context.Context, accountId, region string, client VpcData
 		output, err := paginator.NextPage(ctx)
 		if err != nil {
 			logrus.WithFields(logrus.Fields{
-				"service":     serviceName,
-				"data_source": "vpcs",
-				"account_id":  accountId,
-				"region":      region,
+				"service":     storageConfig.Service,
+				"data_source": storageConfig.DataSource,
+				"account_id":  storageConfig.AccountId,
+				"region":      storageConfig.Region,
+				"cloud":       storageConfig.Cloud,
 				"error":       err,
 			}).Error("error calling DescribeVpcs")
 			return err
 		}
 
 		for _, vpc := range output.Vpcs {
-			model := new(ExampleModel)
+			model := new(VpcModel)
 			copier.Copy(&model, &vpc)
 
 			model.Tags = GetTagMap(vpc.Tags)
+			model.AccountId = storageConfig.AccountId
+			model.Region = storageConfig.Region
 
-			s3ParquetWriter.Write(model)
+			errors := storageContextSet.Store(ctx, model)
+			if errors != nil {
+				for storageContext, err := range errors {
+					storage.LogContextError(storageContext, fmt.Sprintf("Error storing VpcModel: %v", err))
+				}
+			}
 		}
 	}
 
