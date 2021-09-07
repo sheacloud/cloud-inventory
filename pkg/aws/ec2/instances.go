@@ -112,10 +112,9 @@ type InstanceBlockDeviceMappingModel struct {
 }
 
 type EbsInstanceBlockDeviceModel struct {
-	DeviceName  string                                   `parquet:"name=device_name, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Ebs         EbsInstanceBlockDeviceSpecificationModel `parquet:"name=ebs"`
-	NoDevice    string                                   `parquet:"name=no_device, type=BYTE_ARRAY, convertedtype=UTF8"`
-	VirtualName string                                   `parquet:"name=virtual_name, type=BYTE_ARRAY, convertedtype=UTF8"`
+	DeleteOnTermination string `parquet:"name=delete_on_termination, type=BYTE_ARRAY, convertedtype=UTF8"`
+	Status              string `parquet:"name=status, type=BYTE_ARRAY, convertedtype=UTF8"`
+	VolumeId            string `parquet:"name=volume_id, type=BYTE_ARRAY, convertedtype=UTF8"`
 }
 
 type EbsInstanceBlockDeviceSpecificationModel struct {

@@ -42,7 +42,7 @@ resource "aws_glue_catalog_table" "ec2_instances" {
     }
     columns {
       name    = "block_device_mappings"
-      type    = "array<struct<device_name:string,ebs:struct<device_name:string,ebs:struct<delete_on_termination:boolean,volume_id:string>,no_device:string,virtual_name:string>>>"
+      type    = "array<struct<device_name:string,ebs:struct<delete_on_termination:string,status:string,volume_id:string>>>"
       comment = ""
     }
     columns {
