@@ -130,6 +130,11 @@ resource "aws_glue_catalog_table" "ec2_network_interfaces" {
       type    = "string"
       comment = ""
     }
+    columns {
+      name    = "report_time"
+      type    = "timestamp"
+      comment = ""
+    }
   }
 
   partition_keys {

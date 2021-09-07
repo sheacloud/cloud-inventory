@@ -3,6 +3,7 @@ package ec2
 import (
 	"context"
 	"fmt"
+	"time"
 
 	awsec2 "github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
@@ -24,9 +25,10 @@ type VpcModel struct {
 	OwnerId                     string                             `parquet:"name=owner_id, type=BYTE_ARRAY, convertedtype=UTF8"`
 	State                       string                             `parquet:"name=state, type=BYTE_ARRAY, convertedtype=UTF8"`
 	Tags                        map[string]string                  `parquet:"name=tags, type=MAP, keytype=BYTE_ARRAY, keyconvertedtype=UTF8, valuetype=BYTE_ARRAY, valueconvertedtype=UTF8"`
-	VpcId                       string                             `parquet:"name=vpc_id, type=BYTE_ARRAY, convertedtype=UTF8"`
+	VpcId                       string                             `parquet:"name=vpc_id, type=BYTE_ARRAY, convertedtype=UTF8" inventory_primary_key:"true"`
 	AccountId                   string                             `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
 	Region                      string                             `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
+	ReportTime                  int64                              `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type VpcIpv6CidrBlockAssociationModel struct {
@@ -52,12 +54,12 @@ type VpcDataSourceClient interface {
 	DescribeVpcs(context.Context, *awsec2.DescribeVpcsInput, ...func(*awsec2.Options)) (*awsec2.DescribeVpcsOutput, error)
 }
 
-func VpcDataSource(ctx context.Context, client *awsec2.Client, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
-	return vpcDataSource(ctx, client, storageConfig, storageManager)
+func VpcDataSource(ctx context.Context, client *awsec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+	return vpcDataSource(ctx, client, reportTime, storageConfig, storageManager)
 }
 
 // function with client as a specific interface, allowing mocking/testing
-func vpcDataSource(ctx context.Context, client VpcDataSourceClient, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func vpcDataSource(ctx context.Context, client VpcDataSourceClient, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(VpcModel))
 	if err != nil {
 		return err
@@ -87,6 +89,7 @@ func vpcDataSource(ctx context.Context, client VpcDataSourceClient, storageConfi
 			model.Tags = GetTagMap(vpc.Tags)
 			model.AccountId = storageConfig.AccountId
 			model.Region = storageConfig.Region
+			model.ReportTime = reportTime.UnixMilli()
 
 			errors := storageContextSet.Store(ctx, model)
 			for storageContext, err := range errors {

@@ -30,10 +30,11 @@ type VolumeModel struct {
 	State              string            `parquet:"name=state, type=BYTE_ARRAY, convertedtype=UTF8, encoding=PLAIN_DICTIONARY"`
 	Tags               map[string]string `parquet:"name=tags, type=MAP, keytype=BYTE_ARRAY, keyconvertedtype=UTF8, valuetype=BYTE_ARRAY, valueconvertedtype=UTF8"`
 	Throughput         int32             `parquet:"name=throughput, type=INT32"`
-	VolumeId           string            `parquet:"name=volume_id, type=BYTE_ARRAY, convertedtype=UTF8"`
+	VolumeId           string            `parquet:"name=volume_id, type=BYTE_ARRAY, convertedtype=UTF8" inventory_primary_key:"true"`
 	VolumeType         string            `parquet:"name=volume_type, type=BYTE_ARRAY, convertedtype=UTF8, encoding=PLAIN_DICTIONARY"`
 	AccountId          string            `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
 	Region             string            `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
+	ReportTime         int64             `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type VolumeAttachmentModel struct {
@@ -48,12 +49,12 @@ type VolumeDataSourceClient interface {
 	DescribeVolumes(context.Context, *awsec2.DescribeVolumesInput, ...func(*awsec2.Options)) (*awsec2.DescribeVolumesOutput, error)
 }
 
-func VolumeDataSource(ctx context.Context, client *awsec2.Client, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
-	return volumeDataSource(ctx, client, storageConfig, storageManager)
+func VolumeDataSource(ctx context.Context, client *awsec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+	return volumeDataSource(ctx, client, reportTime, storageConfig, storageManager)
 }
 
 // function with client as a specific interface, allowing mocking/testing
-func volumeDataSource(ctx context.Context, client VolumeDataSourceClient, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func volumeDataSource(ctx context.Context, client VolumeDataSourceClient, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(VolumeModel))
 	if err != nil {
 		return err
@@ -84,6 +85,7 @@ func volumeDataSource(ctx context.Context, client VolumeDataSourceClient, storag
 			model.CreateTimeMillis = model.CreateTime.UTC().UnixMilli()
 			model.AccountId = storageConfig.AccountId
 			model.Region = storageConfig.Region
+			model.ReportTime = reportTime.UnixMilli()
 
 			errors := storageContextSet.Store(ctx, model)
 			for storageContext, err := range errors {

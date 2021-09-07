@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/hcl/v2/gohcl"
 	"github.com/hashicorp/hcl/v2/hclsyntax"
 	"github.com/hashicorp/hcl/v2/hclwrite"
-	"github.com/sheacloud/cloud-inventory/pkg/aws/ec2"
+	"github.com/sheacloud/cloud-inventory/internal/catalog"
 	"github.com/spf13/viper"
 )
 
@@ -141,7 +141,14 @@ func GetFieldTypeParquetString(fieldType reflect.Type) string {
 				continue
 			}
 
-			parquetString += fmt.Sprintf("%s:%s", parquetFieldName, GetFieldTypeParquetString(subfieldType.Type))
+			var typeString string
+			if ParquetFieldIsTimestamp(tag) {
+				typeString = "timestamp"
+			} else {
+				typeString = GetFieldTypeParquetString(subfieldType.Type)
+			}
+
+			parquetString += fmt.Sprintf("%s:%s", parquetFieldName, typeString)
 			if i != fieldType.NumField()-1 {
 				parquetString += ","
 			}
@@ -241,106 +248,101 @@ func ConvertStructToGlueTable(obj interface{}, service, datasource string) (Glue
 }
 
 func main() {
-	terraformDirectory := "./terraform/aws/"
-	tableMapping := map[string]map[string]interface{}{
-		"ec2": {
-			"instances":          new(ec2.InstanceModel),
-			"volumes":            new(ec2.VolumeModel),
-			"vpcs":               new(ec2.VpcModel),
-			"subnets":            new(ec2.SubnetModel),
-			"network_interfaces": new(ec2.NetworkInterfaceModel),
-		},
-	}
 
-	if _, err := os.Stat(terraformDirectory); os.IsNotExist(err) {
-		err := os.Mkdir(terraformDirectory, 0755)
-		if err != nil {
-			panic(err)
-		}
-	}
+	for cloud, serviceMapping := range catalog.DatasourceModels {
+		terraformDirectory := fmt.Sprintf("./terraform/%s/", cloud)
 
-	for service, datasourceMapping := range tableMapping {
-		path := fmt.Sprintf("%s%s", terraformDirectory, service)
-		if _, err := os.Stat(path); os.IsNotExist(err) {
-			err := os.Mkdir(path, 0755)
+		if _, err := os.Stat(terraformDirectory); os.IsNotExist(err) {
+			err := os.Mkdir(terraformDirectory, 0755)
 			if err != nil {
 				panic(err)
 			}
 		}
 
-		for datasource, model := range datasourceMapping {
-			resourceName := fmt.Sprintf("%s_%s", service, datasource)
-			table, err := ConvertStructToGlueTable(model, service, datasource)
-			if err != nil {
-				panic(err)
+		for service, datasourceMapping := range serviceMapping {
+			path := fmt.Sprintf("%s%s", terraformDirectory, service)
+			if _, err := os.Stat(path); os.IsNotExist(err) {
+				err := os.Mkdir(path, 0755)
+				if err != nil {
+					panic(err)
+				}
 			}
 
-			config := BaseConfig{
-				Resources: []GlueCatalogTable{table},
-			}
+			for datasource, model := range datasourceMapping {
+				resourceName := fmt.Sprintf("%s_%s", service, datasource)
+				table, err := ConvertStructToGlueTable(model, service, datasource)
+				if err != nil {
+					panic(err)
+				}
 
-			hclFile := hclwrite.NewEmptyFile()
-			gohcl.EncodeIntoBody(&config, hclFile.Body())
+				config := BaseConfig{
+					Resources: []GlueCatalogTable{table},
+				}
 
-			//update database name to be variable reference
-			rootBody := hclFile.Body()
-			tableBlock := rootBody.FirstMatchingBlock("resource", []string{"aws_glue_catalog_table", resourceName})
-			tableBlock.Body().SetAttributeTraversal("database_name", hcl.Traversal{
-				hcl.TraverseRoot{
-					Name: "var",
-				},
-				hcl.TraverseAttr{
-					Name: "glue_database_name",
-				},
-			})
-			//update storage location to use interpolation
-			storageDescriptor := tableBlock.Body().FirstMatchingBlock("storage_descriptor", []string{})
-			// construct an interpolated string - see https://stackoverflow.com/questions/67945463/how-to-use-hcl-write-to-set-expressions-with for justification for this complexity
-			locationTokens := hclwrite.Tokens{
-				{
-					Type:  hclsyntax.TokenOQuote,
-					Bytes: []byte("\""),
-				},
-				{
-					Type:  hclsyntax.TokenQuotedLit,
-					Bytes: []byte("s3://"),
-				},
-				{
-					Type:  hclsyntax.TokenTemplateInterp,
-					Bytes: []byte("${"),
-				},
-				{
-					Type:  hclsyntax.TokenIdent,
-					Bytes: []byte("var"),
-				},
-				{
-					Type:  hclsyntax.TokenDot,
-					Bytes: []byte("."),
-				},
-				{
-					Type:  hclsyntax.TokenIdent,
-					Bytes: []byte("bucket_name"),
-				},
-				{
-					Type:  hclsyntax.TokenTemplateSeqEnd,
-					Bytes: []byte("}"),
-				},
-				{
-					Type:  hclsyntax.TokenQuotedLit,
-					Bytes: []byte(fmt.Sprintf("/%saws/%s/%s/", parquetS3Viper.GetString("path_prefix"), service, datasource)),
-				},
-				{
-					Type:  hclsyntax.TokenCQuote,
-					Bytes: []byte("\""),
-				},
-			}
-			storageDescriptor.Body().SetAttributeRaw("location", locationTokens)
+				hclFile := hclwrite.NewEmptyFile()
+				gohcl.EncodeIntoBody(&config, hclFile.Body())
 
-			filename := fmt.Sprintf("%s/%s.tf", path, datasource)
-			err = os.WriteFile(filename, hclFile.Bytes(), 0755)
-			if err != nil {
-				panic(err)
+				//update database name to be variable reference
+				rootBody := hclFile.Body()
+				tableBlock := rootBody.FirstMatchingBlock("resource", []string{"aws_glue_catalog_table", resourceName})
+				tableBlock.Body().SetAttributeTraversal("database_name", hcl.Traversal{
+					hcl.TraverseRoot{
+						Name: "var",
+					},
+					hcl.TraverseAttr{
+						Name: "glue_database_name",
+					},
+				})
+				//update storage location to use interpolation
+				storageDescriptor := tableBlock.Body().FirstMatchingBlock("storage_descriptor", []string{})
+				// construct an interpolated string - see https://stackoverflow.com/questions/67945463/how-to-use-hcl-write-to-set-expressions-with for justification for this complexity
+				locationTokens := hclwrite.Tokens{
+					{
+						Type:  hclsyntax.TokenOQuote,
+						Bytes: []byte("\""),
+					},
+					{
+						Type:  hclsyntax.TokenQuotedLit,
+						Bytes: []byte("s3://"),
+					},
+					{
+						Type:  hclsyntax.TokenTemplateInterp,
+						Bytes: []byte("${"),
+					},
+					{
+						Type:  hclsyntax.TokenIdent,
+						Bytes: []byte("var"),
+					},
+					{
+						Type:  hclsyntax.TokenDot,
+						Bytes: []byte("."),
+					},
+					{
+						Type:  hclsyntax.TokenIdent,
+						Bytes: []byte("bucket_name"),
+					},
+					{
+						Type:  hclsyntax.TokenTemplateSeqEnd,
+						Bytes: []byte("}"),
+					},
+					{
+						Type:  hclsyntax.TokenQuotedLit,
+						Bytes: []byte(fmt.Sprintf("/%s%s/%s/%s/", parquetS3Viper.GetString("path_prefix"), cloud, service, datasource)),
+					},
+					{
+						Type:  hclsyntax.TokenCQuote,
+						Bytes: []byte("\""),
+					},
+				}
+				storageDescriptor.Body().SetAttributeRaw("location", locationTokens)
+
+				filename := fmt.Sprintf("%s/%s.tf", path, datasource)
+				err = os.WriteFile(filename, hclFile.Bytes(), 0755)
+				if err != nil {
+					panic(err)
+				}
 			}
 		}
 	}
+
 }

@@ -4,9 +4,11 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"sync"
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"github.com/xitongsys/parquet-go-source/buffer"
 	"github.com/xitongsys/parquet-go/writer"
@@ -67,6 +69,7 @@ type ParquetS3Backend struct {
 	Api             S3Api
 	NumParquetPages int64
 	writers         map[string]ParquetS3Writer
+	writersLock     sync.Mutex
 }
 
 func NewParquetS3Backend(bucket, pathPrefix, fileExtension string, api S3Api, numParquetPages int64) *ParquetS3Backend {
@@ -98,6 +101,9 @@ func (p *ParquetS3Backend) CloseStorageContexts(ctx context.Context) []error {
 }
 
 func (p *ParquetS3Backend) GetStorageContext(config StorageContextConfig, sampleObject interface{}) (StorageBackendContext, error) {
+	p.writersLock.Lock()
+	defer p.writersLock.Unlock()
+
 	serviceWriterKey := fmt.Sprintf("%s_%s_%s_%s", config.Date.Format("2006-01-02"), config.Cloud, config.Service, config.DataSource)
 	serviceWriter, ok := p.writers[serviceWriterKey]
 	if ok {
@@ -123,7 +129,7 @@ func (p *ParquetS3Backend) GetStorageContext(config StorageContextConfig, sample
 		bufferFile:      bw,
 		parquetWriter:   pw,
 		api:             p.Api,
-		filename:        "data",
+		filename:        uuid.New().String(),
 		config:          config,
 	}
 	p.writers[serviceWriterKey] = w

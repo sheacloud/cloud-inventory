@@ -11,10 +11,9 @@ import (
 	"github.com/aws/aws-sdk-go-v2/credentials/stscreds"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/aws/aws-sdk-go-v2/service/sts"
-	"github.com/sheacloud/cloud-inventory/internal/controller"
+	"github.com/sheacloud/cloud-inventory/internal/catalog"
 	"github.com/sheacloud/cloud-inventory/internal/processor"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
-	"github.com/sheacloud/cloud-inventory/pkg/aws/ec2"
 	"github.com/spf13/viper"
 )
 
@@ -40,7 +39,6 @@ func initParquetS3Options() {
 	parquetS3Viper.AutomaticEnv()
 
 	parquetS3Viper.BindEnv("bucket")
-	parquetS3Viper.SetDefault("bucket", "sheacloud-test-parquet")
 
 	parquetS3Viper.BindEnv("path_prefix")
 	parquetS3Viper.SetDefault("path_prefix", "parquet/")
@@ -76,7 +74,7 @@ func main() {
 		panic(err)
 	}
 
-	today := time.Now().UTC()
+	reportTime := time.Now().UTC()
 	parquetBackend := storage.NewParquetS3Backend(parquetS3Viper.GetString("bucket"), parquetS3Viper.GetString("path_prefix"), parquetS3Viper.GetString("file_extension"), s3.NewFromConfig(baseAwsConfig), int64(parquetS3Viper.GetInt("parquet_pages")))
 
 	storageManager := storage.StorageManager{
@@ -92,8 +90,6 @@ func main() {
 	regions := strings.Split(awsViper.GetString("regions"), ",")
 	assumeRoleName := awsViper.GetString("assume_role_name")
 
-	awsServiceControllers := []controller.AwsController{&ec2.Controller}
-
 	stsSvc := sts.NewFromConfig(baseAwsConfig)
 
 	for _, account := range accounts {
@@ -103,13 +99,13 @@ func main() {
 		for _, region := range regions {
 			regionConfig := accountAwsConfig.Copy()
 			regionConfig.Region = region
-			for _, serviceController := range awsServiceControllers {
+			for _, serviceController := range catalog.AwsServiceControllers {
 				awsProcessor.AddJob(processor.NewAwsJob(
 					serviceController,
 					context.TODO(),
 					account,
 					region,
-					today,
+					reportTime,
 					regionConfig,
 					&storageManager,
 				))

@@ -1,0 +1,11 @@
+current_x:
+    Gets the rows from the most recent data ingestion only
+
+daily_x:
+    Gets the rows from the last execution of each day
+
+distinct_x:
+    Gets the latest row for each unique field (i.e. each ec2 instnace by instance id) across all time ranges
+
+daily_distinct_x:
+    Gets the last row for each unique resource of each day

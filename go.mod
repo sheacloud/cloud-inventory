@@ -16,8 +16,11 @@ require (
 require (
 	github.com/aws/aws-sdk-go v1.30.19
 	github.com/aws/aws-sdk-go-v2/credentials v1.4.0
+	github.com/aws/aws-sdk-go-v2/service/athena v1.6.0
+	github.com/aws/aws-sdk-go-v2/service/iam v1.9.0
 	github.com/aws/aws-sdk-go-v2/service/sts v1.7.0
 	github.com/fatih/structtag v1.2.0
+	github.com/google/uuid v1.1.2
 	github.com/hashicorp/hcl/v2 v2.10.1
 	github.com/spf13/viper v1.8.1
 )

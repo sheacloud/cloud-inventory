@@ -23,7 +23,7 @@ type InstanceModel struct {
 	Hypervisor            string                             `parquet:"name=hypervisor, type=BYTE_ARRAY, convertedtype=UTF8"`
 	IamInstanceProfile    *IamInstanceProfileModel           `parquet:"name=iam_instance_profile"`
 	ImageId               string                             `parquet:"name=image_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	InstanceId            string                             `parquet:"name=instance_id, type=BYTE_ARRAY, convertedtype=UTF8"`
+	InstanceId            string                             `parquet:"name=instance_id, type=BYTE_ARRAY, convertedtype=UTF8" inventory_primary_key:"true"`
 	InstanceLifecycle     string                             `parquet:"name=instance_lifecycle, type=BYTE_ARRAY, convertedtype=UTF8, encoding=PLAIN_DICTIONARY"`
 	InstanceType          string                             `parquet:"name=instance_type, type=BYTE_ARRAY, convertedtype=UTF8, encoding=PLAIN_DICTIONARY"`
 	KernelId              string                             `parquet:"name=kernel_id, type=BYTE_ARRAY, convertedtype=UTF8"`
@@ -46,6 +46,7 @@ type InstanceModel struct {
 	Tags                  map[string]string                `parquet:"name=tags, type=MAP, keytype=BYTE_ARRAY, keyconvertedtype=UTF8, valuetype=BYTE_ARRAY, valueconvertedtype=UTF8"`
 	AccountId             string                           `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
 	Region                string                           `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
+	ReportTime            int64                            `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type StateReasonModel struct {
@@ -131,12 +132,12 @@ type InstanceDataSourceClient interface {
 	DescribeInstances(context.Context, *awsec2.DescribeInstancesInput, ...func(*awsec2.Options)) (*awsec2.DescribeInstancesOutput, error)
 }
 
-func InstanceDataSource(ctx context.Context, client *awsec2.Client, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
-	return instanceDataSource(ctx, client, storageConfig, storageManager)
+func InstanceDataSource(ctx context.Context, client *awsec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+	return instanceDataSource(ctx, client, reportTime, storageConfig, storageManager)
 }
 
 // function with client as a specific interface, allowing mocking/testing
-func instanceDataSource(ctx context.Context, client InstanceDataSourceClient, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func instanceDataSource(ctx context.Context, client InstanceDataSourceClient, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(InstanceModel))
 	if err != nil {
 		return err
@@ -168,6 +169,7 @@ func instanceDataSource(ctx context.Context, client InstanceDataSourceClient, st
 				model.LaunchTimeMillis = model.LaunchTime.UTC().UnixMilli()
 				model.AccountId = storageConfig.AccountId
 				model.Region = storageConfig.Region
+				model.ReportTime = reportTime.UTC().UnixMilli()
 
 				errors := storageContextSet.Store(ctx, model)
 				for storageContext, err := range errors {

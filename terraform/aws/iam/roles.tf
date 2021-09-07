@@ -1,6 +1,6 @@
 
-resource "aws_glue_catalog_table" "ec2_subnets" {
-  name          = "ec2_subnets"
+resource "aws_glue_catalog_table" "iam_roles" {
+  name          = "iam_roles"
   database_name = var.glue_database_name
   table_type    = "EXTERNAL_TABLE"
   parameters = {
@@ -13,7 +13,7 @@ resource "aws_glue_catalog_table" "ec2_subnets" {
   }
 
   storage_descriptor {
-    location      = "s3://${var.bucket_name}/parquet/aws/ec2/subnets/"
+    location      = "s3://${var.bucket_name}/parquet/aws/iam/roles/"
     input_format  = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat"
     output_format = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat"
 
@@ -26,83 +26,58 @@ resource "aws_glue_catalog_table" "ec2_subnets" {
     }
 
     columns {
-      name    = "assign_ipv6_address_on_creation"
-      type    = "boolean"
-      comment = ""
-    }
-    columns {
-      name    = "availability_zone"
+      name    = "arn"
       type    = "string"
       comment = ""
     }
     columns {
-      name    = "availability_zone_id"
+      name    = "create_date"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "path"
       type    = "string"
       comment = ""
     }
     columns {
-      name    = "available_ip_address_count"
+      name    = "role_id"
+      type    = "string"
+      comment = ""
+    }
+    columns {
+      name    = "role_name"
+      type    = "string"
+      comment = ""
+    }
+    columns {
+      name    = "assume_role_policy_document"
+      type    = "string"
+      comment = ""
+    }
+    columns {
+      name    = "description"
+      type    = "string"
+      comment = ""
+    }
+    columns {
+      name    = "max_session_duration"
       type    = "int"
       comment = ""
     }
     columns {
-      name    = "cidr_block"
-      type    = "string"
+      name    = "permissions_boundary"
+      type    = "struct<permissions_boundary_arn:string,permissions_boundary_type:string>"
       comment = ""
     }
     columns {
-      name    = "customer_owned_ipv4_pool"
-      type    = "string"
-      comment = ""
-    }
-    columns {
-      name    = "default_for_az"
-      type    = "boolean"
-      comment = ""
-    }
-    columns {
-      name    = "ipv6_cidr_block_association_set"
-      type    = "array<struct<association_id:string,ipv6_cidr_block:string,ipv6_cidr_block_state:struct<state:string,status_message:string>>>"
-      comment = ""
-    }
-    columns {
-      name    = "map_customer_owned_ip_on_launch"
-      type    = "boolean"
-      comment = ""
-    }
-    columns {
-      name    = "map_public_ip_on_launch"
-      type    = "boolean"
-      comment = ""
-    }
-    columns {
-      name    = "owner_id"
-      type    = "string"
-      comment = ""
-    }
-    columns {
-      name    = "state"
-      type    = "string"
-      comment = ""
-    }
-    columns {
-      name    = "subnet_arn"
-      type    = "string"
-      comment = ""
-    }
-    columns {
-      name    = "subnet_id"
-      type    = "string"
+      name    = "role_last_used"
+      type    = "struct<last_used_date:timestamp,region:string>"
       comment = ""
     }
     columns {
       name    = "tags"
       type    = "map<string,string>"
-      comment = ""
-    }
-    columns {
-      name    = "vpc_id"
-      type    = "string"
       comment = ""
     }
     columns {

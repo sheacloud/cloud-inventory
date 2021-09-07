@@ -3,6 +3,7 @@ package ec2
 import (
 	"context"
 	"fmt"
+	"time"
 
 	awsec2 "github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
@@ -22,7 +23,7 @@ type NetworkInterfaceModel struct {
 	Groups             []GroupIdentifierModel                  `parquet:"name=groups, type=LIST"`
 	InterfaceType      string                                  `parquet:"name=interface_type, type=BYTE_ARRAY, convertedtype=UTF8"`
 	MacAddress         string                                  `parquet:"name=mac_address, type=BYTE_ARRAY, convertedtype=UTF8"`
-	NetworkInterfaceId string                                  `parquet:"name=network_interface_id, type=BYTE_ARRAY, convertedtype=UTF8"`
+	NetworkInterfaceId string                                  `parquet:"name=network_interface_id, type=BYTE_ARRAY, convertedtype=UTF8" inventory_primary_key:"true"`
 	OwnerId            string                                  `parquet:"name=owner_id, type=BYTE_ARRAY, convertedtype=UTF8"`
 	PrivateDnsName     string                                  `parquet:"name=private_dns_name, type=BYTE_ARRAY, convertedtype=UTF8"`
 	PrivateIpAddress   string                                  `parquet:"name=private_ip_address, type=BYTE_ARRAY, convertedtype=UTF8"`
@@ -36,6 +37,7 @@ type NetworkInterfaceModel struct {
 	VpcId              string                                  `parquet:"name=vpc_id, type=BYTE_ARRAY, convertedtype=UTF8"`
 	AccountId          string                                  `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
 	Region             string                                  `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
+	ReportTime         int64                                   `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type NetworkInterfacePrivateIpAddressModel struct {
@@ -69,12 +71,12 @@ type NetworkInterfaceDataSourceClient interface {
 	DescribeNetworkInterfaces(context.Context, *awsec2.DescribeNetworkInterfacesInput, ...func(*awsec2.Options)) (*awsec2.DescribeNetworkInterfacesOutput, error)
 }
 
-func NetworkInterfaceDataSource(ctx context.Context, client *awsec2.Client, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
-	return networkInterfaceDataSource(ctx, client, storageConfig, storageManager)
+func NetworkInterfaceDataSource(ctx context.Context, client *awsec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+	return networkInterfaceDataSource(ctx, client, reportTime, storageConfig, storageManager)
 }
 
 // function with client as a specific interface, allowing mocking/testing
-func networkInterfaceDataSource(ctx context.Context, client NetworkInterfaceDataSourceClient, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func networkInterfaceDataSource(ctx context.Context, client NetworkInterfaceDataSourceClient, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(NetworkInterfaceModel))
 	if err != nil {
 		return err
@@ -104,6 +106,7 @@ func networkInterfaceDataSource(ctx context.Context, client NetworkInterfaceData
 			model.TagSet = GetTagMap(networkInterface.TagSet)
 			model.AccountId = storageConfig.AccountId
 			model.Region = storageConfig.Region
+			model.ReportTime = reportTime.UnixMilli()
 
 			errors := storageContextSet.Store(ctx, model)
 			for storageContext, err := range errors {

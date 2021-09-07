@@ -3,6 +3,7 @@ package ec2
 import (
 	"context"
 	"fmt"
+	"time"
 
 	awsec2 "github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
@@ -15,22 +16,23 @@ import (
 // }
 
 type ExampleModel struct {
-	Field     string            `parquet:"name=field, type=BYTE_ARRAY, convertedtype=UTF8, encoding=PLAIN_DICTIONARY"`
-	Tags      map[string]string `parquet:"name=tags, type=MAP, keytype=BYTE_ARRAY, keyconvertedtype=UTF8, valuetype=BYTE_ARRAY, valueconvertedtype=UTF8"`
-	AccountId string            `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region    string            `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
+	Field      string            `parquet:"name=field, type=BYTE_ARRAY, convertedtype=UTF8, encoding=PLAIN_DICTIONARY"`
+	Tags       map[string]string `parquet:"name=tags, type=MAP, keytype=BYTE_ARRAY, keyconvertedtype=UTF8, valuetype=BYTE_ARRAY, valueconvertedtype=UTF8"`
+	AccountId  string            `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
+	Region     string            `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
+	ReportTime int64             `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type ExampleDataSourceClient interface {
 	DescribeVolumes(context.Context, *awsec2.DescribeVolumesInput, ...func(*awsec2.Options)) (*awsec2.DescribeVolumesOutput, error)
 }
 
-func ExampleDataSource(ctx context.Context, client *awsec2.Client, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
-	return exampleDataSource(ctx, client, storageConfig, storageManager)
+func ExampleDataSource(ctx context.Context, client *awsec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+	return exampleDataSource(ctx, client, reportTime, storageConfig, storageManager)
 }
 
 // function with client as a specific interface, allowing mocking/testing
-func exampleDataSource(ctx context.Context, client ExampleDataSourceClient, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func exampleDataSource(ctx context.Context, client ExampleDataSourceClient, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(ExampleModel))
 	if err != nil {
 		return err
@@ -60,6 +62,7 @@ func exampleDataSource(ctx context.Context, client ExampleDataSourceClient, stor
 			model.Tags = GetTagMap(volume.Tags)
 			model.AccountId = storageConfig.AccountId
 			model.Region = storageConfig.Region
+			model.ReportTime = reportTime.UnixMilli()
 
 			errors := storageContextSet.Store(ctx, model)
 			for storageContext, err := range errors {
