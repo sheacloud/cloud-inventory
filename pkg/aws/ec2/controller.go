@@ -21,6 +21,10 @@ type Ec2Controller struct {
 	DataSources map[string]func(ctx context.Context, client *awsec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error
 }
 
+func (e *Ec2Controller) GetRegionOverrides() []string {
+	return []string{}
+}
+
 func (e *Ec2Controller) GetName() string {
 	return "ec2"
 }

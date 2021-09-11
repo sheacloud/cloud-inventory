@@ -27,7 +27,7 @@ resource "aws_glue_catalog_table" "ec2_volumes" {
 
     columns {
       name    = "attachments"
-      type    = "array<struct<delete_on_termination:boolean,device:string,instance_id:string,volume_id:string,state:string>>"
+      type    = "array<struct<attach_time:timestamp,delete_on_termination:boolean,device:string,instance_id:string,state:string,volume_id:string>>"
       comment = ""
     }
     columns {
@@ -63,6 +63,11 @@ resource "aws_glue_catalog_table" "ec2_volumes" {
     columns {
       name    = "multi_attach_enabled"
       type    = "boolean"
+      comment = ""
+    }
+    columns {
+      name    = "outpost_arn"
+      type    = "string"
       comment = ""
     }
     columns {

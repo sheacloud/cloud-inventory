@@ -21,6 +21,7 @@ var (
 		reflect.String: "string",
 		reflect.Int:    "int",
 		reflect.Int32:  "int",
+		reflect.Int64:  "bigint",
 	}
 
 	parquetS3Viper = viper.New()

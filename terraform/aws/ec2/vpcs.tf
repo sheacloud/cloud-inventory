@@ -32,7 +32,7 @@ resource "aws_glue_catalog_table" "ec2_vpcs" {
     }
     columns {
       name    = "cidr_block_association_set"
-      type    = "array<struct<association_id:string,cidr_block:string,cidr_block_state:struct<state:string,association_id:string>>>"
+      type    = "array<struct<association_id:string,cidr_block:string,cidr_block_state:struct<state:string,status_message:string>>>"
       comment = ""
     }
     columns {
@@ -41,13 +41,13 @@ resource "aws_glue_catalog_table" "ec2_vpcs" {
       comment = ""
     }
     columns {
-      name    = "tenancy"
+      name    = "instance_tenancy"
       type    = "string"
       comment = ""
     }
     columns {
       name    = "ipv6_cidr_block_association_set"
-      type    = "array<struct<association_id:string,ipv6_cidr_block:string,ipv6_cidr_block_state:struct<state:string,association_id:string>,ipv6_pool:string,network_border_group:string>>"
+      type    = "array<struct<association_id:string,ipv6_cidr_block:string,ipv6_cidr_block_state:struct<state:string,status_message:string>,ipv6_pool:string,network_border_group:string>>"
       comment = ""
     }
     columns {

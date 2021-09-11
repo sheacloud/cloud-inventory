@@ -21,6 +21,10 @@ type IamController struct {
 	DataSources map[string]func(ctx context.Context, client *awsiam.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error
 }
 
+func (e *IamController) GetRegionOverrides() []string {
+	return []string{"us-east-1"}
+}
+
 func (e *IamController) GetName() string {
 	return "iam"
 }

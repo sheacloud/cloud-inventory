@@ -32,7 +32,7 @@ resource "aws_glue_catalog_table" "ec2_network_interfaces" {
     }
     columns {
       name    = "attachment"
-      type    = "struct<attachment_id:string,delete_on_termination:boolean,device_index:int,instance_id:string,instance_owner_id:string,network_card_index:int,status:string>"
+      type    = "struct<attach_time:timestamp,attachment_id:string,delete_on_termination:boolean,device_index:int,instance_id:string,instance_owner_id:string,network_card_index:int,status:string>"
       comment = ""
     }
     columns {
@@ -56,12 +56,32 @@ resource "aws_glue_catalog_table" "ec2_network_interfaces" {
       comment = ""
     }
     columns {
+      name    = "ipv4_prefixes"
+      type    = "array<struct<ipv4_prefix:string>>"
+      comment = ""
+    }
+    columns {
+      name    = "ipv6_addresses"
+      type    = "array<struct<ipv6_address:string>>"
+      comment = ""
+    }
+    columns {
+      name    = "ipv6_prefixes"
+      type    = "array<struct<ipv6_prefix:string>>"
+      comment = ""
+    }
+    columns {
       name    = "mac_address"
       type    = "string"
       comment = ""
     }
     columns {
       name    = "network_interface_id"
+      type    = "string"
+      comment = ""
+    }
+    columns {
+      name    = "outpost_arn"
       type    = "string"
       comment = ""
     }
@@ -111,7 +131,7 @@ resource "aws_glue_catalog_table" "ec2_network_interfaces" {
       comment = ""
     }
     columns {
-      name    = "tags"
+      name    = "tag_set"
       type    = "map<string,string>"
       comment = ""
     }

@@ -76,6 +76,11 @@ resource "aws_glue_catalog_table" "ec2_subnets" {
       comment = ""
     }
     columns {
+      name    = "outpost_arn"
+      type    = "string"
+      comment = ""
+    }
+    columns {
       name    = "owner_id"
       type    = "string"
       comment = ""

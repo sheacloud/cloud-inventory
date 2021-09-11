@@ -68,6 +68,15 @@ func init() {
 	initAwsOptions()
 }
 
+func stringInList(s string, sList []string) bool {
+	for _, s2 := range sList {
+		if s == s2 {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	baseAwsConfig, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
@@ -100,6 +109,12 @@ func main() {
 			regionConfig := accountAwsConfig.Copy()
 			regionConfig.Region = region
 			for _, serviceController := range catalog.AwsServiceControllers {
+				regionOverrides := serviceController.GetRegionOverrides()
+				if len(regionOverrides) > 0 && !stringInList(region, regionOverrides) {
+					//skip running in this region
+					continue
+				}
+
 				awsProcessor.AddJob(processor.NewAwsJob(
 					serviceController,
 					context.TODO(),
