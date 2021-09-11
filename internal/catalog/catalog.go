@@ -32,6 +32,11 @@ var (
 				"transit_gateway_vpc_attachments":     new(ec2.TransitGatewayVpcAttachmentModel),
 				"transit_gateway_peering_attachments": new(ec2.TransitGatewayPeeringAttachmentModel),
 				"vpc_endpoints":                       new(ec2.VpcEndpointModel),
+				"vpc_peering_connections":             new(ec2.VpcPeeringConnectionModel),
+				"vpn_gateways":                        new(ec2.VpnGatewayModel),
+				"reserved_instances":                  new(ec2.ReservedInstancesModel),
+				"placement_groups":                    new(ec2.PlacementGroupModel),
+				"addresses":                           new(ec2.AddressModel),
 			},
 			"iam": {
 				"roles":             new(iam.RoleModel),

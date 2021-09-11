@@ -29,6 +29,7 @@ type DatasourceFile struct {
 	Models              []*Model
 	PrimaryObjectPath   []string
 	PrimaryModel        *Model
+	Paginate            bool
 }
 
 var funcMap template.FuncMap = template.FuncMap{
@@ -90,6 +91,7 @@ func {{.PrimaryResourceName}}DataSource(ctx context.Context, client *{{.ServiceN
 	}
 	defer storageContextSet.Close(ctx)
 
+	{{if .Paginate}}
 	paginator := {{.ServiceName}}.New{{.ApiFunction}}Paginator(client, &{{.ServiceName}}.{{.ApiFunction}}Input{})
 
 	for paginator.HasMorePages() {
@@ -105,7 +107,25 @@ func {{.PrimaryResourceName}}DataSource(ctx context.Context, client *{{.ServiceN
 			}).Error("error calling {{.ApiFunction}}")
 			return err
 		}
+	{{else}}
+	params := &{{.ServiceName}}.{{.ApiFunction}}Input{}
+	
+	result, err := client.{{.ApiFunction}}(ctx, params)
+	if err != nil {
+		logrus.WithFields(logrus.Fields{
+			"service":     storageConfig.Service,
+			"data_source": storageConfig.DataSource,
+			"account_id":  storageConfig.AccountId,
+			"region":      storageConfig.Region,
+			"cloud":       storageConfig.Cloud,
+			"error":       err,
+		}).Error("error calling {{.ApiFunction}}")
+		return err
+	}
 
+	results := []*{{.ServiceName}}.{{.ApiFunction}}Output{result}
+	for _, output := range results {
+	{{end}}
 		{{range $index, $element := .PrimaryObjectPath}}{{tab $index}}for _, var{{$index}} := range {{if eq $index 0}}output{{else}}var{{sub $index 1}}{{end}}.{{$element}} {
 		{{end}}
 		{{tab $pathLength}}model := new({{.PrimaryResourceName}}Model)
@@ -180,6 +200,10 @@ func TypeToParquetType(s string) string {
 		return "BOOLEAN"
 	case "int64":
 		return "INT64"
+	case "float32":
+		return "FLOAT"
+	case "float64":
+		return "DOUBLE"
 	default:
 		return ""
 	}

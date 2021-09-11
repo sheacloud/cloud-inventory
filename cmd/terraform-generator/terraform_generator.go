@@ -17,11 +17,13 @@ import (
 
 var (
 	FieldKindToType = map[reflect.Kind]string{
-		reflect.Bool:   "boolean",
-		reflect.String: "string",
-		reflect.Int:    "int",
-		reflect.Int32:  "int",
-		reflect.Int64:  "bigint",
+		reflect.Bool:    "boolean",
+		reflect.String:  "string",
+		reflect.Int:     "int",
+		reflect.Int32:   "int",
+		reflect.Int64:   "bigint",
+		reflect.Float32: "float",
+		reflect.Float64: "double",
 	}
 
 	parquetS3Viper = viper.New()

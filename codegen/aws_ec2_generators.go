@@ -20,4 +20,14 @@ package codegen
 
 //go:generate go run ../cmd/model-generator/ -cloud-name aws -service-name ec2 -data-source-name vpc_endpoints -primary-resource-name VpcEndpoint -primary-resource-field VpcEndpointId -api-function DescribeVpcEndpoints -primary-object-path VpcEndpoints -library-path "github.com/aws/aws-sdk-go-v2/service/ec2" -base-output-path ../pkg
 
+//go:generate go run ../cmd/model-generator/ -cloud-name aws -service-name ec2 -data-source-name vpc_peering_connections -primary-resource-name VpcPeeringConnection -primary-resource-field VpcPeeringConnectionId -api-function DescribeVpcPeeringConnections -primary-object-path VpcPeeringConnections -library-path "github.com/aws/aws-sdk-go-v2/service/ec2" -base-output-path ../pkg
+
+//go:generate go run ../cmd/model-generator/ -cloud-name aws -service-name ec2 -data-source-name vpn_gateways -primary-resource-name VpnGateway -primary-resource-field VpnGatewayId -api-function DescribeVpnGateways -primary-object-path VpnGateways -library-path "github.com/aws/aws-sdk-go-v2/service/ec2" -base-output-path ../pkg -paginate=false
+
+//go:generate go run ../cmd/model-generator/ -cloud-name aws -service-name ec2 -data-source-name reserved_instances -primary-resource-name ReservedInstances -primary-resource-field ReservedInstancesId -api-function DescribeReservedInstances -primary-object-path ReservedInstances -library-path "github.com/aws/aws-sdk-go-v2/service/ec2" -base-output-path ../pkg -paginate=false
+
+//go:generate go run ../cmd/model-generator/ -cloud-name aws -service-name ec2 -data-source-name placement_groups -primary-resource-name PlacementGroup -primary-resource-field GroupId -api-function DescribePlacementGroups -primary-object-path PlacementGroups -library-path "github.com/aws/aws-sdk-go-v2/service/ec2" -base-output-path ../pkg -paginate=false
+
+//go:generate go run ../cmd/model-generator/ -cloud-name aws -service-name ec2 -data-source-name addresses -primary-resource-name Address -primary-resource-field AllocationId -api-function DescribeAddresses -primary-object-path Addresses -library-path "github.com/aws/aws-sdk-go-v2/service/ec2" -base-output-path ../pkg -paginate=false
+
 //go:generate go fmt ../pkg/aws/ec2/

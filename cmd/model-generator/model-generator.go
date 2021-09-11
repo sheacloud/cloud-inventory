@@ -20,6 +20,7 @@ var (
 	primaryObjectPath    = flag.String("primary-object-path", "", "Path of objects to reach the primary object, comma separated")
 	libraryPath          = flag.String("library-path", "", "path to the module of the Go SDK containing the datasource function")
 	baseOutputPath       = flag.String("base-output-path", "./pkg", "the path to write the files to")
+	paginate             = flag.Bool("paginate", true, "")
 )
 
 var primaryFields []*codegen.Field = []*codegen.Field{
@@ -91,6 +92,7 @@ func main() {
 		Models:              models,
 		PrimaryModel:        primaryModel,
 		PrimaryObjectPath:   strings.Split(*primaryObjectPath, ","),
+		Paginate:            *paginate,
 	}
 
 	outputPath := *baseOutputPath
