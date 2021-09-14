@@ -2,21 +2,22 @@
 package ec2
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"sync"
 )
 
-var customNetworkInterfaceModelPostprocessingFuncs []func(x *NetworkInterfaceModel) = []func(x *NetworkInterfaceModel){}
+var customNetworkInterfaceModelPostprocessingFuncs []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *NetworkInterfaceModel) = []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *NetworkInterfaceModel){}
 var customNetworkInterfaceModelFuncsLock sync.Mutex
 
-func registerCustomNetworkInterfaceModelPostprocessingFunc(f func(x *NetworkInterfaceModel)) {
+func registerCustomNetworkInterfaceModelPostprocessingFunc(f func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *NetworkInterfaceModel)) {
 	customNetworkInterfaceModelFuncsLock.Lock()
 	defer customNetworkInterfaceModelFuncsLock.Unlock()
 
@@ -49,7 +50,7 @@ type NetworkInterfaceModel struct {
 	SourceDestCheck    bool                                                     `parquet:"name=source_dest_check,type=BOOLEAN"`
 	Status             string                                                   `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
 	SubnetId           string                                                   `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TagSet             map[string]string                                        `parquet:"name=tag_set,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	Tags               map[string]string                                        `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
 	VpcId              string                                                   `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	AccountId          string                                                   `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
 	Region             string                                                   `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
@@ -107,7 +108,7 @@ type TagNetworkInterfaceModel struct {
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-func NetworkInterfaceDataSource(ctx context.Context, client *ec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func NetworkInterfaceDataSource(ctx context.Context, client *ec2.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(NetworkInterfaceModel))
 	if err != nil {
 		return err
@@ -135,13 +136,13 @@ func NetworkInterfaceDataSource(ctx context.Context, client *ec2.Client, reportT
 			model := new(NetworkInterfaceModel)
 			copier.Copy(&model, &var0)
 
-			model.TagSet = GetTagMap(var0.TagSet)
+			model.Tags = GetTagMap(var0.TagSet)
 			model.AccountId = storageConfig.AccountId
 			model.Region = storageConfig.Region
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customNetworkInterfaceModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

@@ -131,7 +131,7 @@ resource "aws_glue_catalog_table" "ec2_network_interfaces" {
       comment = ""
     }
     columns {
-      name    = "tag_set"
+      name    = "tags"
       type    = "map<string,string>"
       comment = ""
     }

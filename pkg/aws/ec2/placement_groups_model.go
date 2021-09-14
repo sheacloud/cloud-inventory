@@ -2,21 +2,22 @@
 package ec2
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"sync"
 )
 
-var customPlacementGroupModelPostprocessingFuncs []func(x *PlacementGroupModel) = []func(x *PlacementGroupModel){}
+var customPlacementGroupModelPostprocessingFuncs []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *PlacementGroupModel) = []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *PlacementGroupModel){}
 var customPlacementGroupModelFuncsLock sync.Mutex
 
-func registerCustomPlacementGroupModelPostprocessingFunc(f func(x *PlacementGroupModel)) {
+func registerCustomPlacementGroupModelPostprocessingFunc(f func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *PlacementGroupModel)) {
 	customPlacementGroupModelFuncsLock.Lock()
 	defer customPlacementGroupModelFuncsLock.Unlock()
 
@@ -44,7 +45,7 @@ type TagPlacementGroupModel struct {
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-func PlacementGroupDataSource(ctx context.Context, client *ec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func PlacementGroupDataSource(ctx context.Context, client *ec2.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(PlacementGroupModel))
 	if err != nil {
 		return err
@@ -80,7 +81,7 @@ func PlacementGroupDataSource(ctx context.Context, client *ec2.Client, reportTim
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customPlacementGroupModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

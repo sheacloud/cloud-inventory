@@ -65,6 +65,21 @@ resource "aws_glue_catalog_table" "iam_groups" {
       type    = "timestamp"
       comment = ""
     }
+    columns {
+      name    = "attached_policies"
+      type    = "array<struct<policy_arn:string,policy_name:string>>"
+      comment = ""
+    }
+    columns {
+      name    = "inline_policies"
+      type    = "array<string>"
+      comment = ""
+    }
+    columns {
+      name    = "user_ids"
+      type    = "array<string>"
+      comment = ""
+    }
   }
 
   partition_keys {

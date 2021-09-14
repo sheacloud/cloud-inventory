@@ -2,21 +2,22 @@
 package ec2
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"sync"
 )
 
-var customDhcpOptionsModelPostprocessingFuncs []func(x *DhcpOptionsModel) = []func(x *DhcpOptionsModel){}
+var customDhcpOptionsModelPostprocessingFuncs []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *DhcpOptionsModel) = []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *DhcpOptionsModel){}
 var customDhcpOptionsModelFuncsLock sync.Mutex
 
-func registerCustomDhcpOptionsModelPostprocessingFunc(f func(x *DhcpOptionsModel)) {
+func registerCustomDhcpOptionsModelPostprocessingFunc(f func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *DhcpOptionsModel)) {
 	customDhcpOptionsModelFuncsLock.Lock()
 	defer customDhcpOptionsModelFuncsLock.Unlock()
 
@@ -51,7 +52,7 @@ type TagDhcpOptionsModel struct {
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-func DhcpOptionsDataSource(ctx context.Context, client *ec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func DhcpOptionsDataSource(ctx context.Context, client *ec2.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(DhcpOptionsModel))
 	if err != nil {
 		return err
@@ -85,7 +86,7 @@ func DhcpOptionsDataSource(ctx context.Context, client *ec2.Client, reportTime t
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customDhcpOptionsModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

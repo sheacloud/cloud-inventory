@@ -2,21 +2,22 @@
 package ec2
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"sync"
 )
 
-var customNatGatewayModelPostprocessingFuncs []func(x *NatGatewayModel) = []func(x *NatGatewayModel){}
+var customNatGatewayModelPostprocessingFuncs []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *NatGatewayModel) = []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *NatGatewayModel){}
 var customNatGatewayModelFuncsLock sync.Mutex
 
-func registerCustomNatGatewayModelPostprocessingFunc(f func(x *NatGatewayModel)) {
+func registerCustomNatGatewayModelPostprocessingFunc(f func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *NatGatewayModel)) {
 	customNatGatewayModelFuncsLock.Lock()
 	defer customNatGatewayModelFuncsLock.Unlock()
 
@@ -69,7 +70,7 @@ type TagNatGatewayModel struct {
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-func NatGatewayDataSource(ctx context.Context, client *ec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func NatGatewayDataSource(ctx context.Context, client *ec2.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(NatGatewayModel))
 	if err != nil {
 		return err
@@ -103,7 +104,7 @@ func NatGatewayDataSource(ctx context.Context, client *ec2.Client, reportTime ti
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customNatGatewayModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

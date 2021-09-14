@@ -2,21 +2,22 @@
 package iam
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/iam"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/iam"
+	"sync"
 )
 
-var customRoleModelPostprocessingFuncs []func(x *RoleModel) = []func(x *RoleModel){}
+var customRoleModelPostprocessingFuncs []func(ctx context.Context, client *iam.Client, cfg aws.Config, x *RoleModel) = []func(ctx context.Context, client *iam.Client, cfg aws.Config, x *RoleModel){}
 var customRoleModelFuncsLock sync.Mutex
 
-func registerCustomRoleModelPostprocessingFunc(f func(x *RoleModel)) {
+func registerCustomRoleModelPostprocessingFunc(f func(ctx context.Context, client *iam.Client, cfg aws.Config, x *RoleModel)) {
 	customRoleModelFuncsLock.Lock()
 	defer customRoleModelFuncsLock.Unlock()
 
@@ -43,6 +44,8 @@ type RoleModel struct {
 	AccountId                string                                `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
 	Region                   string                                `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
 	ReportTime               int64                                 `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	AttachedPolicies         []*AttachedPolicyRoleModel            `parquet:"name=attached_policies,type=LIST"`
+	InlinePolicies           []string                              `parquet:"name=inline_policies,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
 }
 
 type AttachedPermissionsBoundaryRoleModel struct {
@@ -61,7 +64,12 @@ type TagRoleModel struct {
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-func RoleDataSource(ctx context.Context, client *iam.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+type AttachedPolicyRoleModel struct {
+	PolicyArn  string `parquet:"name=policy_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PolicyName string `parquet:"name=policy_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+func RoleDataSource(ctx context.Context, client *iam.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(RoleModel))
 	if err != nil {
 		return err
@@ -95,7 +103,7 @@ func RoleDataSource(ctx context.Context, client *iam.Client, reportTime time.Tim
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customRoleModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

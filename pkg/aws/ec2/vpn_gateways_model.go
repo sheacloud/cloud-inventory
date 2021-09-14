@@ -2,21 +2,22 @@
 package ec2
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"sync"
 )
 
-var customVpnGatewayModelPostprocessingFuncs []func(x *VpnGatewayModel) = []func(x *VpnGatewayModel){}
+var customVpnGatewayModelPostprocessingFuncs []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *VpnGatewayModel) = []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *VpnGatewayModel){}
 var customVpnGatewayModelFuncsLock sync.Mutex
 
-func registerCustomVpnGatewayModelPostprocessingFunc(f func(x *VpnGatewayModel)) {
+func registerCustomVpnGatewayModelPostprocessingFunc(f func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *VpnGatewayModel)) {
 	customVpnGatewayModelFuncsLock.Lock()
 	defer customVpnGatewayModelFuncsLock.Unlock()
 
@@ -50,7 +51,7 @@ type VpcAttachmentVpnGatewayModel struct {
 	VpcId string `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-func VpnGatewayDataSource(ctx context.Context, client *ec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func VpnGatewayDataSource(ctx context.Context, client *ec2.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(VpnGatewayModel))
 	if err != nil {
 		return err
@@ -86,7 +87,7 @@ func VpnGatewayDataSource(ctx context.Context, client *ec2.Client, reportTime ti
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customVpnGatewayModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

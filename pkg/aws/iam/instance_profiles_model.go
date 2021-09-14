@@ -2,21 +2,22 @@
 package iam
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/iam"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/iam"
+	"sync"
 )
 
-var customInstanceProfileModelPostprocessingFuncs []func(x *InstanceProfileModel) = []func(x *InstanceProfileModel){}
+var customInstanceProfileModelPostprocessingFuncs []func(ctx context.Context, client *iam.Client, cfg aws.Config, x *InstanceProfileModel) = []func(ctx context.Context, client *iam.Client, cfg aws.Config, x *InstanceProfileModel){}
 var customInstanceProfileModelFuncsLock sync.Mutex
 
-func registerCustomInstanceProfileModelPostprocessingFunc(f func(x *InstanceProfileModel)) {
+func registerCustomInstanceProfileModelPostprocessingFunc(f func(ctx context.Context, client *iam.Client, cfg aws.Config, x *InstanceProfileModel)) {
 	customInstanceProfileModelFuncsLock.Lock()
 	defer customInstanceProfileModelFuncsLock.Unlock()
 
@@ -72,7 +73,7 @@ type TagInstanceProfileModel struct {
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-func InstanceProfileDataSource(ctx context.Context, client *iam.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func InstanceProfileDataSource(ctx context.Context, client *iam.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(InstanceProfileModel))
 	if err != nil {
 		return err
@@ -106,7 +107,7 @@ func InstanceProfileDataSource(ctx context.Context, client *iam.Client, reportTi
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customInstanceProfileModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

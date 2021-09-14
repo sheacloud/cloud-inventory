@@ -2,21 +2,22 @@
 package ec2
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"sync"
 )
 
-var customSubnetModelPostprocessingFuncs []func(x *SubnetModel) = []func(x *SubnetModel){}
+var customSubnetModelPostprocessingFuncs []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *SubnetModel) = []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *SubnetModel){}
 var customSubnetModelFuncsLock sync.Mutex
 
-func registerCustomSubnetModelPostprocessingFunc(f func(x *SubnetModel)) {
+func registerCustomSubnetModelPostprocessingFunc(f func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *SubnetModel)) {
 	customSubnetModelFuncsLock.Lock()
 	defer customSubnetModelFuncsLock.Unlock()
 
@@ -66,7 +67,7 @@ type TagSubnetModel struct {
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-func SubnetDataSource(ctx context.Context, client *ec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func SubnetDataSource(ctx context.Context, client *ec2.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(SubnetModel))
 	if err != nil {
 		return err
@@ -100,7 +101,7 @@ func SubnetDataSource(ctx context.Context, client *ec2.Client, reportTime time.T
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customSubnetModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

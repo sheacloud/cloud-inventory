@@ -2,21 +2,22 @@
 package ec2
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"sync"
 )
 
-var customSecurityGroupModelPostprocessingFuncs []func(x *SecurityGroupModel) = []func(x *SecurityGroupModel){}
+var customSecurityGroupModelPostprocessingFuncs []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *SecurityGroupModel) = []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *SecurityGroupModel){}
 var customSecurityGroupModelFuncsLock sync.Mutex
 
-func registerCustomSecurityGroupModelPostprocessingFunc(f func(x *SecurityGroupModel)) {
+func registerCustomSecurityGroupModelPostprocessingFunc(f func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *SecurityGroupModel)) {
 	customSecurityGroupModelFuncsLock.Lock()
 	defer customSecurityGroupModelFuncsLock.Unlock()
 
@@ -81,7 +82,7 @@ type TagSecurityGroupModel struct {
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-func SecurityGroupDataSource(ctx context.Context, client *ec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func SecurityGroupDataSource(ctx context.Context, client *ec2.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(SecurityGroupModel))
 	if err != nil {
 		return err
@@ -115,7 +116,7 @@ func SecurityGroupDataSource(ctx context.Context, client *ec2.Client, reportTime
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customSecurityGroupModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

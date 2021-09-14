@@ -2,21 +2,22 @@
 package iam
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/iam"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/iam"
+	"sync"
 )
 
-var customPolicyModelPostprocessingFuncs []func(x *PolicyModel) = []func(x *PolicyModel){}
+var customPolicyModelPostprocessingFuncs []func(ctx context.Context, client *iam.Client, cfg aws.Config, x *PolicyModel) = []func(ctx context.Context, client *iam.Client, cfg aws.Config, x *PolicyModel){}
 var customPolicyModelFuncsLock sync.Mutex
 
-func registerCustomPolicyModelPostprocessingFunc(f func(x *PolicyModel)) {
+func registerCustomPolicyModelPostprocessingFunc(f func(ctx context.Context, client *iam.Client, cfg aws.Config, x *PolicyModel)) {
 	customPolicyModelFuncsLock.Lock()
 	defer customPolicyModelFuncsLock.Unlock()
 
@@ -52,7 +53,7 @@ type TagPolicyModel struct {
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-func PolicyDataSource(ctx context.Context, client *iam.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func PolicyDataSource(ctx context.Context, client *iam.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(PolicyModel))
 	if err != nil {
 		return err
@@ -86,7 +87,7 @@ func PolicyDataSource(ctx context.Context, client *iam.Client, reportTime time.T
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customPolicyModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

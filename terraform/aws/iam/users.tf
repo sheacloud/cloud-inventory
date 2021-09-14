@@ -80,6 +80,31 @@ resource "aws_glue_catalog_table" "iam_users" {
       type    = "timestamp"
       comment = ""
     }
+    columns {
+      name    = "access_keys"
+      type    = "array<struct<access_key_id:string,create_date:timestamp,status:string>>"
+      comment = ""
+    }
+    columns {
+      name    = "login_profile"
+      type    = "struct<create_date:timestamp,password_reset_required:boolean>"
+      comment = ""
+    }
+    columns {
+      name    = "attached_policies"
+      type    = "array<struct<policy_arn:string,policy_name:string>>"
+      comment = ""
+    }
+    columns {
+      name    = "inline_policies"
+      type    = "array<string>"
+      comment = ""
+    }
+    columns {
+      name    = "group_ids"
+      type    = "array<string>"
+      comment = ""
+    }
   }
 
   partition_keys {

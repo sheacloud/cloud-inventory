@@ -2,21 +2,22 @@
 package ec2
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"sync"
 )
 
-var customTransitGatewayVpcAttachmentModelPostprocessingFuncs []func(x *TransitGatewayVpcAttachmentModel) = []func(x *TransitGatewayVpcAttachmentModel){}
+var customTransitGatewayVpcAttachmentModelPostprocessingFuncs []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *TransitGatewayVpcAttachmentModel) = []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *TransitGatewayVpcAttachmentModel){}
 var customTransitGatewayVpcAttachmentModelFuncsLock sync.Mutex
 
-func registerCustomTransitGatewayVpcAttachmentModelPostprocessingFunc(f func(x *TransitGatewayVpcAttachmentModel)) {
+func registerCustomTransitGatewayVpcAttachmentModelPostprocessingFunc(f func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *TransitGatewayVpcAttachmentModel)) {
 	customTransitGatewayVpcAttachmentModelFuncsLock.Lock()
 	defer customTransitGatewayVpcAttachmentModelFuncsLock.Unlock()
 
@@ -54,7 +55,7 @@ type TagTransitGatewayVpcAttachmentModel struct {
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-func TransitGatewayVpcAttachmentDataSource(ctx context.Context, client *ec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func TransitGatewayVpcAttachmentDataSource(ctx context.Context, client *ec2.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(TransitGatewayVpcAttachmentModel))
 	if err != nil {
 		return err
@@ -88,7 +89,7 @@ func TransitGatewayVpcAttachmentDataSource(ctx context.Context, client *ec2.Clie
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customTransitGatewayVpcAttachmentModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

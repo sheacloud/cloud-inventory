@@ -2,21 +2,22 @@
 package iam
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/iam"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/iam"
+	"sync"
 )
 
-var customGroupModelPostprocessingFuncs []func(x *GroupModel) = []func(x *GroupModel){}
+var customGroupModelPostprocessingFuncs []func(ctx context.Context, client *iam.Client, cfg aws.Config, x *GroupModel) = []func(ctx context.Context, client *iam.Client, cfg aws.Config, x *GroupModel){}
 var customGroupModelFuncsLock sync.Mutex
 
-func registerCustomGroupModelPostprocessingFunc(f func(x *GroupModel)) {
+func registerCustomGroupModelPostprocessingFunc(f func(ctx context.Context, client *iam.Client, cfg aws.Config, x *GroupModel)) {
 	customGroupModelFuncsLock.Lock()
 	defer customGroupModelFuncsLock.Unlock()
 
@@ -28,18 +29,26 @@ func init() {
 }
 
 type GroupModel struct {
-	Arn             string `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CreateDate      *time.Time
-	CreateDateMilli int64  `parquet:"name=create_date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
-	GroupId         string `parquet:"name=group_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	GroupName       string `parquet:"name=group_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Path            string `parquet:"name=path,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId       string `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region          string `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime      int64  `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	Arn              string `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CreateDate       *time.Time
+	CreateDateMilli  int64                       `parquet:"name=create_date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	GroupId          string                      `parquet:"name=group_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
+	GroupName        string                      `parquet:"name=group_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Path             string                      `parquet:"name=path,type=BYTE_ARRAY,convertedtype=UTF8"`
+	AccountId        string                      `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
+	Region           string                      `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
+	ReportTime       int64                       `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	AttachedPolicies []*AttachedPolicyGroupModel `parquet:"name=attached_policies,type=LIST"`
+	InlinePolicies   []string                    `parquet:"name=inline_policies,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
+	UserIds          []string                    `parquet:"name=user_ids,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
 }
 
-func GroupDataSource(ctx context.Context, client *iam.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+type AttachedPolicyGroupModel struct {
+	PolicyArn  string `parquet:"name=policy_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PolicyName string `parquet:"name=policy_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+func GroupDataSource(ctx context.Context, client *iam.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(GroupModel))
 	if err != nil {
 		return err
@@ -72,7 +81,7 @@ func GroupDataSource(ctx context.Context, client *iam.Client, reportTime time.Ti
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customGroupModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

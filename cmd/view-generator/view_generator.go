@@ -6,11 +6,12 @@ import (
 	"os"
 	"reflect"
 	"strings"
+	"time"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/athena"
 	"github.com/aws/aws-sdk-go-v2/service/athena/types"
-	"github.com/aws/aws-sdk-go/aws"
 	"github.com/fatih/structtag"
 	"github.com/sheacloud/cloud-inventory/internal/catalog"
 	"github.com/sirupsen/logrus"
@@ -231,6 +232,8 @@ func main() {
 				if err != nil {
 					panic(err)
 				}
+
+				time.Sleep(time.Millisecond * 500)
 			}
 		}
 	}

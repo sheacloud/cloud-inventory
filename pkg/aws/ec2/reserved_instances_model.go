@@ -2,21 +2,22 @@
 package ec2
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"sync"
 )
 
-var customReservedInstancesModelPostprocessingFuncs []func(x *ReservedInstancesModel) = []func(x *ReservedInstancesModel){}
+var customReservedInstancesModelPostprocessingFuncs []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *ReservedInstancesModel) = []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *ReservedInstancesModel){}
 var customReservedInstancesModelFuncsLock sync.Mutex
 
-func registerCustomReservedInstancesModelPostprocessingFunc(f func(x *ReservedInstancesModel)) {
+func registerCustomReservedInstancesModelPostprocessingFunc(f func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *ReservedInstancesModel)) {
 	customReservedInstancesModelFuncsLock.Lock()
 	defer customReservedInstancesModelFuncsLock.Unlock()
 
@@ -63,7 +64,7 @@ type TagReservedInstancesModel struct {
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-func ReservedInstancesDataSource(ctx context.Context, client *ec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func ReservedInstancesDataSource(ctx context.Context, client *ec2.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(ReservedInstancesModel))
 	if err != nil {
 		return err
@@ -99,7 +100,7 @@ func ReservedInstancesDataSource(ctx context.Context, client *ec2.Client, report
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customReservedInstancesModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

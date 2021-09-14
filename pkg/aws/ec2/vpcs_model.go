@@ -2,21 +2,22 @@
 package ec2
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"sync"
 )
 
-var customVpcModelPostprocessingFuncs []func(x *VpcModel) = []func(x *VpcModel){}
+var customVpcModelPostprocessingFuncs []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *VpcModel) = []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *VpcModel){}
 var customVpcModelFuncsLock sync.Mutex
 
-func registerCustomVpcModelPostprocessingFunc(f func(x *VpcModel)) {
+func registerCustomVpcModelPostprocessingFunc(f func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *VpcModel)) {
 	customVpcModelFuncsLock.Lock()
 	defer customVpcModelFuncsLock.Unlock()
 
@@ -67,7 +68,7 @@ type TagVpcModel struct {
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-func VpcDataSource(ctx context.Context, client *ec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func VpcDataSource(ctx context.Context, client *ec2.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(VpcModel))
 	if err != nil {
 		return err
@@ -101,7 +102,7 @@ func VpcDataSource(ctx context.Context, client *ec2.Client, reportTime time.Time
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customVpcModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

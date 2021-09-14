@@ -2,21 +2,22 @@
 package ec2
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"sync"
 )
 
-var customNetworkAclModelPostprocessingFuncs []func(x *NetworkAclModel) = []func(x *NetworkAclModel){}
+var customNetworkAclModelPostprocessingFuncs []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *NetworkAclModel) = []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *NetworkAclModel){}
 var customNetworkAclModelFuncsLock sync.Mutex
 
-func registerCustomNetworkAclModelPostprocessingFunc(f func(x *NetworkAclModel)) {
+func registerCustomNetworkAclModelPostprocessingFunc(f func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *NetworkAclModel)) {
 	customNetworkAclModelFuncsLock.Lock()
 	defer customNetworkAclModelFuncsLock.Unlock()
 
@@ -72,7 +73,7 @@ type TagNetworkAclModel struct {
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-func NetworkAclDataSource(ctx context.Context, client *ec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func NetworkAclDataSource(ctx context.Context, client *ec2.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(NetworkAclModel))
 	if err != nil {
 		return err
@@ -106,7 +107,7 @@ func NetworkAclDataSource(ctx context.Context, client *ec2.Client, reportTime ti
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customNetworkAclModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

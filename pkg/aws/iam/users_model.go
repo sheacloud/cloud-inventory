@@ -2,21 +2,22 @@
 package iam
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/iam"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/iam"
+	"sync"
 )
 
-var customUserModelPostprocessingFuncs []func(x *UserModel) = []func(x *UserModel){}
+var customUserModelPostprocessingFuncs []func(ctx context.Context, client *iam.Client, cfg aws.Config, x *UserModel) = []func(ctx context.Context, client *iam.Client, cfg aws.Config, x *UserModel){}
 var customUserModelFuncsLock sync.Mutex
 
-func registerCustomUserModelPostprocessingFunc(f func(x *UserModel)) {
+func registerCustomUserModelPostprocessingFunc(f func(ctx context.Context, client *iam.Client, cfg aws.Config, x *UserModel)) {
 	customUserModelFuncsLock.Lock()
 	defer customUserModelFuncsLock.Unlock()
 
@@ -41,6 +42,11 @@ type UserModel struct {
 	AccountId             string                                `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
 	Region                string                                `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
 	ReportTime            int64                                 `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	AccessKeys            []*AccessKeyMetadataUserModel         `parquet:"name=access_keys,type=LIST"`
+	LoginProfile          *LoginProfileUserModel                `parquet:"name=login_profile"`
+	AttachedPolicies      []*AttachedPolicyUserModel            `parquet:"name=attached_policies,type=LIST"`
+	InlinePolicies        []string                              `parquet:"name=inline_policies,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
+	GroupIds              []string                              `parquet:"name=group_ids,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
 }
 
 type AttachedPermissionsBoundaryUserModel struct {
@@ -53,7 +59,25 @@ type TagUserModel struct {
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-func UserDataSource(ctx context.Context, client *iam.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+type AccessKeyMetadataUserModel struct {
+	AccessKeyId     string `parquet:"name=access_key_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CreateDate      *time.Time
+	CreateDateMilli int64  `parquet:"name=create_date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	Status          string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type LoginProfileUserModel struct {
+	CreateDate            *time.Time
+	CreateDateMilli       int64 `parquet:"name=create_date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	PasswordResetRequired bool  `parquet:"name=password_reset_required,type=BOOLEAN"`
+}
+
+type AttachedPolicyUserModel struct {
+	PolicyArn  string `parquet:"name=policy_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PolicyName string `parquet:"name=policy_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+func UserDataSource(ctx context.Context, client *iam.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(UserModel))
 	if err != nil {
 		return err
@@ -87,7 +111,7 @@ func UserDataSource(ctx context.Context, client *iam.Client, reportTime time.Tim
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customUserModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

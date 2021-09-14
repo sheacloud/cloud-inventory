@@ -2,18 +2,50 @@ package catalog
 
 import (
 	"github.com/sheacloud/cloud-inventory/internal/controller"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatchlogs"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/dynamodb"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/ec2"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/ecs"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/efs"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/eks"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticloadbalancing"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticloadbalancingv2"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/iam"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/lambda"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/rds"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/redshift"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/route53"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/s3"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/sns"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/sqs"
 )
 
 var (
 	AwsServiceControllers = []controller.AwsController{
+		&cloudwatchlogs.Controller,
+		&dynamodb.Controller,
 		&ec2.Controller,
+		&ecs.Controller,
+		&efs.Controller,
+		&eks.Controller,
+		&elasticloadbalancing.Controller,
+		&elasticloadbalancingv2.Controller,
 		&iam.Controller,
+		&lambda.Controller,
+		&rds.Controller,
+		&redshift.Controller,
+		&route53.Controller,
+		&s3.Controller,
+		&sns.Controller,
+		&sqs.Controller,
 	}
 
 	DatasourceModels = map[string]map[string]map[string]interface{}{
 		"aws": {
+			"cloudwatchlogs": {
+				"log_groups": new(cloudwatchlogs.LogGroupModel),
+			},
+			"dynamodb": {},
 			"ec2": {
 				"instances":                           new(ec2.InstanceModel),
 				"volumes":                             new(ec2.VolumeModel),
@@ -37,6 +69,21 @@ var (
 				"reserved_instances":                  new(ec2.ReservedInstancesModel),
 				"placement_groups":                    new(ec2.PlacementGroupModel),
 				"addresses":                           new(ec2.AddressModel),
+				"images":                              new(ec2.ImageModel),
+			},
+			"ecs": {
+				"clusters": new(ecs.ClusterModel),
+			},
+			"efs": {
+				"filesystems": new(efs.FileSystemDescriptionModel),
+			},
+			"eks": {},
+			"elasticloadbalancing": {
+				"load_balancers": new(elasticloadbalancing.LoadBalancerDescriptionModel),
+			},
+			"elasticloadbalancingv2": {
+				"load_balancers": new(elasticloadbalancingv2.LoadBalancerModel),
+				"target_groups":  new(elasticloadbalancingv2.TargetGroupModel),
 			},
 			"iam": {
 				"roles":             new(iam.RoleModel),
@@ -45,6 +92,18 @@ var (
 				"groups":            new(iam.GroupModel),
 				"instance_profiles": new(iam.InstanceProfileModel),
 			},
+			"lambda": {},
+			"rds": {
+				"db_clusters":  new(rds.DBClusterModel),
+				"db_instances": new(rds.DBInstanceModel),
+			},
+			"redshift": {},
+			"route53":  {},
+			"s3": {
+				"buckets": new(s3.BucketModel),
+			},
+			"sns": {},
+			"sqs": {},
 		},
 	}
 )

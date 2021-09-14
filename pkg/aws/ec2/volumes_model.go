@@ -2,21 +2,22 @@
 package ec2
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"sync"
 )
 
-var customVolumeModelPostprocessingFuncs []func(x *VolumeModel) = []func(x *VolumeModel){}
+var customVolumeModelPostprocessingFuncs []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *VolumeModel) = []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *VolumeModel){}
 var customVolumeModelFuncsLock sync.Mutex
 
-func registerCustomVolumeModelPostprocessingFunc(f func(x *VolumeModel)) {
+func registerCustomVolumeModelPostprocessingFunc(f func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *VolumeModel)) {
 	customVolumeModelFuncsLock.Lock()
 	defer customVolumeModelFuncsLock.Unlock()
 
@@ -65,7 +66,7 @@ type TagVolumeModel struct {
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-func VolumeDataSource(ctx context.Context, client *ec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func VolumeDataSource(ctx context.Context, client *ec2.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(VolumeModel))
 	if err != nil {
 		return err
@@ -99,7 +100,7 @@ func VolumeDataSource(ctx context.Context, client *ec2.Client, reportTime time.T
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customVolumeModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

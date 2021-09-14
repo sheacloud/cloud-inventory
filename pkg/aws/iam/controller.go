@@ -13,12 +13,12 @@ import (
 
 var (
 	Controller = IamController{
-		DataSources: map[string]func(ctx context.Context, client *awsiam.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error{},
+		DataSources: map[string]func(ctx context.Context, client *awsiam.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error{},
 	}
 )
 
 type IamController struct {
-	DataSources map[string]func(ctx context.Context, client *awsiam.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error
+	DataSources map[string]func(ctx context.Context, client *awsiam.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error
 }
 
 func (e *IamController) GetRegionOverrides() []string {
@@ -29,7 +29,7 @@ func (e *IamController) GetName() string {
 	return "iam"
 }
 
-func (e *IamController) RegisterDataSource(dataSourceName string, dataSourceFunc func(ctx context.Context, client *awsiam.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error) {
+func (e *IamController) RegisterDataSource(dataSourceName string, dataSourceFunc func(ctx context.Context, client *awsiam.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error) {
 	e.DataSources[dataSourceName] = dataSourceFunc
 }
 
@@ -47,7 +47,7 @@ func (e *IamController) Process(ctx context.Context, accountId, region string, r
 			DataSource: dataSourceName,
 			Date:       reportTime,
 		}
-		err := dataSourceFunc(ctx, iamClient, reportTime, storageConfig, storageManager)
+		err := dataSourceFunc(ctx, iamClient, cfg, reportTime, storageConfig, storageManager)
 		if err != nil {
 			errMap[dataSourceName] = err
 		}

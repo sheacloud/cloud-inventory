@@ -2,21 +2,22 @@
 package ec2
 
 import (
-	"context"
 	"fmt"
-	"sync"
-	"time"
-
-	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/internal/storage"
 	"github.com/sirupsen/logrus"
+	"time"
+
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"sync"
 )
 
-var customAddressModelPostprocessingFuncs []func(x *AddressModel) = []func(x *AddressModel){}
+var customAddressModelPostprocessingFuncs []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *AddressModel) = []func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *AddressModel){}
 var customAddressModelFuncsLock sync.Mutex
 
-func registerCustomAddressModelPostprocessingFunc(f func(x *AddressModel)) {
+func registerCustomAddressModelPostprocessingFunc(f func(ctx context.Context, client *ec2.Client, cfg aws.Config, x *AddressModel)) {
 	customAddressModelFuncsLock.Lock()
 	defer customAddressModelFuncsLock.Unlock()
 
@@ -52,7 +53,7 @@ type TagAddressModel struct {
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-func AddressDataSource(ctx context.Context, client *ec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
+func AddressDataSource(ctx context.Context, client *ec2.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {
 	storageContextSet, err := storageManager.GetStorageContextSet(storageConfig, new(AddressModel))
 	if err != nil {
 		return err
@@ -88,7 +89,7 @@ func AddressDataSource(ctx context.Context, client *ec2.Client, reportTime time.
 			model.ReportTime = reportTime.UTC().UnixMilli()
 
 			for _, f := range customAddressModelPostprocessingFuncs {
-				f(model)
+				f(ctx, client, cfg, model)
 			}
 
 			errors := storageContextSet.Store(ctx, model)

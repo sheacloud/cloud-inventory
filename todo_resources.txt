@@ -1,12 +1,3 @@
-ec2
-    Images (has no paginator)
-
-ELB/v2
-    ELBs
-    ALBs
-    NLBs
-    Target groups
-
 SQS
     queues
 
@@ -17,31 +8,14 @@ SNS
 Lambda
     functions
 
-S3
-    Buckets
-
-Cloudwatch
-    Log streams
-
 Route53
     Private hosted zones
 
 DynamoDB
     Tables
 
-RDS
-    DBs
-
 Redshift
     Clusters
-
-EFS
-    Filesystems
-
-ECS
-    Clusters
-    Services
-    Tasks?
 
 EKS
     Clusters

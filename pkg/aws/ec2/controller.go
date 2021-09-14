@@ -13,12 +13,12 @@ import (
 
 var (
 	Controller = Ec2Controller{
-		DataSources: map[string]func(ctx context.Context, client *awsec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error{},
+		DataSources: map[string]func(ctx context.Context, client *awsec2.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error{},
 	}
 )
 
 type Ec2Controller struct {
-	DataSources map[string]func(ctx context.Context, client *awsec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error
+	DataSources map[string]func(ctx context.Context, client *awsec2.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error
 }
 
 func (e *Ec2Controller) GetRegionOverrides() []string {
@@ -29,7 +29,7 @@ func (e *Ec2Controller) GetName() string {
 	return "ec2"
 }
 
-func (e *Ec2Controller) RegisterDataSource(dataSourceName string, dataSourceFunc func(ctx context.Context, client *awsec2.Client, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error) {
+func (e *Ec2Controller) RegisterDataSource(dataSourceName string, dataSourceFunc func(ctx context.Context, client *awsec2.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error) {
 	e.DataSources[dataSourceName] = dataSourceFunc
 }
 
@@ -47,7 +47,7 @@ func (e *Ec2Controller) Process(ctx context.Context, accountId, region string, r
 			DataSource: dataSourceName,
 			Date:       reportTime,
 		}
-		err := dataSourceFunc(ctx, ec2Client, reportTime, storageConfig, storageManager)
+		err := dataSourceFunc(ctx, ec2Client, cfg, reportTime, storageConfig, storageManager)
 		if err != nil {
 			errMap[dataSourceName] = err
 		}
