@@ -34,9 +34,8 @@ type DBClusterModel struct {
 	ActivityStreamMode               string                         `parquet:"name=activity_stream_mode,type=BYTE_ARRAY,convertedtype=UTF8"`
 	ActivityStreamStatus             string                         `parquet:"name=activity_stream_status,type=BYTE_ARRAY,convertedtype=UTF8"`
 	AllocatedStorage                 int32                          `parquet:"name=allocated_storage,type=INT32"`
-	AssociatedRoles                  []*DBClusterRoleDBClusterModel `parquet:"name=associated_roles,type=LIST"`
+	AssociatedRoles                  []*DBClusterRoleDBClusterModel `parquet:"name=associated_roles,type=MAP,convertedtype=LIST"`
 	AutomaticRestartTime             *time.Time
-	AutomaticRestartTimeMilli        int64    `parquet:"name=automatic_restart_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	AvailabilityZones                []string `parquet:"name=availability_zones,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
 	BacktrackConsumedChangeRecords   int64    `parquet:"name=backtrack_consumed_change_records,type=INT64"`
 	BacktrackWindow                  int64    `parquet:"name=backtrack_window,type=INT64"`
@@ -45,24 +44,21 @@ type DBClusterModel struct {
 	CharacterSetName                 string   `parquet:"name=character_set_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	CloneGroupId                     string   `parquet:"name=clone_group_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	ClusterCreateTime                *time.Time
-	ClusterCreateTimeMilli           int64                                       `parquet:"name=cluster_create_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	CopyTagsToSnapshot               bool                                        `parquet:"name=copy_tags_to_snapshot,type=BOOLEAN"`
 	CrossAccountClone                bool                                        `parquet:"name=cross_account_clone,type=BOOLEAN"`
 	CustomEndpoints                  []string                                    `parquet:"name=custom_endpoints,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
 	DBClusterArn                     string                                      `parquet:"name=db_cluster_arn,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	DBClusterIdentifier              string                                      `parquet:"name=db_cluster_identifier,type=BYTE_ARRAY,convertedtype=UTF8"`
-	DBClusterMembers                 []*DBClusterMemberDBClusterModel            `parquet:"name=db_cluster_members,type=LIST"`
-	DBClusterOptionGroupMemberships  []*DBClusterOptionGroupStatusDBClusterModel `parquet:"name=db_cluster_option_group_memberships,type=LIST"`
+	DBClusterMembers                 []*DBClusterMemberDBClusterModel            `parquet:"name=db_cluster_members,type=MAP,convertedtype=LIST"`
+	DBClusterOptionGroupMemberships  []*DBClusterOptionGroupStatusDBClusterModel `parquet:"name=db_cluster_option_group_memberships,type=MAP,convertedtype=LIST"`
 	DBClusterParameterGroup          string                                      `parquet:"name=db_cluster_parameter_group,type=BYTE_ARRAY,convertedtype=UTF8"`
 	DBSubnetGroup                    string                                      `parquet:"name=db_subnet_group,type=BYTE_ARRAY,convertedtype=UTF8"`
 	DatabaseName                     string                                      `parquet:"name=database_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	DbClusterResourceId              string                                      `parquet:"name=db_cluster_resource_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	DeletionProtection               bool                                        `parquet:"name=deletion_protection,type=BOOLEAN"`
-	DomainMemberships                []*DomainMembershipDBClusterModel           `parquet:"name=domain_memberships,type=LIST"`
+	DomainMemberships                []*DomainMembershipDBClusterModel           `parquet:"name=domain_memberships,type=MAP,convertedtype=LIST"`
 	EarliestBacktrackTime            *time.Time
-	EarliestBacktrackTimeMilli       int64 `parquet:"name=earliest_backtrack_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	EarliestRestorableTime           *time.Time
-	EarliestRestorableTimeMilli      int64    `parquet:"name=earliest_restorable_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	EnabledCloudwatchLogsExports     []string `parquet:"name=enabled_cloudwatch_logs_exports,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
 	Endpoint                         string   `parquet:"name=endpoint,type=BYTE_ARRAY,convertedtype=UTF8"`
 	Engine                           string   `parquet:"name=engine,type=BYTE_ARRAY,convertedtype=UTF8"`
@@ -75,7 +71,6 @@ type DBClusterModel struct {
 	IAMDatabaseAuthenticationEnabled bool     `parquet:"name=iam_database_authentication_enabled,type=BOOLEAN"`
 	KmsKeyId                         string   `parquet:"name=kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	LatestRestorableTime             *time.Time
-	LatestRestorableTimeMilli        int64                                       `parquet:"name=latest_restorable_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	MasterUsername                   string                                      `parquet:"name=master_username,type=BYTE_ARRAY,convertedtype=UTF8"`
 	MultiAZ                          bool                                        `parquet:"name=multi_az,type=BOOLEAN"`
 	PendingModifiedValues            *ClusterPendingModifiedValuesDBClusterModel `parquet:"name=pending_modified_values"`
@@ -89,11 +84,17 @@ type DBClusterModel struct {
 	ScalingConfigurationInfo         *ScalingConfigurationInfoDBClusterModel     `parquet:"name=scaling_configuration_info"`
 	Status                           string                                      `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
 	StorageEncrypted                 bool                                        `parquet:"name=storage_encrypted,type=BOOLEAN"`
+	TagList                          []*TagDBClusterModel
+	VpcSecurityGroups                []*VpcSecurityGroupMembershipDBClusterModel `parquet:"name=vpc_security_groups,type=MAP,convertedtype=LIST"`
+	AutomaticRestartTimeMilli        int64                                       `parquet:"name=automatic_restart_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	ClusterCreateTimeMilli           int64                                       `parquet:"name=cluster_create_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	EarliestBacktrackTimeMilli       int64                                       `parquet:"name=earliest_backtrack_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	EarliestRestorableTimeMilli      int64                                       `parquet:"name=earliest_restorable_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	LatestRestorableTimeMilli        int64                                       `parquet:"name=latest_restorable_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 	Tags                             map[string]string                           `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	VpcSecurityGroups                []*VpcSecurityGroupMembershipDBClusterModel `parquet:"name=vpc_security_groups,type=LIST"`
-	AccountId                        string                                      `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region                           string                                      `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime                       int64                                       `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	AccountId                        string                                      `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region                           string                                      `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime                       int64                                       `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type DBClusterRoleDBClusterModel struct {

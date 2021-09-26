@@ -26,11 +26,6 @@ resource "aws_glue_catalog_table" "ec2_vpc_endpoints" {
     }
 
     columns {
-      name    = "creation_timestamp"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "dns_entries"
       type    = "array<struct<dns_name:string,hosted_zone_id:string>>"
       comment = ""
@@ -91,11 +86,6 @@ resource "aws_glue_catalog_table" "ec2_vpc_endpoints" {
       comment = ""
     }
     columns {
-      name    = "tags"
-      type    = "map<string,string>"
-      comment = ""
-    }
-    columns {
       name    = "vpc_endpoint_id"
       type    = "string"
       comment = ""
@@ -108,6 +98,16 @@ resource "aws_glue_catalog_table" "ec2_vpc_endpoints" {
     columns {
       name    = "vpc_id"
       type    = "string"
+      comment = ""
+    }
+    columns {
+      name    = "creation_timestamp_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {

@@ -31,11 +31,6 @@ resource "aws_glue_catalog_table" "iam_instance_profiles" {
       comment = ""
     }
     columns {
-      name    = "create_date"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "instance_profile_id"
       type    = "string"
       comment = ""
@@ -52,7 +47,12 @@ resource "aws_glue_catalog_table" "iam_instance_profiles" {
     }
     columns {
       name    = "roles"
-      type    = "array<struct<arn:string,create_date:timestamp,path:string,role_id:string,role_name:string,assume_role_policy_document:string,description:string,max_session_duration:int,permissions_boundary:struct<permissions_boundary_arn:string,permissions_boundary_type:string>,role_last_used:struct<last_used_date:timestamp,region:string>,tags:map<string,string>>>"
+      type    = "array<struct<arn:string,path:string,role_id:string,role_name:string,assume_role_policy_document:string,description:string,max_session_duration:int,permissions_boundary:struct<permissions_boundary_arn:string,permissions_boundary_type:string>,role_last_used:struct<region:string,last_used_date_milli:timestamp>,create_date_milli:timestamp,tags:map<string,string>>>"
+      comment = ""
+    }
+    columns {
+      name    = "create_date_milli"
+      type    = "timestamp"
       comment = ""
     }
     columns {

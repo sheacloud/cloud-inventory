@@ -31,7 +31,6 @@ func init() {
 type RoleModel struct {
 	Arn                      string `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8"`
 	CreateDate               *time.Time
-	CreateDateMilli          int64                                 `parquet:"name=create_date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	Path                     string                                `parquet:"name=path,type=BYTE_ARRAY,convertedtype=UTF8"`
 	RoleId                   string                                `parquet:"name=role_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	RoleName                 string                                `parquet:"name=role_name,type=BYTE_ARRAY,convertedtype=UTF8"`
@@ -40,12 +39,14 @@ type RoleModel struct {
 	MaxSessionDuration       int32                                 `parquet:"name=max_session_duration,type=INT32"`
 	PermissionsBoundary      *AttachedPermissionsBoundaryRoleModel `parquet:"name=permissions_boundary"`
 	RoleLastUsed             *RoleLastUsedRoleModel                `parquet:"name=role_last_used"`
-	Tags                     map[string]string                     `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	AccountId                string                                `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region                   string                                `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime               int64                                 `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
-	AttachedPolicies         []*AttachedPolicyRoleModel            `parquet:"name=attached_policies,type=LIST"`
-	InlinePolicies           []string                              `parquet:"name=inline_policies,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
+	TagsOld                  []*TagRoleModel
+	CreateDateMilli          int64                      `parquet:"name=create_date_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	Tags                     map[string]string          `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId                string                     `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region                   string                     `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime               int64                      `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	InlinePolicies           []string                   `parquet:"name=inline_policies,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
+	AttachedPolicies         []*AttachedPolicyRoleModel `parquet:"name=attached_policies,type=MAP,convertedtype=LIST"`
 }
 
 type AttachedPermissionsBoundaryRoleModel struct {
@@ -55,8 +56,8 @@ type AttachedPermissionsBoundaryRoleModel struct {
 
 type RoleLastUsedRoleModel struct {
 	LastUsedDate      *time.Time
-	LastUsedDateMilli int64  `parquet:"name=last_used_date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	Region            string `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	LastUsedDateMilli int64  `parquet:"name=last_used_date_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type TagRoleModel struct {

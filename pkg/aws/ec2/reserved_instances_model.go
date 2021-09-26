@@ -33,7 +33,6 @@ type ReservedInstancesModel struct {
 	CurrencyCode        string `parquet:"name=currency_code,type=BYTE_ARRAY,convertedtype=UTF8"`
 	Duration            int64  `parquet:"name=duration,type=INT64"`
 	End                 *time.Time
-	EndMilli            int64                                    `parquet:"name=end, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	FixedPrice          float32                                  `parquet:"name=fixed_price,type=FLOAT"`
 	InstanceCount       int32                                    `parquet:"name=instance_count,type=INT32"`
 	InstanceTenancy     string                                   `parquet:"name=instance_tenancy,type=BYTE_ARRAY,convertedtype=UTF8"`
@@ -41,17 +40,19 @@ type ReservedInstancesModel struct {
 	OfferingClass       string                                   `parquet:"name=offering_class,type=BYTE_ARRAY,convertedtype=UTF8"`
 	OfferingType        string                                   `parquet:"name=offering_type,type=BYTE_ARRAY,convertedtype=UTF8"`
 	ProductDescription  string                                   `parquet:"name=product_description,type=BYTE_ARRAY,convertedtype=UTF8"`
-	RecurringCharges    []*RecurringChargeReservedInstancesModel `parquet:"name=recurring_charges,type=LIST"`
+	RecurringCharges    []*RecurringChargeReservedInstancesModel `parquet:"name=recurring_charges,type=MAP,convertedtype=LIST"`
 	ReservedInstancesId string                                   `parquet:"name=reserved_instances_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	Scope               string                                   `parquet:"name=scope,type=BYTE_ARRAY,convertedtype=UTF8"`
 	Start               *time.Time
-	StartMilli          int64             `parquet:"name=start, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
-	State               string            `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tags                map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	State               string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
+	TagsOld             []*TagReservedInstancesModel
 	UsagePrice          float32           `parquet:"name=usage_price,type=FLOAT"`
-	AccountId           string            `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region              string            `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime          int64             `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	EndMilli            int64             `parquet:"name=end_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	StartMilli          int64             `parquet:"name=start_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	Tags                map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId           string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region              string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime          int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type RecurringChargeReservedInstancesModel struct {

@@ -31,15 +31,15 @@ func init() {
 type InstanceModel struct {
 	AmiLaunchIndex                          int32                                                  `parquet:"name=ami_launch_index,type=INT32"`
 	Architecture                            string                                                 `parquet:"name=architecture,type=BYTE_ARRAY,convertedtype=UTF8"`
-	BlockDeviceMappings                     []*InstanceBlockDeviceMappingInstanceModel             `parquet:"name=block_device_mappings,type=LIST"`
+	BlockDeviceMappings                     []*InstanceBlockDeviceMappingInstanceModel             `parquet:"name=block_device_mappings,type=MAP,convertedtype=LIST"`
 	BootMode                                string                                                 `parquet:"name=boot_mode,type=BYTE_ARRAY,convertedtype=UTF8"`
 	CapacityReservationId                   string                                                 `parquet:"name=capacity_reservation_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	CapacityReservationSpecification        *CapacityReservationSpecificationResponseInstanceModel `parquet:"name=capacity_reservation_specification"`
 	ClientToken                             string                                                 `parquet:"name=client_token,type=BYTE_ARRAY,convertedtype=UTF8"`
 	CpuOptions                              *CpuOptionsInstanceModel                               `parquet:"name=cpu_options"`
 	EbsOptimized                            bool                                                   `parquet:"name=ebs_optimized,type=BOOLEAN"`
-	ElasticGpuAssociations                  []*ElasticGpuAssociationInstanceModel                  `parquet:"name=elastic_gpu_associations,type=LIST"`
-	ElasticInferenceAcceleratorAssociations []*ElasticInferenceAcceleratorAssociationInstanceModel `parquet:"name=elastic_inference_accelerator_associations,type=LIST"`
+	ElasticGpuAssociations                  []*ElasticGpuAssociationInstanceModel                  `parquet:"name=elastic_gpu_associations,type=MAP,convertedtype=LIST"`
+	ElasticInferenceAcceleratorAssociations []*ElasticInferenceAcceleratorAssociationInstanceModel `parquet:"name=elastic_inference_accelerator_associations,type=MAP,convertedtype=LIST"`
 	EnaSupport                              bool                                                   `parquet:"name=ena_support,type=BOOLEAN"`
 	EnclaveOptions                          *EnclaveOptionsInstanceModel                           `parquet:"name=enclave_options"`
 	HibernationOptions                      *HibernationOptionsInstanceModel                       `parquet:"name=hibernation_options"`
@@ -52,23 +52,22 @@ type InstanceModel struct {
 	KernelId                                string                                                 `parquet:"name=kernel_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	KeyName                                 string                                                 `parquet:"name=key_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	LaunchTime                              *time.Time
-	LaunchTimeMilli                         int64                                         `parquet:"name=launch_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
-	Licenses                                []*LicenseConfigurationInstanceModel          `parquet:"name=licenses,type=LIST"`
+	Licenses                                []*LicenseConfigurationInstanceModel          `parquet:"name=licenses,type=MAP,convertedtype=LIST"`
 	MetadataOptions                         *InstanceMetadataOptionsResponseInstanceModel `parquet:"name=metadata_options"`
 	Monitoring                              *MonitoringInstanceModel                      `parquet:"name=monitoring"`
-	NetworkInterfaces                       []*InstanceNetworkInterfaceInstanceModel      `parquet:"name=network_interfaces,type=LIST"`
+	NetworkInterfaces                       []*InstanceNetworkInterfaceInstanceModel      `parquet:"name=network_interfaces,type=MAP,convertedtype=LIST"`
 	OutpostArn                              string                                        `parquet:"name=outpost_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
 	Placement                               *PlacementInstanceModel                       `parquet:"name=placement"`
 	Platform                                string                                        `parquet:"name=platform,type=BYTE_ARRAY,convertedtype=UTF8"`
 	PrivateDnsName                          string                                        `parquet:"name=private_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	PrivateIpAddress                        string                                        `parquet:"name=private_ip_address,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ProductCodes                            []*ProductCodeInstanceModel                   `parquet:"name=product_codes,type=LIST"`
+	ProductCodes                            []*ProductCodeInstanceModel                   `parquet:"name=product_codes,type=MAP,convertedtype=LIST"`
 	PublicDnsName                           string                                        `parquet:"name=public_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	PublicIpAddress                         string                                        `parquet:"name=public_ip_address,type=BYTE_ARRAY,convertedtype=UTF8"`
 	RamdiskId                               string                                        `parquet:"name=ramdisk_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	RootDeviceName                          string                                        `parquet:"name=root_device_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	RootDeviceType                          string                                        `parquet:"name=root_device_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	SecurityGroups                          []*GroupIdentifierInstanceModel               `parquet:"name=security_groups,type=LIST"`
+	SecurityGroups                          []*GroupIdentifierInstanceModel               `parquet:"name=security_groups,type=MAP,convertedtype=LIST"`
 	SourceDestCheck                         bool                                          `parquet:"name=source_dest_check,type=BOOLEAN"`
 	SpotInstanceRequestId                   string                                        `parquet:"name=spot_instance_request_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	SriovNetSupport                         string                                        `parquet:"name=sriov_net_support,type=BYTE_ARRAY,convertedtype=UTF8"`
@@ -76,12 +75,14 @@ type InstanceModel struct {
 	StateReason                             *StateReasonInstanceModel                     `parquet:"name=state_reason"`
 	StateTransitionReason                   string                                        `parquet:"name=state_transition_reason,type=BYTE_ARRAY,convertedtype=UTF8"`
 	SubnetId                                string                                        `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tags                                    map[string]string                             `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	VirtualizationType                      string                                        `parquet:"name=virtualization_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	VpcId                                   string                                        `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId                               string                                        `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region                                  string                                        `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime                              int64                                         `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	TagsOld                                 []*TagInstanceModel
+	VirtualizationType                      string            `parquet:"name=virtualization_type,type=BYTE_ARRAY,convertedtype=UTF8"`
+	VpcId                                   string            `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	LaunchTimeMilli                         int64             `parquet:"name=launch_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	Tags                                    map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId                               string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region                                  string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime                              int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type InstanceBlockDeviceMappingInstanceModel struct {
@@ -91,10 +92,10 @@ type InstanceBlockDeviceMappingInstanceModel struct {
 
 type EbsInstanceBlockDeviceInstanceModel struct {
 	AttachTime          *time.Time
-	AttachTimeMilli     int64  `parquet:"name=attach_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	DeleteOnTermination bool   `parquet:"name=delete_on_termination,type=BOOLEAN"`
 	Status              string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
 	VolumeId            string `parquet:"name=volume_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	AttachTimeMilli     int64  `parquet:"name=attach_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type CapacityReservationSpecificationResponseInstanceModel struct {
@@ -124,7 +125,7 @@ type ElasticInferenceAcceleratorAssociationInstanceModel struct {
 	ElasticInferenceAcceleratorAssociationId        string `parquet:"name=elastic_inference_accelerator_association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	ElasticInferenceAcceleratorAssociationState     string `parquet:"name=elastic_inference_accelerator_association_state,type=BYTE_ARRAY,convertedtype=UTF8"`
 	ElasticInferenceAcceleratorAssociationTime      *time.Time
-	ElasticInferenceAcceleratorAssociationTimeMilli int64 `parquet:"name=elastic_inference_accelerator_association_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	ElasticInferenceAcceleratorAssociationTimeMilli int64 `parquet:"name=elastic_inference_accelerator_association_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type EnclaveOptionsInstanceModel struct {
@@ -160,17 +161,17 @@ type InstanceNetworkInterfaceInstanceModel struct {
 	Association        *InstanceNetworkInterfaceAssociationInstanceModel `parquet:"name=association"`
 	Attachment         *InstanceNetworkInterfaceAttachmentInstanceModel  `parquet:"name=attachment"`
 	Description        string                                            `parquet:"name=description,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Groups             []*GroupIdentifierInstanceModel                   `parquet:"name=groups,type=LIST"`
+	Groups             []*GroupIdentifierInstanceModel                   `parquet:"name=groups,type=MAP,convertedtype=LIST"`
 	InterfaceType      string                                            `parquet:"name=interface_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Ipv4Prefixes       []*InstanceIpv4PrefixInstanceModel                `parquet:"name=ipv4_prefixes,type=LIST"`
-	Ipv6Addresses      []*InstanceIpv6AddressInstanceModel               `parquet:"name=ipv6_addresses,type=LIST"`
-	Ipv6Prefixes       []*InstanceIpv6PrefixInstanceModel                `parquet:"name=ipv6_prefixes,type=LIST"`
+	Ipv4Prefixes       []*InstanceIpv4PrefixInstanceModel                `parquet:"name=ipv4_prefixes,type=MAP,convertedtype=LIST"`
+	Ipv6Addresses      []*InstanceIpv6AddressInstanceModel               `parquet:"name=ipv6_addresses,type=MAP,convertedtype=LIST"`
+	Ipv6Prefixes       []*InstanceIpv6PrefixInstanceModel                `parquet:"name=ipv6_prefixes,type=MAP,convertedtype=LIST"`
 	MacAddress         string                                            `parquet:"name=mac_address,type=BYTE_ARRAY,convertedtype=UTF8"`
 	NetworkInterfaceId string                                            `parquet:"name=network_interface_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	OwnerId            string                                            `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	PrivateDnsName     string                                            `parquet:"name=private_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	PrivateIpAddress   string                                            `parquet:"name=private_ip_address,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PrivateIpAddresses []*InstancePrivateIpAddressInstanceModel          `parquet:"name=private_ip_addresses,type=LIST"`
+	PrivateIpAddresses []*InstancePrivateIpAddressInstanceModel          `parquet:"name=private_ip_addresses,type=MAP,convertedtype=LIST"`
 	SourceDestCheck    bool                                              `parquet:"name=source_dest_check,type=BOOLEAN"`
 	Status             string                                            `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
 	SubnetId           string                                            `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
@@ -186,12 +187,12 @@ type InstanceNetworkInterfaceAssociationInstanceModel struct {
 
 type InstanceNetworkInterfaceAttachmentInstanceModel struct {
 	AttachTime          *time.Time
-	AttachTimeMilli     int64  `parquet:"name=attach_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	AttachmentId        string `parquet:"name=attachment_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	DeleteOnTermination bool   `parquet:"name=delete_on_termination,type=BOOLEAN"`
 	DeviceIndex         int32  `parquet:"name=device_index,type=INT32"`
 	NetworkCardIndex    int32  `parquet:"name=network_card_index,type=INT32"`
 	Status              string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
+	AttachTimeMilli     int64  `parquet:"name=attach_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type GroupIdentifierInstanceModel struct {

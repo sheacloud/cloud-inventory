@@ -31,11 +31,6 @@ resource "aws_glue_catalog_table" "iam_roles" {
       comment = ""
     }
     columns {
-      name    = "create_date"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "path"
       type    = "string"
       comment = ""
@@ -72,7 +67,12 @@ resource "aws_glue_catalog_table" "iam_roles" {
     }
     columns {
       name    = "role_last_used"
-      type    = "struct<last_used_date:timestamp,region:string>"
+      type    = "struct<region:string,last_used_date_milli:timestamp>"
+      comment = ""
+    }
+    columns {
+      name    = "create_date_milli"
+      type    = "timestamp"
       comment = ""
     }
     columns {
@@ -96,13 +96,13 @@ resource "aws_glue_catalog_table" "iam_roles" {
       comment = ""
     }
     columns {
-      name    = "attached_policies"
-      type    = "array<struct<policy_arn:string,policy_name:string>>"
+      name    = "inline_policies"
+      type    = "array<string>"
       comment = ""
     }
     columns {
-      name    = "inline_policies"
-      type    = "array<string>"
+      name    = "attached_policies"
+      type    = "array<struct<policy_arn:string,policy_name:string>>"
       comment = ""
     }
   }

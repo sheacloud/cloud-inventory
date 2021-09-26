@@ -3,10 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"go/types"
 	"os"
 
 	"github.com/hashicorp/hcl/v2/hclsimple"
-	"github.com/sheacloud/cloud-inventory/codegen"
+	"github.com/sheacloud/cloud-inventory/internal/codegen"
 	"golang.org/x/tools/go/packages"
 )
 
@@ -15,21 +16,19 @@ var (
 	baseOutputPath = flag.String("o", "", "")
 )
 
-var primaryFields []*codegen.Field = []*codegen.Field{
+var primaryFields []*codegen.ParquetModelField = []*codegen.ParquetModelField{
 	{
 		Name: "AccountId",
 		Type: "string",
-		Tags: "`parquet:\"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8\"`",
 	},
 	{
 		Name: "Region",
 		Type: "string",
-		Tags: "`parquet:\"name=region, type=BYTE_ARRAY, convertedtype=UTF8\"`",
 	},
 	{
-		Name: "ReportTime",
-		Type: "int64",
-		Tags: "`parquet:\"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS\"`",
+		Name:        "ReportTime",
+		Type:        "int64",
+		IsTimeField: true,
 	},
 }
 
@@ -42,18 +41,102 @@ func makeDir(path string) {
 	}
 }
 
+type FileConfiguration struct {
+	ServiceConfigurations []ServiceConfiguration `hcl:"service,block"`
+}
+
+type ServiceConfiguration struct {
+	Cloud       string       `hcl:"cloud,label"`
+	Service     string       `hcl:"service,label"`
+	LibraryPath string       `hcl:"library_path"`
+	DataSources []DataSource `hcl:"datasource,block"`
+}
+
+type DataSource struct {
+	DataSource         string                 `hcl:"datasource,label"`
+	PrimaryObjectName  string                 `hcl:"primary_object_name"`
+	PrimaryObjectField string                 `hcl:"primary_object_field"`
+	ApiFunction        string                 `hcl:"api_function"`
+	PrimaryObjectPath  []string               `hcl:"primary_object_path"`
+	Paginate           bool                   `hcl:"paginate"`
+	Children           []DataSourceChild      `hcl:"child,block"`
+	ExtraFields        []DataSourceExtraField `hcl:"extra_field,block"`
+	ModelsOnly         bool                   `hcl:"models_only"`
+	ExcludedFields     []string               `hcl:"excluded_fields,optional"`
+	FieldConversions   []FieldConversion      `hcl:"field_conversion,block"`
+}
+
+type DataSourceChild struct {
+	ResourceName   string                 `hcl:"resource_name"`
+	ResourceField  string                 `hcl:"resource_field"`
+	ResourceType   string                 `hcl:"resource_type"`
+	ExcludedFields []string               `hcl:"excluded_fields,optional"`
+	ExtraFields    []DataSourceExtraField `hcl:"extra_field,block"`
+	Children       []DataSourceChild      `hcl:"child,block"`
+}
+
+type DataSourceExtraField struct {
+	Name string `hcl:"name"`
+	Type string `hcl:"type"`
+}
+
+type FieldConversion struct {
+	SourceFieldName         string  `hcl:"source_field_name"`
+	SourceFieldNameOverride *string `hcl:"source_field_name_override,optional"`
+	TargetFieldName         string  `hcl:"target_field_name"`
+	TargetFieldType         string  `hcl:"target_field_type"`
+	ConversionFunctionName  string  `hcl:"conversion_function_name"`
+}
+
+func populateChild(parentModel *codegen.ParquetModelStruct, child DataSourceChild, apiPackage *packages.Package, primaryObjectName string) []*codegen.ParquetModelStruct {
+	childObject := apiPackage.Types.Scope().Lookup(child.ResourceName).(*types.TypeName).Type().(*types.Named)
+	childModel, err := codegen.NewParquetModelStruct(childObject, primaryObjectName, child.ExcludedFields, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	for _, extraField := range child.ExtraFields {
+		childModel.Fields = append(childModel.Fields, &codegen.ParquetModelField{
+			Name: extraField.Name,
+			Type: extraField.Type,
+		})
+	}
+
+	var childType string
+	switch child.ResourceType {
+	case "literal":
+		childType = "*" + childModel.Name
+	case "list":
+		childType = "[]*" + childModel.Name
+	}
+
+	parentModel.Fields = append(parentModel.Fields, &codegen.ParquetModelField{
+		Name: child.ResourceField,
+		Type: childType,
+	})
+	models := []*codegen.ParquetModelStruct{childModel}
+	models = append(models, childModel.GetChildModels()...)
+
+	for _, grandChild := range child.Children {
+		grandChildModels := populateChild(childModel, grandChild, apiPackage, primaryObjectName)
+		models = append(models, grandChildModels...)
+	}
+
+	return models
+}
+
 func main() {
 	flag.Parse()
 
-	var config codegen.ServiceConfiguration
+	var config FileConfiguration
 	err := hclsimple.DecodeFile(*configFileName, nil, &config)
 	if err != nil {
 		panic(err)
 	}
 
-	for _, datasourceConfig := range config.DataSources {
-		servicePackagePath := datasourceConfig.LibraryPath
-		serviceTypesPackagePath := datasourceConfig.LibraryPath + "/types"
+	for _, serviceConfig := range config.ServiceConfigurations {
+		servicePackagePath := serviceConfig.LibraryPath
+		serviceTypesPackagePath := serviceConfig.LibraryPath + "/types"
 
 		pkgs, err := packages.Load(&packages.Config{
 			Mode: packages.NeedName | packages.NeedFiles | packages.NeedSyntax | packages.NeedTypes | packages.NeedImports | packages.NeedDeps,
@@ -70,87 +153,80 @@ func main() {
 
 		apiPackage := packageMap[serviceTypesPackagePath]
 
-		//object is a types.Object == types.TypeName, i.e. "type DescribeInstancesOutput struct {}..."
-		object := apiPackage.Types.Scope().Lookup(datasourceConfig.PrimaryResourceName)
+		for _, datasourceConfig := range serviceConfig.DataSources {
 
-		models, err := codegen.NewModelsFromObject(object, datasourceConfig.PrimaryResourceName, datasourceConfig.ExcludedFields)
-		if err != nil {
-			panic(err)
-		}
+			//object is a types.Object == types.TypeName, i.e. "type DescribeInstancesOutput struct {}..."
+			object := apiPackage.Types.Scope().Lookup(datasourceConfig.PrimaryObjectName).(*types.TypeName).Type().(*types.Named)
 
-		models = codegen.DeduplicateModels(models)
-
-		primaryModel := models[0]
-		primaryModel.UpdatePrimaryResourceFieldTag(datasourceConfig.PrimaryResourceField)
-		primaryModel.Fields = append(primaryModel.Fields, primaryFields...)
-
-		for _, child := range datasourceConfig.Children {
-			childObject := apiPackage.Types.Scope().Lookup(child.ResourceName)
-			childModels, err := codegen.NewModelsFromObject(childObject, datasourceConfig.PrimaryResourceName, child.ExcludedFields)
+			fieldConversions := []*codegen.ParquetModelFieldConversion{}
+			for _, conversion := range datasourceConfig.FieldConversions {
+				fieldConversions = append(fieldConversions, &codegen.ParquetModelFieldConversion{
+					SourceFieldName:         conversion.SourceFieldName,
+					SourceFieldNameOverride: conversion.SourceFieldNameOverride,
+					ConversionFunctionName:  conversion.ConversionFunctionName,
+					TargetField: codegen.ParquetModelField{
+						Name: conversion.TargetFieldName,
+						Type: conversion.TargetFieldType,
+					},
+				})
+			}
+			primaryModel, err := codegen.NewParquetModelStruct(object, datasourceConfig.PrimaryObjectName, datasourceConfig.ExcludedFields, fieldConversions)
 			if err != nil {
 				panic(err)
 			}
 
-			models = append(models, childModels...)
+			models := []*codegen.ParquetModelStruct{primaryModel}
+			models = append(models, primaryModel.GetChildModels()...)
+			primaryModel.Fields = append(primaryModel.Fields, primaryFields...)
 
-			var childType string
-			switch child.ResourceType {
-			case "literal":
-				childType = "*" + childModels[0].Name
-			case "list":
-				childType = "[]*" + childModels[0].Name
+			for _, extraField := range datasourceConfig.ExtraFields {
+				primaryModel.Fields = append(primaryModel.Fields, &codegen.ParquetModelField{
+					Name: extraField.Name,
+					Type: extraField.Type,
+				})
 			}
 
-			field := &codegen.Field{
-				Name: child.ResourceField,
-				Type: childType,
+			for _, child := range datasourceConfig.Children {
+				childModels := populateChild(primaryModel, child, apiPackage, datasourceConfig.PrimaryObjectName)
+				models = append(models, childModels...)
 			}
-			field.PopulateTags()
-			primaryModel.Fields = append(primaryModel.Fields, field)
-		}
 
-		models = codegen.DeduplicateModels(models)
+			models = codegen.DeduplicateModels(models)
 
-		for _, extraField := range datasourceConfig.ExtraFields {
-			field := &codegen.Field{
-				Name: extraField.Name,
-				Type: extraField.Type,
+			for _, model := range models {
+				model.PopulateFieldTags(datasourceConfig.PrimaryObjectField)
 			}
-			field.PopulateTags()
-			primaryModel.Fields = append(primaryModel.Fields, field)
+
+			datasourceFile := codegen.AwsDataSourceFile{
+				ServiceName:       serviceConfig.Service,
+				DataSourceName:    datasourceConfig.DataSource,
+				PrimaryObjectName: datasourceConfig.PrimaryObjectName,
+				ApiFunction:       datasourceConfig.ApiFunction,
+				Models:            models,
+				PrimaryModel:      primaryModel,
+				PrimaryObjectPath: datasourceConfig.PrimaryObjectPath,
+				Paginate:          datasourceConfig.Paginate,
+				ModelsOnly:        datasourceConfig.ModelsOnly,
+			}
+
+			outputPath := *baseOutputPath
+			for _, dir := range []string{serviceConfig.Cloud, serviceConfig.Service} {
+				outputPath += "/" + dir
+				makeDir(outputPath)
+			}
+			outputPath += "/" + datasourceConfig.DataSource + "_model.go"
+
+			outputFile, err := os.Create(outputPath)
+			if err != nil {
+				panic(err)
+			}
+
+			outputFile.WriteString(datasourceFile.SourceCode())
+
+			outputFile.Close()
+
+			fmt.Println("generated file " + outputPath)
 		}
-
-		models = codegen.DeduplicateModels(models)
-
-		datasourceFile := codegen.DatasourceFile{
-			ServiceName:         datasourceConfig.Service,
-			DataSourceName:      datasourceConfig.DataSource,
-			PrimaryResourceName: datasourceConfig.PrimaryResourceName,
-			ApiFunction:         datasourceConfig.ApiFunction,
-			Models:              models,
-			PrimaryModel:        primaryModel,
-			PrimaryObjectPath:   datasourceConfig.PrimaryObjectPath,
-			Paginate:            datasourceConfig.Paginate,
-			ModelsOnly:          datasourceConfig.ModelsOnly,
-		}
-
-		outputPath := *baseOutputPath
-		for _, dir := range []string{datasourceConfig.Cloud, datasourceConfig.Service} {
-			outputPath += "/" + dir
-			makeDir(outputPath)
-		}
-		outputPath += "/" + datasourceConfig.DataSource + "_model.go"
-
-		outputFile, err := os.Create(outputPath)
-		if err != nil {
-			panic(err)
-		}
-
-		datasourceFile.Print(outputFile)
-
-		outputFile.Close()
-
-		fmt.Println("generated file " + outputPath)
 	}
 
 }

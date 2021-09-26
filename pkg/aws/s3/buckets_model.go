@@ -30,29 +30,29 @@ func init() {
 
 type BucketModel struct {
 	CreationDate                      *time.Time
-	CreationDateMilli                 int64                                         `parquet:"name=creation_date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	Name                              string                                        `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	AccountId                         string                                        `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region                            string                                        `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime                        int64                                         `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
-	ReplicationConfiguration          *ReplicationConfigurationBucketModel          `parquet:"name=replication_configuration"`
-	AclGrants                         []*GrantBucketModel                           `parquet:"name=acl_grants,type=LIST"`
-	CorsRules                         []*CORSRuleBucketModel                        `parquet:"name=cors_rules,type=LIST"`
-	ServerSideEncryptionConfiguration *ServerSideEncryptionConfigurationBucketModel `parquet:"name=server_side_encryption_configuration"`
-	IntelligentTieringConfigurations  []*IntelligentTieringConfigurationBucketModel `parquet:"name=intelligent_tiering_configurations,type=LIST"`
-	InventoryConfigurations           []*InventoryConfigurationBucketModel          `parquet:"name=inventory_configurations,type=LIST"`
-	LifecycleRules                    []*LifecycleRuleBucketModel                   `parquet:"name=lifecycle_rules,type=LIST"`
-	Logging                           *LoggingEnabledBucketModel                    `parquet:"name=logging"`
+	CreationDateMilli                 int64                                         `parquet:"name=creation_date_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	AccountId                         string                                        `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region                            string                                        `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime                        int64                                         `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 	Policy                            string                                        `parquet:"name=policy,type=BYTE_ARRAY,convertedtype=UTF8"`
 	IsPublic                          bool                                          `parquet:"name=is_public,type=BOOLEAN"`
 	Tags                              map[string]string                             `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
 	VersioningStatus                  string                                        `parquet:"name=versioning_status,type=BYTE_ARRAY,convertedtype=UTF8"`
 	MFADeleteStatus                   string                                        `parquet:"name=mfa_delete_status,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReplicationConfiguration          *ReplicationConfigurationBucketModel          `parquet:"name=replication_configuration"`
+	AclGrants                         []*GrantBucketModel                           `parquet:"name=acl_grants,type=MAP,convertedtype=LIST"`
+	CorsRules                         []*CORSRuleBucketModel                        `parquet:"name=cors_rules,type=MAP,convertedtype=LIST"`
+	ServerSideEncryptionConfiguration *ServerSideEncryptionConfigurationBucketModel `parquet:"name=server_side_encryption_configuration"`
+	IntelligentTieringConfigurations  []*IntelligentTieringConfigurationBucketModel `parquet:"name=intelligent_tiering_configurations,type=MAP,convertedtype=LIST"`
+	InventoryConfigurations           []*InventoryConfigurationBucketModel          `parquet:"name=inventory_configurations,type=MAP,convertedtype=LIST"`
+	LifecycleRules                    []*LifecycleRuleBucketModel                   `parquet:"name=lifecycle_rules,type=MAP,convertedtype=LIST"`
+	Logging                           *LoggingEnabledBucketModel                    `parquet:"name=logging"`
 }
 
 type ReplicationConfigurationBucketModel struct {
 	Role  string                        `parquet:"name=role,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Rules []*ReplicationRuleBucketModel `parquet:"name=rules,type=LIST"`
+	Rules []*ReplicationRuleBucketModel `parquet:"name=rules,type=MAP,convertedtype=LIST"`
 }
 
 type ReplicationRuleBucketModel struct {
@@ -142,7 +142,7 @@ type CORSRuleBucketModel struct {
 }
 
 type ServerSideEncryptionConfigurationBucketModel struct {
-	Rules []*ServerSideEncryptionRuleBucketModel `parquet:"name=rules,type=LIST"`
+	Rules []*ServerSideEncryptionRuleBucketModel `parquet:"name=rules,type=MAP,convertedtype=LIST"`
 }
 
 type ServerSideEncryptionRuleBucketModel struct {
@@ -158,7 +158,7 @@ type ServerSideEncryptionByDefaultBucketModel struct {
 type IntelligentTieringConfigurationBucketModel struct {
 	Id       string                               `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	Status   string                               `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tierings []*TieringBucketModel                `parquet:"name=tierings,type=LIST"`
+	Tierings []*TieringBucketModel                `parquet:"name=tierings,type=MAP,convertedtype=LIST"`
 	Filter   *IntelligentTieringFilterBucketModel `parquet:"name=filter"`
 }
 
@@ -175,7 +175,7 @@ type IntelligentTieringFilterBucketModel struct {
 
 type IntelligentTieringAndOperatorBucketModel struct {
 	Prefix string            `parquet:"name=prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tags   map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	Tags   []*TagBucketModel `parquet:"name=tags,type=MAP,convertedtype=LIST"`
 }
 
 type TagBucketModel struct {
@@ -213,9 +213,6 @@ type SSEKMSBucketModel struct {
 	KeyId string `parquet:"name=key_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
-type SSES3BucketModel struct {
-}
-
 type InventoryScheduleBucketModel struct {
 	Frequency string `parquet:"name=frequency,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
@@ -230,9 +227,9 @@ type LifecycleRuleBucketModel struct {
 	Expiration                     *LifecycleExpirationBucketModel            `parquet:"name=expiration"`
 	ID                             string                                     `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	NoncurrentVersionExpiration    *NoncurrentVersionExpirationBucketModel    `parquet:"name=noncurrent_version_expiration"`
-	NoncurrentVersionTransitions   []*NoncurrentVersionTransitionBucketModel  `parquet:"name=noncurrent_version_transitions,type=LIST"`
+	NoncurrentVersionTransitions   []*NoncurrentVersionTransitionBucketModel  `parquet:"name=noncurrent_version_transitions,type=MAP,convertedtype=LIST"`
 	Prefix                         string                                     `parquet:"name=prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Transitions                    []*TransitionBucketModel                   `parquet:"name=transitions,type=LIST"`
+	Transitions                    []*TransitionBucketModel                   `parquet:"name=transitions,type=MAP,convertedtype=LIST"`
 }
 
 type AbortIncompleteMultipartUploadBucketModel struct {
@@ -241,9 +238,9 @@ type AbortIncompleteMultipartUploadBucketModel struct {
 
 type LifecycleExpirationBucketModel struct {
 	Date                      *time.Time
-	DateMilli                 int64 `parquet:"name=date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	Days                      int32 `parquet:"name=days,type=INT32"`
 	ExpiredObjectDeleteMarker bool  `parquet:"name=expired_object_delete_marker,type=BOOLEAN"`
+	DateMilli                 int64 `parquet:"name=date_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type NoncurrentVersionExpirationBucketModel struct {
@@ -257,15 +254,15 @@ type NoncurrentVersionTransitionBucketModel struct {
 
 type TransitionBucketModel struct {
 	Date         *time.Time
-	DateMilli    int64  `parquet:"name=date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	Days         int32  `parquet:"name=days,type=INT32"`
 	StorageClass string `parquet:"name=storage_class,type=BYTE_ARRAY,convertedtype=UTF8"`
+	DateMilli    int64  `parquet:"name=date_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type LoggingEnabledBucketModel struct {
 	TargetBucket string                    `parquet:"name=target_bucket,type=BYTE_ARRAY,convertedtype=UTF8"`
 	TargetPrefix string                    `parquet:"name=target_prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TargetGrants []*TargetGrantBucketModel `parquet:"name=target_grants,type=LIST"`
+	TargetGrants []*TargetGrantBucketModel `parquet:"name=target_grants,type=MAP,convertedtype=LIST"`
 }
 
 type TargetGrantBucketModel struct {

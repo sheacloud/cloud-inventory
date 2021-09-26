@@ -26,11 +26,6 @@ resource "aws_glue_catalog_table" "efs_filesystems" {
     }
 
     columns {
-      name    = "creation_time"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "creation_token"
       type    = "string"
       comment = ""
@@ -62,12 +57,7 @@ resource "aws_glue_catalog_table" "efs_filesystems" {
     }
     columns {
       name    = "size_in_bytes"
-      type    = "struct<value:bigint,timestamp:timestamp,value_in_ia:bigint,value_in_standard:bigint>"
-      comment = ""
-    }
-    columns {
-      name    = "tags"
-      type    = "map<string,string>"
+      type    = "struct<value:bigint,value_in_ia:bigint,value_in_standard:bigint,timestamp_milli:timestamp>"
       comment = ""
     }
     columns {
@@ -108,6 +98,16 @@ resource "aws_glue_catalog_table" "efs_filesystems" {
     columns {
       name    = "throughput_mode"
       type    = "string"
+      comment = ""
+    }
+    columns {
+      name    = "creation_time_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {

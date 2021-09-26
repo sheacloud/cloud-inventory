@@ -66,11 +66,6 @@ resource "aws_glue_catalog_table" "rds_db_instances" {
       comment = ""
     }
     columns {
-      name    = "automatic_restart_time"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "availability_zone"
       type    = "string"
       comment = ""
@@ -206,11 +201,6 @@ resource "aws_glue_catalog_table" "rds_db_instances" {
       comment = ""
     }
     columns {
-      name    = "instance_create_time"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "iops"
       type    = "int"
       comment = ""
@@ -218,11 +208,6 @@ resource "aws_glue_catalog_table" "rds_db_instances" {
     columns {
       name    = "kms_key_id"
       type    = "string"
-      comment = ""
-    }
-    columns {
-      name    = "latest_restorable_time"
-      type    = "timestamp"
       comment = ""
     }
     columns {
@@ -356,11 +341,6 @@ resource "aws_glue_catalog_table" "rds_db_instances" {
       comment = ""
     }
     columns {
-      name    = "tags"
-      type    = "map<string,string>"
-      comment = ""
-    }
-    columns {
       name    = "tde_credential_arn"
       type    = "string"
       comment = ""
@@ -373,6 +353,26 @@ resource "aws_glue_catalog_table" "rds_db_instances" {
     columns {
       name    = "vpc_security_groups"
       type    = "array<struct<status:string,vpc_security_group_id:string>>"
+      comment = ""
+    }
+    columns {
+      name    = "automatic_restart_time_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "instance_create_time_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "latest_restorable_time_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {

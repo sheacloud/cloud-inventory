@@ -29,18 +29,19 @@ func init() {
 }
 
 type DhcpOptionsModel struct {
-	DhcpConfigurations []*DhcpConfigurationDhcpOptionsModel `parquet:"name=dhcp_configurations,type=LIST"`
+	DhcpConfigurations []*DhcpConfigurationDhcpOptionsModel `parquet:"name=dhcp_configurations,type=MAP,convertedtype=LIST"`
 	DhcpOptionsId      string                               `parquet:"name=dhcp_options_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	OwnerId            string                               `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tags               map[string]string                    `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	AccountId          string                               `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region             string                               `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime         int64                                `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	TagsOld            []*TagDhcpOptionsModel
+	Tags               map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId          string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region             string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime         int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type DhcpConfigurationDhcpOptionsModel struct {
 	Key    string                            `parquet:"name=key,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Values []*AttributeValueDhcpOptionsModel `parquet:"name=values,type=LIST"`
+	Values []*AttributeValueDhcpOptionsModel `parquet:"name=values,type=MAP,convertedtype=LIST"`
 }
 
 type AttributeValueDhcpOptionsModel struct {

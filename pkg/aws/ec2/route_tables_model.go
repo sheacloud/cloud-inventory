@@ -29,16 +29,17 @@ func init() {
 }
 
 type RouteTableModel struct {
-	Associations    []*RouteTableAssociationRouteTableModel `parquet:"name=associations,type=LIST"`
+	Associations    []*RouteTableAssociationRouteTableModel `parquet:"name=associations,type=MAP,convertedtype=LIST"`
 	OwnerId         string                                  `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PropagatingVgws []*PropagatingVgwRouteTableModel        `parquet:"name=propagating_vgws,type=LIST"`
+	PropagatingVgws []*PropagatingVgwRouteTableModel        `parquet:"name=propagating_vgws,type=MAP,convertedtype=LIST"`
 	RouteTableId    string                                  `parquet:"name=route_table_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	Routes          []*RouteRouteTableModel                 `parquet:"name=routes,type=LIST"`
-	Tags            map[string]string                       `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	VpcId           string                                  `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId       string                                  `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region          string                                  `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime      int64                                   `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	Routes          []*RouteRouteTableModel                 `parquet:"name=routes,type=MAP,convertedtype=LIST"`
+	TagsOld         []*TagRouteTableModel
+	VpcId           string            `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Tags            map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId       string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region          string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime      int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type RouteTableAssociationRouteTableModel struct {
@@ -46,7 +47,7 @@ type RouteTableAssociationRouteTableModel struct {
 	GatewayId               string                                     `parquet:"name=gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	Main                    bool                                       `parquet:"name=main,type=BOOLEAN"`
 	RouteTableAssociationId string                                     `parquet:"name=route_table_association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	RouteTableId            string                                     `parquet:"name=route_table_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	RouteTableId            string                                     `parquet:"name=route_table_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	SubnetId                string                                     `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 

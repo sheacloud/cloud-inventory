@@ -31,11 +31,6 @@ resource "aws_glue_catalog_table" "ec2_vpc_peering_connections" {
       comment = ""
     }
     columns {
-      name    = "expiration_time"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "requester_vpc_info"
       type    = "struct<cidr_block:string,cidr_block_set:array<struct<cidr_block:string>>,ipv6_cidr_block_set:array<struct<ipv6_cidr_block:string>>,owner_id:string,peering_options:struct<allow_dns_resolution_from_remote_vpc:boolean,allow_egress_from_local_classic_link_to_remote_vpc:boolean,allow_egress_from_local_vpc_to_remote_classic_link:boolean>,region:string,vpc_id:string>"
       comment = ""
@@ -46,13 +41,18 @@ resource "aws_glue_catalog_table" "ec2_vpc_peering_connections" {
       comment = ""
     }
     columns {
-      name    = "tags"
-      type    = "map<string,string>"
+      name    = "vpc_peering_connection_id"
+      type    = "string"
       comment = ""
     }
     columns {
-      name    = "vpc_peering_connection_id"
-      type    = "string"
+      name    = "expiration_time_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {

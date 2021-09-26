@@ -24,7 +24,7 @@ func init() {
 
 type ImageModel struct {
 	Architecture        string                          `parquet:"name=architecture,type=BYTE_ARRAY,convertedtype=UTF8"`
-	BlockDeviceMappings []*BlockDeviceMappingImageModel `parquet:"name=block_device_mappings,type=LIST"`
+	BlockDeviceMappings []*BlockDeviceMappingImageModel `parquet:"name=block_device_mappings,type=MAP,convertedtype=LIST"`
 	BootMode            string                          `parquet:"name=boot_mode,type=BYTE_ARRAY,convertedtype=UTF8"`
 	CreationDate        string                          `parquet:"name=creation_date,type=BYTE_ARRAY,convertedtype=UTF8"`
 	DeprecationTime     string                          `parquet:"name=deprecation_time,type=BYTE_ARRAY,convertedtype=UTF8"`
@@ -40,7 +40,7 @@ type ImageModel struct {
 	OwnerId             string                          `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	Platform            string                          `parquet:"name=platform,type=BYTE_ARRAY,convertedtype=UTF8"`
 	PlatformDetails     string                          `parquet:"name=platform_details,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ProductCodes        []*ProductCodeImageModel        `parquet:"name=product_codes,type=LIST"`
+	ProductCodes        []*ProductCodeImageModel        `parquet:"name=product_codes,type=MAP,convertedtype=LIST"`
 	Public              bool                            `parquet:"name=public,type=BOOLEAN"`
 	RamdiskId           string                          `parquet:"name=ramdisk_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	RootDeviceName      string                          `parquet:"name=root_device_name,type=BYTE_ARRAY,convertedtype=UTF8"`
@@ -48,12 +48,13 @@ type ImageModel struct {
 	SriovNetSupport     string                          `parquet:"name=sriov_net_support,type=BYTE_ARRAY,convertedtype=UTF8"`
 	State               string                          `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
 	StateReason         *StateReasonImageModel          `parquet:"name=state_reason"`
-	Tags                map[string]string               `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	UsageOperation      string                          `parquet:"name=usage_operation,type=BYTE_ARRAY,convertedtype=UTF8"`
-	VirtualizationType  string                          `parquet:"name=virtualization_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId           string                          `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region              string                          `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime          int64                           `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	TagsOld             []*TagImageModel
+	UsageOperation      string            `parquet:"name=usage_operation,type=BYTE_ARRAY,convertedtype=UTF8"`
+	VirtualizationType  string            `parquet:"name=virtualization_type,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Tags                map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId           string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region              string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime          int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type BlockDeviceMappingImageModel struct {

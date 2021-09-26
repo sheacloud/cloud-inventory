@@ -32,7 +32,7 @@ resource "aws_glue_catalog_table" "ec2_network_interfaces" {
     }
     columns {
       name    = "attachment"
-      type    = "struct<attach_time:timestamp,attachment_id:string,delete_on_termination:boolean,device_index:int,instance_id:string,instance_owner_id:string,network_card_index:int,status:string>"
+      type    = "struct<attachment_id:string,delete_on_termination:boolean,device_index:int,instance_id:string,instance_owner_id:string,network_card_index:int,status:string,attach_time_milli:timestamp>"
       comment = ""
     }
     columns {
@@ -131,13 +131,13 @@ resource "aws_glue_catalog_table" "ec2_network_interfaces" {
       comment = ""
     }
     columns {
-      name    = "tags"
-      type    = "map<string,string>"
+      name    = "vpc_id"
+      type    = "string"
       comment = ""
     }
     columns {
-      name    = "vpc_id"
-      type    = "string"
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {

@@ -33,28 +33,29 @@ type NetworkInterfaceModel struct {
 	Attachment         *NetworkInterfaceAttachmentNetworkInterfaceModel         `parquet:"name=attachment"`
 	AvailabilityZone   string                                                   `parquet:"name=availability_zone,type=BYTE_ARRAY,convertedtype=UTF8"`
 	Description        string                                                   `parquet:"name=description,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Groups             []*GroupIdentifierNetworkInterfaceModel                  `parquet:"name=groups,type=LIST"`
+	Groups             []*GroupIdentifierNetworkInterfaceModel                  `parquet:"name=groups,type=MAP,convertedtype=LIST"`
 	InterfaceType      string                                                   `parquet:"name=interface_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Ipv4Prefixes       []*Ipv4PrefixSpecificationNetworkInterfaceModel          `parquet:"name=ipv4_prefixes,type=LIST"`
-	Ipv6Addresses      []*NetworkInterfaceIpv6AddressNetworkInterfaceModel      `parquet:"name=ipv6_addresses,type=LIST"`
-	Ipv6Prefixes       []*Ipv6PrefixSpecificationNetworkInterfaceModel          `parquet:"name=ipv6_prefixes,type=LIST"`
+	Ipv4Prefixes       []*Ipv4PrefixSpecificationNetworkInterfaceModel          `parquet:"name=ipv4_prefixes,type=MAP,convertedtype=LIST"`
+	Ipv6Addresses      []*NetworkInterfaceIpv6AddressNetworkInterfaceModel      `parquet:"name=ipv6_addresses,type=MAP,convertedtype=LIST"`
+	Ipv6Prefixes       []*Ipv6PrefixSpecificationNetworkInterfaceModel          `parquet:"name=ipv6_prefixes,type=MAP,convertedtype=LIST"`
 	MacAddress         string                                                   `parquet:"name=mac_address,type=BYTE_ARRAY,convertedtype=UTF8"`
 	NetworkInterfaceId string                                                   `parquet:"name=network_interface_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	OutpostArn         string                                                   `parquet:"name=outpost_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
 	OwnerId            string                                                   `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	PrivateDnsName     string                                                   `parquet:"name=private_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	PrivateIpAddress   string                                                   `parquet:"name=private_ip_address,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PrivateIpAddresses []*NetworkInterfacePrivateIpAddressNetworkInterfaceModel `parquet:"name=private_ip_addresses,type=LIST"`
+	PrivateIpAddresses []*NetworkInterfacePrivateIpAddressNetworkInterfaceModel `parquet:"name=private_ip_addresses,type=MAP,convertedtype=LIST"`
 	RequesterId        string                                                   `parquet:"name=requester_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	RequesterManaged   bool                                                     `parquet:"name=requester_managed,type=BOOLEAN"`
 	SourceDestCheck    bool                                                     `parquet:"name=source_dest_check,type=BOOLEAN"`
 	Status             string                                                   `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
 	SubnetId           string                                                   `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tags               map[string]string                                        `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	VpcId              string                                                   `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId          string                                                   `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region             string                                                   `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime         int64                                                    `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	TagSet             []*TagNetworkInterfaceModel
+	VpcId              string            `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Tags               map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId          string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region             string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime         int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type NetworkInterfaceAssociationNetworkInterfaceModel struct {
@@ -69,7 +70,6 @@ type NetworkInterfaceAssociationNetworkInterfaceModel struct {
 
 type NetworkInterfaceAttachmentNetworkInterfaceModel struct {
 	AttachTime          *time.Time
-	AttachTimeMilli     int64  `parquet:"name=attach_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	AttachmentId        string `parquet:"name=attachment_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	DeleteOnTermination bool   `parquet:"name=delete_on_termination,type=BOOLEAN"`
 	DeviceIndex         int32  `parquet:"name=device_index,type=INT32"`
@@ -77,6 +77,7 @@ type NetworkInterfaceAttachmentNetworkInterfaceModel struct {
 	InstanceOwnerId     string `parquet:"name=instance_owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	NetworkCardIndex    int32  `parquet:"name=network_card_index,type=INT32"`
 	Status              string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
+	AttachTimeMilli     int64  `parquet:"name=attach_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type GroupIdentifierNetworkInterfaceModel struct {

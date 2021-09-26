@@ -41,11 +41,6 @@ resource "aws_glue_catalog_table" "ec2_vpn_gateways" {
       comment = ""
     }
     columns {
-      name    = "tags"
-      type    = "map<string,string>"
-      comment = ""
-    }
-    columns {
       name    = "type"
       type    = "string"
       comment = ""
@@ -58,6 +53,11 @@ resource "aws_glue_catalog_table" "ec2_vpn_gateways" {
     columns {
       name    = "vpn_gateway_id"
       type    = "string"
+      comment = ""
+    }
+    columns {
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {

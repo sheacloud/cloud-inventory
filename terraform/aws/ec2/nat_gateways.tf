@@ -31,16 +31,6 @@ resource "aws_glue_catalog_table" "ec2_nat_gateways" {
       comment = ""
     }
     columns {
-      name    = "create_time"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
-      name    = "delete_time"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "failure_code"
       type    = "string"
       comment = ""
@@ -62,7 +52,7 @@ resource "aws_glue_catalog_table" "ec2_nat_gateways" {
     }
     columns {
       name    = "provisioned_bandwidth"
-      type    = "struct<provision_time:timestamp,provisioned:string,request_time:timestamp,requested:string,status:string>"
+      type    = "struct<provisioned:string,requested:string,status:string,provision_time_milli:timestamp,request_time_milli:timestamp>"
       comment = ""
     }
     columns {
@@ -76,13 +66,23 @@ resource "aws_glue_catalog_table" "ec2_nat_gateways" {
       comment = ""
     }
     columns {
-      name    = "tags"
-      type    = "map<string,string>"
+      name    = "vpc_id"
+      type    = "string"
       comment = ""
     }
     columns {
-      name    = "vpc_id"
-      type    = "string"
+      name    = "create_time_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "delete_time_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {

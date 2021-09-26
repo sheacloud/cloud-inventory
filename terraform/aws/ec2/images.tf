@@ -151,11 +151,6 @@ resource "aws_glue_catalog_table" "ec2_images" {
       comment = ""
     }
     columns {
-      name    = "tags"
-      type    = "map<string,string>"
-      comment = ""
-    }
-    columns {
       name    = "usage_operation"
       type    = "string"
       comment = ""
@@ -163,6 +158,11 @@ resource "aws_glue_catalog_table" "ec2_images" {
     columns {
       name    = "virtualization_type"
       type    = "string"
+      comment = ""
+    }
+    columns {
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {

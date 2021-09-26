@@ -30,9 +30,8 @@ func init() {
 
 type VpcEndpointModel struct {
 	CreationTimestamp      *time.Time
-	CreationTimestampMilli int64                                      `parquet:"name=creation_timestamp, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
-	DnsEntries             []*DnsEntryVpcEndpointModel                `parquet:"name=dns_entries,type=LIST"`
-	Groups                 []*SecurityGroupIdentifierVpcEndpointModel `parquet:"name=groups,type=LIST"`
+	DnsEntries             []*DnsEntryVpcEndpointModel                `parquet:"name=dns_entries,type=MAP,convertedtype=LIST"`
+	Groups                 []*SecurityGroupIdentifierVpcEndpointModel `parquet:"name=groups,type=MAP,convertedtype=LIST"`
 	LastError              *LastErrorVpcEndpointModel                 `parquet:"name=last_error"`
 	NetworkInterfaceIds    []string                                   `parquet:"name=network_interface_ids,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
 	OwnerId                string                                     `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
@@ -43,13 +42,15 @@ type VpcEndpointModel struct {
 	ServiceName            string                                     `parquet:"name=service_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	State                  string                                     `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
 	SubnetIds              []string                                   `parquet:"name=subnet_ids,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	Tags                   map[string]string                          `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	VpcEndpointId          string                                     `parquet:"name=vpc_endpoint_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	VpcEndpointType        string                                     `parquet:"name=vpc_endpoint_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	VpcId                  string                                     `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId              string                                     `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region                 string                                     `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime             int64                                      `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	TagsOld                []*TagVpcEndpointModel
+	VpcEndpointId          string            `parquet:"name=vpc_endpoint_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
+	VpcEndpointType        string            `parquet:"name=vpc_endpoint_type,type=BYTE_ARRAY,convertedtype=UTF8"`
+	VpcId                  string            `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CreationTimestampMilli int64             `parquet:"name=creation_timestamp_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	Tags                   map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId              string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region                 string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime             int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type DnsEntryVpcEndpointModel struct {

@@ -36,9 +36,9 @@ type LogGroupModel struct {
 	MetricFilterCount int32  `parquet:"name=metric_filter_count,type=INT32"`
 	RetentionInDays   int32  `parquet:"name=retention_in_days,type=INT32"`
 	StoredBytes       int64  `parquet:"name=stored_bytes,type=INT64"`
-	AccountId         string `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region            string `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime        int64  `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	AccountId         string `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region            string `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime        int64  `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 func LogGroupDataSource(ctx context.Context, client *cloudwatchlogs.Client, cfg aws.Config, reportTime time.Time, storageConfig storage.StorageContextConfig, storageManager *storage.StorageManager) error {

@@ -26,13 +26,13 @@ resource "aws_glue_catalog_table" "s3_buckets" {
     }
 
     columns {
-      name    = "creation_date"
-      type    = "timestamp"
+      name    = "name"
+      type    = "string"
       comment = ""
     }
     columns {
-      name    = "name"
-      type    = "string"
+      name    = "creation_date_milli"
+      type    = "timestamp"
       comment = ""
     }
     columns {
@@ -48,46 +48,6 @@ resource "aws_glue_catalog_table" "s3_buckets" {
     columns {
       name    = "report_time"
       type    = "timestamp"
-      comment = ""
-    }
-    columns {
-      name    = "replication_configuration"
-      type    = "struct<role:string,rules:array<struct<destination:struct<bucket:string,access_control_translation:struct<owner:string>,account:string,encryption_configuration:struct<replica_kms_key_id:string>,metrics:struct<status:string,event_threshold:struct<minutes:int>>,replication_time:struct<status:string,time:struct<minutes:int>>,storage_class:string>,status:string,delete_marker_replication:struct<status:string>,existing_object_replication:struct<status:string>,id:string,prefix:string,priority:int,source_selection_criteria:struct<replica_modifications:struct<status:string>,sse_kms_encrypted_objects:struct<status:string>>>>>"
-      comment = ""
-    }
-    columns {
-      name    = "acl_grants"
-      type    = "array<struct<grantee:struct<type:string,display_name:string,email_address:string,id:string,uri:string>,permission:string>>"
-      comment = ""
-    }
-    columns {
-      name    = "cors_rules"
-      type    = "array<struct<allowed_methods:array<string>,allowed_origins:array<string>,allowed_headers:array<string>,expose_headers:array<string>,id:string,max_age_seconds:int>>"
-      comment = ""
-    }
-    columns {
-      name    = "server_side_encryption_configuration"
-      type    = "struct<rules:array<struct<apply_server_side_encryption_by_default:struct<sse_algorithm:string,kms_master_key_id:string>,bucket_key_enabled:boolean>>>"
-      comment = ""
-    }
-    columns {
-      name    = "intelligent_tiering_configurations"
-      type    = "array<struct<id:string,status:string,tierings:array<struct<access_tier:string,days:int>>,filter:struct<and:struct<prefix:string,tags:map<string,string>>,prefix:string,tag:struct<key:string,value:string>>>>"
-      comment = ""
-    }
-    columns {
-      name    = "inventory_configurations"
-      type    = "array<struct<destination:struct<s3_bucket_destination:struct<bucket:string,format:string,account_id:string,encryption:struct<ssekms:struct<key_id:string>>,prefix:string>>,id:string,included_object_versions:string,is_enabled:boolean,schedule:struct<frequency:string>,filter:struct<prefix:string>,optional_fields:array<string>>>"
-      comment = ""
-    }
-    columns {
-      name    = "lifecycle_rules"
-      type    = "array<struct<status:string,abort_incomplete_multipart_upload:struct<days_after_initiation:int>,expiration:struct<date:timestamp,days:int,expired_object_delete_marker:boolean>,id:string,noncurrent_version_expiration:struct<noncurrent_days:int>,noncurrent_version_transitions:array<struct<noncurrent_days:int,storage_class:string>>,prefix:string,transitions:array<struct<date:timestamp,days:int,storage_class:string>>>>"
-      comment = ""
-    }
-    columns {
-      name    = "logging"
-      type    = "struct<target_bucket:string,target_prefix:string,target_grants:array<struct<grantee:struct<type:string,display_name:string,email_address:string,id:string,uri:string>,permission:string>>>"
       comment = ""
     }
     columns {
@@ -113,6 +73,46 @@ resource "aws_glue_catalog_table" "s3_buckets" {
     columns {
       name    = "mfa_delete_status"
       type    = "string"
+      comment = ""
+    }
+    columns {
+      name    = "replication_configuration"
+      type    = "struct<role:string,rules:array<struct<destination:struct<bucket:string,access_control_translation:struct<owner:string>,account:string,encryption_configuration:struct<replica_kms_key_id:string>,metrics:struct<status:string,event_threshold:struct<minutes:int>>,replication_time:struct<status:string,time:struct<minutes:int>>,storage_class:string>,status:string,delete_marker_replication:struct<status:string>,existing_object_replication:struct<status:string>,id:string,prefix:string,priority:int,source_selection_criteria:struct<replica_modifications:struct<status:string>,sse_kms_encrypted_objects:struct<status:string>>>>>"
+      comment = ""
+    }
+    columns {
+      name    = "acl_grants"
+      type    = "array<struct<grantee:struct<type:string,display_name:string,email_address:string,id:string,uri:string>,permission:string>>"
+      comment = ""
+    }
+    columns {
+      name    = "cors_rules"
+      type    = "array<struct<allowed_methods:array<string>,allowed_origins:array<string>,allowed_headers:array<string>,expose_headers:array<string>,id:string,max_age_seconds:int>>"
+      comment = ""
+    }
+    columns {
+      name    = "server_side_encryption_configuration"
+      type    = "struct<rules:array<struct<apply_server_side_encryption_by_default:struct<sse_algorithm:string,kms_master_key_id:string>,bucket_key_enabled:boolean>>>"
+      comment = ""
+    }
+    columns {
+      name    = "intelligent_tiering_configurations"
+      type    = "array<struct<id:string,status:string,tierings:array<struct<access_tier:string,days:int>>,filter:struct<and:struct<prefix:string,tags:array<struct<key:string,value:string>>>,prefix:string,tag:struct<key:string,value:string>>>>"
+      comment = ""
+    }
+    columns {
+      name    = "inventory_configurations"
+      type    = "array<struct<destination:struct<s3_bucket_destination:struct<bucket:string,format:string,account_id:string,encryption:struct<ssekms:struct<key_id:string>>,prefix:string>>,id:string,included_object_versions:string,is_enabled:boolean,schedule:struct<frequency:string>,filter:struct<prefix:string>,optional_fields:array<string>>>"
+      comment = ""
+    }
+    columns {
+      name    = "lifecycle_rules"
+      type    = "array<struct<status:string,abort_incomplete_multipart_upload:struct<days_after_initiation:int>,expiration:struct<days:int,expired_object_delete_marker:boolean,date_milli:timestamp>,id:string,noncurrent_version_expiration:struct<noncurrent_days:int>,noncurrent_version_transitions:array<struct<noncurrent_days:int,storage_class:string>>,prefix:string,transitions:array<struct<days:int,storage_class:string,date_milli:timestamp>>>>"
+      comment = ""
+    }
+    columns {
+      name    = "logging"
+      type    = "struct<target_bucket:string,target_prefix:string,target_grants:array<struct<grantee:struct<type:string,display_name:string,email_address:string,id:string,uri:string>,permission:string>>>"
       comment = ""
     }
   }

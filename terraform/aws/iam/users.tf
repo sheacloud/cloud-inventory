@@ -31,11 +31,6 @@ resource "aws_glue_catalog_table" "iam_users" {
       comment = ""
     }
     columns {
-      name    = "create_date"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "path"
       type    = "string"
       comment = ""
@@ -51,13 +46,18 @@ resource "aws_glue_catalog_table" "iam_users" {
       comment = ""
     }
     columns {
-      name    = "password_last_used"
+      name    = "permissions_boundary"
+      type    = "struct<permissions_boundary_arn:string,permissions_boundary_type:string>"
+      comment = ""
+    }
+    columns {
+      name    = "create_date_milli"
       type    = "timestamp"
       comment = ""
     }
     columns {
-      name    = "permissions_boundary"
-      type    = "struct<permissions_boundary_arn:string,permissions_boundary_type:string>"
+      name    = "password_last_used_milli"
+      type    = "timestamp"
       comment = ""
     }
     columns {
@@ -81,21 +81,6 @@ resource "aws_glue_catalog_table" "iam_users" {
       comment = ""
     }
     columns {
-      name    = "access_keys"
-      type    = "array<struct<access_key_id:string,create_date:timestamp,status:string>>"
-      comment = ""
-    }
-    columns {
-      name    = "login_profile"
-      type    = "struct<create_date:timestamp,password_reset_required:boolean>"
-      comment = ""
-    }
-    columns {
-      name    = "attached_policies"
-      type    = "array<struct<policy_arn:string,policy_name:string>>"
-      comment = ""
-    }
-    columns {
       name    = "inline_policies"
       type    = "array<string>"
       comment = ""
@@ -103,6 +88,21 @@ resource "aws_glue_catalog_table" "iam_users" {
     columns {
       name    = "group_ids"
       type    = "array<string>"
+      comment = ""
+    }
+    columns {
+      name    = "access_keys"
+      type    = "array<struct<access_key_id:string,status:string,create_date_milli:timestamp>>"
+      comment = ""
+    }
+    columns {
+      name    = "login_profile"
+      type    = "struct<password_reset_required:boolean,create_date_milli:timestamp>"
+      comment = ""
+    }
+    columns {
+      name    = "attached_policies"
+      type    = "array<struct<policy_arn:string,policy_name:string>>"
       comment = ""
     }
   }

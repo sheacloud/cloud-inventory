@@ -29,16 +29,17 @@ func init() {
 }
 
 type VpnGatewayModel struct {
-	AmazonSideAsn    int64                           `parquet:"name=amazon_side_asn,type=INT64"`
-	AvailabilityZone string                          `parquet:"name=availability_zone,type=BYTE_ARRAY,convertedtype=UTF8"`
-	State            string                          `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tags             map[string]string               `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AmazonSideAsn    int64  `parquet:"name=amazon_side_asn,type=INT64"`
+	AvailabilityZone string `parquet:"name=availability_zone,type=BYTE_ARRAY,convertedtype=UTF8"`
+	State            string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
+	TagsOld          []*TagVpnGatewayModel
 	Type             string                          `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	VpcAttachments   []*VpcAttachmentVpnGatewayModel `parquet:"name=vpc_attachments,type=LIST"`
+	VpcAttachments   []*VpcAttachmentVpnGatewayModel `parquet:"name=vpc_attachments,type=MAP,convertedtype=LIST"`
 	VpnGatewayId     string                          `parquet:"name=vpn_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	AccountId        string                          `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region           string                          `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime       int64                           `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	Tags             map[string]string               `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId        string                          `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region           string                          `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime       int64                           `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type TagVpnGatewayModel struct {

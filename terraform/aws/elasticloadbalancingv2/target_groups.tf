@@ -126,13 +126,13 @@ resource "aws_glue_catalog_table" "elasticloadbalancingv2_target_groups" {
       comment = ""
     }
     columns {
-      name    = "targets"
-      type    = "array<struct<health_check_port:string,target:struct<id:string,availability_zone:string,port:int>,target_health:struct<description:string,reason:string,state:string>>>"
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {
-      name    = "tags"
-      type    = "map<string,string>"
+      name    = "targets"
+      type    = "array<struct<health_check_port:string,target:struct<id:string,availability_zone:string,port:int>,target_health:struct<description:string,reason:string,state:string>>>"
       comment = ""
     }
   }

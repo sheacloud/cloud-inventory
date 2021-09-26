@@ -31,22 +31,23 @@ func init() {
 type UserModel struct {
 	Arn                   string `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8"`
 	CreateDate            *time.Time
-	CreateDateMilli       int64  `parquet:"name=create_date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	Path                  string `parquet:"name=path,type=BYTE_ARRAY,convertedtype=UTF8"`
 	UserId                string `parquet:"name=user_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	UserName              string `parquet:"name=user_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	PasswordLastUsed      *time.Time
-	PasswordLastUsedMilli int64                                 `parquet:"name=password_last_used, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	PermissionsBoundary   *AttachedPermissionsBoundaryUserModel `parquet:"name=permissions_boundary"`
-	Tags                  map[string]string                     `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	AccountId             string                                `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region                string                                `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime            int64                                 `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
-	AccessKeys            []*AccessKeyMetadataUserModel         `parquet:"name=access_keys,type=LIST"`
-	LoginProfile          *LoginProfileUserModel                `parquet:"name=login_profile"`
-	AttachedPolicies      []*AttachedPolicyUserModel            `parquet:"name=attached_policies,type=LIST"`
-	InlinePolicies        []string                              `parquet:"name=inline_policies,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	GroupIds              []string                              `parquet:"name=group_ids,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
+	TagsOld               []*TagUserModel
+	CreateDateMilli       int64                         `parquet:"name=create_date_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	PasswordLastUsedMilli int64                         `parquet:"name=password_last_used_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	Tags                  map[string]string             `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId             string                        `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region                string                        `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime            int64                         `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	InlinePolicies        []string                      `parquet:"name=inline_policies,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
+	GroupIds              []string                      `parquet:"name=group_ids,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
+	AccessKeys            []*AccessKeyMetadataUserModel `parquet:"name=access_keys,type=MAP,convertedtype=LIST"`
+	LoginProfile          *LoginProfileUserModel        `parquet:"name=login_profile"`
+	AttachedPolicies      []*AttachedPolicyUserModel    `parquet:"name=attached_policies,type=MAP,convertedtype=LIST"`
 }
 
 type AttachedPermissionsBoundaryUserModel struct {
@@ -62,14 +63,14 @@ type TagUserModel struct {
 type AccessKeyMetadataUserModel struct {
 	AccessKeyId     string `parquet:"name=access_key_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	CreateDate      *time.Time
-	CreateDateMilli int64  `parquet:"name=create_date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	Status          string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CreateDateMilli int64  `parquet:"name=create_date_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type LoginProfileUserModel struct {
 	CreateDate            *time.Time
-	CreateDateMilli       int64 `parquet:"name=create_date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	PasswordResetRequired bool  `parquet:"name=password_reset_required,type=BOOLEAN"`
+	CreateDateMilli       int64 `parquet:"name=create_date_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type AttachedPolicyUserModel struct {

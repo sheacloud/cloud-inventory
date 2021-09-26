@@ -31,16 +31,16 @@ func init() {
 type GroupModel struct {
 	Arn              string `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8"`
 	CreateDate       *time.Time
-	CreateDateMilli  int64                       `parquet:"name=create_date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	GroupId          string                      `parquet:"name=group_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	GroupName        string                      `parquet:"name=group_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	Path             string                      `parquet:"name=path,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId        string                      `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region           string                      `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime       int64                       `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
-	AttachedPolicies []*AttachedPolicyGroupModel `parquet:"name=attached_policies,type=LIST"`
+	CreateDateMilli  int64                       `parquet:"name=create_date_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	AccountId        string                      `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region           string                      `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime       int64                       `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 	InlinePolicies   []string                    `parquet:"name=inline_policies,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
 	UserIds          []string                    `parquet:"name=user_ids,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
+	AttachedPolicies []*AttachedPolicyGroupModel `parquet:"name=attached_policies,type=MAP,convertedtype=LIST"`
 }
 
 type AttachedPolicyGroupModel struct {

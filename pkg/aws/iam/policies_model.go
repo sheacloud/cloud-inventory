@@ -32,20 +32,21 @@ type PolicyModel struct {
 	Arn                           string `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8"`
 	AttachmentCount               int32  `parquet:"name=attachment_count,type=INT32"`
 	CreateDate                    *time.Time
-	CreateDateMilli               int64             `parquet:"name=create_date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
-	DefaultVersionId              string            `parquet:"name=default_version_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Description                   string            `parquet:"name=description,type=BYTE_ARRAY,convertedtype=UTF8"`
-	IsAttachable                  bool              `parquet:"name=is_attachable,type=BOOLEAN"`
-	Path                          string            `parquet:"name=path,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PermissionsBoundaryUsageCount int32             `parquet:"name=permissions_boundary_usage_count,type=INT32"`
-	PolicyId                      string            `parquet:"name=policy_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	PolicyName                    string            `parquet:"name=policy_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tags                          map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	DefaultVersionId              string `parquet:"name=default_version_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Description                   string `parquet:"name=description,type=BYTE_ARRAY,convertedtype=UTF8"`
+	IsAttachable                  bool   `parquet:"name=is_attachable,type=BOOLEAN"`
+	Path                          string `parquet:"name=path,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PermissionsBoundaryUsageCount int32  `parquet:"name=permissions_boundary_usage_count,type=INT32"`
+	PolicyId                      string `parquet:"name=policy_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
+	PolicyName                    string `parquet:"name=policy_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	TagsOld                       []*TagPolicyModel
 	UpdateDate                    *time.Time
-	UpdateDateMilli               int64  `parquet:"name=update_date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
-	AccountId                     string `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region                        string `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime                    int64  `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	CreateDateMilli               int64             `parquet:"name=create_date_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	Tags                          map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	UpdateDateMilli               int64             `parquet:"name=update_date_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	AccountId                     string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region                        string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime                    int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type TagPolicyModel struct {

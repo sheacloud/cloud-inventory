@@ -30,15 +30,14 @@ func init() {
 
 type LoadBalancerDescriptionModel struct {
 	AvailabilityZones         []string                                                `parquet:"name=availability_zones,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	BackendServerDescriptions []*BackendServerDescriptionLoadBalancerDescriptionModel `parquet:"name=backend_server_descriptions,type=LIST"`
+	BackendServerDescriptions []*BackendServerDescriptionLoadBalancerDescriptionModel `parquet:"name=backend_server_descriptions,type=MAP,convertedtype=LIST"`
 	CanonicalHostedZoneName   string                                                  `parquet:"name=canonical_hosted_zone_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	CanonicalHostedZoneNameID string                                                  `parquet:"name=canonical_hosted_zone_name_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	CreatedTime               *time.Time
-	CreatedTimeMilli          int64                                              `parquet:"name=created_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	DNSName                   string                                             `parquet:"name=dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	HealthCheck               *HealthCheckLoadBalancerDescriptionModel           `parquet:"name=health_check"`
-	Instances                 []*InstanceLoadBalancerDescriptionModel            `parquet:"name=instances,type=LIST"`
-	ListenerDescriptions      []*ListenerDescriptionLoadBalancerDescriptionModel `parquet:"name=listener_descriptions,type=LIST"`
+	Instances                 []*InstanceLoadBalancerDescriptionModel            `parquet:"name=instances,type=MAP,convertedtype=LIST"`
+	ListenerDescriptions      []*ListenerDescriptionLoadBalancerDescriptionModel `parquet:"name=listener_descriptions,type=MAP,convertedtype=LIST"`
 	LoadBalancerName          string                                             `parquet:"name=load_balancer_name,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	Policies                  *PoliciesLoadBalancerDescriptionModel              `parquet:"name=policies"`
 	Scheme                    string                                             `parquet:"name=scheme,type=BYTE_ARRAY,convertedtype=UTF8"`
@@ -46,9 +45,10 @@ type LoadBalancerDescriptionModel struct {
 	SourceSecurityGroup       *SourceSecurityGroupLoadBalancerDescriptionModel   `parquet:"name=source_security_group"`
 	Subnets                   []string                                           `parquet:"name=subnets,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
 	VPCId                     string                                             `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId                 string                                             `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region                    string                                             `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime                int64                                              `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	CreatedTimeMilli          int64                                              `parquet:"name=created_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	AccountId                 string                                             `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region                    string                                             `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime                int64                                              `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type BackendServerDescriptionLoadBalancerDescriptionModel struct {
@@ -82,8 +82,8 @@ type ListenerLoadBalancerDescriptionModel struct {
 }
 
 type PoliciesLoadBalancerDescriptionModel struct {
-	AppCookieStickinessPolicies []*AppCookieStickinessPolicyLoadBalancerDescriptionModel `parquet:"name=app_cookie_stickiness_policies,type=LIST"`
-	LBCookieStickinessPolicies  []*LBCookieStickinessPolicyLoadBalancerDescriptionModel  `parquet:"name=lb_cookie_stickiness_policies,type=LIST"`
+	AppCookieStickinessPolicies []*AppCookieStickinessPolicyLoadBalancerDescriptionModel `parquet:"name=app_cookie_stickiness_policies,type=MAP,convertedtype=LIST"`
+	LBCookieStickinessPolicies  []*LBCookieStickinessPolicyLoadBalancerDescriptionModel  `parquet:"name=lb_cookie_stickiness_policies,type=MAP,convertedtype=LIST"`
 	OtherPolicies               []string                                                 `parquet:"name=other_policies,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
 }
 

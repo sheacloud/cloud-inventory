@@ -36,11 +36,6 @@ resource "aws_glue_catalog_table" "iam_policies" {
       comment = ""
     }
     columns {
-      name    = "create_date"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "default_version_id"
       type    = "string"
       comment = ""
@@ -76,12 +71,17 @@ resource "aws_glue_catalog_table" "iam_policies" {
       comment = ""
     }
     columns {
+      name    = "create_date_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
       name    = "tags"
       type    = "map<string,string>"
       comment = ""
     }
     columns {
-      name    = "update_date"
+      name    = "update_date_milli"
       type    = "timestamp"
       comment = ""
     }

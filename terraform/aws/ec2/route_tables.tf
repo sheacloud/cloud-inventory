@@ -51,13 +51,13 @@ resource "aws_glue_catalog_table" "ec2_route_tables" {
       comment = ""
     }
     columns {
-      name    = "tags"
-      type    = "map<string,string>"
+      name    = "vpc_id"
+      type    = "string"
       comment = ""
     }
     columns {
-      name    = "vpc_id"
-      type    = "string"
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {

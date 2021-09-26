@@ -46,11 +46,6 @@ resource "aws_glue_catalog_table" "elasticloadbalancing_load_balancers" {
       comment = ""
     }
     columns {
-      name    = "created_time"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "dns_name"
       type    = "string"
       comment = ""
@@ -103,6 +98,11 @@ resource "aws_glue_catalog_table" "elasticloadbalancing_load_balancers" {
     columns {
       name    = "vpc_id"
       type    = "string"
+      comment = ""
+    }
+    columns {
+      name    = "created_time_milli"
+      type    = "timestamp"
       comment = ""
     }
     columns {

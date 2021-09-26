@@ -29,10 +29,9 @@ func init() {
 }
 
 type LoadBalancerModel struct {
-	AvailabilityZones     []*AvailabilityZoneLoadBalancerModel `parquet:"name=availability_zones,type=LIST"`
+	AvailabilityZones     []*AvailabilityZoneLoadBalancerModel `parquet:"name=availability_zones,type=MAP,convertedtype=LIST"`
 	CanonicalHostedZoneId string                               `parquet:"name=canonical_hosted_zone_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	CreatedTime           *time.Time
-	CreatedTimeMilli      int64                               `parquet:"name=created_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	CustomerOwnedIpv4Pool string                              `parquet:"name=customer_owned_ipv4_pool,type=BYTE_ARRAY,convertedtype=UTF8"`
 	DNSName               string                              `parquet:"name=dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	IpAddressType         string                              `parquet:"name=ip_address_type,type=BYTE_ARRAY,convertedtype=UTF8"`
@@ -43,15 +42,16 @@ type LoadBalancerModel struct {
 	State                 *LoadBalancerStateLoadBalancerModel `parquet:"name=state"`
 	Type                  string                              `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8"`
 	VpcId                 string                              `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId             string                              `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region                string                              `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime            int64                               `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
-	Listeners             []*ListenerLoadBalancerModel        `parquet:"name=listeners,type=LIST"`
+	CreatedTimeMilli      int64                               `parquet:"name=created_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	AccountId             string                              `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region                string                              `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime            int64                               `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 	Tags                  map[string]string                   `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	Listeners             []*ListenerLoadBalancerModel        `parquet:"name=listeners,type=MAP,convertedtype=LIST"`
 }
 
 type AvailabilityZoneLoadBalancerModel struct {
-	LoadBalancerAddresses []*LoadBalancerAddressLoadBalancerModel `parquet:"name=load_balancer_addresses,type=LIST"`
+	LoadBalancerAddresses []*LoadBalancerAddressLoadBalancerModel `parquet:"name=load_balancer_addresses,type=MAP,convertedtype=LIST"`
 	OutpostId             string                                  `parquet:"name=outpost_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	SubnetId              string                                  `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	ZoneName              string                                  `parquet:"name=zone_name,type=BYTE_ARRAY,convertedtype=UTF8"`
@@ -71,10 +71,10 @@ type LoadBalancerStateLoadBalancerModel struct {
 
 type ListenerLoadBalancerModel struct {
 	AlpnPolicy      []string                        `parquet:"name=alpn_policy,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	Certificates    []*CertificateLoadBalancerModel `parquet:"name=certificates,type=LIST"`
-	DefaultActions  []*ActionLoadBalancerModel      `parquet:"name=default_actions,type=LIST"`
+	Certificates    []*CertificateLoadBalancerModel `parquet:"name=certificates,type=MAP,convertedtype=LIST"`
+	DefaultActions  []*ActionLoadBalancerModel      `parquet:"name=default_actions,type=MAP,convertedtype=LIST"`
 	ListenerArn     string                          `parquet:"name=listener_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-	LoadBalancerArn string                          `parquet:"name=load_balancer_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+	LoadBalancerArn string                          `parquet:"name=load_balancer_arn,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	Port            int32                           `parquet:"name=port,type=INT32"`
 	Protocol        string                          `parquet:"name=protocol,type=BYTE_ARRAY,convertedtype=UTF8"`
 	SslPolicy       string                          `parquet:"name=ssl_policy,type=BYTE_ARRAY,convertedtype=UTF8"`
@@ -130,7 +130,7 @@ type FixedResponseActionConfigLoadBalancerModel struct {
 
 type ForwardActionConfigLoadBalancerModel struct {
 	TargetGroupStickinessConfig *TargetGroupStickinessConfigLoadBalancerModel `parquet:"name=target_group_stickiness_config"`
-	TargetGroups                []*TargetGroupTupleLoadBalancerModel          `parquet:"name=target_groups,type=LIST"`
+	TargetGroups                []*TargetGroupTupleLoadBalancerModel          `parquet:"name=target_groups,type=MAP,convertedtype=LIST"`
 }
 
 type TargetGroupStickinessConfigLoadBalancerModel struct {

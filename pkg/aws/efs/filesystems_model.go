@@ -30,7 +30,6 @@ func init() {
 
 type FileSystemDescriptionModel struct {
 	CreationTime                 *time.Time
-	CreationTimeMilli            int64                                     `parquet:"name=creation_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	CreationToken                string                                    `parquet:"name=creation_token,type=BYTE_ARRAY,convertedtype=UTF8"`
 	FileSystemId                 string                                    `parquet:"name=file_system_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	LifeCycleState               string                                    `parquet:"name=life_cycle_state,type=BYTE_ARRAY,convertedtype=UTF8"`
@@ -38,26 +37,28 @@ type FileSystemDescriptionModel struct {
 	OwnerId                      string                                    `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	PerformanceMode              string                                    `parquet:"name=performance_mode,type=BYTE_ARRAY,convertedtype=UTF8"`
 	SizeInBytes                  *FileSystemSizeFileSystemDescriptionModel `parquet:"name=size_in_bytes"`
-	Tags                         map[string]string                         `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	AvailabilityZoneId           string                                    `parquet:"name=availability_zone_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AvailabilityZoneName         string                                    `parquet:"name=availability_zone_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Encrypted                    bool                                      `parquet:"name=encrypted,type=BOOLEAN"`
-	FileSystemArn                string                                    `parquet:"name=file_system_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-	KmsKeyId                     string                                    `parquet:"name=kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Name                         string                                    `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ProvisionedThroughputInMibps float64                                   `parquet:"name=provisioned_throughput_in_mibps,type=DOUBLE"`
-	ThroughputMode               string                                    `parquet:"name=throughput_mode,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId                    string                                    `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region                       string                                    `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime                   int64                                     `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	TagsOld                      []*TagFileSystemDescriptionModel
+	AvailabilityZoneId           string            `parquet:"name=availability_zone_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	AvailabilityZoneName         string            `parquet:"name=availability_zone_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Encrypted                    bool              `parquet:"name=encrypted,type=BOOLEAN"`
+	FileSystemArn                string            `parquet:"name=file_system_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+	KmsKeyId                     string            `parquet:"name=kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Name                         string            `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ProvisionedThroughputInMibps float64           `parquet:"name=provisioned_throughput_in_mibps,type=DOUBLE"`
+	ThroughputMode               string            `parquet:"name=throughput_mode,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CreationTimeMilli            int64             `parquet:"name=creation_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	Tags                         map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId                    string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region                       string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime                   int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type FileSystemSizeFileSystemDescriptionModel struct {
 	Value           int64 `parquet:"name=value,type=INT64"`
 	Timestamp       *time.Time
-	TimestampMilli  int64 `parquet:"name=timestamp, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	ValueInIA       int64 `parquet:"name=value_in_ia,type=INT64"`
 	ValueInStandard int64 `parquet:"name=value_in_standard,type=INT64"`
+	TimestampMilli  int64 `parquet:"name=timestamp_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type TagFileSystemDescriptionModel struct {

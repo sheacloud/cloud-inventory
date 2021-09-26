@@ -29,21 +29,22 @@ func init() {
 }
 
 type NetworkAclModel struct {
-	Associations []*NetworkAclAssociationNetworkAclModel `parquet:"name=associations,type=LIST"`
-	Entries      []*NetworkAclEntryNetworkAclModel       `parquet:"name=entries,type=LIST"`
+	Associations []*NetworkAclAssociationNetworkAclModel `parquet:"name=associations,type=MAP,convertedtype=LIST"`
+	Entries      []*NetworkAclEntryNetworkAclModel       `parquet:"name=entries,type=MAP,convertedtype=LIST"`
 	IsDefault    bool                                    `parquet:"name=is_default,type=BOOLEAN"`
 	NetworkAclId string                                  `parquet:"name=network_acl_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	OwnerId      string                                  `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tags         map[string]string                       `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	VpcId        string                                  `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId    string                                  `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region       string                                  `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime   int64                                   `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	TagsOld      []*TagNetworkAclModel
+	VpcId        string            `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Tags         map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId    string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region       string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime   int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type NetworkAclAssociationNetworkAclModel struct {
 	NetworkAclAssociationId string `parquet:"name=network_acl_association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	NetworkAclId            string `parquet:"name=network_acl_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	NetworkAclId            string `parquet:"name=network_acl_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	SubnetId                string `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 

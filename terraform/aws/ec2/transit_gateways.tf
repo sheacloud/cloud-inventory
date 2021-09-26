@@ -26,11 +26,6 @@ resource "aws_glue_catalog_table" "ec2_transit_gateways" {
     }
 
     columns {
-      name    = "creation_time"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "description"
       type    = "string"
       comment = ""
@@ -51,11 +46,6 @@ resource "aws_glue_catalog_table" "ec2_transit_gateways" {
       comment = ""
     }
     columns {
-      name    = "tags"
-      type    = "map<string,string>"
-      comment = ""
-    }
-    columns {
       name    = "transit_gateway_arn"
       type    = "string"
       comment = ""
@@ -63,6 +53,16 @@ resource "aws_glue_catalog_table" "ec2_transit_gateways" {
     columns {
       name    = "transit_gateway_id"
       type    = "string"
+      comment = ""
+    }
+    columns {
+      name    = "creation_time_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {

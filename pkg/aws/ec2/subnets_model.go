@@ -36,7 +36,7 @@ type SubnetModel struct {
 	CidrBlock                   string                                       `parquet:"name=cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
 	CustomerOwnedIpv4Pool       string                                       `parquet:"name=customer_owned_ipv4_pool,type=BYTE_ARRAY,convertedtype=UTF8"`
 	DefaultForAz                bool                                         `parquet:"name=default_for_az,type=BOOLEAN"`
-	Ipv6CidrBlockAssociationSet []*SubnetIpv6CidrBlockAssociationSubnetModel `parquet:"name=ipv6_cidr_block_association_set,type=LIST"`
+	Ipv6CidrBlockAssociationSet []*SubnetIpv6CidrBlockAssociationSubnetModel `parquet:"name=ipv6_cidr_block_association_set,type=MAP,convertedtype=LIST"`
 	MapCustomerOwnedIpOnLaunch  bool                                         `parquet:"name=map_customer_owned_ip_on_launch,type=BOOLEAN"`
 	MapPublicIpOnLaunch         bool                                         `parquet:"name=map_public_ip_on_launch,type=BOOLEAN"`
 	OutpostArn                  string                                       `parquet:"name=outpost_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
@@ -44,11 +44,12 @@ type SubnetModel struct {
 	State                       string                                       `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
 	SubnetArn                   string                                       `parquet:"name=subnet_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
 	SubnetId                    string                                       `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	Tags                        map[string]string                            `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	VpcId                       string                                       `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId                   string                                       `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region                      string                                       `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime                  int64                                        `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	TagsOld                     []*TagSubnetModel
+	VpcId                       string            `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Tags                        map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId                   string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region                      string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime                  int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type SubnetIpv6CidrBlockAssociationSubnetModel struct {

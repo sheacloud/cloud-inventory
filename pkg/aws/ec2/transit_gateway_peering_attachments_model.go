@@ -31,15 +31,16 @@ func init() {
 type TransitGatewayPeeringAttachmentModel struct {
 	AccepterTgwInfo            *PeeringTgwInfoTransitGatewayPeeringAttachmentModel `parquet:"name=accepter_tgw_info"`
 	CreationTime               *time.Time
-	CreationTimeMilli          int64                                                        `parquet:"name=creation_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	RequesterTgwInfo           *PeeringTgwInfoTransitGatewayPeeringAttachmentModel          `parquet:"name=requester_tgw_info"`
 	State                      string                                                       `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
 	Status                     *PeeringAttachmentStatusTransitGatewayPeeringAttachmentModel `parquet:"name=status"`
-	Tags                       map[string]string                                            `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	TransitGatewayAttachmentId string                                                       `parquet:"name=transit_gateway_attachment_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	AccountId                  string                                                       `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region                     string                                                       `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime                 int64                                                        `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	TagsOld                    []*TagTransitGatewayPeeringAttachmentModel
+	TransitGatewayAttachmentId string            `parquet:"name=transit_gateway_attachment_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
+	CreationTimeMilli          int64             `parquet:"name=creation_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	Tags                       map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId                  string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region                     string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime                 int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type PeeringTgwInfoTransitGatewayPeeringAttachmentModel struct {

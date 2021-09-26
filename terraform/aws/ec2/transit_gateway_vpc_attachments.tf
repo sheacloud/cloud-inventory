@@ -26,11 +26,6 @@ resource "aws_glue_catalog_table" "ec2_transit_gateway_vpc_attachments" {
     }
 
     columns {
-      name    = "creation_time"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "options"
       type    = "struct<appliance_mode_support:string,dns_support:string,ipv6_support:string>"
       comment = ""
@@ -43,11 +38,6 @@ resource "aws_glue_catalog_table" "ec2_transit_gateway_vpc_attachments" {
     columns {
       name    = "subnet_ids"
       type    = "array<string>"
-      comment = ""
-    }
-    columns {
-      name    = "tags"
-      type    = "map<string,string>"
       comment = ""
     }
     columns {
@@ -68,6 +58,16 @@ resource "aws_glue_catalog_table" "ec2_transit_gateway_vpc_attachments" {
     columns {
       name    = "vpc_owner_id"
       type    = "string"
+      comment = ""
+    }
+    columns {
+      name    = "creation_time_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {

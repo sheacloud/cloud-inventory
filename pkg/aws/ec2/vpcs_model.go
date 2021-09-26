@@ -30,18 +30,19 @@ func init() {
 
 type VpcModel struct {
 	CidrBlock                   string                                 `parquet:"name=cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CidrBlockAssociationSet     []*VpcCidrBlockAssociationVpcModel     `parquet:"name=cidr_block_association_set,type=LIST"`
+	CidrBlockAssociationSet     []*VpcCidrBlockAssociationVpcModel     `parquet:"name=cidr_block_association_set,type=MAP,convertedtype=LIST"`
 	DhcpOptionsId               string                                 `parquet:"name=dhcp_options_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	InstanceTenancy             string                                 `parquet:"name=instance_tenancy,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Ipv6CidrBlockAssociationSet []*VpcIpv6CidrBlockAssociationVpcModel `parquet:"name=ipv6_cidr_block_association_set,type=LIST"`
+	Ipv6CidrBlockAssociationSet []*VpcIpv6CidrBlockAssociationVpcModel `parquet:"name=ipv6_cidr_block_association_set,type=MAP,convertedtype=LIST"`
 	IsDefault                   bool                                   `parquet:"name=is_default,type=BOOLEAN"`
 	OwnerId                     string                                 `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	State                       string                                 `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tags                        map[string]string                      `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	VpcId                       string                                 `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	AccountId                   string                                 `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region                      string                                 `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime                  int64                                  `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	TagsOld                     []*TagVpcModel
+	VpcId                       string            `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
+	Tags                        map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId                   string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region                      string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime                  int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type VpcCidrBlockAssociationVpcModel struct {

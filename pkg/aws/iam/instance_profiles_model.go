@@ -31,21 +31,21 @@ func init() {
 type InstanceProfileModel struct {
 	Arn                 string `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8"`
 	CreateDate          *time.Time
-	CreateDateMilli     int64                       `parquet:"name=create_date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	InstanceProfileId   string                      `parquet:"name=instance_profile_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	InstanceProfileName string                      `parquet:"name=instance_profile_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	Path                string                      `parquet:"name=path,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Roles               []*RoleInstanceProfileModel `parquet:"name=roles,type=LIST"`
-	Tags                map[string]string           `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	AccountId           string                      `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region              string                      `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime          int64                       `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	Roles               []*RoleInstanceProfileModel `parquet:"name=roles,type=MAP,convertedtype=LIST"`
+	TagsOld             []*TagInstanceProfileModel
+	CreateDateMilli     int64             `parquet:"name=create_date_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	Tags                map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId           string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region              string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime          int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type RoleInstanceProfileModel struct {
 	Arn                      string `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8"`
 	CreateDate               *time.Time
-	CreateDateMilli          int64                                            `parquet:"name=create_date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	Path                     string                                           `parquet:"name=path,type=BYTE_ARRAY,convertedtype=UTF8"`
 	RoleId                   string                                           `parquet:"name=role_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	RoleName                 string                                           `parquet:"name=role_name,type=BYTE_ARRAY,convertedtype=UTF8"`
@@ -54,7 +54,9 @@ type RoleInstanceProfileModel struct {
 	MaxSessionDuration       int32                                            `parquet:"name=max_session_duration,type=INT32"`
 	PermissionsBoundary      *AttachedPermissionsBoundaryInstanceProfileModel `parquet:"name=permissions_boundary"`
 	RoleLastUsed             *RoleLastUsedInstanceProfileModel                `parquet:"name=role_last_used"`
-	Tags                     map[string]string                                `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	TagsOld                  []*TagInstanceProfileModel
+	CreateDateMilli          int64             `parquet:"name=create_date_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	Tags                     map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
 }
 
 type AttachedPermissionsBoundaryInstanceProfileModel struct {
@@ -64,8 +66,8 @@ type AttachedPermissionsBoundaryInstanceProfileModel struct {
 
 type RoleLastUsedInstanceProfileModel struct {
 	LastUsedDate      *time.Time
-	LastUsedDateMilli int64  `parquet:"name=last_used_date, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	Region            string `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	LastUsedDateMilli int64  `parquet:"name=last_used_date_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type TagInstanceProfileModel struct {

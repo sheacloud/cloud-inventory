@@ -10,7 +10,7 @@ require (
 	github.com/jinzhu/copier v0.3.2
 	github.com/sirupsen/logrus v1.8.1
 	github.com/xitongsys/parquet-go v1.6.0
-	github.com/xitongsys/parquet-go-source v0.0.0-20201108113611-f372b7d813be
+	github.com/xitongsys/parquet-go-source v0.0.0-20210926040251-45ca274c55d4
 )
 
 require (
@@ -32,6 +32,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.9.0
 	github.com/aws/aws-sdk-go-v2/service/sts v1.7.0
 	github.com/aws/smithy-go v1.8.0
+	github.com/davecgh/go-spew v1.1.1
 	github.com/fatih/structtag v1.2.0
 	github.com/google/uuid v1.3.0
 	github.com/hashicorp/hcl/v2 v2.10.1
@@ -44,6 +45,7 @@ require (
 	github.com/apache/thrift v0.15.0 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.5.0 // indirect
+	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.3.2 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.0.4 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.2.2 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.3.0 // indirect

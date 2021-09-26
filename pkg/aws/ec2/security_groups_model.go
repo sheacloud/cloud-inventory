@@ -32,24 +32,25 @@ type SecurityGroupModel struct {
 	Description         string                            `parquet:"name=description,type=BYTE_ARRAY,convertedtype=UTF8"`
 	GroupId             string                            `parquet:"name=group_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	GroupName           string                            `parquet:"name=group_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	IpPermissions       []*IpPermissionSecurityGroupModel `parquet:"name=ip_permissions,type=LIST"`
-	IpPermissionsEgress []*IpPermissionSecurityGroupModel `parquet:"name=ip_permissions_egress,type=LIST"`
+	IpPermissions       []*IpPermissionSecurityGroupModel `parquet:"name=ip_permissions,type=MAP,convertedtype=LIST"`
+	IpPermissionsEgress []*IpPermissionSecurityGroupModel `parquet:"name=ip_permissions_egress,type=MAP,convertedtype=LIST"`
 	OwnerId             string                            `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tags                map[string]string                 `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	VpcId               string                            `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId           string                            `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region              string                            `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime          int64                             `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	TagsOld             []*TagSecurityGroupModel
+	VpcId               string            `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Tags                map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId           string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region              string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime          int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type IpPermissionSecurityGroupModel struct {
 	FromPort         int32                                `parquet:"name=from_port,type=INT32"`
 	IpProtocol       string                               `parquet:"name=ip_protocol,type=BYTE_ARRAY,convertedtype=UTF8"`
-	IpRanges         []*IpRangeSecurityGroupModel         `parquet:"name=ip_ranges,type=LIST"`
-	Ipv6Ranges       []*Ipv6RangeSecurityGroupModel       `parquet:"name=ipv6_ranges,type=LIST"`
-	PrefixListIds    []*PrefixListIdSecurityGroupModel    `parquet:"name=prefix_list_ids,type=LIST"`
+	IpRanges         []*IpRangeSecurityGroupModel         `parquet:"name=ip_ranges,type=MAP,convertedtype=LIST"`
+	Ipv6Ranges       []*Ipv6RangeSecurityGroupModel       `parquet:"name=ipv6_ranges,type=MAP,convertedtype=LIST"`
+	PrefixListIds    []*PrefixListIdSecurityGroupModel    `parquet:"name=prefix_list_ids,type=MAP,convertedtype=LIST"`
 	ToPort           int32                                `parquet:"name=to_port,type=INT32"`
-	UserIdGroupPairs []*UserIdGroupPairSecurityGroupModel `parquet:"name=user_id_group_pairs,type=LIST"`
+	UserIdGroupPairs []*UserIdGroupPairSecurityGroupModel `parquet:"name=user_id_group_pairs,type=MAP,convertedtype=LIST"`
 }
 
 type IpRangeSecurityGroupModel struct {
@@ -69,7 +70,7 @@ type PrefixListIdSecurityGroupModel struct {
 
 type UserIdGroupPairSecurityGroupModel struct {
 	Description            string `parquet:"name=description,type=BYTE_ARRAY,convertedtype=UTF8"`
-	GroupId                string `parquet:"name=group_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	GroupId                string `parquet:"name=group_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	GroupName              string `parquet:"name=group_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	PeeringStatus          string `parquet:"name=peering_status,type=BYTE_ARRAY,convertedtype=UTF8"`
 	UserId                 string `parquet:"name=user_id,type=BYTE_ARRAY,convertedtype=UTF8"`

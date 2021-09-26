@@ -37,7 +37,7 @@ resource "aws_glue_catalog_table" "ec2_instances" {
     }
     columns {
       name    = "block_device_mappings"
-      type    = "array<struct<device_name:string,ebs:struct<attach_time:timestamp,delete_on_termination:boolean,status:string,volume_id:string>>>"
+      type    = "array<struct<device_name:string,ebs:struct<delete_on_termination:boolean,status:string,volume_id:string,attach_time_milli:timestamp>>>"
       comment = ""
     }
     columns {
@@ -77,7 +77,7 @@ resource "aws_glue_catalog_table" "ec2_instances" {
     }
     columns {
       name    = "elastic_inference_accelerator_associations"
-      type    = "array<struct<elastic_inference_accelerator_arn:string,elastic_inference_accelerator_association_id:string,elastic_inference_accelerator_association_state:string,elastic_inference_accelerator_association_time:timestamp>>"
+      type    = "array<struct<elastic_inference_accelerator_arn:string,elastic_inference_accelerator_association_id:string,elastic_inference_accelerator_association_state:string,elastic_inference_accelerator_association_time_milli:timestamp>>"
       comment = ""
     }
     columns {
@@ -136,11 +136,6 @@ resource "aws_glue_catalog_table" "ec2_instances" {
       comment = ""
     }
     columns {
-      name    = "launch_time"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "licenses"
       type    = "array<struct<license_configuration_arn:string>>"
       comment = ""
@@ -157,7 +152,7 @@ resource "aws_glue_catalog_table" "ec2_instances" {
     }
     columns {
       name    = "network_interfaces"
-      type    = "array<struct<association:struct<carrier_ip:string,ip_owner_id:string,public_dns_name:string,public_ip:string>,attachment:struct<attach_time:timestamp,attachment_id:string,delete_on_termination:boolean,device_index:int,network_card_index:int,status:string>,description:string,groups:array<struct<group_id:string,group_name:string>>,interface_type:string,ipv4_prefixes:array<struct<ipv4_prefix:string>>,ipv6_addresses:array<struct<ipv6_address:string>>,ipv6_prefixes:array<struct<ipv6_prefix:string>>,mac_address:string,network_interface_id:string,owner_id:string,private_dns_name:string,private_ip_address:string,private_ip_addresses:array<struct<association:struct<carrier_ip:string,ip_owner_id:string,public_dns_name:string,public_ip:string>,primary:boolean,private_dns_name:string,private_ip_address:string>>,source_dest_check:boolean,status:string,subnet_id:string,vpc_id:string>>"
+      type    = "array<struct<association:struct<carrier_ip:string,ip_owner_id:string,public_dns_name:string,public_ip:string>,attachment:struct<attachment_id:string,delete_on_termination:boolean,device_index:int,network_card_index:int,status:string,attach_time_milli:timestamp>,description:string,groups:array<struct<group_id:string,group_name:string>>,interface_type:string,ipv4_prefixes:array<struct<ipv4_prefix:string>>,ipv6_addresses:array<struct<ipv6_address:string>>,ipv6_prefixes:array<struct<ipv6_prefix:string>>,mac_address:string,network_interface_id:string,owner_id:string,private_dns_name:string,private_ip_address:string,private_ip_addresses:array<struct<association:struct<carrier_ip:string,ip_owner_id:string,public_dns_name:string,public_ip:string>,primary:boolean,private_dns_name:string,private_ip_address:string>>,source_dest_check:boolean,status:string,subnet_id:string,vpc_id:string>>"
       comment = ""
     }
     columns {
@@ -256,11 +251,6 @@ resource "aws_glue_catalog_table" "ec2_instances" {
       comment = ""
     }
     columns {
-      name    = "tags"
-      type    = "map<string,string>"
-      comment = ""
-    }
-    columns {
       name    = "virtualization_type"
       type    = "string"
       comment = ""
@@ -268,6 +258,16 @@ resource "aws_glue_catalog_table" "ec2_instances" {
     columns {
       name    = "vpc_id"
       type    = "string"
+      comment = ""
+    }
+    columns {
+      name    = "launch_time_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {

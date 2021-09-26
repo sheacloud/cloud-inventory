@@ -27,17 +27,12 @@ resource "aws_glue_catalog_table" "ec2_volumes" {
 
     columns {
       name    = "attachments"
-      type    = "array<struct<attach_time:timestamp,delete_on_termination:boolean,device:string,instance_id:string,state:string,volume_id:string>>"
+      type    = "array<struct<delete_on_termination:boolean,device:string,instance_id:string,state:string,volume_id:string,attach_time_milli:timestamp>>"
       comment = ""
     }
     columns {
       name    = "availability_zone"
       type    = "string"
-      comment = ""
-    }
-    columns {
-      name    = "create_time"
-      type    = "timestamp"
       comment = ""
     }
     columns {
@@ -86,11 +81,6 @@ resource "aws_glue_catalog_table" "ec2_volumes" {
       comment = ""
     }
     columns {
-      name    = "tags"
-      type    = "map<string,string>"
-      comment = ""
-    }
-    columns {
       name    = "throughput"
       type    = "int"
       comment = ""
@@ -103,6 +93,16 @@ resource "aws_glue_catalog_table" "ec2_volumes" {
     columns {
       name    = "volume_type"
       type    = "string"
+      comment = ""
+    }
+    columns {
+      name    = "create_time_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {

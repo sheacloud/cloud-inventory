@@ -31,20 +31,21 @@ func init() {
 type VpcPeeringConnectionModel struct {
 	AccepterVpcInfo        *VpcPeeringConnectionVpcInfoVpcPeeringConnectionModel `parquet:"name=accepter_vpc_info"`
 	ExpirationTime         *time.Time
-	ExpirationTimeMilli    int64                                                     `parquet:"name=expiration_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	RequesterVpcInfo       *VpcPeeringConnectionVpcInfoVpcPeeringConnectionModel     `parquet:"name=requester_vpc_info"`
 	Status                 *VpcPeeringConnectionStateReasonVpcPeeringConnectionModel `parquet:"name=status"`
-	Tags                   map[string]string                                         `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	VpcPeeringConnectionId string                                                    `parquet:"name=vpc_peering_connection_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	AccountId              string                                                    `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region                 string                                                    `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime             int64                                                     `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	TagsOld                []*TagVpcPeeringConnectionModel
+	VpcPeeringConnectionId string            `parquet:"name=vpc_peering_connection_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
+	ExpirationTimeMilli    int64             `parquet:"name=expiration_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	Tags                   map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId              string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region                 string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime             int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type VpcPeeringConnectionVpcInfoVpcPeeringConnectionModel struct {
 	CidrBlock        string                                                           `parquet:"name=cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CidrBlockSet     []*CidrBlockVpcPeeringConnectionModel                            `parquet:"name=cidr_block_set,type=LIST"`
-	Ipv6CidrBlockSet []*Ipv6CidrBlockVpcPeeringConnectionModel                        `parquet:"name=ipv6_cidr_block_set,type=LIST"`
+	CidrBlockSet     []*CidrBlockVpcPeeringConnectionModel                            `parquet:"name=cidr_block_set,type=MAP,convertedtype=LIST"`
+	Ipv6CidrBlockSet []*Ipv6CidrBlockVpcPeeringConnectionModel                        `parquet:"name=ipv6_cidr_block_set,type=MAP,convertedtype=LIST"`
 	OwnerId          string                                                           `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	PeeringOptions   *VpcPeeringConnectionOptionsDescriptionVpcPeeringConnectionModel `parquet:"name=peering_options"`
 	Region           string                                                           `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`

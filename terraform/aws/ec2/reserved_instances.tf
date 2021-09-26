@@ -41,11 +41,6 @@ resource "aws_glue_catalog_table" "ec2_reserved_instances" {
       comment = ""
     }
     columns {
-      name    = "end"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "fixed_price"
       type    = "float"
       comment = ""
@@ -96,23 +91,28 @@ resource "aws_glue_catalog_table" "ec2_reserved_instances" {
       comment = ""
     }
     columns {
-      name    = "start"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "state"
       type    = "string"
       comment = ""
     }
     columns {
-      name    = "tags"
-      type    = "map<string,string>"
+      name    = "usage_price"
+      type    = "float"
       comment = ""
     }
     columns {
-      name    = "usage_price"
-      type    = "float"
+      name    = "end_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "start_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {

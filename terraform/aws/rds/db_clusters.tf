@@ -56,11 +56,6 @@ resource "aws_glue_catalog_table" "rds_db_clusters" {
       comment = ""
     }
     columns {
-      name    = "automatic_restart_time"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "availability_zones"
       type    = "array<string>"
       comment = ""
@@ -93,11 +88,6 @@ resource "aws_glue_catalog_table" "rds_db_clusters" {
     columns {
       name    = "clone_group_id"
       type    = "string"
-      comment = ""
-    }
-    columns {
-      name    = "cluster_create_time"
-      type    = "timestamp"
       comment = ""
     }
     columns {
@@ -166,16 +156,6 @@ resource "aws_glue_catalog_table" "rds_db_clusters" {
       comment = ""
     }
     columns {
-      name    = "earliest_backtrack_time"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
-      name    = "earliest_restorable_time"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "enabled_cloudwatch_logs_exports"
       type    = "array<string>"
       comment = ""
@@ -228,11 +208,6 @@ resource "aws_glue_catalog_table" "rds_db_clusters" {
     columns {
       name    = "kms_key_id"
       type    = "string"
-      comment = ""
-    }
-    columns {
-      name    = "latest_restorable_time"
-      type    = "timestamp"
       comment = ""
     }
     columns {
@@ -301,13 +276,38 @@ resource "aws_glue_catalog_table" "rds_db_clusters" {
       comment = ""
     }
     columns {
-      name    = "tags"
-      type    = "map<string,string>"
+      name    = "vpc_security_groups"
+      type    = "array<struct<status:string,vpc_security_group_id:string>>"
       comment = ""
     }
     columns {
-      name    = "vpc_security_groups"
-      type    = "array<struct<status:string,vpc_security_group_id:string>>"
+      name    = "automatic_restart_time_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "cluster_create_time_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "earliest_backtrack_time_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "earliest_restorable_time_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "latest_restorable_time_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {

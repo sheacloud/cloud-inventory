@@ -66,13 +66,13 @@ resource "aws_glue_catalog_table" "ec2_managed_prefix_lists" {
       comment = ""
     }
     columns {
-      name    = "tags"
-      type    = "map<string,string>"
+      name    = "version"
+      type    = "bigint"
       comment = ""
     }
     columns {
-      name    = "version"
-      type    = "bigint"
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {

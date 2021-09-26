@@ -46,11 +46,11 @@ type TargetGroupModel struct {
 	TargetType                 string                                     `parquet:"name=target_type,type=BYTE_ARRAY,convertedtype=UTF8"`
 	UnhealthyThresholdCount    int32                                      `parquet:"name=unhealthy_threshold_count,type=INT32"`
 	VpcId                      string                                     `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId                  string                                     `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region                     string                                     `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime                 int64                                      `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
-	Targets                    []*TargetHealthDescriptionTargetGroupModel `parquet:"name=targets,type=LIST"`
+	AccountId                  string                                     `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region                     string                                     `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime                 int64                                      `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 	Tags                       map[string]string                          `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	Targets                    []*TargetHealthDescriptionTargetGroupModel `parquet:"name=targets,type=MAP,convertedtype=LIST"`
 }
 
 type MatcherTargetGroupModel struct {

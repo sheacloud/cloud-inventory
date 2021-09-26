@@ -35,10 +35,9 @@ type DBInstanceModel struct {
 	ActivityStreamMode                            string                           `parquet:"name=activity_stream_mode,type=BYTE_ARRAY,convertedtype=UTF8"`
 	ActivityStreamStatus                          string                           `parquet:"name=activity_stream_status,type=BYTE_ARRAY,convertedtype=UTF8"`
 	AllocatedStorage                              int32                            `parquet:"name=allocated_storage,type=INT32"`
-	AssociatedRoles                               []*DBInstanceRoleDBInstanceModel `parquet:"name=associated_roles,type=LIST"`
+	AssociatedRoles                               []*DBInstanceRoleDBInstanceModel `parquet:"name=associated_roles,type=MAP,convertedtype=LIST"`
 	AutoMinorVersionUpgrade                       bool                             `parquet:"name=auto_minor_version_upgrade,type=BOOLEAN"`
 	AutomaticRestartTime                          *time.Time
-	AutomaticRestartTimeMilli                     int64                                                   `parquet:"name=automatic_restart_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	AvailabilityZone                              string                                                  `parquet:"name=availability_zone,type=BYTE_ARRAY,convertedtype=UTF8"`
 	AwsBackupRecoveryPointArn                     string                                                  `parquet:"name=aws_backup_recovery_point_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
 	BackupRetentionPeriod                         int32                                                   `parquet:"name=backup_retention_period,type=INT32"`
@@ -48,18 +47,18 @@ type DBInstanceModel struct {
 	CustomerOwnedIpEnabled                        bool                                                    `parquet:"name=customer_owned_ip_enabled,type=BOOLEAN"`
 	DBClusterIdentifier                           string                                                  `parquet:"name=db_cluster_identifier,type=BYTE_ARRAY,convertedtype=UTF8"`
 	DBInstanceArn                                 string                                                  `parquet:"name=db_instance_arn,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	DBInstanceAutomatedBackupsReplications        []*DBInstanceAutomatedBackupsReplicationDBInstanceModel `parquet:"name=db_instance_automated_backups_replications,type=LIST"`
+	DBInstanceAutomatedBackupsReplications        []*DBInstanceAutomatedBackupsReplicationDBInstanceModel `parquet:"name=db_instance_automated_backups_replications,type=MAP,convertedtype=LIST"`
 	DBInstanceClass                               string                                                  `parquet:"name=db_instance_class,type=BYTE_ARRAY,convertedtype=UTF8"`
 	DBInstanceIdentifier                          string                                                  `parquet:"name=db_instance_identifier,type=BYTE_ARRAY,convertedtype=UTF8"`
 	DBInstanceStatus                              string                                                  `parquet:"name=db_instance_status,type=BYTE_ARRAY,convertedtype=UTF8"`
 	DBName                                        string                                                  `parquet:"name=db_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	DBParameterGroups                             []*DBParameterGroupStatusDBInstanceModel                `parquet:"name=db_parameter_groups,type=LIST"`
-	DBSecurityGroups                              []*DBSecurityGroupMembershipDBInstanceModel             `parquet:"name=db_security_groups,type=LIST"`
+	DBParameterGroups                             []*DBParameterGroupStatusDBInstanceModel                `parquet:"name=db_parameter_groups,type=MAP,convertedtype=LIST"`
+	DBSecurityGroups                              []*DBSecurityGroupMembershipDBInstanceModel             `parquet:"name=db_security_groups,type=MAP,convertedtype=LIST"`
 	DBSubnetGroup                                 *DBSubnetGroupDBInstanceModel                           `parquet:"name=db_subnet_group"`
 	DbInstancePort                                int32                                                   `parquet:"name=db_instance_port,type=INT32"`
 	DbiResourceId                                 string                                                  `parquet:"name=dbi_resource_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	DeletionProtection                            bool                                                    `parquet:"name=deletion_protection,type=BOOLEAN"`
-	DomainMemberships                             []*DomainMembershipDBInstanceModel                      `parquet:"name=domain_memberships,type=LIST"`
+	DomainMemberships                             []*DomainMembershipDBInstanceModel                      `parquet:"name=domain_memberships,type=MAP,convertedtype=LIST"`
 	EnabledCloudwatchLogsExports                  []string                                                `parquet:"name=enabled_cloudwatch_logs_exports,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
 	Endpoint                                      *EndpointDBInstanceModel                                `parquet:"name=endpoint"`
 	Engine                                        string                                                  `parquet:"name=engine,type=BYTE_ARRAY,convertedtype=UTF8"`
@@ -67,44 +66,46 @@ type DBInstanceModel struct {
 	EnhancedMonitoringResourceArn                 string                                                  `parquet:"name=enhanced_monitoring_resource_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
 	IAMDatabaseAuthenticationEnabled              bool                                                    `parquet:"name=iam_database_authentication_enabled,type=BOOLEAN"`
 	InstanceCreateTime                            *time.Time
-	InstanceCreateTimeMilli                       int64  `parquet:"name=instance_create_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
 	Iops                                          int32  `parquet:"name=iops,type=INT32"`
 	KmsKeyId                                      string `parquet:"name=kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	LatestRestorableTime                          *time.Time
-	LatestRestorableTimeMilli                     int64                                        `parquet:"name=latest_restorable_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
-	LicenseModel                                  string                                       `parquet:"name=license_model,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ListenerEndpoint                              *EndpointDBInstanceModel                     `parquet:"name=listener_endpoint"`
-	MasterUsername                                string                                       `parquet:"name=master_username,type=BYTE_ARRAY,convertedtype=UTF8"`
-	MaxAllocatedStorage                           int32                                        `parquet:"name=max_allocated_storage,type=INT32"`
-	MonitoringInterval                            int32                                        `parquet:"name=monitoring_interval,type=INT32"`
-	MonitoringRoleArn                             string                                       `parquet:"name=monitoring_role_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-	MultiAZ                                       bool                                         `parquet:"name=multi_az,type=BOOLEAN"`
-	NcharCharacterSetName                         string                                       `parquet:"name=nchar_character_set_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	OptionGroupMemberships                        []*OptionGroupMembershipDBInstanceModel      `parquet:"name=option_group_memberships,type=LIST"`
-	PendingModifiedValues                         *PendingModifiedValuesDBInstanceModel        `parquet:"name=pending_modified_values"`
-	PerformanceInsightsEnabled                    bool                                         `parquet:"name=performance_insights_enabled,type=BOOLEAN"`
-	PerformanceInsightsKMSKeyId                   string                                       `parquet:"name=performance_insights_kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PerformanceInsightsRetentionPeriod            int32                                        `parquet:"name=performance_insights_retention_period,type=INT32"`
-	PreferredBackupWindow                         string                                       `parquet:"name=preferred_backup_window,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PreferredMaintenanceWindow                    string                                       `parquet:"name=preferred_maintenance_window,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ProcessorFeatures                             []*ProcessorFeatureDBInstanceModel           `parquet:"name=processor_features,type=LIST"`
-	PromotionTier                                 int32                                        `parquet:"name=promotion_tier,type=INT32"`
-	PubliclyAccessible                            bool                                         `parquet:"name=publicly_accessible,type=BOOLEAN"`
-	ReadReplicaDBClusterIdentifiers               []string                                     `parquet:"name=read_replica_db_cluster_identifiers,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	ReadReplicaDBInstanceIdentifiers              []string                                     `parquet:"name=read_replica_db_instance_identifiers,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	ReadReplicaSourceDBInstanceIdentifier         string                                       `parquet:"name=read_replica_source_db_instance_identifier,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ReplicaMode                                   string                                       `parquet:"name=replica_mode,type=BYTE_ARRAY,convertedtype=UTF8"`
-	SecondaryAvailabilityZone                     string                                       `parquet:"name=secondary_availability_zone,type=BYTE_ARRAY,convertedtype=UTF8"`
-	StatusInfos                                   []*DBInstanceStatusInfoDBInstanceModel       `parquet:"name=status_infos,type=LIST"`
-	StorageEncrypted                              bool                                         `parquet:"name=storage_encrypted,type=BOOLEAN"`
-	StorageType                                   string                                       `parquet:"name=storage_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tags                                          map[string]string                            `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	LicenseModel                                  string                                  `parquet:"name=license_model,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ListenerEndpoint                              *EndpointDBInstanceModel                `parquet:"name=listener_endpoint"`
+	MasterUsername                                string                                  `parquet:"name=master_username,type=BYTE_ARRAY,convertedtype=UTF8"`
+	MaxAllocatedStorage                           int32                                   `parquet:"name=max_allocated_storage,type=INT32"`
+	MonitoringInterval                            int32                                   `parquet:"name=monitoring_interval,type=INT32"`
+	MonitoringRoleArn                             string                                  `parquet:"name=monitoring_role_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+	MultiAZ                                       bool                                    `parquet:"name=multi_az,type=BOOLEAN"`
+	NcharCharacterSetName                         string                                  `parquet:"name=nchar_character_set_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	OptionGroupMemberships                        []*OptionGroupMembershipDBInstanceModel `parquet:"name=option_group_memberships,type=MAP,convertedtype=LIST"`
+	PendingModifiedValues                         *PendingModifiedValuesDBInstanceModel   `parquet:"name=pending_modified_values"`
+	PerformanceInsightsEnabled                    bool                                    `parquet:"name=performance_insights_enabled,type=BOOLEAN"`
+	PerformanceInsightsKMSKeyId                   string                                  `parquet:"name=performance_insights_kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PerformanceInsightsRetentionPeriod            int32                                   `parquet:"name=performance_insights_retention_period,type=INT32"`
+	PreferredBackupWindow                         string                                  `parquet:"name=preferred_backup_window,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PreferredMaintenanceWindow                    string                                  `parquet:"name=preferred_maintenance_window,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ProcessorFeatures                             []*ProcessorFeatureDBInstanceModel      `parquet:"name=processor_features,type=MAP,convertedtype=LIST"`
+	PromotionTier                                 int32                                   `parquet:"name=promotion_tier,type=INT32"`
+	PubliclyAccessible                            bool                                    `parquet:"name=publicly_accessible,type=BOOLEAN"`
+	ReadReplicaDBClusterIdentifiers               []string                                `parquet:"name=read_replica_db_cluster_identifiers,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
+	ReadReplicaDBInstanceIdentifiers              []string                                `parquet:"name=read_replica_db_instance_identifiers,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
+	ReadReplicaSourceDBInstanceIdentifier         string                                  `parquet:"name=read_replica_source_db_instance_identifier,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReplicaMode                                   string                                  `parquet:"name=replica_mode,type=BYTE_ARRAY,convertedtype=UTF8"`
+	SecondaryAvailabilityZone                     string                                  `parquet:"name=secondary_availability_zone,type=BYTE_ARRAY,convertedtype=UTF8"`
+	StatusInfos                                   []*DBInstanceStatusInfoDBInstanceModel  `parquet:"name=status_infos,type=MAP,convertedtype=LIST"`
+	StorageEncrypted                              bool                                    `parquet:"name=storage_encrypted,type=BOOLEAN"`
+	StorageType                                   string                                  `parquet:"name=storage_type,type=BYTE_ARRAY,convertedtype=UTF8"`
+	TagList                                       []*TagDBInstanceModel
 	TdeCredentialArn                              string                                       `parquet:"name=tde_credential_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
 	Timezone                                      string                                       `parquet:"name=timezone,type=BYTE_ARRAY,convertedtype=UTF8"`
-	VpcSecurityGroups                             []*VpcSecurityGroupMembershipDBInstanceModel `parquet:"name=vpc_security_groups,type=LIST"`
-	AccountId                                     string                                       `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region                                        string                                       `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime                                    int64                                        `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	VpcSecurityGroups                             []*VpcSecurityGroupMembershipDBInstanceModel `parquet:"name=vpc_security_groups,type=MAP,convertedtype=LIST"`
+	AutomaticRestartTimeMilli                     int64                                        `parquet:"name=automatic_restart_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	InstanceCreateTimeMilli                       int64                                        `parquet:"name=instance_create_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	LatestRestorableTimeMilli                     int64                                        `parquet:"name=latest_restorable_time_milli,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	Tags                                          map[string]string                            `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId                                     string                                       `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region                                        string                                       `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime                                    int64                                        `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type DBInstanceRoleDBInstanceModel struct {
@@ -132,7 +133,7 @@ type DBSubnetGroupDBInstanceModel struct {
 	DBSubnetGroupDescription string                   `parquet:"name=db_subnet_group_description,type=BYTE_ARRAY,convertedtype=UTF8"`
 	DBSubnetGroupName        string                   `parquet:"name=db_subnet_group_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	SubnetGroupStatus        string                   `parquet:"name=subnet_group_status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Subnets                  []*SubnetDBInstanceModel `parquet:"name=subnets,type=LIST"`
+	Subnets                  []*SubnetDBInstanceModel `parquet:"name=subnets,type=MAP,convertedtype=LIST"`
 	VpcId                    string                   `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 
@@ -184,7 +185,7 @@ type PendingModifiedValuesDBInstanceModel struct {
 	MultiAZ                          bool                                         `parquet:"name=multi_az,type=BOOLEAN"`
 	PendingCloudwatchLogsExports     *PendingCloudwatchLogsExportsDBInstanceModel `parquet:"name=pending_cloudwatch_logs_exports"`
 	Port                             int32                                        `parquet:"name=port,type=INT32"`
-	ProcessorFeatures                []*ProcessorFeatureDBInstanceModel           `parquet:"name=processor_features,type=LIST"`
+	ProcessorFeatures                []*ProcessorFeatureDBInstanceModel           `parquet:"name=processor_features,type=MAP,convertedtype=LIST"`
 	StorageType                      string                                       `parquet:"name=storage_type,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
 

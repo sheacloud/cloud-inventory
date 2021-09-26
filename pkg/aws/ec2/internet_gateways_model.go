@@ -29,13 +29,14 @@ func init() {
 }
 
 type InternetGatewayModel struct {
-	Attachments       []*InternetGatewayAttachmentInternetGatewayModel `parquet:"name=attachments,type=LIST"`
+	Attachments       []*InternetGatewayAttachmentInternetGatewayModel `parquet:"name=attachments,type=MAP,convertedtype=LIST"`
 	InternetGatewayId string                                           `parquet:"name=internet_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	OwnerId           string                                           `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tags              map[string]string                                `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	AccountId         string                                           `parquet:"name=account_id, type=BYTE_ARRAY, convertedtype=UTF8"`
-	Region            string                                           `parquet:"name=region, type=BYTE_ARRAY, convertedtype=UTF8"`
-	ReportTime        int64                                            `parquet:"name=report_time, type=INT64, convertedtype=TIMESTAMP_MILLIS"`
+	TagsOld           []*TagInternetGatewayModel
+	Tags              map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccountId         string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region            string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime        int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
 
 type InternetGatewayAttachmentInternetGatewayModel struct {

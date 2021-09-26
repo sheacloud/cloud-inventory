@@ -31,11 +31,6 @@ resource "aws_glue_catalog_table" "ec2_transit_gateway_peering_attachments" {
       comment = ""
     }
     columns {
-      name    = "creation_time"
-      type    = "timestamp"
-      comment = ""
-    }
-    columns {
       name    = "requester_tgw_info"
       type    = "struct<owner_id:string,region:string,transit_gateway_id:string>"
       comment = ""
@@ -51,13 +46,18 @@ resource "aws_glue_catalog_table" "ec2_transit_gateway_peering_attachments" {
       comment = ""
     }
     columns {
-      name    = "tags"
-      type    = "map<string,string>"
+      name    = "transit_gateway_attachment_id"
+      type    = "string"
       comment = ""
     }
     columns {
-      name    = "transit_gateway_attachment_id"
-      type    = "string"
+      name    = "creation_time_milli"
+      type    = "timestamp"
+      comment = ""
+    }
+    columns {
+      name    = "tags"
+      type    = "map<string,string>"
       comment = ""
     }
     columns {
