@@ -23,5 +23,5 @@ func main() {
 	accountIDs := []string{"306526781466", "166953723888", "055185845477", "023611290521", "261108431719", "536809099843"}
 	regions := []string{"us-east-1", "us-west-2"}
 
-	inventory.FetchAwsInventory(context.TODO(), accountIDs, regions, cfg, "gitlab-automation-role", time.Now(), fileManager, 4)
+	inventory.FetchAwsInventory(context.TODO(), accountIDs, regions, cfg, "gitlab-automation-role", time.Now(), fileManager, 32)
 }

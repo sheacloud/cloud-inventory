@@ -2,12 +2,11 @@ package ec2
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud"
 )
 
-func PostProcessVolume(ctx context.Context, params *awscloud.AwsFetchInput, model *VolumeModel) error {
+func PostProcessVolume(ctx context.Context, params *awscloud.AwsFetchInput, model *Volume) error {
 	if model.CreateTime != nil {
 		model.CreateTimeMilli = model.CreateTime.UTC().UnixMilli()
 	}
@@ -18,5 +17,5 @@ func PostProcessVolume(ctx context.Context, params *awscloud.AwsFetchInput, mode
 		}
 	}
 
-	return fmt.Errorf("test")
+	return nil
 }

@@ -22,6 +22,16 @@ type AwsFetchJob struct {
 	Function           func(context.Context, *awscloud.AwsFetchInput) *awscloud.AwsFetchOutput
 }
 
+func stringInList(s string, list []string) bool {
+	for _, v := range list {
+		if v == s {
+			return true
+		}
+	}
+
+	return false
+}
+
 func ProcessAwsFetchJobs(ctx context.Context, jobs <-chan AwsFetchJob, results chan<- *awscloud.AwsFetchOutput, waitGroup *sync.WaitGroup) {
 	for job := range jobs {
 		output := job.Function(ctx, job.Input)
@@ -92,6 +102,12 @@ func FetchAwsInventory(ctx context.Context, accountIds []string, regions []strin
 
 			for _, accountId := range accountIds {
 				for _, region := range regions {
+					// skip if there are region overrides in place
+					if len(service.RegionOverrides) != 0 {
+						if !stringInList(region, service.RegionOverrides) {
+							continue
+						}
+					}
 					indexFileWaitGroups[fileIndex].Add(1)
 					input := &awscloud.AwsFetchInput{
 						AccountId:       accountId,
