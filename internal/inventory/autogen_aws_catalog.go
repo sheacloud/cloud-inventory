@@ -10,6 +10,10 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/ec2"
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/ecs"
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/efs"
+	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/elasticache"
+	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/elasticloadbalancing"
+	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/elasticloadbalancingv2"
+	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/iam"
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/s3"
 )
 
@@ -208,6 +212,74 @@ var (
 					ResourceName: "filesystems",
 					ResourceModel: &efs.FileSystemDescription{},
 					FetchFunction: efs.FetchFileSystemDescription,
+				},
+
+			},
+		},
+		{
+			ServiceName: "elasticache",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName: "cache_clusters",
+					ResourceModel: &elasticache.CacheCluster{},
+					FetchFunction: elasticache.FetchCacheCluster,
+				},
+
+			},
+		},
+		{
+			ServiceName: "elasticloadbalancing",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName: "load_balancers",
+					ResourceModel: &elasticloadbalancing.LoadBalancerDescription{},
+					FetchFunction: elasticloadbalancing.FetchLoadBalancerDescription,
+				},
+
+			},
+		},
+		{
+			ServiceName: "elasticloadbalancingv2",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName: "load_balancers",
+					ResourceModel: &elasticloadbalancingv2.LoadBalancer{},
+					FetchFunction: elasticloadbalancingv2.FetchLoadBalancer,
+				},
+				{
+					ResourceName: "target_groups",
+					ResourceModel: &elasticloadbalancingv2.TargetGroup{},
+					FetchFunction: elasticloadbalancingv2.FetchTargetGroup,
+				},
+
+			},
+		},
+		{
+			ServiceName: "iam",
+			RegionOverrides: []string{"us-east-1"},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName: "groups",
+					ResourceModel: &iam.Group{},
+					FetchFunction: iam.FetchGroup,
+				},
+				{
+					ResourceName: "policies",
+					ResourceModel: &iam.Policy{},
+					FetchFunction: iam.FetchPolicy,
+				},
+				{
+					ResourceName: "roles",
+					ResourceModel: &iam.Role{},
+					FetchFunction: iam.FetchRole,
+				},
+				{
+					ResourceName: "users",
+					ResourceModel: &iam.User{},
+					FetchFunction: iam.FetchUser,
 				},
 
 			},

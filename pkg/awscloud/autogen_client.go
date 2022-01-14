@@ -8,6 +8,10 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/aws/aws-sdk-go-v2/service/ecs"
 	"github.com/aws/aws-sdk-go-v2/service/efs"
+	"github.com/aws/aws-sdk-go-v2/service/elasticache"
+	"github.com/aws/aws-sdk-go-v2/service/elasticloadbalancing"
+	"github.com/aws/aws-sdk-go-v2/service/elasticloadbalancingv2"
+	"github.com/aws/aws-sdk-go-v2/service/iam"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud/interfaces"
@@ -19,6 +23,10 @@ type AwsClient struct {
 	ec2Client *ec2.Client
 	ecsClient *ecs.Client
 	efsClient *efs.Client
+	elasticacheClient *elasticache.Client
+	elasticloadbalancingClient *elasticloadbalancing.Client
+	elasticloadbalancingv2Client *elasticloadbalancingv2.Client
+	iamClient *iam.Client
 	s3Client *s3.Client
 }
 
@@ -29,6 +37,10 @@ func NewAwsClient(cfg aws.Config) *AwsClient {
 		ec2Client: ec2.NewFromConfig(cfg),
 		ecsClient: ecs.NewFromConfig(cfg),
 		efsClient: efs.NewFromConfig(cfg),
+		elasticacheClient: elasticache.NewFromConfig(cfg),
+		elasticloadbalancingClient: elasticloadbalancing.NewFromConfig(cfg),
+		elasticloadbalancingv2Client: elasticloadbalancingv2.NewFromConfig(cfg),
+		iamClient: iam.NewFromConfig(cfg),
 		s3Client: s3.NewFromConfig(cfg),
 	}
 }
@@ -47,6 +59,18 @@ func (c *AwsClient) ECS() interfaces.ECSClient {
 }
 func (c *AwsClient) EFS() interfaces.EFSClient {
 	return c.efsClient
+}
+func (c *AwsClient) ElastiCache() interfaces.ElastiCacheClient {
+	return c.elasticacheClient
+}
+func (c *AwsClient) ElasticLoadBalancing() interfaces.ElasticLoadBalancingClient {
+	return c.elasticloadbalancingClient
+}
+func (c *AwsClient) ElasticLoadBalancingV2() interfaces.ElasticLoadBalancingV2Client {
+	return c.elasticloadbalancingv2Client
+}
+func (c *AwsClient) IAM() interfaces.IAMClient {
+	return c.iamClient
 }
 func (c *AwsClient) S3() interfaces.S3Client {
 	return c.s3Client

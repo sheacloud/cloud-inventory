@@ -43,6 +43,22 @@
 ## EFS
  - filesystems
 
+## ElastiCache
+ - cache_clusters
+
+## ElasticLoadBalancing
+ - load_balancers
+
+## ElasticLoadBalancingV2
+ - load_balancers
+ - target_groups
+
+## IAM
+ - groups
+ - policies
+ - roles
+ - users
+
 ## S3
  - buckets
 

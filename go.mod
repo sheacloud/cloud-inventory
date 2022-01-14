@@ -9,6 +9,10 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/athena v1.11.0
 	github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs v1.12.0
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.27.0
+	github.com/aws/aws-sdk-go-v2/service/elasticache v1.17.0
+	github.com/aws/aws-sdk-go-v2/service/elasticloadbalancing v1.11.0
+	github.com/aws/aws-sdk-go-v2/service/elasticloadbalancingv2 v1.15.0
+	github.com/aws/aws-sdk-go-v2/service/iam v1.15.0
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.15.1
 	github.com/aws/aws-sdk-go-v2/service/sts v1.7.0
 	github.com/aws/smithy-go v1.9.1

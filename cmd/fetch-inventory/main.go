@@ -90,5 +90,5 @@ func main() {
 	accountIDs := strings.Split(viper.GetString("aws_account_ids"), ",")
 	regions := strings.Split(viper.GetString("aws_regions"), ",")
 
-	inventory.FetchAwsInventory(context.TODO(), accountIDs, regions, cfg, viper.GetBool("aws_use_local_credentials"), viper.GetString("aws_assume_role_name"), time.Now(), fileManager, viper.GetInt("aws_processor_routines"))
+	inventory.FetchAwsInventory(context.TODO(), accountIDs, regions, cfg, viper.GetBool("aws_use_local_credentials"), viper.GetString("aws_assume_role_name"), time.Now().UTC(), fileManager, viper.GetInt("aws_processor_routines"))
 }

@@ -7,5 +7,9 @@ type AwsClient interface {
 	EC2() EC2Client
 	ECS() ECSClient
 	EFS() EFSClient
+	ElastiCache() ElastiCacheClient
+	ElasticLoadBalancing() ElasticLoadBalancingClient
+	ElasticLoadBalancingV2() ElasticLoadBalancingV2Client
+	IAM() IAMClient
 	S3() S3Client
 }
