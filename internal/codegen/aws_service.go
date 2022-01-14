@@ -268,6 +268,15 @@ func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) e
 	catalogCode := template.GetCatalogFileCode()
 	outputFile.WriteString(catalogCode)
 
+	// generate the implemented resources markdown
+	outputPath = "./IMPLEMENTED_RESOURCES.md"
+	outputFile, err = os.Create(outputPath)
+	if err != nil {
+		panic(err)
+	}
+	implementedResourcesCode := template.GetImplementedResourcesCode()
+	outputFile.WriteString(implementedResourcesCode)
+
 	return nil
 }
 

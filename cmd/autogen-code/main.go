@@ -10,17 +10,15 @@ import (
 	"github.com/sheacloud/cloud-inventory/internal/codegen"
 )
 
-var (
-	configDirName = flag.String("d", "", "the configuration directory")
-)
-
 func main() {
 	flag.Parse()
 
 	var config codegen.AwsTemplate
 
+	configDirName := "./codegen/awscloud/"
+
 	combinedHCL := bytes.NewBuffer([]byte{})
-	files, err := ioutil.ReadDir(*configDirName)
+	files, err := ioutil.ReadDir(configDirName)
 	if err != nil {
 		panic(err)
 	}
@@ -28,7 +26,7 @@ func main() {
 		if file.IsDir() {
 			continue
 		}
-		fileBytes, err := ioutil.ReadFile(filepath.Join(*configDirName, file.Name()))
+		fileBytes, err := ioutil.ReadFile(filepath.Join(configDirName, file.Name()))
 		if err != nil {
 			panic(err)
 		}
@@ -41,6 +39,8 @@ func main() {
 		panic(err)
 	}
 
-	codegen.GenerateAwsServiceCode(&config, "pkg/awscloud/")
-
+	err = codegen.GenerateAwsServiceCode(&config, "pkg/awscloud/")
+	if err != nil {
+		panic(err)
+	}
 }

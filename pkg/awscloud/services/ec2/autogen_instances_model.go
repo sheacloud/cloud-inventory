@@ -6,64 +6,65 @@ import (
 )
 
 type Instance struct {
-	AmiLaunchIndex                          int32                                     `parquet:"name=ami_launch_index,type=INT32"`
-	Architecture                            string                                    `parquet:"name=architecture,type=BYTE_ARRAY,convertedtype=UTF8"`
-	BlockDeviceMappings                     []*InstanceBlockDeviceMapping             `parquet:"name=block_device_mappings,type=MAP,convertedtype=LIST"`
-	BootMode                                string                                    `parquet:"name=boot_mode,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CapacityReservationId                   string                                    `parquet:"name=capacity_reservation_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CapacityReservationSpecification        *CapacityReservationSpecificationResponse `parquet:"name=capacity_reservation_specification"`
-	ClientToken                             string                                    `parquet:"name=client_token,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CpuOptions                              *CpuOptions                               `parquet:"name=cpu_options"`
-	EbsOptimized                            bool                                      `parquet:"name=ebs_optimized,type=BOOLEAN"`
-	ElasticGpuAssociations                  []*ElasticGpuAssociation                  `parquet:"name=elastic_gpu_associations,type=MAP,convertedtype=LIST"`
+	AmiLaunchIndex int32 `parquet:"name=ami_launch_index,type=INT32"`
+	Architecture string `parquet:"name=architecture,type=BYTE_ARRAY,convertedtype=UTF8"`
+	BlockDeviceMappings []*InstanceBlockDeviceMapping `parquet:"name=block_device_mappings,type=MAP,convertedtype=LIST"`
+	BootMode string `parquet:"name=boot_mode,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CapacityReservationId string `parquet:"name=capacity_reservation_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CapacityReservationSpecification *CapacityReservationSpecificationResponse `parquet:"name=capacity_reservation_specification"`
+	ClientToken string `parquet:"name=client_token,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CpuOptions *CpuOptions `parquet:"name=cpu_options"`
+	EbsOptimized bool `parquet:"name=ebs_optimized,type=BOOLEAN"`
+	ElasticGpuAssociations []*ElasticGpuAssociation `parquet:"name=elastic_gpu_associations,type=MAP,convertedtype=LIST"`
 	ElasticInferenceAcceleratorAssociations []*ElasticInferenceAcceleratorAssociation `parquet:"name=elastic_inference_accelerator_associations,type=MAP,convertedtype=LIST"`
-	EnaSupport                              bool                                      `parquet:"name=ena_support,type=BOOLEAN"`
-	EnclaveOptions                          *EnclaveOptions                           `parquet:"name=enclave_options"`
-	HibernationOptions                      *HibernationOptions                       `parquet:"name=hibernation_options"`
-	Hypervisor                              string                                    `parquet:"name=hypervisor,type=BYTE_ARRAY,convertedtype=UTF8"`
-	IamInstanceProfile                      *IamInstanceProfile                       `parquet:"name=iam_instance_profile"`
-	ImageId                                 string                                    `parquet:"name=image_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	InstanceId                              string                                    `parquet:"name=instance_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	InstanceLifecycle                       string                                    `parquet:"name=instance_lifecycle,type=BYTE_ARRAY,convertedtype=UTF8"`
-	InstanceType                            string                                    `parquet:"name=instance_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Ipv6Address                             string                                    `parquet:"name=ipv6_address,type=BYTE_ARRAY,convertedtype=UTF8"`
-	KernelId                                string                                    `parquet:"name=kernel_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	KeyName                                 string                                    `parquet:"name=key_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	LaunchTime                              *time.Time
-	Licenses                                []*LicenseConfiguration          `parquet:"name=licenses,type=MAP,convertedtype=LIST"`
-	MetadataOptions                         *InstanceMetadataOptionsResponse `parquet:"name=metadata_options"`
-	Monitoring                              *Monitoring                      `parquet:"name=monitoring"`
-	NetworkInterfaces                       []*InstanceNetworkInterface      `parquet:"name=network_interfaces,type=MAP,convertedtype=LIST"`
-	OutpostArn                              string                           `parquet:"name=outpost_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Placement                               *Placement                       `parquet:"name=placement"`
-	Platform                                string                           `parquet:"name=platform,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PlatformDetails                         string                           `parquet:"name=platform_details,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PrivateDnsName                          string                           `parquet:"name=private_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PrivateDnsNameOptions                   *PrivateDnsNameOptionsResponse   `parquet:"name=private_dns_name_options"`
-	PrivateIpAddress                        string                           `parquet:"name=private_ip_address,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ProductCodes                            []*ProductCode                   `parquet:"name=product_codes,type=MAP,convertedtype=LIST"`
-	PublicDnsName                           string                           `parquet:"name=public_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PublicIpAddress                         string                           `parquet:"name=public_ip_address,type=BYTE_ARRAY,convertedtype=UTF8"`
-	RamdiskId                               string                           `parquet:"name=ramdisk_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	RootDeviceName                          string                           `parquet:"name=root_device_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	RootDeviceType                          string                           `parquet:"name=root_device_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	SecurityGroups                          []*GroupIdentifier               `parquet:"name=security_groups,type=MAP,convertedtype=LIST"`
-	SourceDestCheck                         bool                             `parquet:"name=source_dest_check,type=BOOLEAN"`
-	SpotInstanceRequestId                   string                           `parquet:"name=spot_instance_request_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	SriovNetSupport                         string                           `parquet:"name=sriov_net_support,type=BYTE_ARRAY,convertedtype=UTF8"`
-	State                                   *InstanceState                   `parquet:"name=state"`
-	StateReason                             *StateReason                     `parquet:"name=state_reason"`
-	StateTransitionReason                   string                           `parquet:"name=state_transition_reason,type=BYTE_ARRAY,convertedtype=UTF8"`
-	SubnetId                                string                           `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TagsOld                                 []*Tag                           `parquet:"name=tags_old,type=MAP,convertedtype=LIST"`
-	UsageOperation                          string                           `parquet:"name=usage_operation,type=BYTE_ARRAY,convertedtype=UTF8"`
-	UsageOperationUpdateTime                *time.Time
-	VirtualizationType                      string            `parquet:"name=virtualization_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	VpcId                                   string            `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId                               string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Region                                  string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ReportTime                              int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	LaunchTimeMilli                         int64             `parquet:"name=launch_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	UsageOperationUpdateTimeMilli           int64             `parquet:"name=usage_operation_update_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	Tags                                    map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	EnaSupport bool `parquet:"name=ena_support,type=BOOLEAN"`
+	EnclaveOptions *EnclaveOptions `parquet:"name=enclave_options"`
+	HibernationOptions *HibernationOptions `parquet:"name=hibernation_options"`
+	Hypervisor string `parquet:"name=hypervisor,type=BYTE_ARRAY,convertedtype=UTF8"`
+	IamInstanceProfile *IamInstanceProfile `parquet:"name=iam_instance_profile"`
+	ImageId string `parquet:"name=image_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	InstanceId string `parquet:"name=instance_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
+	InstanceLifecycle string `parquet:"name=instance_lifecycle,type=BYTE_ARRAY,convertedtype=UTF8"`
+	InstanceType string `parquet:"name=instance_type,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Ipv6Address string `parquet:"name=ipv6_address,type=BYTE_ARRAY,convertedtype=UTF8"`
+	KernelId string `parquet:"name=kernel_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	KeyName string `parquet:"name=key_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	LaunchTime *time.Time 
+	Licenses []*LicenseConfiguration `parquet:"name=licenses,type=MAP,convertedtype=LIST"`
+	MetadataOptions *InstanceMetadataOptionsResponse `parquet:"name=metadata_options"`
+	Monitoring *Monitoring `parquet:"name=monitoring"`
+	NetworkInterfaces []*InstanceNetworkInterface `parquet:"name=network_interfaces,type=MAP,convertedtype=LIST"`
+	OutpostArn string `parquet:"name=outpost_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Placement *Placement `parquet:"name=placement"`
+	Platform string `parquet:"name=platform,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PlatformDetails string `parquet:"name=platform_details,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PrivateDnsName string `parquet:"name=private_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PrivateDnsNameOptions *PrivateDnsNameOptionsResponse `parquet:"name=private_dns_name_options"`
+	PrivateIpAddress string `parquet:"name=private_ip_address,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ProductCodes []*ProductCode `parquet:"name=product_codes,type=MAP,convertedtype=LIST"`
+	PublicDnsName string `parquet:"name=public_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PublicIpAddress string `parquet:"name=public_ip_address,type=BYTE_ARRAY,convertedtype=UTF8"`
+	RamdiskId string `parquet:"name=ramdisk_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	RootDeviceName string `parquet:"name=root_device_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	RootDeviceType string `parquet:"name=root_device_type,type=BYTE_ARRAY,convertedtype=UTF8"`
+	SecurityGroups []*GroupIdentifier `parquet:"name=security_groups,type=MAP,convertedtype=LIST"`
+	SourceDestCheck bool `parquet:"name=source_dest_check,type=BOOLEAN"`
+	SpotInstanceRequestId string `parquet:"name=spot_instance_request_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	SriovNetSupport string `parquet:"name=sriov_net_support,type=BYTE_ARRAY,convertedtype=UTF8"`
+	State *InstanceState `parquet:"name=state"`
+	StateReason *StateReason `parquet:"name=state_reason"`
+	StateTransitionReason string `parquet:"name=state_transition_reason,type=BYTE_ARRAY,convertedtype=UTF8"`
+	SubnetId string `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	TagsOld []*Tag `parquet:"name=tags_old,type=MAP,convertedtype=LIST"`
+	UsageOperation string `parquet:"name=usage_operation,type=BYTE_ARRAY,convertedtype=UTF8"`
+	UsageOperationUpdateTime *time.Time 
+	VirtualizationType string `parquet:"name=virtualization_type,type=BYTE_ARRAY,convertedtype=UTF8"`
+	VpcId string `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	AccountId string `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region string `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime int64 `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	LaunchTimeMilli int64 `parquet:"name=launch_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	UsageOperationUpdateTimeMilli int64 `parquet:"name=usage_operation_update_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	Tags map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
 }
+

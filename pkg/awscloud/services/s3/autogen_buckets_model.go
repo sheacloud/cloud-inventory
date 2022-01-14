@@ -6,23 +6,24 @@ import (
 )
 
 type Bucket struct {
-	CreationDate                      *time.Time
-	Name                              string                             `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	AccountId                         string                             `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Region                            string                             `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ReportTime                        int64                              `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	Policy                            string                             `parquet:"name=policy,type=BYTE_ARRAY,convertedtype=UTF8"`
-	IsPublic                          bool                               `parquet:"name=is_public,type=BOOLEAN"`
-	Tags                              map[string]string                  `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
-	VersioningStatus                  string                             `parquet:"name=versioning_status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	MFADeleteStatus                   string                             `parquet:"name=mfa_delete_status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ReplicationConfiguration          *ReplicationConfiguration          `parquet:"name=replication_configuration"`
-	AclGrants                         []*Grant                           `parquet:"name=acl_grants,type=MAP,convertedtype=LIST"`
-	CorsRules                         []*CORSRule                        `parquet:"name=cors_rules,type=MAP,convertedtype=LIST"`
+	CreationDate *time.Time 
+	Name string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
+	AccountId string `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region string `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime int64 `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	Policy string `parquet:"name=policy,type=BYTE_ARRAY,convertedtype=UTF8"`
+	IsPublic bool `parquet:"name=is_public,type=BOOLEAN"`
+	Tags map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	VersioningStatus string `parquet:"name=versioning_status,type=BYTE_ARRAY,convertedtype=UTF8"`
+	MFADeleteStatus string `parquet:"name=mfa_delete_status,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReplicationConfiguration *ReplicationConfiguration `parquet:"name=replication_configuration"`
+	AclGrants []*Grant `parquet:"name=acl_grants,type=MAP,convertedtype=LIST"`
+	CorsRules []*CORSRule `parquet:"name=cors_rules,type=MAP,convertedtype=LIST"`
 	ServerSideEncryptionConfiguration *ServerSideEncryptionConfiguration `parquet:"name=server_side_encryption_configuration"`
-	IntelligentTieringConfigurations  []*IntelligentTieringConfiguration `parquet:"name=intelligent_tiering_configurations,type=MAP,convertedtype=LIST"`
-	InventoryConfigurations           []*InventoryConfiguration          `parquet:"name=inventory_configurations,type=MAP,convertedtype=LIST"`
-	LifecycleRules                    []*LifecycleRule                   `parquet:"name=lifecycle_rules,type=MAP,convertedtype=LIST"`
-	Logging                           *LoggingEnabled                    `parquet:"name=logging"`
-	CreationDateMilli                 int64                              `parquet:"name=creation_date,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	IntelligentTieringConfigurations []*IntelligentTieringConfiguration `parquet:"name=intelligent_tiering_configurations,type=MAP,convertedtype=LIST"`
+	InventoryConfigurations []*InventoryConfiguration `parquet:"name=inventory_configurations,type=MAP,convertedtype=LIST"`
+	LifecycleRules []*LifecycleRule `parquet:"name=lifecycle_rules,type=MAP,convertedtype=LIST"`
+	Logging *LoggingEnabled `parquet:"name=logging"`
+	CreationDateMilli int64 `parquet:"name=creation_date,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
+

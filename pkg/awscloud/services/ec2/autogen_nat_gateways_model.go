@@ -6,22 +6,23 @@ import (
 )
 
 type NatGateway struct {
-	ConnectivityType     string `parquet:"name=connectivity_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CreateTime           *time.Time
-	DeleteTime           *time.Time
-	FailureCode          string                `parquet:"name=failure_code,type=BYTE_ARRAY,convertedtype=UTF8"`
-	FailureMessage       string                `parquet:"name=failure_message,type=BYTE_ARRAY,convertedtype=UTF8"`
-	NatGatewayAddresses  []*NatGatewayAddress  `parquet:"name=nat_gateway_addresses,type=MAP,convertedtype=LIST"`
-	NatGatewayId         string                `parquet:"name=nat_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
+	ConnectivityType string `parquet:"name=connectivity_type,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CreateTime *time.Time 
+	DeleteTime *time.Time 
+	FailureCode string `parquet:"name=failure_code,type=BYTE_ARRAY,convertedtype=UTF8"`
+	FailureMessage string `parquet:"name=failure_message,type=BYTE_ARRAY,convertedtype=UTF8"`
+	NatGatewayAddresses []*NatGatewayAddress `parquet:"name=nat_gateway_addresses,type=MAP,convertedtype=LIST"`
+	NatGatewayId string `parquet:"name=nat_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
 	ProvisionedBandwidth *ProvisionedBandwidth `parquet:"name=provisioned_bandwidth"`
-	State                string                `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
-	SubnetId             string                `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TagsOld              []*Tag                `parquet:"name=tags_old,type=MAP,convertedtype=LIST"`
-	VpcId                string                `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId            string                `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Region               string                `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ReportTime           int64                 `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	CreateTimeMilli      int64                 `parquet:"name=create_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	DeleteTimeMilli      int64                 `parquet:"name=delete_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	Tags                 map[string]string     `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	State string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
+	SubnetId string `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	TagsOld []*Tag `parquet:"name=tags_old,type=MAP,convertedtype=LIST"`
+	VpcId string `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	AccountId string `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region string `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReportTime int64 `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	CreateTimeMilli int64 `parquet:"name=create_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	DeleteTimeMilli int64 `parquet:"name=delete_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	Tags map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
 }
+

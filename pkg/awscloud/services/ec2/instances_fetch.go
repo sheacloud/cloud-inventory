@@ -8,12 +8,21 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud"
+	"github.com/sheacloud/cloud-inventory/pkg/meta"
 )
 
 func FetchInstance(ctx context.Context, params *awscloud.AwsFetchInput) *awscloud.AwsFetchOutput {
 	fetchingErrors := []error{}
 	var fetchedResources int
 	var failedResources int
+	inventoryResults := &meta.InventoryResults{
+		Cloud:      "aws",
+		Service:    "ec2",
+		Resource:   "vpcs",
+		AccountId:  params.AccountId,
+		Region:     params.Region,
+		ReportTime: params.ReportTime.UTC().UnixMilli(),
+	}
 
 	awsClient := params.RegionalClients[params.Region]
 	client := awsClient.EC2()
@@ -54,10 +63,13 @@ func FetchInstance(ctx context.Context, params *awscloud.AwsFetchInput) *awsclou
 
 	}
 
+	inventoryResults.FetchedResources = fetchedResources
+	inventoryResults.FailedResources = failedResources
+	inventoryResults.HadErrors = len(fetchingErrors) > 0
+
 	return &awscloud.AwsFetchOutput{
 		FetchingErrors:   fetchingErrors,
-		FetchedResources: fetchedResources,
-		FailedResources:  failedResources,
+		InventoryResults: inventoryResults,
 		ResourceName:     "Instances",
 		AccountId:        params.AccountId,
 		Region:           params.Region,

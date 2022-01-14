@@ -5,519 +5,613 @@ import (
 	"time"
 )
 
-type BlockDeviceMapping struct {
-	DeviceName  string          `parquet:"name=device_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Ebs         *EbsBlockDevice `parquet:"name=ebs"`
-	NoDevice    string          `parquet:"name=no_device,type=BYTE_ARRAY,convertedtype=UTF8"`
-	VirtualName string          `parquet:"name=virtual_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type EbsBlockDevice struct {
-	DeleteOnTermination bool   `parquet:"name=delete_on_termination,type=BOOLEAN"`
-	Encrypted           bool   `parquet:"name=encrypted,type=BOOLEAN"`
-	Iops                int32  `parquet:"name=iops,type=INT32"`
-	KmsKeyId            string `parquet:"name=kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	OutpostArn          string `parquet:"name=outpost_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-	SnapshotId          string `parquet:"name=snapshot_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Throughput          int32  `parquet:"name=throughput,type=INT32"`
-	VolumeSize          int32  `parquet:"name=volume_size,type=INT32"`
-	VolumeType          string `parquet:"name=volume_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type ProductCode struct {
-	ProductCodeId   string `parquet:"name=product_code_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ProductCodeType string `parquet:"name=product_code_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type StateReason struct {
-	Code    string `parquet:"name=code,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Message string `parquet:"name=message,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
 type Tag struct {
-	Key   string `parquet:"name=key,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Key string `parquet:"name=key,type=BYTE_ARRAY,convertedtype=UTF8"`
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
-type InstanceBlockDeviceMapping struct {
-	DeviceName string                  `parquet:"name=device_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Ebs        *EbsInstanceBlockDevice `parquet:"name=ebs"`
-}
-type EbsInstanceBlockDevice struct {
-	AttachTime          *time.Time
-	DeleteOnTermination bool   `parquet:"name=delete_on_termination,type=BOOLEAN"`
-	Status              string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	VolumeId            string `parquet:"name=volume_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AttachTimeMilli     int64  `parquet:"name=attach_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-}
-type CapacityReservationSpecificationResponse struct {
-	CapacityReservationPreference string                             `parquet:"name=capacity_reservation_preference,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CapacityReservationTarget     *CapacityReservationTargetResponse `parquet:"name=capacity_reservation_target"`
-}
-type CapacityReservationTargetResponse struct {
-	CapacityReservationId               string `parquet:"name=capacity_reservation_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CapacityReservationResourceGroupArn string `parquet:"name=capacity_reservation_resource_group_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type CpuOptions struct {
-	CoreCount      int32 `parquet:"name=core_count,type=INT32"`
-	ThreadsPerCore int32 `parquet:"name=threads_per_core,type=INT32"`
-}
-type ElasticGpuAssociation struct {
-	ElasticGpuAssociationId    string `parquet:"name=elastic_gpu_association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ElasticGpuAssociationState string `parquet:"name=elastic_gpu_association_state,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ElasticGpuAssociationTime  string `parquet:"name=elastic_gpu_association_time,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ElasticGpuId               string `parquet:"name=elastic_gpu_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type ElasticInferenceAcceleratorAssociation struct {
-	ElasticInferenceAcceleratorArn                  string `parquet:"name=elastic_inference_accelerator_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ElasticInferenceAcceleratorAssociationId        string `parquet:"name=elastic_inference_accelerator_association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ElasticInferenceAcceleratorAssociationState     string `parquet:"name=elastic_inference_accelerator_association_state,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ElasticInferenceAcceleratorAssociationTime      *time.Time
-	ElasticInferenceAcceleratorAssociationTimeMilli int64 `parquet:"name=elastic_inference_accelerator_association_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-}
-type EnclaveOptions struct {
-	Enabled bool `parquet:"name=enabled,type=BOOLEAN"`
-}
-type HibernationOptions struct {
-	Configured bool `parquet:"name=configured,type=BOOLEAN"`
-}
-type IamInstanceProfile struct {
-	Arn string `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Id  string `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type LicenseConfiguration struct {
-	LicenseConfigurationArn string `parquet:"name=license_configuration_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type InstanceMetadataOptionsResponse struct {
-	HttpEndpoint            string `parquet:"name=http_endpoint,type=BYTE_ARRAY,convertedtype=UTF8"`
-	HttpProtocolIpv6        string `parquet:"name=http_protocol_ipv6,type=BYTE_ARRAY,convertedtype=UTF8"`
-	HttpPutResponseHopLimit int32  `parquet:"name=http_put_response_hop_limit,type=INT32"`
-	HttpTokens              string `parquet:"name=http_tokens,type=BYTE_ARRAY,convertedtype=UTF8"`
-	State                   string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type Monitoring struct {
-	State string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type InstanceNetworkInterface struct {
-	Association        *InstanceNetworkInterfaceAssociation `parquet:"name=association"`
-	Attachment         *InstanceNetworkInterfaceAttachment  `parquet:"name=attachment"`
-	Description        string                               `parquet:"name=description,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Groups             []*GroupIdentifier                   `parquet:"name=groups,type=MAP,convertedtype=LIST"`
-	InterfaceType      string                               `parquet:"name=interface_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Ipv4Prefixes       []*InstanceIpv4Prefix                `parquet:"name=ipv4_prefixes,type=MAP,convertedtype=LIST"`
-	Ipv6Addresses      []*InstanceIpv6Address               `parquet:"name=ipv6_addresses,type=MAP,convertedtype=LIST"`
-	Ipv6Prefixes       []*InstanceIpv6Prefix                `parquet:"name=ipv6_prefixes,type=MAP,convertedtype=LIST"`
-	MacAddress         string                               `parquet:"name=mac_address,type=BYTE_ARRAY,convertedtype=UTF8"`
-	NetworkInterfaceId string                               `parquet:"name=network_interface_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	OwnerId            string                               `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PrivateDnsName     string                               `parquet:"name=private_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PrivateIpAddress   string                               `parquet:"name=private_ip_address,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PrivateIpAddresses []*InstancePrivateIpAddress          `parquet:"name=private_ip_addresses,type=MAP,convertedtype=LIST"`
-	SourceDestCheck    bool                                 `parquet:"name=source_dest_check,type=BOOLEAN"`
-	Status             string                               `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	SubnetId           string                               `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	VpcId              string                               `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type InstanceNetworkInterfaceAssociation struct {
-	CarrierIp       string `parquet:"name=carrier_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CustomerOwnedIp string `parquet:"name=customer_owned_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
-	IpOwnerId       string `parquet:"name=ip_owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PublicDnsName   string `parquet:"name=public_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PublicIp        string `parquet:"name=public_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type InstanceNetworkInterfaceAttachment struct {
-	AttachTime          *time.Time
-	AttachmentId        string `parquet:"name=attachment_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	DeleteOnTermination bool   `parquet:"name=delete_on_termination,type=BOOLEAN"`
-	DeviceIndex         int32  `parquet:"name=device_index,type=INT32"`
-	NetworkCardIndex    int32  `parquet:"name=network_card_index,type=INT32"`
-	Status              string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AttachTimeMilli     int64  `parquet:"name=attach_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-}
-type GroupIdentifier struct {
-	GroupId   string `parquet:"name=group_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	GroupName string `parquet:"name=group_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type InstanceIpv4Prefix struct {
-	Ipv4Prefix string `parquet:"name=ipv4_prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type InstanceIpv6Address struct {
-	Ipv6Address string `parquet:"name=ipv6_address,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type InstanceIpv6Prefix struct {
-	Ipv6Prefix string `parquet:"name=ipv6_prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type InstancePrivateIpAddress struct {
-	Association      *InstanceNetworkInterfaceAssociation `parquet:"name=association"`
-	Primary          bool                                 `parquet:"name=primary,type=BOOLEAN"`
-	PrivateDnsName   string                               `parquet:"name=private_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PrivateIpAddress string                               `parquet:"name=private_ip_address,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type Placement struct {
-	Affinity             string `parquet:"name=affinity,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AvailabilityZone     string `parquet:"name=availability_zone,type=BYTE_ARRAY,convertedtype=UTF8"`
-	GroupName            string `parquet:"name=group_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	HostId               string `parquet:"name=host_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	HostResourceGroupArn string `parquet:"name=host_resource_group_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PartitionNumber      int32  `parquet:"name=partition_number,type=INT32"`
-	SpreadDomain         string `parquet:"name=spread_domain,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tenancy              string `parquet:"name=tenancy,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type PrivateDnsNameOptionsResponse struct {
-	EnableResourceNameDnsAAAARecord bool   `parquet:"name=enable_resource_name_dns_aaaa_record,type=BOOLEAN"`
-	EnableResourceNameDnsARecord    bool   `parquet:"name=enable_resource_name_dns_a_record,type=BOOLEAN"`
-	HostnameType                    string `parquet:"name=hostname_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type InstanceState struct {
-	Code int32  `parquet:"name=code,type=INT32"`
-	Name string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type NetworkInterfaceAssociation struct {
-	AllocationId    string `parquet:"name=allocation_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AssociationId   string `parquet:"name=association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CarrierIp       string `parquet:"name=carrier_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CustomerOwnedIp string `parquet:"name=customer_owned_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
-	IpOwnerId       string `parquet:"name=ip_owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PublicDnsName   string `parquet:"name=public_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PublicIp        string `parquet:"name=public_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type NetworkInterfaceAttachment struct {
-	AttachTime          *time.Time
-	AttachmentId        string `parquet:"name=attachment_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	DeleteOnTermination bool   `parquet:"name=delete_on_termination,type=BOOLEAN"`
-	DeviceIndex         int32  `parquet:"name=device_index,type=INT32"`
-	InstanceId          string `parquet:"name=instance_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	InstanceOwnerId     string `parquet:"name=instance_owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	NetworkCardIndex    int32  `parquet:"name=network_card_index,type=INT32"`
-	Status              string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AttachTimeMilli     int64  `parquet:"name=attach_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-}
-type Ipv4PrefixSpecification struct {
-	Ipv4Prefix string `parquet:"name=ipv4_prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type NetworkInterfaceIpv6Address struct {
-	Ipv6Address string `parquet:"name=ipv6_address,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type Ipv6PrefixSpecification struct {
-	Ipv6Prefix string `parquet:"name=ipv6_prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type NetworkInterfacePrivateIpAddress struct {
-	Association      *NetworkInterfaceAssociation `parquet:"name=association"`
-	Primary          bool                         `parquet:"name=primary,type=BOOLEAN"`
-	PrivateDnsName   string                       `parquet:"name=private_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PrivateIpAddress string                       `parquet:"name=private_ip_address,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type SubnetIpv6CidrBlockAssociation struct {
-	AssociationId      string                `parquet:"name=association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Ipv6CidrBlock      string                `parquet:"name=ipv6_cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Ipv6CidrBlockState *SubnetCidrBlockState `parquet:"name=ipv6_cidr_block_state"`
-}
-type SubnetCidrBlockState struct {
-	State         string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
-	StatusMessage string `parquet:"name=status_message,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type PrivateDnsNameOptionsOnLaunch struct {
-	EnableResourceNameDnsAAAARecord bool   `parquet:"name=enable_resource_name_dns_aaaa_record,type=BOOLEAN"`
-	EnableResourceNameDnsARecord    bool   `parquet:"name=enable_resource_name_dns_a_record,type=BOOLEAN"`
-	HostnameType                    string `parquet:"name=hostname_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type VpcCidrBlockAssociation struct {
-	AssociationId  string             `parquet:"name=association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CidrBlock      string             `parquet:"name=cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CidrBlockState *VpcCidrBlockState `parquet:"name=cidr_block_state"`
-}
-type VpcCidrBlockState struct {
-	State         string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
-	StatusMessage string `parquet:"name=status_message,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type VpcIpv6CidrBlockAssociation struct {
-	AssociationId      string             `parquet:"name=association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Ipv6CidrBlock      string             `parquet:"name=ipv6_cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Ipv6CidrBlockState *VpcCidrBlockState `parquet:"name=ipv6_cidr_block_state"`
-	Ipv6Pool           string             `parquet:"name=ipv6_pool,type=BYTE_ARRAY,convertedtype=UTF8"`
-	NetworkBorderGroup string             `parquet:"name=network_border_group,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type VolumeAttachment struct {
-	AttachTime          *time.Time
-	DeleteOnTermination bool   `parquet:"name=delete_on_termination,type=BOOLEAN"`
-	Device              string `parquet:"name=device,type=BYTE_ARRAY,convertedtype=UTF8"`
-	InstanceId          string `parquet:"name=instance_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	State               string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
-	VolumeId            string `parquet:"name=volume_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	AttachTimeMilli     int64  `parquet:"name=attach_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-}
+
 type DhcpConfiguration struct {
-	Key    string            `parquet:"name=key,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Key string `parquet:"name=key,type=BYTE_ARRAY,convertedtype=UTF8"`
 	Values []*AttributeValue `parquet:"name=values,type=MAP,convertedtype=LIST"`
 }
+
 type AttributeValue struct {
 	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
+
+type BlockDeviceMapping struct {
+	DeviceName string `parquet:"name=device_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Ebs *EbsBlockDevice `parquet:"name=ebs"`
+	NoDevice string `parquet:"name=no_device,type=BYTE_ARRAY,convertedtype=UTF8"`
+	VirtualName string `parquet:"name=virtual_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type EbsBlockDevice struct {
+	DeleteOnTermination bool `parquet:"name=delete_on_termination,type=BOOLEAN"`
+	Encrypted bool `parquet:"name=encrypted,type=BOOLEAN"`
+	Iops int32 `parquet:"name=iops,type=INT32"`
+	KmsKeyId string `parquet:"name=kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	OutpostArn string `parquet:"name=outpost_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+	SnapshotId string `parquet:"name=snapshot_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Throughput int32 `parquet:"name=throughput,type=INT32"`
+	VolumeSize int32 `parquet:"name=volume_size,type=INT32"`
+	VolumeType string `parquet:"name=volume_type,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type ProductCode struct {
+	ProductCodeId string `parquet:"name=product_code_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ProductCodeType string `parquet:"name=product_code_type,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type StateReason struct {
+	Code string `parquet:"name=code,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Message string `parquet:"name=message,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type EbsInfo struct {
+	EbsOptimizedInfo *EbsOptimizedInfo `parquet:"name=ebs_optimized_info"`
+	EbsOptimizedSupport string `parquet:"name=ebs_optimized_support,type=BYTE_ARRAY,convertedtype=UTF8"`
+	EncryptionSupport string `parquet:"name=encryption_support,type=BYTE_ARRAY,convertedtype=UTF8"`
+	NvmeSupport string `parquet:"name=nvme_support,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type EbsOptimizedInfo struct {
+	BaselineBandwidthInMbps int32 `parquet:"name=baseline_bandwidth_in_mbps,type=INT32"`
+	BaselineIops int32 `parquet:"name=baseline_iops,type=INT32"`
+	BaselineThroughputInMBps float64 `parquet:"name=baseline_throughput_in_m_bps,type=DOUBLE"`
+	MaximumBandwidthInMbps int32 `parquet:"name=maximum_bandwidth_in_mbps,type=INT32"`
+	MaximumIops int32 `parquet:"name=maximum_iops,type=INT32"`
+	MaximumThroughputInMBps float64 `parquet:"name=maximum_throughput_in_m_bps,type=DOUBLE"`
+}
+
+type FpgaInfo struct {
+	Fpgas []*FpgaDeviceInfo `parquet:"name=fpgas,type=MAP,convertedtype=LIST"`
+	TotalFpgaMemoryInMiB int32 `parquet:"name=total_fpga_memory_in_mi_b,type=INT32"`
+}
+
+type FpgaDeviceInfo struct {
+	Count int32 `parquet:"name=count,type=INT32"`
+	Manufacturer string `parquet:"name=manufacturer,type=BYTE_ARRAY,convertedtype=UTF8"`
+	MemoryInfo *FpgaDeviceMemoryInfo `parquet:"name=memory_info"`
+	Name string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type FpgaDeviceMemoryInfo struct {
+	SizeInMiB int32 `parquet:"name=size_in_mi_b,type=INT32"`
+}
+
+type GpuInfo struct {
+	Gpus []*GpuDeviceInfo `parquet:"name=gpus,type=MAP,convertedtype=LIST"`
+	TotalGpuMemoryInMiB int32 `parquet:"name=total_gpu_memory_in_mi_b,type=INT32"`
+}
+
+type GpuDeviceInfo struct {
+	Count int32 `parquet:"name=count,type=INT32"`
+	Manufacturer string `parquet:"name=manufacturer,type=BYTE_ARRAY,convertedtype=UTF8"`
+	MemoryInfo *GpuDeviceMemoryInfo `parquet:"name=memory_info"`
+	Name string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type GpuDeviceMemoryInfo struct {
+	SizeInMiB int32 `parquet:"name=size_in_mi_b,type=INT32"`
+}
+
+type InferenceAcceleratorInfo struct {
+	Accelerators []*InferenceDeviceInfo `parquet:"name=accelerators,type=MAP,convertedtype=LIST"`
+}
+
+type InferenceDeviceInfo struct {
+	Count int32 `parquet:"name=count,type=INT32"`
+	Manufacturer string `parquet:"name=manufacturer,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Name string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type InstanceStorageInfo struct {
+	Disks []*DiskInfo `parquet:"name=disks,type=MAP,convertedtype=LIST"`
+	EncryptionSupport string `parquet:"name=encryption_support,type=BYTE_ARRAY,convertedtype=UTF8"`
+	NvmeSupport string `parquet:"name=nvme_support,type=BYTE_ARRAY,convertedtype=UTF8"`
+	TotalSizeInGB int64 `parquet:"name=total_size_in_gb,type=INT64"`
+}
+
+type DiskInfo struct {
+	Count int32 `parquet:"name=count,type=INT32"`
+	SizeInGB int64 `parquet:"name=size_in_gb,type=INT64"`
+	Type string `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type MemoryInfo struct {
+	SizeInMiB int64 `parquet:"name=size_in_mi_b,type=INT64"`
+}
+
+type NetworkInfo struct {
+	DefaultNetworkCardIndex int32 `parquet:"name=default_network_card_index,type=INT32"`
+	EfaInfo *EfaInfo `parquet:"name=efa_info"`
+	EfaSupported bool `parquet:"name=efa_supported,type=BOOLEAN"`
+	EnaSupport string `parquet:"name=ena_support,type=BYTE_ARRAY,convertedtype=UTF8"`
+	EncryptionInTransitSupported bool `parquet:"name=encryption_in_transit_supported,type=BOOLEAN"`
+	Ipv4AddressesPerInterface int32 `parquet:"name=ipv4_addresses_per_interface,type=INT32"`
+	Ipv6AddressesPerInterface int32 `parquet:"name=ipv6_addresses_per_interface,type=INT32"`
+	Ipv6Supported bool `parquet:"name=ipv6_supported,type=BOOLEAN"`
+	MaximumNetworkCards int32 `parquet:"name=maximum_network_cards,type=INT32"`
+	MaximumNetworkInterfaces int32 `parquet:"name=maximum_network_interfaces,type=INT32"`
+	NetworkCards []*NetworkCardInfo `parquet:"name=network_cards,type=MAP,convertedtype=LIST"`
+	NetworkPerformance string `parquet:"name=network_performance,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type EfaInfo struct {
+	MaximumEfaInterfaces int32 `parquet:"name=maximum_efa_interfaces,type=INT32"`
+}
+
+type NetworkCardInfo struct {
+	MaximumNetworkInterfaces int32 `parquet:"name=maximum_network_interfaces,type=INT32"`
+	NetworkCardIndex int32 `parquet:"name=network_card_index,type=INT32"`
+	NetworkPerformance string `parquet:"name=network_performance,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type PlacementGroupInfo struct {
+	SupportedStrategies []string `parquet:"name=supported_strategies,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
+}
+
+type ProcessorInfo struct {
+	SupportedArchitectures []string `parquet:"name=supported_architectures,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
+	SustainedClockSpeedInGhz float64 `parquet:"name=sustained_clock_speed_in_ghz,type=DOUBLE"`
+}
+
+type VCpuInfo struct {
+	DefaultCores int32 `parquet:"name=default_cores,type=INT32"`
+	DefaultThreadsPerCore int32 `parquet:"name=default_threads_per_core,type=INT32"`
+	DefaultVCpus int32 `parquet:"name=default_v_cpus,type=INT32"`
+	ValidCores []int32 `parquet:"name=valid_cores,type=MAP,convertedtype=LIST,valuetype=INT32"`
+	ValidThreadsPerCore []int32 `parquet:"name=valid_threads_per_core,type=MAP,convertedtype=LIST,valuetype=INT32"`
+}
+
+type InstanceBlockDeviceMapping struct {
+	DeviceName string `parquet:"name=device_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Ebs *EbsInstanceBlockDevice `parquet:"name=ebs"`
+}
+
+type EbsInstanceBlockDevice struct {
+	AttachTime *time.Time 
+	DeleteOnTermination bool `parquet:"name=delete_on_termination,type=BOOLEAN"`
+	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
+	VolumeId string `parquet:"name=volume_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	AttachTimeMilli int64 `parquet:"name=attach_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+}
+
+type CapacityReservationSpecificationResponse struct {
+	CapacityReservationPreference string `parquet:"name=capacity_reservation_preference,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CapacityReservationTarget *CapacityReservationTargetResponse `parquet:"name=capacity_reservation_target"`
+}
+
+type CapacityReservationTargetResponse struct {
+	CapacityReservationId string `parquet:"name=capacity_reservation_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CapacityReservationResourceGroupArn string `parquet:"name=capacity_reservation_resource_group_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type CpuOptions struct {
+	CoreCount int32 `parquet:"name=core_count,type=INT32"`
+	ThreadsPerCore int32 `parquet:"name=threads_per_core,type=INT32"`
+}
+
+type ElasticGpuAssociation struct {
+	ElasticGpuAssociationId string `parquet:"name=elastic_gpu_association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ElasticGpuAssociationState string `parquet:"name=elastic_gpu_association_state,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ElasticGpuAssociationTime string `parquet:"name=elastic_gpu_association_time,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ElasticGpuId string `parquet:"name=elastic_gpu_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type ElasticInferenceAcceleratorAssociation struct {
+	ElasticInferenceAcceleratorArn string `parquet:"name=elastic_inference_accelerator_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ElasticInferenceAcceleratorAssociationId string `parquet:"name=elastic_inference_accelerator_association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ElasticInferenceAcceleratorAssociationState string `parquet:"name=elastic_inference_accelerator_association_state,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ElasticInferenceAcceleratorAssociationTime *time.Time 
+	ElasticInferenceAcceleratorAssociationTimeMilli int64 `parquet:"name=elastic_inference_accelerator_association_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+}
+
+type EnclaveOptions struct {
+	Enabled bool `parquet:"name=enabled,type=BOOLEAN"`
+}
+
+type HibernationOptions struct {
+	Configured bool `parquet:"name=configured,type=BOOLEAN"`
+}
+
+type IamInstanceProfile struct {
+	Arn string `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Id string `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type LicenseConfiguration struct {
+	LicenseConfigurationArn string `parquet:"name=license_configuration_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type InstanceMetadataOptionsResponse struct {
+	HttpEndpoint string `parquet:"name=http_endpoint,type=BYTE_ARRAY,convertedtype=UTF8"`
+	HttpProtocolIpv6 string `parquet:"name=http_protocol_ipv6,type=BYTE_ARRAY,convertedtype=UTF8"`
+	HttpPutResponseHopLimit int32 `parquet:"name=http_put_response_hop_limit,type=INT32"`
+	HttpTokens string `parquet:"name=http_tokens,type=BYTE_ARRAY,convertedtype=UTF8"`
+	State string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type Monitoring struct {
+	State string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type InstanceNetworkInterface struct {
+	Association *InstanceNetworkInterfaceAssociation `parquet:"name=association"`
+	Attachment *InstanceNetworkInterfaceAttachment `parquet:"name=attachment"`
+	Description string `parquet:"name=description,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Groups []*GroupIdentifier `parquet:"name=groups,type=MAP,convertedtype=LIST"`
+	InterfaceType string `parquet:"name=interface_type,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Ipv4Prefixes []*InstanceIpv4Prefix `parquet:"name=ipv4_prefixes,type=MAP,convertedtype=LIST"`
+	Ipv6Addresses []*InstanceIpv6Address `parquet:"name=ipv6_addresses,type=MAP,convertedtype=LIST"`
+	Ipv6Prefixes []*InstanceIpv6Prefix `parquet:"name=ipv6_prefixes,type=MAP,convertedtype=LIST"`
+	MacAddress string `parquet:"name=mac_address,type=BYTE_ARRAY,convertedtype=UTF8"`
+	NetworkInterfaceId string `parquet:"name=network_interface_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	OwnerId string `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PrivateDnsName string `parquet:"name=private_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PrivateIpAddress string `parquet:"name=private_ip_address,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PrivateIpAddresses []*InstancePrivateIpAddress `parquet:"name=private_ip_addresses,type=MAP,convertedtype=LIST"`
+	SourceDestCheck bool `parquet:"name=source_dest_check,type=BOOLEAN"`
+	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
+	SubnetId string `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	VpcId string `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type InstanceNetworkInterfaceAssociation struct {
+	CarrierIp string `parquet:"name=carrier_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CustomerOwnedIp string `parquet:"name=customer_owned_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
+	IpOwnerId string `parquet:"name=ip_owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PublicDnsName string `parquet:"name=public_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PublicIp string `parquet:"name=public_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type InstanceNetworkInterfaceAttachment struct {
+	AttachTime *time.Time 
+	AttachmentId string `parquet:"name=attachment_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	DeleteOnTermination bool `parquet:"name=delete_on_termination,type=BOOLEAN"`
+	DeviceIndex int32 `parquet:"name=device_index,type=INT32"`
+	NetworkCardIndex int32 `parquet:"name=network_card_index,type=INT32"`
+	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
+	AttachTimeMilli int64 `parquet:"name=attach_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+}
+
+type GroupIdentifier struct {
+	GroupId string `parquet:"name=group_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	GroupName string `parquet:"name=group_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type InstanceIpv4Prefix struct {
+	Ipv4Prefix string `parquet:"name=ipv4_prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type InstanceIpv6Address struct {
+	Ipv6Address string `parquet:"name=ipv6_address,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type InstanceIpv6Prefix struct {
+	Ipv6Prefix string `parquet:"name=ipv6_prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type InstancePrivateIpAddress struct {
+	Association *InstanceNetworkInterfaceAssociation `parquet:"name=association"`
+	Primary bool `parquet:"name=primary,type=BOOLEAN"`
+	PrivateDnsName string `parquet:"name=private_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PrivateIpAddress string `parquet:"name=private_ip_address,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type Placement struct {
+	Affinity string `parquet:"name=affinity,type=BYTE_ARRAY,convertedtype=UTF8"`
+	AvailabilityZone string `parquet:"name=availability_zone,type=BYTE_ARRAY,convertedtype=UTF8"`
+	GroupName string `parquet:"name=group_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	HostId string `parquet:"name=host_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	HostResourceGroupArn string `parquet:"name=host_resource_group_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PartitionNumber int32 `parquet:"name=partition_number,type=INT32"`
+	SpreadDomain string `parquet:"name=spread_domain,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Tenancy string `parquet:"name=tenancy,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type PrivateDnsNameOptionsResponse struct {
+	EnableResourceNameDnsAAAARecord bool `parquet:"name=enable_resource_name_dns_aaaa_record,type=BOOLEAN"`
+	EnableResourceNameDnsARecord bool `parquet:"name=enable_resource_name_dns_a_record,type=BOOLEAN"`
+	HostnameType string `parquet:"name=hostname_type,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type InstanceState struct {
+	Code int32 `parquet:"name=code,type=INT32"`
+	Name string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
 type InternetGatewayAttachment struct {
 	State string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
 	VpcId string `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
+
 type NatGatewayAddress struct {
-	AllocationId       string `parquet:"name=allocation_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	AllocationId string `parquet:"name=allocation_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	NetworkInterfaceId string `parquet:"name=network_interface_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PrivateIp          string `parquet:"name=private_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PublicIp           string `parquet:"name=public_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PrivateIp string `parquet:"name=private_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PublicIp string `parquet:"name=public_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
+
 type ProvisionedBandwidth struct {
-	ProvisionTime      *time.Time
-	Provisioned        string `parquet:"name=provisioned,type=BYTE_ARRAY,convertedtype=UTF8"`
-	RequestTime        *time.Time
-	Requested          string `parquet:"name=requested,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Status             string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ProvisionTimeMilli int64  `parquet:"name=provision_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	RequestTimeMilli   int64  `parquet:"name=request_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	ProvisionTime *time.Time 
+	Provisioned string `parquet:"name=provisioned,type=BYTE_ARRAY,convertedtype=UTF8"`
+	RequestTime *time.Time 
+	Requested string `parquet:"name=requested,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ProvisionTimeMilli int64 `parquet:"name=provision_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	RequestTimeMilli int64 `parquet:"name=request_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
 }
+
 type NetworkAclAssociation struct {
 	NetworkAclAssociationId string `parquet:"name=network_acl_association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	NetworkAclId            string `parquet:"name=network_acl_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	SubnetId                string `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	NetworkAclId string `parquet:"name=network_acl_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
+	SubnetId string `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
+
 type NetworkAclEntry struct {
-	CidrBlock     string        `parquet:"name=cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Egress        bool          `parquet:"name=egress,type=BOOLEAN"`
-	IcmpTypeCode  *IcmpTypeCode `parquet:"name=icmp_type_code"`
-	Ipv6CidrBlock string        `parquet:"name=ipv6_cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PortRange     *PortRange    `parquet:"name=port_range"`
-	Protocol      string        `parquet:"name=protocol,type=BYTE_ARRAY,convertedtype=UTF8"`
-	RuleAction    string        `parquet:"name=rule_action,type=BYTE_ARRAY,convertedtype=UTF8"`
-	RuleNumber    int32         `parquet:"name=rule_number,type=INT32"`
+	CidrBlock string `parquet:"name=cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Egress bool `parquet:"name=egress,type=BOOLEAN"`
+	IcmpTypeCode *IcmpTypeCode `parquet:"name=icmp_type_code"`
+	Ipv6CidrBlock string `parquet:"name=ipv6_cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PortRange *PortRange `parquet:"name=port_range"`
+	Protocol string `parquet:"name=protocol,type=BYTE_ARRAY,convertedtype=UTF8"`
+	RuleAction string `parquet:"name=rule_action,type=BYTE_ARRAY,convertedtype=UTF8"`
+	RuleNumber int32 `parquet:"name=rule_number,type=INT32"`
 }
+
 type IcmpTypeCode struct {
 	Code int32 `parquet:"name=code,type=INT32"`
 	Type int32 `parquet:"name=type,type=INT32"`
 }
+
 type PortRange struct {
 	From int32 `parquet:"name=from,type=INT32"`
-	To   int32 `parquet:"name=to,type=INT32"`
+	To int32 `parquet:"name=to,type=INT32"`
 }
+
+type NetworkInterfaceAssociation struct {
+	AllocationId string `parquet:"name=allocation_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	AssociationId string `parquet:"name=association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CarrierIp string `parquet:"name=carrier_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CustomerOwnedIp string `parquet:"name=customer_owned_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
+	IpOwnerId string `parquet:"name=ip_owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PublicDnsName string `parquet:"name=public_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PublicIp string `parquet:"name=public_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type NetworkInterfaceAttachment struct {
+	AttachTime *time.Time 
+	AttachmentId string `parquet:"name=attachment_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	DeleteOnTermination bool `parquet:"name=delete_on_termination,type=BOOLEAN"`
+	DeviceIndex int32 `parquet:"name=device_index,type=INT32"`
+	InstanceId string `parquet:"name=instance_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	InstanceOwnerId string `parquet:"name=instance_owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	NetworkCardIndex int32 `parquet:"name=network_card_index,type=INT32"`
+	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
+	AttachTimeMilli int64 `parquet:"name=attach_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+}
+
+type Ipv4PrefixSpecification struct {
+	Ipv4Prefix string `parquet:"name=ipv4_prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type NetworkInterfaceIpv6Address struct {
+	Ipv6Address string `parquet:"name=ipv6_address,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type Ipv6PrefixSpecification struct {
+	Ipv6Prefix string `parquet:"name=ipv6_prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type NetworkInterfacePrivateIpAddress struct {
+	Association *NetworkInterfaceAssociation `parquet:"name=association"`
+	Primary bool `parquet:"name=primary,type=BOOLEAN"`
+	PrivateDnsName string `parquet:"name=private_dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PrivateIpAddress string `parquet:"name=private_ip_address,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type RecurringCharge struct {
+	Amount float64 `parquet:"name=amount,type=DOUBLE"`
+	Frequency string `parquet:"name=frequency,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
 type RouteTableAssociation struct {
-	AssociationState        *RouteTableAssociationState `parquet:"name=association_state"`
-	GatewayId               string                      `parquet:"name=gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Main                    bool                        `parquet:"name=main,type=BOOLEAN"`
-	RouteTableAssociationId string                      `parquet:"name=route_table_association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	RouteTableId            string                      `parquet:"name=route_table_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	SubnetId                string                      `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	AssociationState *RouteTableAssociationState `parquet:"name=association_state"`
+	GatewayId string `parquet:"name=gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Main bool `parquet:"name=main,type=BOOLEAN"`
+	RouteTableAssociationId string `parquet:"name=route_table_association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	RouteTableId string `parquet:"name=route_table_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
+	SubnetId string `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
+
 type RouteTableAssociationState struct {
-	State         string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
+	State string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
 	StatusMessage string `parquet:"name=status_message,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
+
 type PropagatingVgw struct {
 	GatewayId string `parquet:"name=gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
+
 type Route struct {
-	CarrierGatewayId            string `parquet:"name=carrier_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CoreNetworkArn              string `parquet:"name=core_network_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-	DestinationCidrBlock        string `parquet:"name=destination_cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
-	DestinationIpv6CidrBlock    string `parquet:"name=destination_ipv6_cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
-	DestinationPrefixListId     string `parquet:"name=destination_prefix_list_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CarrierGatewayId string `parquet:"name=carrier_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CoreNetworkArn string `parquet:"name=core_network_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+	DestinationCidrBlock string `parquet:"name=destination_cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
+	DestinationIpv6CidrBlock string `parquet:"name=destination_ipv6_cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
+	DestinationPrefixListId string `parquet:"name=destination_prefix_list_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	EgressOnlyInternetGatewayId string `parquet:"name=egress_only_internet_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	GatewayId                   string `parquet:"name=gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	InstanceId                  string `parquet:"name=instance_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	InstanceOwnerId             string `parquet:"name=instance_owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	LocalGatewayId              string `parquet:"name=local_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	NatGatewayId                string `parquet:"name=nat_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	NetworkInterfaceId          string `parquet:"name=network_interface_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Origin                      string `parquet:"name=origin,type=BYTE_ARRAY,convertedtype=UTF8"`
-	State                       string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TransitGatewayId            string `parquet:"name=transit_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	VpcPeeringConnectionId      string `parquet:"name=vpc_peering_connection_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type IpPermission struct {
-	FromPort         int32              `parquet:"name=from_port,type=INT32"`
-	IpProtocol       string             `parquet:"name=ip_protocol,type=BYTE_ARRAY,convertedtype=UTF8"`
-	IpRanges         []*IpRange         `parquet:"name=ip_ranges,type=MAP,convertedtype=LIST"`
-	Ipv6Ranges       []*Ipv6Range       `parquet:"name=ipv6_ranges,type=MAP,convertedtype=LIST"`
-	PrefixListIds    []*PrefixListId    `parquet:"name=prefix_list_ids,type=MAP,convertedtype=LIST"`
-	ToPort           int32              `parquet:"name=to_port,type=INT32"`
-	UserIdGroupPairs []*UserIdGroupPair `parquet:"name=user_id_group_pairs,type=MAP,convertedtype=LIST"`
-}
-type IpRange struct {
-	CidrIp      string `parquet:"name=cidr_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Description string `parquet:"name=description,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type Ipv6Range struct {
-	CidrIpv6    string `parquet:"name=cidr_ipv6,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Description string `parquet:"name=description,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type PrefixListId struct {
-	Description  string `parquet:"name=description,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PrefixListId string `parquet:"name=prefix_list_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type UserIdGroupPair struct {
-	Description            string `parquet:"name=description,type=BYTE_ARRAY,convertedtype=UTF8"`
-	GroupId                string `parquet:"name=group_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	GroupName              string `parquet:"name=group_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PeeringStatus          string `parquet:"name=peering_status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	UserId                 string `parquet:"name=user_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	VpcId                  string `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	GatewayId string `parquet:"name=gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	InstanceId string `parquet:"name=instance_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	InstanceOwnerId string `parquet:"name=instance_owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	LocalGatewayId string `parquet:"name=local_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	NatGatewayId string `parquet:"name=nat_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	NetworkInterfaceId string `parquet:"name=network_interface_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Origin string `parquet:"name=origin,type=BYTE_ARRAY,convertedtype=UTF8"`
+	State string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
+	TransitGatewayId string `parquet:"name=transit_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	VpcPeeringConnectionId string `parquet:"name=vpc_peering_connection_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
-type TransitGatewayOptions struct {
-	AmazonSideAsn                  int64    `parquet:"name=amazon_side_asn,type=INT64"`
-	AssociationDefaultRouteTableId string   `parquet:"name=association_default_route_table_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AutoAcceptSharedAttachments    string   `parquet:"name=auto_accept_shared_attachments,type=BYTE_ARRAY,convertedtype=UTF8"`
-	DefaultRouteTableAssociation   string   `parquet:"name=default_route_table_association,type=BYTE_ARRAY,convertedtype=UTF8"`
-	DefaultRouteTablePropagation   string   `parquet:"name=default_route_table_propagation,type=BYTE_ARRAY,convertedtype=UTF8"`
-	DnsSupport                     string   `parquet:"name=dns_support,type=BYTE_ARRAY,convertedtype=UTF8"`
-	MulticastSupport               string   `parquet:"name=multicast_support,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PropagationDefaultRouteTableId string   `parquet:"name=propagation_default_route_table_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TransitGatewayCidrBlocks       []string `parquet:"name=transit_gateway_cidr_blocks,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	VpnEcmpSupport                 string   `parquet:"name=vpn_ecmp_support,type=BYTE_ARRAY,convertedtype=UTF8"`
+
+type IpPermission struct {
+	FromPort int32 `parquet:"name=from_port,type=INT32"`
+	IpProtocol string `parquet:"name=ip_protocol,type=BYTE_ARRAY,convertedtype=UTF8"`
+	IpRanges []*IpRange `parquet:"name=ip_ranges,type=MAP,convertedtype=LIST"`
+	Ipv6Ranges []*Ipv6Range `parquet:"name=ipv6_ranges,type=MAP,convertedtype=LIST"`
+	PrefixListIds []*PrefixListId `parquet:"name=prefix_list_ids,type=MAP,convertedtype=LIST"`
+	ToPort int32 `parquet:"name=to_port,type=INT32"`
+	UserIdGroupPairs []*UserIdGroupPair `parquet:"name=user_id_group_pairs,type=MAP,convertedtype=LIST"`
 }
-type TransitGatewayVpcAttachmentOptions struct {
-	ApplianceModeSupport string `parquet:"name=appliance_mode_support,type=BYTE_ARRAY,convertedtype=UTF8"`
-	DnsSupport           string `parquet:"name=dns_support,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Ipv6Support          string `parquet:"name=ipv6_support,type=BYTE_ARRAY,convertedtype=UTF8"`
+
+type IpRange struct {
+	CidrIp string `parquet:"name=cidr_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Description string `parquet:"name=description,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
+
+type Ipv6Range struct {
+	CidrIpv6 string `parquet:"name=cidr_ipv6,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Description string `parquet:"name=description,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type PrefixListId struct {
+	Description string `parquet:"name=description,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PrefixListId string `parquet:"name=prefix_list_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type UserIdGroupPair struct {
+	Description string `parquet:"name=description,type=BYTE_ARRAY,convertedtype=UTF8"`
+	GroupId string `parquet:"name=group_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
+	GroupName string `parquet:"name=group_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PeeringStatus string `parquet:"name=peering_status,type=BYTE_ARRAY,convertedtype=UTF8"`
+	UserId string `parquet:"name=user_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	VpcId string `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	VpcPeeringConnectionId string `parquet:"name=vpc_peering_connection_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type SubnetIpv6CidrBlockAssociation struct {
+	AssociationId string `parquet:"name=association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Ipv6CidrBlock string `parquet:"name=ipv6_cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Ipv6CidrBlockState *SubnetCidrBlockState `parquet:"name=ipv6_cidr_block_state"`
+}
+
+type SubnetCidrBlockState struct {
+	State string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
+	StatusMessage string `parquet:"name=status_message,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type PrivateDnsNameOptionsOnLaunch struct {
+	EnableResourceNameDnsAAAARecord bool `parquet:"name=enable_resource_name_dns_aaaa_record,type=BOOLEAN"`
+	EnableResourceNameDnsARecord bool `parquet:"name=enable_resource_name_dns_a_record,type=BOOLEAN"`
+	HostnameType string `parquet:"name=hostname_type,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
 type PeeringTgwInfo struct {
-	OwnerId          string `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Region           string `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	OwnerId string `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Region string `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
 	TransitGatewayId string `parquet:"name=transit_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
+
 type PeeringAttachmentStatus struct {
-	Code    string `parquet:"name=code,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Code string `parquet:"name=code,type=BYTE_ARRAY,convertedtype=UTF8"`
 	Message string `parquet:"name=message,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
+
+type TransitGatewayVpcAttachmentOptions struct {
+	ApplianceModeSupport string `parquet:"name=appliance_mode_support,type=BYTE_ARRAY,convertedtype=UTF8"`
+	DnsSupport string `parquet:"name=dns_support,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Ipv6Support string `parquet:"name=ipv6_support,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type TransitGatewayOptions struct {
+	AmazonSideAsn int64 `parquet:"name=amazon_side_asn,type=INT64"`
+	AssociationDefaultRouteTableId string `parquet:"name=association_default_route_table_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	AutoAcceptSharedAttachments string `parquet:"name=auto_accept_shared_attachments,type=BYTE_ARRAY,convertedtype=UTF8"`
+	DefaultRouteTableAssociation string `parquet:"name=default_route_table_association,type=BYTE_ARRAY,convertedtype=UTF8"`
+	DefaultRouteTablePropagation string `parquet:"name=default_route_table_propagation,type=BYTE_ARRAY,convertedtype=UTF8"`
+	DnsSupport string `parquet:"name=dns_support,type=BYTE_ARRAY,convertedtype=UTF8"`
+	MulticastSupport string `parquet:"name=multicast_support,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PropagationDefaultRouteTableId string `parquet:"name=propagation_default_route_table_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	TransitGatewayCidrBlocks []string `parquet:"name=transit_gateway_cidr_blocks,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
+	VpnEcmpSupport string `parquet:"name=vpn_ecmp_support,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type VolumeAttachment struct {
+	AttachTime *time.Time 
+	DeleteOnTermination bool `parquet:"name=delete_on_termination,type=BOOLEAN"`
+	Device string `parquet:"name=device,type=BYTE_ARRAY,convertedtype=UTF8"`
+	InstanceId string `parquet:"name=instance_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	State string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
+	VolumeId string `parquet:"name=volume_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
+	AttachTimeMilli int64 `parquet:"name=attach_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+}
+
 type DnsEntry struct {
-	DnsName      string `parquet:"name=dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
+	DnsName string `parquet:"name=dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 	HostedZoneId string `parquet:"name=hosted_zone_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
+
 type SecurityGroupIdentifier struct {
-	GroupId   string `parquet:"name=group_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	GroupId string `parquet:"name=group_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 	GroupName string `parquet:"name=group_name,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
+
 type LastError struct {
-	Code    string `parquet:"name=code,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Code string `parquet:"name=code,type=BYTE_ARRAY,convertedtype=UTF8"`
 	Message string `parquet:"name=message,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
+
 type VpcPeeringConnectionVpcInfo struct {
-	CidrBlock        string                                  `parquet:"name=cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CidrBlockSet     []*CidrBlock                            `parquet:"name=cidr_block_set,type=MAP,convertedtype=LIST"`
-	Ipv6CidrBlockSet []*Ipv6CidrBlock                        `parquet:"name=ipv6_cidr_block_set,type=MAP,convertedtype=LIST"`
-	OwnerId          string                                  `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PeeringOptions   *VpcPeeringConnectionOptionsDescription `parquet:"name=peering_options"`
-	Region           string                                  `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
-	VpcId            string                                  `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CidrBlock string `parquet:"name=cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CidrBlockSet []*CidrBlock `parquet:"name=cidr_block_set,type=MAP,convertedtype=LIST"`
+	Ipv6CidrBlockSet []*Ipv6CidrBlock `parquet:"name=ipv6_cidr_block_set,type=MAP,convertedtype=LIST"`
+	OwnerId string `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	PeeringOptions *VpcPeeringConnectionOptionsDescription `parquet:"name=peering_options"`
+	Region string `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
+	VpcId string `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
+
 type CidrBlock struct {
 	CidrBlock string `parquet:"name=cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
+
 type Ipv6CidrBlock struct {
 	Ipv6CidrBlock string `parquet:"name=ipv6_cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
+
 type VpcPeeringConnectionOptionsDescription struct {
-	AllowDnsResolutionFromRemoteVpc            bool `parquet:"name=allow_dns_resolution_from_remote_vpc,type=BOOLEAN"`
+	AllowDnsResolutionFromRemoteVpc bool `parquet:"name=allow_dns_resolution_from_remote_vpc,type=BOOLEAN"`
 	AllowEgressFromLocalClassicLinkToRemoteVpc bool `parquet:"name=allow_egress_from_local_classic_link_to_remote_vpc,type=BOOLEAN"`
 	AllowEgressFromLocalVpcToRemoteClassicLink bool `parquet:"name=allow_egress_from_local_vpc_to_remote_classic_link,type=BOOLEAN"`
 }
+
 type VpcPeeringConnectionStateReason struct {
-	Code    string `parquet:"name=code,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Code string `parquet:"name=code,type=BYTE_ARRAY,convertedtype=UTF8"`
 	Message string `parquet:"name=message,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
+
+type VpcCidrBlockAssociation struct {
+	AssociationId string `parquet:"name=association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CidrBlock string `parquet:"name=cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CidrBlockState *VpcCidrBlockState `parquet:"name=cidr_block_state"`
+}
+
+type VpcCidrBlockState struct {
+	State string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
+	StatusMessage string `parquet:"name=status_message,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
+type VpcIpv6CidrBlockAssociation struct {
+	AssociationId string `parquet:"name=association_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Ipv6CidrBlock string `parquet:"name=ipv6_cidr_block,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Ipv6CidrBlockState *VpcCidrBlockState `parquet:"name=ipv6_cidr_block_state"`
+	Ipv6Pool string `parquet:"name=ipv6_pool,type=BYTE_ARRAY,convertedtype=UTF8"`
+	NetworkBorderGroup string `parquet:"name=network_border_group,type=BYTE_ARRAY,convertedtype=UTF8"`
+}
+
 type VpcAttachment struct {
 	State string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
 	VpcId string `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
 }
-type RecurringCharge struct {
-	Amount    float64 `parquet:"name=amount,type=DOUBLE"`
-	Frequency string  `parquet:"name=frequency,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type EbsInfo struct {
-	EbsOptimizedInfo    *EbsOptimizedInfo `parquet:"name=ebs_optimized_info"`
-	EbsOptimizedSupport string            `parquet:"name=ebs_optimized_support,type=BYTE_ARRAY,convertedtype=UTF8"`
-	EncryptionSupport   string            `parquet:"name=encryption_support,type=BYTE_ARRAY,convertedtype=UTF8"`
-	NvmeSupport         string            `parquet:"name=nvme_support,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type EbsOptimizedInfo struct {
-	BaselineBandwidthInMbps  int32   `parquet:"name=baseline_bandwidth_in_mbps,type=INT32"`
-	BaselineIops             int32   `parquet:"name=baseline_iops,type=INT32"`
-	BaselineThroughputInMBps float64 `parquet:"name=baseline_throughput_in_m_bps,type=DOUBLE"`
-	MaximumBandwidthInMbps   int32   `parquet:"name=maximum_bandwidth_in_mbps,type=INT32"`
-	MaximumIops              int32   `parquet:"name=maximum_iops,type=INT32"`
-	MaximumThroughputInMBps  float64 `parquet:"name=maximum_throughput_in_m_bps,type=DOUBLE"`
-}
-type FpgaInfo struct {
-	Fpgas                []*FpgaDeviceInfo `parquet:"name=fpgas,type=MAP,convertedtype=LIST"`
-	TotalFpgaMemoryInMiB int32             `parquet:"name=total_fpga_memory_in_mi_b,type=INT32"`
-}
-type FpgaDeviceInfo struct {
-	Count        int32                 `parquet:"name=count,type=INT32"`
-	Manufacturer string                `parquet:"name=manufacturer,type=BYTE_ARRAY,convertedtype=UTF8"`
-	MemoryInfo   *FpgaDeviceMemoryInfo `parquet:"name=memory_info"`
-	Name         string                `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type FpgaDeviceMemoryInfo struct {
-	SizeInMiB int32 `parquet:"name=size_in_mi_b,type=INT32"`
-}
-type GpuInfo struct {
-	Gpus                []*GpuDeviceInfo `parquet:"name=gpus,type=MAP,convertedtype=LIST"`
-	TotalGpuMemoryInMiB int32            `parquet:"name=total_gpu_memory_in_mi_b,type=INT32"`
-}
-type GpuDeviceInfo struct {
-	Count        int32                `parquet:"name=count,type=INT32"`
-	Manufacturer string               `parquet:"name=manufacturer,type=BYTE_ARRAY,convertedtype=UTF8"`
-	MemoryInfo   *GpuDeviceMemoryInfo `parquet:"name=memory_info"`
-	Name         string               `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type GpuDeviceMemoryInfo struct {
-	SizeInMiB int32 `parquet:"name=size_in_mi_b,type=INT32"`
-}
-type InferenceAcceleratorInfo struct {
-	Accelerators []*InferenceDeviceInfo `parquet:"name=accelerators,type=MAP,convertedtype=LIST"`
-}
-type InferenceDeviceInfo struct {
-	Count        int32  `parquet:"name=count,type=INT32"`
-	Manufacturer string `parquet:"name=manufacturer,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Name         string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type InstanceStorageInfo struct {
-	Disks             []*DiskInfo `parquet:"name=disks,type=MAP,convertedtype=LIST"`
-	EncryptionSupport string      `parquet:"name=encryption_support,type=BYTE_ARRAY,convertedtype=UTF8"`
-	NvmeSupport       string      `parquet:"name=nvme_support,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TotalSizeInGB     int64       `parquet:"name=total_size_in_gb,type=INT64"`
-}
-type DiskInfo struct {
-	Count    int32  `parquet:"name=count,type=INT32"`
-	SizeInGB int64  `parquet:"name=size_in_gb,type=INT64"`
-	Type     string `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type MemoryInfo struct {
-	SizeInMiB int64 `parquet:"name=size_in_mi_b,type=INT64"`
-}
-type NetworkInfo struct {
-	DefaultNetworkCardIndex      int32              `parquet:"name=default_network_card_index,type=INT32"`
-	EfaInfo                      *EfaInfo           `parquet:"name=efa_info"`
-	EfaSupported                 bool               `parquet:"name=efa_supported,type=BOOLEAN"`
-	EnaSupport                   string             `parquet:"name=ena_support,type=BYTE_ARRAY,convertedtype=UTF8"`
-	EncryptionInTransitSupported bool               `parquet:"name=encryption_in_transit_supported,type=BOOLEAN"`
-	Ipv4AddressesPerInterface    int32              `parquet:"name=ipv4_addresses_per_interface,type=INT32"`
-	Ipv6AddressesPerInterface    int32              `parquet:"name=ipv6_addresses_per_interface,type=INT32"`
-	Ipv6Supported                bool               `parquet:"name=ipv6_supported,type=BOOLEAN"`
-	MaximumNetworkCards          int32              `parquet:"name=maximum_network_cards,type=INT32"`
-	MaximumNetworkInterfaces     int32              `parquet:"name=maximum_network_interfaces,type=INT32"`
-	NetworkCards                 []*NetworkCardInfo `parquet:"name=network_cards,type=MAP,convertedtype=LIST"`
-	NetworkPerformance           string             `parquet:"name=network_performance,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type EfaInfo struct {
-	MaximumEfaInterfaces int32 `parquet:"name=maximum_efa_interfaces,type=INT32"`
-}
-type NetworkCardInfo struct {
-	MaximumNetworkInterfaces int32  `parquet:"name=maximum_network_interfaces,type=INT32"`
-	NetworkCardIndex         int32  `parquet:"name=network_card_index,type=INT32"`
-	NetworkPerformance       string `parquet:"name=network_performance,type=BYTE_ARRAY,convertedtype=UTF8"`
-}
-type PlacementGroupInfo struct {
-	SupportedStrategies []string `parquet:"name=supported_strategies,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-}
-type ProcessorInfo struct {
-	SupportedArchitectures   []string `parquet:"name=supported_architectures,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	SustainedClockSpeedInGhz float64  `parquet:"name=sustained_clock_speed_in_ghz,type=DOUBLE"`
-}
-type VCpuInfo struct {
-	DefaultCores          int32   `parquet:"name=default_cores,type=INT32"`
-	DefaultThreadsPerCore int32   `parquet:"name=default_threads_per_core,type=INT32"`
-	DefaultVCpus          int32   `parquet:"name=default_v_cpus,type=INT32"`
-	ValidCores            []int32 `parquet:"name=valid_cores,type=MAP,convertedtype=LIST,valuetype=INT32"`
-	ValidThreadsPerCore   []int32 `parquet:"name=valid_threads_per_core,type=MAP,convertedtype=LIST,valuetype=INT32"`
-}
+
+

@@ -4,7 +4,10 @@ package awscloud
 import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"github.com/aws/aws-sdk-go-v2/service/ecs"
+	"github.com/aws/aws-sdk-go-v2/service/efs"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud/interfaces"
@@ -12,24 +15,40 @@ import (
 
 type AwsClient struct {
 	cloudwatchlogsClient *cloudwatchlogs.Client
-	ec2Client            *ec2.Client
-	s3Client             *s3.Client
+	dynamodbClient *dynamodb.Client
+	ec2Client *ec2.Client
+	ecsClient *ecs.Client
+	efsClient *efs.Client
+	s3Client *s3.Client
 }
 
 func NewAwsClient(cfg aws.Config) *AwsClient {
 	return &AwsClient{
 		cloudwatchlogsClient: cloudwatchlogs.NewFromConfig(cfg),
-		ec2Client:            ec2.NewFromConfig(cfg),
-		s3Client:             s3.NewFromConfig(cfg),
+		dynamodbClient: dynamodb.NewFromConfig(cfg),
+		ec2Client: ec2.NewFromConfig(cfg),
+		ecsClient: ecs.NewFromConfig(cfg),
+		efsClient: efs.NewFromConfig(cfg),
+		s3Client: s3.NewFromConfig(cfg),
 	}
 }
 
 func (c *AwsClient) CloudWatchLogs() interfaces.CloudWatchLogsClient {
 	return c.cloudwatchlogsClient
 }
+func (c *AwsClient) DynamoDB() interfaces.DynamoDBClient {
+	return c.dynamodbClient
+}
 func (c *AwsClient) EC2() interfaces.EC2Client {
 	return c.ec2Client
+}
+func (c *AwsClient) ECS() interfaces.ECSClient {
+	return c.ecsClient
+}
+func (c *AwsClient) EFS() interfaces.EFSClient {
+	return c.efsClient
 }
 func (c *AwsClient) S3() interfaces.S3Client {
 	return c.s3Client
 }
+

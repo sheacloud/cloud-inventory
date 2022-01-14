@@ -13,6 +13,7 @@ import (
 	"github.com/sheacloud/cloud-inventory/internal/indexedstorage"
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud"
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud/interfaces"
+	"github.com/sheacloud/cloud-inventory/pkg/meta"
 	"github.com/sirupsen/logrus"
 )
 
@@ -42,7 +43,7 @@ func ProcessAwsFetchJobs(ctx context.Context, jobs <-chan AwsFetchJob, results c
 	waitGroup.Done()
 }
 
-func FetchAwsInventory(ctx context.Context, accountIds []string, regions []string, baseAwsConfig aws.Config, assumeRoleName string, reportTime time.Time, fileManager *indexedstorage.IndexedFileManager, numWorkers int) {
+func FetchAwsInventory(ctx context.Context, accountIds []string, regions []string, baseAwsConfig aws.Config, useLocalCredentials bool, assumeRoleName string, reportTime time.Time, fileManager *indexedstorage.IndexedFileManager, numWorkers int) {
 	jobs := make(chan AwsFetchJob)
 	results := make(chan *awscloud.AwsFetchOutput)
 	workerWaitGroup := &sync.WaitGroup{}
@@ -50,6 +51,12 @@ func FetchAwsInventory(ctx context.Context, accountIds []string, regions []strin
 	// start the result processor
 	resultProcessorWaitGroup := &sync.WaitGroup{}
 	resultProcessorWaitGroup.Add(1)
+	resultFileIndices := []string{"meta", "inventory_results", "report_date=" + reportTime.Format("2006-01-02")}
+	resultIndexFile, err := fileManager.GetIndexedFile(resultFileIndices, new(meta.InventoryResults))
+	if err != nil {
+		logrus.Errorf("error getting result index file: %v", err)
+		panic(err)
+	}
 	go func() {
 		for result := range results {
 			if len(result.FetchingErrors) != 0 {
@@ -58,7 +65,16 @@ func FetchAwsInventory(ctx context.Context, accountIds []string, regions []strin
 				}
 			}
 
-			logrus.Infof("Processed account %s:%s for resource %s. Fetched %d resources, failed to fetch %d resources", result.AccountId, result.Region, result.ResourceName, result.FetchedResources, result.FailedResources)
+			err = resultIndexFile.Write(ctx, result.InventoryResults)
+			if err != nil {
+				logrus.Errorf("error writing result to index file: %v", err)
+			}
+
+			logrus.Infof("Processed account %s:%s for resource %s. Fetched %d resources, failed to fetch %d resources", result.AccountId, result.Region, result.ResourceName, result.InventoryResults.FetchedResources, result.InventoryResults.FailedResources)
+		}
+		err := resultIndexFile.Close()
+		if err != nil {
+			logrus.Errorf("error closing result index file: %v", err)
 		}
 		resultProcessorWaitGroup.Done()
 	}()
@@ -76,13 +92,31 @@ func FetchAwsInventory(ctx context.Context, accountIds []string, regions []strin
 
 	// create all the AWS clients for eacha account/region
 	accountClients := map[string]map[string]interfaces.AwsClient{}
-	for _, accountId := range accountIds {
+
+	if !useLocalCredentials {
+		for _, accountId := range accountIds {
+			accountClients[accountId] = map[string]interfaces.AwsClient{}
+			accountCfg := baseAwsConfig.Copy()
+			creds := stscreds.NewAssumeRoleProvider(stsSvc, fmt.Sprintf("arn:aws:iam::%s:role/%s", accountId, assumeRoleName))
+			accountCfg.Credentials = aws.NewCredentialsCache(creds)
+			for _, region := range regions {
+				regionCfg := accountCfg.Copy()
+				regionCfg.Region = region
+				accountClients[accountId][region] = awscloud.NewAwsClient(regionCfg)
+			}
+		}
+	} else {
+		// get local account id from STS
+		stsOutput, err := stsSvc.GetCallerIdentity(ctx, &sts.GetCallerIdentityInput{})
+		if err != nil {
+			logrus.Errorf("error getting caller identity: %v", err)
+			panic(err)
+		}
+		accountId := *stsOutput.Account
+		accountIds = []string{accountId}
 		accountClients[accountId] = map[string]interfaces.AwsClient{}
-		accountCfg := baseAwsConfig.Copy()
-		creds := stscreds.NewAssumeRoleProvider(stsSvc, fmt.Sprintf("arn:aws:iam::%s:role/%s", accountId, assumeRoleName))
-		accountCfg.Credentials = aws.NewCredentialsCache(creds)
 		for _, region := range regions {
-			regionCfg := accountCfg.Copy()
+			regionCfg := baseAwsConfig.Copy()
 			regionCfg.Region = region
 			accountClients[accountId][region] = awscloud.NewAwsClient(regionCfg)
 		}
@@ -90,7 +124,7 @@ func FetchAwsInventory(ctx context.Context, accountIds []string, regions []strin
 
 	for _, service := range AwsCatalog {
 		for _, resource := range service.Resources {
-			fileIndices := []string{"aws", service.ServiceName, resource.ResourceName, reportTime.Format("2006-01-02")}
+			fileIndices := []string{"aws", service.ServiceName, resource.ResourceName, "report_date=" + reportTime.Format("2006-01-02")}
 			fileIndex := strings.Join(fileIndices, "/")
 			indexFile, err := fileManager.GetIndexedFile(fileIndices, resource.ResourceModel)
 			if err != nil {

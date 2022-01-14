@@ -5,6 +5,7 @@ import (
 
 	"github.com/sheacloud/cloud-inventory/internal/indexedstorage"
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud/interfaces"
+	"github.com/sheacloud/cloud-inventory/pkg/meta"
 )
 
 type AwsFetchInput struct {
@@ -20,6 +21,5 @@ type AwsFetchOutput struct {
 	Region           string
 	ResourceName     string
 	FetchingErrors   []error
-	FetchedResources int
-	FailedResources  int
+	InventoryResults *meta.InventoryResults
 }

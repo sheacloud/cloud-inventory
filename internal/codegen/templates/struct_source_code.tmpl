@@ -1,0 +1,3 @@
+type {{.Name}} struct {
+{{range $index, $value := .Fields}}	{{$value.Name}} {{$value.Type}} {{$value.Tags}}
+{{end}}}

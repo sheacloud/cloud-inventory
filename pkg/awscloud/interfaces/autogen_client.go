@@ -3,6 +3,9 @@ package interfaces
 
 type AwsClient interface {
 	CloudWatchLogs() CloudWatchLogsClient
+	DynamoDB() DynamoDBClient
 	EC2() EC2Client
+	ECS() ECSClient
+	EFS() EFSClient
 	S3() S3Client
 }

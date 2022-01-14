@@ -8,21 +8,31 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud"
+	"github.com/sheacloud/cloud-inventory/pkg/meta"
 )
 
 func FetchVpcPeeringConnection(ctx context.Context, params *awscloud.AwsFetchInput) *awscloud.AwsFetchOutput {
 	fetchingErrors := []error{}
 	var fetchedResources int
 	var failedResources int
+	inventoryResults := &meta.InventoryResults{
+		Cloud: "aws",
+		Service: "ec2",
+		Resource: "vpc_peering_connections",
+		AccountId: params.AccountId,
+		Region: params.Region,
+		ReportTime: params.ReportTime.UTC().UnixMilli(),
+	}
 
 	awsClient := params.RegionalClients[params.Region]
 	client := awsClient.EC2()
 
+	
 	paginator := ec2.NewDescribeVpcPeeringConnectionsPaginator(client, &ec2.DescribeVpcPeeringConnectionsInput{})
 
 	for paginator.HasMorePages() {
 		output, err := paginator.NextPage(ctx)
-
+	
 		if err != nil {
 			fetchingErrors = append(fetchingErrors, fmt.Errorf("error calling DescribeVpcPeeringConnections in %s/%s: %w", params.AccountId, params.Region, err))
 			break
@@ -38,6 +48,8 @@ func FetchVpcPeeringConnection(ctx context.Context, params *awscloud.AwsFetchInp
 			model.Region = params.Region
 			model.ReportTime = params.ReportTime.UTC().UnixMilli()
 
+			
+
 			err = params.OutputFile.Write(ctx, model)
 			if err != nil {
 				fetchingErrors = append(fetchingErrors, fmt.Errorf("error storing VpcPeeringConnection model in %s/%s: %w", params.AccountId, params.Region, err))
@@ -47,10 +59,13 @@ func FetchVpcPeeringConnection(ctx context.Context, params *awscloud.AwsFetchInp
 
 	}
 
+	inventoryResults.FetchedResources = fetchedResources
+	inventoryResults.FailedResources = failedResources
+	inventoryResults.HadErrors = len(fetchingErrors) > 0
+
 	return &awscloud.AwsFetchOutput{
 		FetchingErrors:   fetchingErrors,
-		FetchedResources: fetchedResources,
-		FailedResources:  failedResources,
+		InventoryResults: inventoryResults,
 		ResourceName:     "vpc_peering_connections",
 		AccountId:        params.AccountId,
 		Region:           params.Region,

@@ -8,21 +8,31 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/jinzhu/copier"
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud"
+	"github.com/sheacloud/cloud-inventory/pkg/meta"
 )
 
 func FetchTransitGateway(ctx context.Context, params *awscloud.AwsFetchInput) *awscloud.AwsFetchOutput {
 	fetchingErrors := []error{}
 	var fetchedResources int
 	var failedResources int
+	inventoryResults := &meta.InventoryResults{
+		Cloud: "aws",
+		Service: "ec2",
+		Resource: "transit_gateways",
+		AccountId: params.AccountId,
+		Region: params.Region,
+		ReportTime: params.ReportTime.UTC().UnixMilli(),
+	}
 
 	awsClient := params.RegionalClients[params.Region]
 	client := awsClient.EC2()
 
+	
 	paginator := ec2.NewDescribeTransitGatewaysPaginator(client, &ec2.DescribeTransitGatewaysInput{})
 
 	for paginator.HasMorePages() {
 		output, err := paginator.NextPage(ctx)
-
+	
 		if err != nil {
 			fetchingErrors = append(fetchingErrors, fmt.Errorf("error calling DescribeTransitGateways in %s/%s: %w", params.AccountId, params.Region, err))
 			break
@@ -38,10 +48,12 @@ func FetchTransitGateway(ctx context.Context, params *awscloud.AwsFetchInput) *a
 			model.Region = params.Region
 			model.ReportTime = params.ReportTime.UTC().UnixMilli()
 
+			
 			if err = PostProcessTransitGateway(ctx, params, model); err != nil {
 				fetchingErrors = append(fetchingErrors, fmt.Errorf("error post-processing TransitGateway %s %s/%s: %w", model.TransitGatewayId, params.AccountId, params.Region, err))
 				failedResources++
 			}
+			
 
 			err = params.OutputFile.Write(ctx, model)
 			if err != nil {
@@ -52,10 +64,13 @@ func FetchTransitGateway(ctx context.Context, params *awscloud.AwsFetchInput) *a
 
 	}
 
+	inventoryResults.FetchedResources = fetchedResources
+	inventoryResults.FailedResources = failedResources
+	inventoryResults.HadErrors = len(fetchingErrors) > 0
+
 	return &awscloud.AwsFetchOutput{
 		FetchingErrors:   fetchingErrors,
-		FetchedResources: fetchedResources,
-		FailedResources:  failedResources,
+		InventoryResults: inventoryResults,
 		ResourceName:     "transit_gateways",
 		AccountId:        params.AccountId,
 		Region:           params.Region,

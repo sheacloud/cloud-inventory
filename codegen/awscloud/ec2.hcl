@@ -4,79 +4,14 @@ aws_service "ec2" {
     extra_utilized_functions = []
     tag_object_name = "Tag"
 
-    resource "images" {
-        fetch_function = "DescribeImages"
-        object_name = "Image"
-        object_unique_id = "ImageId"
-        object_response_field = "Images"
-        model_only = true
-        pagination = true
-        use_post_processing = false
-        excluded_fields = []
-        convert_tags = true
-        tag_field_name = "Tags"
-    }
-
-    resource "instances" {
-        fetch_function = "DescribeInstances"
-        object_name = "Instance"
-        object_unique_id = "InstanceId"
-        object_response_field = "Instances"
-        model_only = true
-        pagination = true
-        use_post_processing = false
-        excluded_fields = []
-        convert_tags = true
-        tag_field_name = "Tags"
-    }
-
-    resource "network_interfaces" {
-        fetch_function = "DescribeNetworkInterfaces"
-        object_name = "NetworkInterface"
-        object_unique_id = "NetworkInterfaceId"
-        object_response_field = "NetworkInterfaces"
+    resource "addresses" {
+        fetch_function = "DescribeAddresses"
+        object_name = "Address"
+        object_unique_id = "AllocationId"
+        object_response_field = "Addresses"
         model_only = false
-        pagination = true
-        use_post_processing = true
-        excluded_fields = []
-        convert_tags = true
-        tag_field_name = "TagSet"
-    }
-
-    resource "subnets" {
-        fetch_function = "DescribeSubnets"
-        object_name = "Subnet"
-        object_unique_id = "SubnetId"
-        object_response_field = "Subnets"
-        model_only = false
-        pagination = true
+        pagination = false
         use_post_processing = false
-        excluded_fields = []
-        convert_tags = true
-        tag_field_name = "Tags"
-    }
-
-    resource "vpcs" {
-        fetch_function = "DescribeVpcs"
-        object_name = "Vpc"
-        object_unique_id = "VpcId"
-        object_response_field = "Vpcs"
-        model_only = false
-        pagination = true
-        use_post_processing = false
-        excluded_fields = []
-        convert_tags = true
-        tag_field_name = "Tags"
-    }
-
-    resource "volumes" {
-        fetch_function = "DescribeVolumes"
-        object_name = "Volume"
-        object_unique_id = "VolumeId"
-        object_response_field = "Volumes"
-        model_only = false
-        pagination = true
-        use_post_processing = true
         excluded_fields = []
         convert_tags = true
         tag_field_name = "Tags"
@@ -95,6 +30,44 @@ aws_service "ec2" {
         tag_field_name = "Tags"
     }
 
+    resource "images" {
+        fetch_function = "DescribeImages"
+        object_name = "Image"
+        object_unique_id = "ImageId"
+        object_response_field = "Images"
+        model_only = true
+        pagination = true
+        use_post_processing = false
+        excluded_fields = []
+        convert_tags = true
+        tag_field_name = "Tags"
+    }
+
+    resource "instance_types" {
+        fetch_function = "DescribeInstanceTypes"
+        object_name = "InstanceTypeInfo"
+        object_unique_id = "InstanceType"
+        object_response_field = "InstanceTypes"
+        model_only = false
+        pagination = true
+        use_post_processing = false
+        excluded_fields = []
+        convert_tags = false
+    }
+
+    resource "instances" {
+        fetch_function = "DescribeInstances"
+        object_name = "Instance"
+        object_unique_id = "InstanceId"
+        object_response_field = "Instances"
+        model_only = true
+        pagination = true
+        use_post_processing = false
+        excluded_fields = []
+        convert_tags = true
+        tag_field_name = "Tags"
+    }
+
     resource "internet_gateways" {
         fetch_function = "DescribeInternetGateways"
         object_name = "InternetGateway"
@@ -106,7 +79,7 @@ aws_service "ec2" {
         excluded_fields = []
         convert_tags = true
         tag_field_name = "Tags"
-    }
+    }    
 
     resource "managed_prefix_lists" {
         fetch_function = "DescribeManagedPrefixLists"
@@ -147,6 +120,45 @@ aws_service "ec2" {
         tag_field_name = "Tags"
     }
 
+    resource "network_interfaces" {
+        fetch_function = "DescribeNetworkInterfaces"
+        object_name = "NetworkInterface"
+        object_unique_id = "NetworkInterfaceId"
+        object_response_field = "NetworkInterfaces"
+        model_only = false
+        pagination = true
+        use_post_processing = true
+        excluded_fields = []
+        convert_tags = true
+        tag_field_name = "TagSet"
+    }
+
+    resource "placement_groups" {
+        fetch_function = "DescribePlacementGroups"
+        object_name = "PlacementGroup"
+        object_unique_id = "GroupId"
+        object_response_field = "PlacementGroups"
+        model_only = false
+        pagination = false
+        use_post_processing = false
+        excluded_fields = []
+        convert_tags = true
+        tag_field_name = "Tags"
+    }
+
+    resource "reserved_instances" {
+        fetch_function = "DescribeReservedInstances"
+        object_name = "ReservedInstances"
+        object_unique_id = "ReservedInstancesId"
+        object_response_field = "ReservedInstances"
+        model_only = false
+        pagination = false
+        use_post_processing = false
+        excluded_fields = []
+        convert_tags = true
+        tag_field_name = "Tags"
+    }
+
     resource "route_tables" {
         fetch_function = "DescribeRouteTables"
         object_name = "RouteTable"
@@ -173,14 +185,27 @@ aws_service "ec2" {
         tag_field_name = "Tags"
     }
 
-    resource "transit_gateways" {
-        fetch_function = "DescribeTransitGateways"
-        object_name = "TransitGateway"
-        object_unique_id = "TransitGatewayId"
-        object_response_field = "TransitGateways"
+    resource "subnets" {
+        fetch_function = "DescribeSubnets"
+        object_name = "Subnet"
+        object_unique_id = "SubnetId"
+        object_response_field = "Subnets"
         model_only = false
         pagination = true
-        use_post_processing = true
+        use_post_processing = false
+        excluded_fields = []
+        convert_tags = true
+        tag_field_name = "Tags"
+    }
+
+    resource "transit_gateway_peering_attachments" {
+        fetch_function = "DescribeTransitGatewayPeeringAttachments"
+        object_name = "TransitGatewayPeeringAttachment"
+        object_unique_id = "TransitGatewayAttachmentId"
+        object_response_field = "TransitGatewayPeeringAttachments"
+        model_only = false
+        pagination = true
+        use_post_processing = false
         excluded_fields = []
         convert_tags = true
         tag_field_name = "Tags"
@@ -202,7 +227,7 @@ aws_service "ec2" {
     resource "transit_gateway_vpc_attachments" {
         fetch_function = "DescribeTransitGatewayVpcAttachments"
         object_name = "TransitGatewayVpcAttachment"
-        object_unique_id = "TransitGatewayVpcAttachmentId"
+        object_unique_id = "TransitGatewayAttachmentId"
         object_response_field = "TransitGatewayVpcAttachments"
         model_only = false
         pagination = true
@@ -212,14 +237,27 @@ aws_service "ec2" {
         tag_field_name = "Tags"
     }
 
-    resource "transit_gateway_peering_attachments" {
-        fetch_function = "DescribeTransitGatewayPeeringAttachments"
-        object_name = "TransitGatewayPeeringAttachment"
-        object_unique_id = "TransitGatewayPeeringAttachmentId"
-        object_response_field = "TransitGatewayPeeringAttachments"
+    resource "transit_gateways" {
+        fetch_function = "DescribeTransitGateways"
+        object_name = "TransitGateway"
+        object_unique_id = "TransitGatewayId"
+        object_response_field = "TransitGateways"
         model_only = false
         pagination = true
-        use_post_processing = false
+        use_post_processing = true
+        excluded_fields = []
+        convert_tags = true
+        tag_field_name = "Tags"
+    }
+    
+    resource "volumes" {
+        fetch_function = "DescribeVolumes"
+        object_name = "Volume"
+        object_unique_id = "VolumeId"
+        object_response_field = "Volumes"
+        model_only = false
+        pagination = true
+        use_post_processing = true
         excluded_fields = []
         convert_tags = true
         tag_field_name = "Tags"
@@ -251,6 +289,19 @@ aws_service "ec2" {
         tag_field_name = "Tags"
     }
 
+    resource "vpcs" {
+        fetch_function = "DescribeVpcs"
+        object_name = "Vpc"
+        object_unique_id = "VpcId"
+        object_response_field = "Vpcs"
+        model_only = false
+        pagination = true
+        use_post_processing = false
+        excluded_fields = []
+        convert_tags = true
+        tag_field_name = "Tags"
+    }
+
     resource "vpn_gateways" {
         fetch_function = "DescribeVpnGateways"
         object_name = "VpnGateway"
@@ -262,56 +313,5 @@ aws_service "ec2" {
         excluded_fields = []
         convert_tags = true
         tag_field_name = "Tags"
-    }
-
-    resource "reserved_instances" {
-        fetch_function = "DescribeReservedInstances"
-        object_name = "ReservedInstances"
-        object_unique_id = "ReservedInstancesId"
-        object_response_field = "ReservedInstances"
-        model_only = false
-        pagination = false
-        use_post_processing = false
-        excluded_fields = []
-        convert_tags = true
-        tag_field_name = "Tags"
-    }
-
-    resource "placement_groups" {
-        fetch_function = "DescribePlacementGroups"
-        object_name = "PlacementGroup"
-        object_unique_id = "GroupId"
-        object_response_field = "PlacementGroups"
-        model_only = false
-        pagination = false
-        use_post_processing = false
-        excluded_fields = []
-        convert_tags = true
-        tag_field_name = "Tags"
-    }
-
-    resource "addresses" {
-        fetch_function = "DescribeAddresses"
-        object_name = "Address"
-        object_unique_id = "AllocationId"
-        object_response_field = "Addresses"
-        model_only = false
-        pagination = false
-        use_post_processing = false
-        excluded_fields = []
-        convert_tags = true
-        tag_field_name = "Tags"
-    }
-
-    resource "instance_types" {
-        fetch_function = "DescribeInstanceTypes"
-        object_name = "InstanceTypeInfo"
-        object_unique_id = "InstanceType"
-        object_response_field = "InstanceTypes"
-        model_only = false
-        pagination = true
-        use_post_processing = false
-        excluded_fields = []
-        convert_tags = false
-    }
+    }   
 }
