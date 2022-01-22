@@ -7,6 +7,7 @@ aws_service "efs" {
     resource "filesystems" {
         fetch_function = "DescribeFileSystems"
         object_name = "FileSystemDescription"
+        object_plural_name = "FileSystems"
         object_unique_id = "FileSystemId"
         object_response_field = "FileSystems"
         model_only = false

@@ -104,8 +104,8 @@ resource "aws_glue_catalog_table" "aws_ec2_addresses" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -124,12 +124,6 @@ resource "aws_glue_catalog_table" "aws_ec2_addresses" {
     columns {
       name       = "report_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -185,8 +179,8 @@ resource "aws_glue_catalog_table" "aws_ec2_dhcp_options" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -205,12 +199,6 @@ resource "aws_glue_catalog_table" "aws_ec2_dhcp_options" {
     columns {
       name       = "report_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -398,8 +386,8 @@ resource "aws_glue_catalog_table" "aws_ec2_images" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -430,12 +418,6 @@ resource "aws_glue_catalog_table" "aws_ec2_images" {
     columns {
       name       = "report_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -956,8 +938,8 @@ resource "aws_glue_catalog_table" "aws_ec2_instances" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -1006,12 +988,6 @@ resource "aws_glue_catalog_table" "aws_ec2_instances" {
     columns {
       name       = "usage_operation_update_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -1067,8 +1043,8 @@ resource "aws_glue_catalog_table" "aws_ec2_internet_gateways" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -1087,12 +1063,6 @@ resource "aws_glue_catalog_table" "aws_ec2_internet_gateways" {
     columns {
       name       = "report_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -1178,8 +1148,8 @@ resource "aws_glue_catalog_table" "aws_ec2_managed_prefix_lists" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -1204,12 +1174,6 @@ resource "aws_glue_catalog_table" "aws_ec2_managed_prefix_lists" {
     columns {
       name       = "report_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -1295,8 +1259,8 @@ resource "aws_glue_catalog_table" "aws_ec2_nat_gateways" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -1333,12 +1297,6 @@ resource "aws_glue_catalog_table" "aws_ec2_nat_gateways" {
     columns {
       name       = "delete_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -1406,8 +1364,8 @@ resource "aws_glue_catalog_table" "aws_ec2_network_acls" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -1432,12 +1390,6 @@ resource "aws_glue_catalog_table" "aws_ec2_network_acls" {
     columns {
       name       = "report_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -1619,8 +1571,8 @@ resource "aws_glue_catalog_table" "aws_ec2_network_interfaces" {
       parameters = {}
     }
     columns {
-      name       = "tag_set_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -1645,12 +1597,6 @@ resource "aws_glue_catalog_table" "aws_ec2_network_interfaces" {
     columns {
       name       = "report_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -1718,8 +1664,8 @@ resource "aws_glue_catalog_table" "aws_ec2_placement_groups" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -1738,12 +1684,6 @@ resource "aws_glue_catalog_table" "aws_ec2_placement_groups" {
     columns {
       name       = "report_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -1865,8 +1805,8 @@ resource "aws_glue_catalog_table" "aws_ec2_reserved_instances" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -1903,12 +1843,6 @@ resource "aws_glue_catalog_table" "aws_ec2_reserved_instances" {
     columns {
       name       = "start"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -1976,8 +1910,8 @@ resource "aws_glue_catalog_table" "aws_ec2_route_tables" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -2002,12 +1936,6 @@ resource "aws_glue_catalog_table" "aws_ec2_route_tables" {
     columns {
       name       = "report_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -2081,8 +2009,8 @@ resource "aws_glue_catalog_table" "aws_ec2_security_groups" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -2107,12 +2035,6 @@ resource "aws_glue_catalog_table" "aws_ec2_security_groups" {
     columns {
       name       = "report_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -2264,8 +2186,8 @@ resource "aws_glue_catalog_table" "aws_ec2_subnets" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -2290,12 +2212,6 @@ resource "aws_glue_catalog_table" "aws_ec2_subnets" {
     columns {
       name       = "report_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -2357,8 +2273,8 @@ resource "aws_glue_catalog_table" "aws_ec2_transit_gateway_peering_attachments" 
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -2389,12 +2305,6 @@ resource "aws_glue_catalog_table" "aws_ec2_transit_gateway_peering_attachments" 
     columns {
       name       = "creation_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -2450,8 +2360,8 @@ resource "aws_glue_catalog_table" "aws_ec2_transit_gateway_route_tables" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -2488,12 +2398,6 @@ resource "aws_glue_catalog_table" "aws_ec2_transit_gateway_route_tables" {
     columns {
       name       = "creation_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -2549,8 +2453,8 @@ resource "aws_glue_catalog_table" "aws_ec2_transit_gateway_vpc_attachments" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -2599,12 +2503,6 @@ resource "aws_glue_catalog_table" "aws_ec2_transit_gateway_vpc_attachments" {
     columns {
       name       = "creation_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -2666,8 +2564,8 @@ resource "aws_glue_catalog_table" "aws_ec2_transit_gateways" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -2704,12 +2602,6 @@ resource "aws_glue_catalog_table" "aws_ec2_transit_gateways" {
     columns {
       name       = "creation_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -2813,8 +2705,8 @@ resource "aws_glue_catalog_table" "aws_ec2_volumes" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -2857,12 +2749,6 @@ resource "aws_glue_catalog_table" "aws_ec2_volumes" {
     columns {
       name       = "create_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -2972,8 +2858,8 @@ resource "aws_glue_catalog_table" "aws_ec2_vpc_endpoints" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -3016,12 +2902,6 @@ resource "aws_glue_catalog_table" "aws_ec2_vpc_endpoints" {
     columns {
       name       = "creation_timestamp"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -3077,8 +2957,8 @@ resource "aws_glue_catalog_table" "aws_ec2_vpc_peering_connections" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -3109,12 +2989,6 @@ resource "aws_glue_catalog_table" "aws_ec2_vpc_peering_connections" {
     columns {
       name       = "expiration_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -3200,8 +3074,8 @@ resource "aws_glue_catalog_table" "aws_ec2_vpcs" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -3226,12 +3100,6 @@ resource "aws_glue_catalog_table" "aws_ec2_vpcs" {
     columns {
       name       = "report_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -3287,8 +3155,8 @@ resource "aws_glue_catalog_table" "aws_ec2_vpn_gateways" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -3325,12 +3193,6 @@ resource "aws_glue_catalog_table" "aws_ec2_vpn_gateways" {
     columns {
       name       = "report_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }

@@ -7,6 +7,7 @@ aws_service "elasticloadbalancingv2" {
     resource "load_balancers" {
         fetch_function = "DescribeLoadBalancers"
         object_name = "LoadBalancer"
+        object_plural_name = "LoadBalancers"
         object_unique_id = "LoadBalancerArn"
         object_response_field = "LoadBalancers"
         model_only = false
@@ -30,6 +31,7 @@ aws_service "elasticloadbalancingv2" {
     resource "target_groups" {
         fetch_function = "DescribeTargetGroups"
         object_name = "TargetGroup"
+        object_plural_name = "TargetGroups"
         object_unique_id = "TargetGroupArn"
         object_response_field = "TargetGroups"
         model_only = false

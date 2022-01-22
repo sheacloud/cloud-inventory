@@ -110,8 +110,8 @@ resource "aws_glue_catalog_table" "aws_ecs_clusters" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -130,12 +130,6 @@ resource "aws_glue_catalog_table" "aws_ecs_clusters" {
     columns {
       name       = "report_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -329,8 +323,8 @@ resource "aws_glue_catalog_table" "aws_ecs_services" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -367,12 +361,6 @@ resource "aws_glue_catalog_table" "aws_ecs_services" {
     columns {
       name       = "created_at"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -554,8 +542,8 @@ resource "aws_glue_catalog_table" "aws_ecs_tasks" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -640,12 +628,6 @@ resource "aws_glue_catalog_table" "aws_ecs_tasks" {
     columns {
       name       = "stopping_at"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }

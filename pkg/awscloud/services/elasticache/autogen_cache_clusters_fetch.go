@@ -16,23 +16,22 @@ func FetchCacheCluster(ctx context.Context, params *awscloud.AwsFetchInput) *aws
 	var fetchedResources int
 	var failedResources int
 	inventoryResults := &meta.InventoryResults{
-		Cloud: "aws",
-		Service: "elasticache",
-		Resource: "cache_clusters",
-		AccountId: params.AccountId,
-		Region: params.Region,
+		Cloud:      "aws",
+		Service:    "elasticache",
+		Resource:   "cache_clusters",
+		AccountId:  params.AccountId,
+		Region:     params.Region,
 		ReportTime: params.ReportTime.UTC().UnixMilli(),
 	}
 
 	awsClient := params.RegionalClients[params.Region]
 	client := awsClient.ElastiCache()
 
-	
 	paginator := elasticache.NewDescribeCacheClustersPaginator(client, &elasticache.DescribeCacheClustersInput{})
 
 	for paginator.HasMorePages() {
 		output, err := paginator.NextPage(ctx)
-	
+
 		if err != nil {
 			fetchingErrors = append(fetchingErrors, fmt.Errorf("error calling DescribeCacheClusters in %s/%s: %w", params.AccountId, params.Region, err))
 			break
@@ -43,17 +42,14 @@ func FetchCacheCluster(ctx context.Context, params *awscloud.AwsFetchInput) *aws
 			model := new(CacheCluster)
 			copier.Copy(&model, &object)
 
-			
 			model.AccountId = params.AccountId
 			model.Region = params.Region
 			model.ReportTime = params.ReportTime.UTC().UnixMilli()
 
-			
 			if err = PostProcessCacheCluster(ctx, params, model); err != nil {
 				fetchingErrors = append(fetchingErrors, fmt.Errorf("error post-processing CacheCluster %s %s/%s: %w", model.ARN, params.AccountId, params.Region, err))
 				failedResources++
 			}
-			
 
 			err = params.OutputFile.Write(ctx, model)
 			if err != nil {

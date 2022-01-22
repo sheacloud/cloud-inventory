@@ -8,6 +8,7 @@ aws_service "s3" {
     resource "buckets" {
         fetch_function = "ListBuckets"
         object_name = "Bucket"
+        object_plural_name = "Buckets"
         object_unique_id = "Name"
         object_response_field = "Buckets"
         model_only = false

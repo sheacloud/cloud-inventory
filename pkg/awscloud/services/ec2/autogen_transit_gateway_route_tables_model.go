@@ -6,17 +6,19 @@ import (
 )
 
 type TransitGatewayRouteTable struct {
-	CreationTime *time.Time 
-	DefaultAssociationRouteTable bool `parquet:"name=default_association_route_table,type=BOOLEAN"`
-	DefaultPropagationRouteTable bool `parquet:"name=default_propagation_route_table,type=BOOLEAN"`
-	State string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TagsOld []*Tag `parquet:"name=tags_old,type=MAP,convertedtype=LIST"`
-	TransitGatewayId string `parquet:"name=transit_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TransitGatewayRouteTableId string `parquet:"name=transit_gateway_route_table_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	AccountId string `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Region string `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ReportTime int64 `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	CreationTimeMilli int64 `parquet:"name=creation_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	Tags map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	CreationTime                 *time.Time
+	DefaultAssociationRouteTable bool              `parquet:"name=default_association_route_table,type=BOOLEAN" json:"default_association_route_table" diff:"default_association_route_table"`
+	DefaultPropagationRouteTable bool              `parquet:"name=default_propagation_route_table,type=BOOLEAN" json:"default_propagation_route_table" diff:"default_propagation_route_table"`
+	State                        string            `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8" json:"state" diff:"state"`
+	Tags                         map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8" json:"tags" diff:"tags"`
+	TransitGatewayId             string            `parquet:"name=transit_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"transit_gateway_id" diff:"transit_gateway_id"`
+	TransitGatewayRouteTableId   string            `parquet:"name=transit_gateway_route_table_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"transit_gateway_route_table_id" diff:"transit_gateway_route_table_id,identifier"`
+	AccountId                    string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"account_id" diff:"account_id"`
+	Region                       string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8" json:"region" diff:"region"`
+	ReportTime                   int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"report_time" diff:"report_time,immutable"`
+	CreationTimeMilli            int64             `parquet:"name=creation_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"creation_time" diff:"creation_time"`
 }
 
+func (x *TransitGatewayRouteTable) GetReportTime() int64 {
+	return x.ReportTime
+}

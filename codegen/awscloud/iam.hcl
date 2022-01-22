@@ -8,6 +8,7 @@ aws_service "iam" {
     resource "groups" {
         fetch_function = "ListGroups"
         object_name = "Group"
+        object_plural_name = "Groups"
         object_unique_id = "GroupId"
         object_response_field = "Groups"
         model_only = false
@@ -36,6 +37,7 @@ aws_service "iam" {
     resource "policies" {
         fetch_function = "ListPolicies"
         object_name = "Policy"
+        object_plural_name = "Policies"
         object_unique_id = "PolicyId"
         object_response_field = "Policies"
         model_only = true
@@ -48,6 +50,7 @@ aws_service "iam" {
     resource "roles" {
         fetch_function = "ListRoles"
         object_name = "Role"
+        object_plural_name = "Roles"
         object_unique_id = "RoleId"
         object_response_field = "Roles"
         model_only = false
@@ -72,6 +75,7 @@ aws_service "iam" {
     resource "users" {
         fetch_function = "ListUsers"
         object_name = "User"
+        object_plural_name = "Users"
         object_unique_id = "UserId"
         object_response_field = "Users"
         model_only = false

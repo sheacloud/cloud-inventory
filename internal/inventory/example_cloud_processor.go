@@ -57,11 +57,14 @@ func FetchExampleCloudInventory(ctx context.Context, client examplecloud.Example
 	resourceWaitGroup := sync.WaitGroup{}               // waits for all resources to be fetched, and corresponding index files to be written
 	indexFileWaitGroups := map[string]*sync.WaitGroup{} // wait for all jobs for given index to be done
 
+	reportDateString := reportTime.Format("2006-01-02")
+	reportTimeMilli := reportTime.UTC().UnixMilli()
+
 	for _, service := range ExampleCloudCatalog {
 		for _, resource := range service.Resources {
-			fileIndices := []string{"example_cloud", service.ServiceName, resource.ResourceName, reportTime.Format("2006-01-02")}
+			fileIndices := []string{"example_cloud", service.ServiceName, resource.ResourceName}
 			fileIndex := strings.Join(fileIndices, "/")
-			indexFile, err := fileManager.GetIndexedFile(fileIndices, resource.ResourceModel)
+			indexFile, err := fileManager.GetIndexedFile(fileIndices, reportDateString, reportTimeMilli, resource.ResourceModel)
 			if err != nil {
 				panic(err)
 			}

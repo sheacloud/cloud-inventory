@@ -7,6 +7,7 @@ aws_service "elasticloadbalancing" {
     resource "load_balancers" {
         fetch_function = "DescribeLoadBalancers"
         object_name = "LoadBalancerDescription"
+        object_plural_name = "LoadBalancers"
         object_unique_id = "LoadBalancerName"
         object_response_field = "LoadBalancerDescriptions"
         model_only = false

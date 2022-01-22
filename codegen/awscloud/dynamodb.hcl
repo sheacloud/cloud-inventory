@@ -7,6 +7,7 @@ aws_service "dynamodb" {
     resource "tables" {
         fetch_function = "ListTables"
         object_name = "TableDescription"
+        object_plural_name = "TableDescriptions"
         object_unique_id = "TableArn"
         object_response_field = "TableNames"
         model_only = true

@@ -16,18 +16,16 @@ func FetchPlacementGroup(ctx context.Context, params *awscloud.AwsFetchInput) *a
 	var fetchedResources int
 	var failedResources int
 	inventoryResults := &meta.InventoryResults{
-		Cloud: "aws",
-		Service: "ec2",
-		Resource: "placement_groups",
-		AccountId: params.AccountId,
-		Region: params.Region,
+		Cloud:      "aws",
+		Service:    "ec2",
+		Resource:   "placement_groups",
+		AccountId:  params.AccountId,
+		Region:     params.Region,
 		ReportTime: params.ReportTime.UTC().UnixMilli(),
 	}
 
 	awsClient := params.RegionalClients[params.Region]
 	client := awsClient.EC2()
-
-	
 
 	result, err := client.DescribePlacementGroups(ctx, &ec2.DescribePlacementGroupsInput{})
 	if err != nil {
@@ -46,7 +44,7 @@ func FetchPlacementGroup(ctx context.Context, params *awscloud.AwsFetchInput) *a
 
 	results := []*ec2.DescribePlacementGroupsOutput{result}
 	for _, output := range results {
-	
+
 		if err != nil {
 			fetchingErrors = append(fetchingErrors, fmt.Errorf("error calling DescribePlacementGroups in %s/%s: %w", params.AccountId, params.Region, err))
 			break
@@ -61,8 +59,6 @@ func FetchPlacementGroup(ctx context.Context, params *awscloud.AwsFetchInput) *a
 			model.AccountId = params.AccountId
 			model.Region = params.Region
 			model.ReportTime = params.ReportTime.UTC().UnixMilli()
-
-			
 
 			err = params.OutputFile.Write(ctx, model)
 			if err != nil {

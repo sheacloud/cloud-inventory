@@ -16,23 +16,22 @@ func FetchGroup(ctx context.Context, params *awscloud.AwsFetchInput) *awscloud.A
 	var fetchedResources int
 	var failedResources int
 	inventoryResults := &meta.InventoryResults{
-		Cloud: "aws",
-		Service: "iam",
-		Resource: "groups",
-		AccountId: params.AccountId,
-		Region: params.Region,
+		Cloud:      "aws",
+		Service:    "iam",
+		Resource:   "groups",
+		AccountId:  params.AccountId,
+		Region:     params.Region,
 		ReportTime: params.ReportTime.UTC().UnixMilli(),
 	}
 
 	awsClient := params.RegionalClients[params.Region]
 	client := awsClient.IAM()
 
-	
 	paginator := iam.NewListGroupsPaginator(client, &iam.ListGroupsInput{})
 
 	for paginator.HasMorePages() {
 		output, err := paginator.NextPage(ctx)
-	
+
 		if err != nil {
 			fetchingErrors = append(fetchingErrors, fmt.Errorf("error calling ListGroups in %s/%s: %w", params.AccountId, params.Region, err))
 			break
@@ -43,17 +42,14 @@ func FetchGroup(ctx context.Context, params *awscloud.AwsFetchInput) *awscloud.A
 			model := new(Group)
 			copier.Copy(&model, &object)
 
-			
 			model.AccountId = params.AccountId
 			model.Region = params.Region
 			model.ReportTime = params.ReportTime.UTC().UnixMilli()
 
-			
 			if err = PostProcessGroup(ctx, params, model); err != nil {
 				fetchingErrors = append(fetchingErrors, fmt.Errorf("error post-processing Group %s %s/%s: %w", model.GroupId, params.AccountId, params.Region, err))
 				failedResources++
 			}
-			
 
 			err = params.OutputFile.Write(ctx, model)
 			if err != nil {

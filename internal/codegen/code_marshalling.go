@@ -46,6 +46,14 @@ var (
 	//go:embed templates/implemented_resources.tmpl
 	implementedResourcesTemplateString string
 	implementedResourcesTemplate       = template.Must(template.New("implementedResources").Parse(implementedResourcesTemplateString))
+
+	//go:embed templates/aws_api_route.tmpl
+	awsApiRouteTemplateString string
+	awsApiRouteTemplate       = template.Must(template.New("awsApiRoute").Parse(awsApiRouteTemplateString))
+
+	//go:embed templates/aws_router.tmpl
+	awsRouterTemplateString string
+	awsRouterTemplate       = template.Must(template.New("awsRouter").Parse(awsRouterTemplateString))
 )
 
 type AwsTemplate struct {
@@ -82,6 +90,15 @@ func (t *AwsTemplate) GetCatalogFileCode() string {
 func (t *AwsTemplate) GetImplementedResourcesCode() string {
 	var buf strings.Builder
 	err := implementedResourcesTemplate.Execute(&buf, t)
+	if err != nil {
+		panic(err)
+	}
+	return buf.String()
+}
+
+func (t *AwsTemplate) GetAwsRouterFileCode() string {
+	var buf strings.Builder
+	err := awsRouterTemplate.Execute(&buf, t)
 	if err != nil {
 		panic(err)
 	}
@@ -141,6 +158,15 @@ func (t *AwsResourceTemplate) GetResourceFileCode() string {
 func (t *AwsResourceTemplate) GetFetchingFileCode() string {
 	var buf strings.Builder
 	err := fetchingFileTemplate.Execute(&buf, t)
+	if err != nil {
+		panic(err)
+	}
+	return buf.String()
+}
+
+func (t *AwsResourceTemplate) GetAwsApiRouteCode() string {
+	var buf strings.Builder
+	err := awsApiRouteTemplate.Execute(&buf, t)
 	if err != nil {
 		panic(err)
 	}

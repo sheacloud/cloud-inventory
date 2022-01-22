@@ -16,18 +16,16 @@ func FetchVpnGateway(ctx context.Context, params *awscloud.AwsFetchInput) *awscl
 	var fetchedResources int
 	var failedResources int
 	inventoryResults := &meta.InventoryResults{
-		Cloud: "aws",
-		Service: "ec2",
-		Resource: "vpn_gateways",
-		AccountId: params.AccountId,
-		Region: params.Region,
+		Cloud:      "aws",
+		Service:    "ec2",
+		Resource:   "vpn_gateways",
+		AccountId:  params.AccountId,
+		Region:     params.Region,
 		ReportTime: params.ReportTime.UTC().UnixMilli(),
 	}
 
 	awsClient := params.RegionalClients[params.Region]
 	client := awsClient.EC2()
-
-	
 
 	result, err := client.DescribeVpnGateways(ctx, &ec2.DescribeVpnGatewaysInput{})
 	if err != nil {
@@ -46,7 +44,7 @@ func FetchVpnGateway(ctx context.Context, params *awscloud.AwsFetchInput) *awscl
 
 	results := []*ec2.DescribeVpnGatewaysOutput{result}
 	for _, output := range results {
-	
+
 		if err != nil {
 			fetchingErrors = append(fetchingErrors, fmt.Errorf("error calling DescribeVpnGateways in %s/%s: %w", params.AccountId, params.Region, err))
 			break
@@ -61,8 +59,6 @@ func FetchVpnGateway(ctx context.Context, params *awscloud.AwsFetchInput) *awscl
 			model.AccountId = params.AccountId
 			model.Region = params.Region
 			model.ReportTime = params.ReportTime.UTC().UnixMilli()
-
-			
 
 			err = params.OutputFile.Write(ctx, model)
 			if err != nil {

@@ -16,23 +16,22 @@ func FetchNetworkInterface(ctx context.Context, params *awscloud.AwsFetchInput) 
 	var fetchedResources int
 	var failedResources int
 	inventoryResults := &meta.InventoryResults{
-		Cloud: "aws",
-		Service: "ec2",
-		Resource: "network_interfaces",
-		AccountId: params.AccountId,
-		Region: params.Region,
+		Cloud:      "aws",
+		Service:    "ec2",
+		Resource:   "network_interfaces",
+		AccountId:  params.AccountId,
+		Region:     params.Region,
 		ReportTime: params.ReportTime.UTC().UnixMilli(),
 	}
 
 	awsClient := params.RegionalClients[params.Region]
 	client := awsClient.EC2()
 
-	
 	paginator := ec2.NewDescribeNetworkInterfacesPaginator(client, &ec2.DescribeNetworkInterfacesInput{})
 
 	for paginator.HasMorePages() {
 		output, err := paginator.NextPage(ctx)
-	
+
 		if err != nil {
 			fetchingErrors = append(fetchingErrors, fmt.Errorf("error calling DescribeNetworkInterfaces in %s/%s: %w", params.AccountId, params.Region, err))
 			break
@@ -48,12 +47,10 @@ func FetchNetworkInterface(ctx context.Context, params *awscloud.AwsFetchInput) 
 			model.Region = params.Region
 			model.ReportTime = params.ReportTime.UTC().UnixMilli()
 
-			
 			if err = PostProcessNetworkInterface(ctx, params, model); err != nil {
 				fetchingErrors = append(fetchingErrors, fmt.Errorf("error post-processing NetworkInterface %s %s/%s: %w", model.NetworkInterfaceId, params.AccountId, params.Region, err))
 				failedResources++
 			}
-			
 
 			err = params.OutputFile.Write(ctx, model)
 			if err != nil {

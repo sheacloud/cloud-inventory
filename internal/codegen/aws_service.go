@@ -27,6 +27,7 @@ type AwsResourceConfig struct {
 	Name                string              `hcl:"name,label"`
 	FetchFunction       string              `hcl:"fetch_function,attr"`        // the API function used to fetch the resource
 	ObjectName          string              `hcl:"object_name,attr"`           // the name of the object in the API
+	ObjectPluralName    string              `hcl:"object_plural_name"`         // the plural name of the object in the API
 	ObjectUniqueId      string              `hcl:"object_unique_id,attr"`      // the name of a field in the object that uniquely identifies it
 	ObjectResponseField string              `hcl:"object_response_field,attr"` // the name of the object in the API response
 	ModelOnly           bool                `hcl:"model_only,attr"`            // whether or not to only generate data models, not fetching code
@@ -37,6 +38,10 @@ type AwsResourceConfig struct {
 	ExcludedFields      []string            `hcl:"excluded_fields,optional"`
 	ExtraFields         []*ExtraFieldConfig `hcl:"extra_field,block"`
 	Children            []*ChildConfig      `hcl:"child,block"`
+}
+
+func (c AwsResourceConfig) ObjectUniqueIdSnakeCase() string {
+	return toSnakeCase(c.ObjectUniqueId)
 }
 
 type ExtraFieldConfig struct {
@@ -72,10 +77,14 @@ var (
 )
 
 func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) error {
+	apiRoutesBaseDirectory := "./internal/routes/awscloud/"
 
 	for _, service := range template.Services {
 		logrus.Info("Generating code for service " + service.Name)
 		makeDir(outputBaseDirectory + "services/" + service.Name)
+
+		serviceApiRoutePath := apiRoutesBaseDirectory + service.Name + "/"
+		makeDir(serviceApiRoutePath)
 
 		var resourceStructs []*StructModel
 		var allReferencedStructs []*StructModel
@@ -193,6 +202,16 @@ func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) e
 				"service": service.Name,
 			}).Info("Generated code for " + resource.Name)
 
+			// generate the API route code
+			outputPath = serviceApiRoutePath + "autogen_" + resource.Name + "_route.go"
+			outputFile, err = os.Create(outputPath)
+			if err != nil {
+				panic(err)
+			}
+			routeFileCode := template.GetAwsApiRouteCode()
+			outputFile.WriteString(routeFileCode)
+			outputFile.Close()
+
 		}
 
 		referencedTemplate := AwsReferencedResourceTemplate{
@@ -276,6 +295,16 @@ func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) e
 	}
 	implementedResourcesCode := template.GetImplementedResourcesCode()
 	outputFile.WriteString(implementedResourcesCode)
+
+	// generate aws router code
+	outputPath = "./internal/routes/awscloud/router.go"
+	outputFile, err = os.Create(outputPath)
+	if err != nil {
+		panic(err)
+	}
+	awsRouterCode := template.GetAwsRouterFileCode()
+	outputFile.WriteString(awsRouterCode)
+	outputFile.Close()
 
 	return nil
 }

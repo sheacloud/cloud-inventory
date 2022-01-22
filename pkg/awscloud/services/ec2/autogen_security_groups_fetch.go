@@ -16,23 +16,22 @@ func FetchSecurityGroup(ctx context.Context, params *awscloud.AwsFetchInput) *aw
 	var fetchedResources int
 	var failedResources int
 	inventoryResults := &meta.InventoryResults{
-		Cloud: "aws",
-		Service: "ec2",
-		Resource: "security_groups",
-		AccountId: params.AccountId,
-		Region: params.Region,
+		Cloud:      "aws",
+		Service:    "ec2",
+		Resource:   "security_groups",
+		AccountId:  params.AccountId,
+		Region:     params.Region,
 		ReportTime: params.ReportTime.UTC().UnixMilli(),
 	}
 
 	awsClient := params.RegionalClients[params.Region]
 	client := awsClient.EC2()
 
-	
 	paginator := ec2.NewDescribeSecurityGroupsPaginator(client, &ec2.DescribeSecurityGroupsInput{})
 
 	for paginator.HasMorePages() {
 		output, err := paginator.NextPage(ctx)
-	
+
 		if err != nil {
 			fetchingErrors = append(fetchingErrors, fmt.Errorf("error calling DescribeSecurityGroups in %s/%s: %w", params.AccountId, params.Region, err))
 			break
@@ -47,8 +46,6 @@ func FetchSecurityGroup(ctx context.Context, params *awscloud.AwsFetchInput) *aw
 			model.AccountId = params.AccountId
 			model.Region = params.Region
 			model.ReportTime = params.ReportTime.UTC().UnixMilli()
-
-			
 
 			err = params.OutputFile.Write(ctx, model)
 			if err != nil {

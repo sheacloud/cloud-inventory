@@ -6,17 +6,19 @@ import (
 )
 
 type TransitGatewayPeeringAttachment struct {
-	AccepterTgwInfo *PeeringTgwInfo `parquet:"name=accepter_tgw_info"`
-	CreationTime *time.Time 
-	RequesterTgwInfo *PeeringTgwInfo `parquet:"name=requester_tgw_info"`
-	State string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Status *PeeringAttachmentStatus `parquet:"name=status"`
-	TagsOld []*Tag `parquet:"name=tags_old,type=MAP,convertedtype=LIST"`
-	TransitGatewayAttachmentId string `parquet:"name=transit_gateway_attachment_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	AccountId string `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Region string `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ReportTime int64 `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	CreationTimeMilli int64 `parquet:"name=creation_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	Tags map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	AccepterTgwInfo            *PeeringTgwInfo `parquet:"name=accepter_tgw_info" json:"accepter_tgw_info" diff:"accepter_tgw_info"`
+	CreationTime               *time.Time
+	RequesterTgwInfo           *PeeringTgwInfo          `parquet:"name=requester_tgw_info" json:"requester_tgw_info" diff:"requester_tgw_info"`
+	State                      string                   `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8" json:"state" diff:"state"`
+	Status                     *PeeringAttachmentStatus `parquet:"name=status" json:"status" diff:"status"`
+	Tags                       map[string]string        `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8" json:"tags" diff:"tags"`
+	TransitGatewayAttachmentId string                   `parquet:"name=transit_gateway_attachment_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"transit_gateway_attachment_id" diff:"transit_gateway_attachment_id,identifier"`
+	AccountId                  string                   `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"account_id" diff:"account_id"`
+	Region                     string                   `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8" json:"region" diff:"region"`
+	ReportTime                 int64                    `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"report_time" diff:"report_time,immutable"`
+	CreationTimeMilli          int64                    `parquet:"name=creation_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"creation_time" diff:"creation_time"`
 }
 
+func (x *TransitGatewayPeeringAttachment) GetReportTime() int64 {
+	return x.ReportTime
+}

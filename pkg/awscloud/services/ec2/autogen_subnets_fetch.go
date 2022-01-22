@@ -16,23 +16,22 @@ func FetchSubnet(ctx context.Context, params *awscloud.AwsFetchInput) *awscloud.
 	var fetchedResources int
 	var failedResources int
 	inventoryResults := &meta.InventoryResults{
-		Cloud: "aws",
-		Service: "ec2",
-		Resource: "subnets",
-		AccountId: params.AccountId,
-		Region: params.Region,
+		Cloud:      "aws",
+		Service:    "ec2",
+		Resource:   "subnets",
+		AccountId:  params.AccountId,
+		Region:     params.Region,
 		ReportTime: params.ReportTime.UTC().UnixMilli(),
 	}
 
 	awsClient := params.RegionalClients[params.Region]
 	client := awsClient.EC2()
 
-	
 	paginator := ec2.NewDescribeSubnetsPaginator(client, &ec2.DescribeSubnetsInput{})
 
 	for paginator.HasMorePages() {
 		output, err := paginator.NextPage(ctx)
-	
+
 		if err != nil {
 			fetchingErrors = append(fetchingErrors, fmt.Errorf("error calling DescribeSubnets in %s/%s: %w", params.AccountId, params.Region, err))
 			break
@@ -47,8 +46,6 @@ func FetchSubnet(ctx context.Context, params *awscloud.AwsFetchInput) *awscloud.
 			model.AccountId = params.AccountId
 			model.Region = params.Region
 			model.ReportTime = params.ReportTime.UTC().UnixMilli()
-
-			
 
 			err = params.OutputFile.Write(ctx, model)
 			if err != nil {

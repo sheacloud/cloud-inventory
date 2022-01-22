@@ -7,6 +7,7 @@ aws_service "elasticache" {
     resource "cache_clusters" {
         fetch_function = "DescribeCacheClusters"
         object_name = "CacheCluster"
+        object_plural_name = "CacheClusters"
         object_unique_id = "ARN"
         object_response_field = "CacheClusters"
         model_only = false

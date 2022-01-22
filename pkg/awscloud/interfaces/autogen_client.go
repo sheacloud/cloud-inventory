@@ -11,5 +11,9 @@ type AwsClient interface {
 	ElasticLoadBalancing() ElasticLoadBalancingClient
 	ElasticLoadBalancingV2() ElasticLoadBalancingV2Client
 	IAM() IAMClient
+	Lambda() LambdaClient
+	RDS() RDSClient
+	Redshift() RedshiftClient
+	Route53() Route53Client
 	S3() S3Client
 }

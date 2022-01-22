@@ -16,23 +16,22 @@ func FetchRole(ctx context.Context, params *awscloud.AwsFetchInput) *awscloud.Aw
 	var fetchedResources int
 	var failedResources int
 	inventoryResults := &meta.InventoryResults{
-		Cloud: "aws",
-		Service: "iam",
-		Resource: "roles",
-		AccountId: params.AccountId,
-		Region: params.Region,
+		Cloud:      "aws",
+		Service:    "iam",
+		Resource:   "roles",
+		AccountId:  params.AccountId,
+		Region:     params.Region,
 		ReportTime: params.ReportTime.UTC().UnixMilli(),
 	}
 
 	awsClient := params.RegionalClients[params.Region]
 	client := awsClient.IAM()
 
-	
 	paginator := iam.NewListRolesPaginator(client, &iam.ListRolesInput{})
 
 	for paginator.HasMorePages() {
 		output, err := paginator.NextPage(ctx)
-	
+
 		if err != nil {
 			fetchingErrors = append(fetchingErrors, fmt.Errorf("error calling ListRoles in %s/%s: %w", params.AccountId, params.Region, err))
 			break
@@ -48,12 +47,10 @@ func FetchRole(ctx context.Context, params *awscloud.AwsFetchInput) *awscloud.Aw
 			model.Region = params.Region
 			model.ReportTime = params.ReportTime.UTC().UnixMilli()
 
-			
 			if err = PostProcessRole(ctx, params, model); err != nil {
 				fetchingErrors = append(fetchingErrors, fmt.Errorf("error post-processing Role %s %s/%s: %w", model.RoleId, params.AccountId, params.Region, err))
 				failedResources++
 			}
-			
 
 			err = params.OutputFile.Write(ctx, model)
 			if err != nil {

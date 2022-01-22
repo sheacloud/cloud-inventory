@@ -6,25 +6,28 @@ import (
 )
 
 type LoadBalancerDescription struct {
-	AvailabilityZones []string `parquet:"name=availability_zones,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	BackendServerDescriptions []*BackendServerDescription `parquet:"name=backend_server_descriptions,type=MAP,convertedtype=LIST"`
-	CanonicalHostedZoneName string `parquet:"name=canonical_hosted_zone_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CanonicalHostedZoneNameID string `parquet:"name=canonical_hosted_zone_name_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CreatedTime *time.Time 
-	DNSName string `parquet:"name=dns_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	HealthCheck *HealthCheck `parquet:"name=health_check"`
-	Instances []*Instance `parquet:"name=instances,type=MAP,convertedtype=LIST"`
-	ListenerDescriptions []*ListenerDescription `parquet:"name=listener_descriptions,type=MAP,convertedtype=LIST"`
-	LoadBalancerName string `parquet:"name=load_balancer_name,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	Policies *Policies `parquet:"name=policies"`
-	Scheme string `parquet:"name=scheme,type=BYTE_ARRAY,convertedtype=UTF8"`
-	SecurityGroups []string `parquet:"name=security_groups,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	SourceSecurityGroup *SourceSecurityGroup `parquet:"name=source_security_group"`
-	Subnets []string `parquet:"name=subnets,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	VPCId string `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId string `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Region string `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ReportTime int64 `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	CreatedTimeMilli int64 `parquet:"name=created_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	AvailabilityZones         []string                    `parquet:"name=availability_zones,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"availability_zones" diff:"availability_zones"`
+	BackendServerDescriptions []*BackendServerDescription `parquet:"name=backend_server_descriptions,type=MAP,convertedtype=LIST" json:"backend_server_descriptions" diff:"backend_server_descriptions"`
+	CanonicalHostedZoneName   string                      `parquet:"name=canonical_hosted_zone_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"canonical_hosted_zone_name" diff:"canonical_hosted_zone_name"`
+	CanonicalHostedZoneNameID string                      `parquet:"name=canonical_hosted_zone_name_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"canonical_hosted_zone_name_id" diff:"canonical_hosted_zone_name_id"`
+	CreatedTime               *time.Time
+	DNSName                   string                 `parquet:"name=dns_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"dns_name" diff:"dns_name"`
+	HealthCheck               *HealthCheck           `parquet:"name=health_check" json:"health_check" diff:"health_check"`
+	Instances                 []*Instance            `parquet:"name=instances,type=MAP,convertedtype=LIST" json:"instances" diff:"instances"`
+	ListenerDescriptions      []*ListenerDescription `parquet:"name=listener_descriptions,type=MAP,convertedtype=LIST" json:"listener_descriptions" diff:"listener_descriptions"`
+	LoadBalancerName          string                 `parquet:"name=load_balancer_name,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"load_balancer_name" diff:"load_balancer_name,identifier"`
+	Policies                  *Policies              `parquet:"name=policies" json:"policies" diff:"policies"`
+	Scheme                    string                 `parquet:"name=scheme,type=BYTE_ARRAY,convertedtype=UTF8" json:"scheme" diff:"scheme"`
+	SecurityGroups            []string               `parquet:"name=security_groups,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"security_groups" diff:"security_groups"`
+	SourceSecurityGroup       *SourceSecurityGroup   `parquet:"name=source_security_group" json:"source_security_group" diff:"source_security_group"`
+	Subnets                   []string               `parquet:"name=subnets,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"subnets" diff:"subnets"`
+	VPCId                     string                 `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"vpc_id" diff:"vpc_id"`
+	AccountId                 string                 `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"account_id" diff:"account_id"`
+	Region                    string                 `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8" json:"region" diff:"region"`
+	ReportTime                int64                  `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"report_time" diff:"report_time,immutable"`
+	CreatedTimeMilli          int64                  `parquet:"name=created_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"created_time" diff:"created_time"`
 }
 
+func (x *LoadBalancerDescription) GetReportTime() int64 {
+	return x.ReportTime
+}

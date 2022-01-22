@@ -16,18 +16,16 @@ func FetchBucket(ctx context.Context, params *awscloud.AwsFetchInput) *awscloud.
 	var fetchedResources int
 	var failedResources int
 	inventoryResults := &meta.InventoryResults{
-		Cloud: "aws",
-		Service: "s3",
-		Resource: "buckets",
-		AccountId: params.AccountId,
-		Region: params.Region,
+		Cloud:      "aws",
+		Service:    "s3",
+		Resource:   "buckets",
+		AccountId:  params.AccountId,
+		Region:     params.Region,
 		ReportTime: params.ReportTime.UTC().UnixMilli(),
 	}
 
 	awsClient := params.RegionalClients[params.Region]
 	client := awsClient.S3()
-
-	
 
 	result, err := client.ListBuckets(ctx, &s3.ListBucketsInput{})
 	if err != nil {
@@ -46,7 +44,7 @@ func FetchBucket(ctx context.Context, params *awscloud.AwsFetchInput) *awscloud.
 
 	results := []*s3.ListBucketsOutput{result}
 	for _, output := range results {
-	
+
 		if err != nil {
 			fetchingErrors = append(fetchingErrors, fmt.Errorf("error calling ListBuckets in %s/%s: %w", params.AccountId, params.Region, err))
 			break
@@ -57,17 +55,14 @@ func FetchBucket(ctx context.Context, params *awscloud.AwsFetchInput) *awscloud.
 			model := new(Bucket)
 			copier.Copy(&model, &object)
 
-			
 			model.AccountId = params.AccountId
 			model.Region = params.Region
 			model.ReportTime = params.ReportTime.UTC().UnixMilli()
 
-			
 			if err = PostProcessBucket(ctx, params, model); err != nil {
 				fetchingErrors = append(fetchingErrors, fmt.Errorf("error post-processing Bucket %s %s/%s: %w", model.Name, params.AccountId, params.Region, err))
 				failedResources++
 			}
-			
 
 			err = params.OutputFile.Write(ctx, model)
 			if err != nil {

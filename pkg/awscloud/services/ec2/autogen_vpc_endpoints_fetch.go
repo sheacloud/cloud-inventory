@@ -16,23 +16,22 @@ func FetchVpcEndpoint(ctx context.Context, params *awscloud.AwsFetchInput) *awsc
 	var fetchedResources int
 	var failedResources int
 	inventoryResults := &meta.InventoryResults{
-		Cloud: "aws",
-		Service: "ec2",
-		Resource: "vpc_endpoints",
-		AccountId: params.AccountId,
-		Region: params.Region,
+		Cloud:      "aws",
+		Service:    "ec2",
+		Resource:   "vpc_endpoints",
+		AccountId:  params.AccountId,
+		Region:     params.Region,
 		ReportTime: params.ReportTime.UTC().UnixMilli(),
 	}
 
 	awsClient := params.RegionalClients[params.Region]
 	client := awsClient.EC2()
 
-	
 	paginator := ec2.NewDescribeVpcEndpointsPaginator(client, &ec2.DescribeVpcEndpointsInput{})
 
 	for paginator.HasMorePages() {
 		output, err := paginator.NextPage(ctx)
-	
+
 		if err != nil {
 			fetchingErrors = append(fetchingErrors, fmt.Errorf("error calling DescribeVpcEndpoints in %s/%s: %w", params.AccountId, params.Region, err))
 			break
@@ -47,8 +46,6 @@ func FetchVpcEndpoint(ctx context.Context, params *awscloud.AwsFetchInput) *awsc
 			model.AccountId = params.AccountId
 			model.Region = params.Region
 			model.ReportTime = params.ReportTime.UTC().UnixMilli()
-
-			
 
 			err = params.OutputFile.Write(ctx, model)
 			if err != nil {

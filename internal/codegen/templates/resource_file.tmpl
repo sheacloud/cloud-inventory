@@ -6,3 +6,8 @@ package {{.ServiceName}}
 {{end}}){{end}}
 
 {{.ResourceStruct.MarshalToSourceCode}}
+
+
+func (x *{{.ResourceStruct.Name}}) GetReportTime() int64 {
+    return x.ReportTime
+}

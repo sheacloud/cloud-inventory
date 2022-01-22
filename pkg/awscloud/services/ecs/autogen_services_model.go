@@ -6,40 +6,42 @@ import (
 )
 
 type Service struct {
-	CapacityProviderStrategy []*CapacityProviderStrategyItem `parquet:"name=capacity_provider_strategy,type=MAP,convertedtype=LIST"`
-	ClusterArn string `parquet:"name=cluster_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CreatedAt *time.Time 
-	CreatedBy string `parquet:"name=created_by,type=BYTE_ARRAY,convertedtype=UTF8"`
-	DeploymentConfiguration *DeploymentConfiguration `parquet:"name=deployment_configuration"`
-	DeploymentController *DeploymentController `parquet:"name=deployment_controller"`
-	Deployments []*Deployment `parquet:"name=deployments,type=MAP,convertedtype=LIST"`
-	DesiredCount int32 `parquet:"name=desired_count,type=INT32"`
-	EnableECSManagedTags bool `parquet:"name=enable_ecs_managed_tags,type=BOOLEAN"`
-	EnableExecuteCommand bool `parquet:"name=enable_execute_command,type=BOOLEAN"`
-	HealthCheckGracePeriodSeconds int32 `parquet:"name=health_check_grace_period_seconds,type=INT32"`
-	LaunchType string `parquet:"name=launch_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	LoadBalancers []*LoadBalancer `parquet:"name=load_balancers,type=MAP,convertedtype=LIST"`
-	NetworkConfiguration *NetworkConfiguration `parquet:"name=network_configuration"`
-	PendingCount int32 `parquet:"name=pending_count,type=INT32"`
-	PlacementConstraints []*PlacementConstraint `parquet:"name=placement_constraints,type=MAP,convertedtype=LIST"`
-	PlacementStrategy []*PlacementStrategy `parquet:"name=placement_strategy,type=MAP,convertedtype=LIST"`
-	PlatformFamily string `parquet:"name=platform_family,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PlatformVersion string `parquet:"name=platform_version,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PropagateTags string `parquet:"name=propagate_tags,type=BYTE_ARRAY,convertedtype=UTF8"`
-	RoleArn string `parquet:"name=role_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-	RunningCount int32 `parquet:"name=running_count,type=INT32"`
-	SchedulingStrategy string `parquet:"name=scheduling_strategy,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ServiceArn string `parquet:"name=service_arn,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	ServiceName string `parquet:"name=service_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ServiceRegistries []*ServiceRegistry `parquet:"name=service_registries,type=MAP,convertedtype=LIST"`
-	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TagsOld []*Tag `parquet:"name=tags_old,type=MAP,convertedtype=LIST"`
-	TaskDefinition string `parquet:"name=task_definition,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TaskSets []*TaskSet `parquet:"name=task_sets,type=MAP,convertedtype=LIST"`
-	AccountId string `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Region string `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ReportTime int64 `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	CreatedAtMilli int64 `parquet:"name=created_at,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	Tags map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	CapacityProviderStrategy      []*CapacityProviderStrategyItem `parquet:"name=capacity_provider_strategy,type=MAP,convertedtype=LIST" json:"capacity_provider_strategy" diff:"capacity_provider_strategy"`
+	ClusterArn                    string                          `parquet:"name=cluster_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"cluster_arn" diff:"cluster_arn"`
+	CreatedAt                     *time.Time
+	CreatedBy                     string                   `parquet:"name=created_by,type=BYTE_ARRAY,convertedtype=UTF8" json:"created_by" diff:"created_by"`
+	DeploymentConfiguration       *DeploymentConfiguration `parquet:"name=deployment_configuration" json:"deployment_configuration" diff:"deployment_configuration"`
+	DeploymentController          *DeploymentController    `parquet:"name=deployment_controller" json:"deployment_controller" diff:"deployment_controller"`
+	Deployments                   []*Deployment            `parquet:"name=deployments,type=MAP,convertedtype=LIST" json:"deployments" diff:"deployments"`
+	DesiredCount                  int32                    `parquet:"name=desired_count,type=INT32" json:"desired_count" diff:"desired_count"`
+	EnableECSManagedTags          bool                     `parquet:"name=enable_ecs_managed_tags,type=BOOLEAN" json:"enable_ecs_managed_tags" diff:"enable_ecs_managed_tags"`
+	EnableExecuteCommand          bool                     `parquet:"name=enable_execute_command,type=BOOLEAN" json:"enable_execute_command" diff:"enable_execute_command"`
+	HealthCheckGracePeriodSeconds int32                    `parquet:"name=health_check_grace_period_seconds,type=INT32" json:"health_check_grace_period_seconds" diff:"health_check_grace_period_seconds"`
+	LaunchType                    string                   `parquet:"name=launch_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"launch_type" diff:"launch_type"`
+	LoadBalancers                 []*LoadBalancer          `parquet:"name=load_balancers,type=MAP,convertedtype=LIST" json:"load_balancers" diff:"load_balancers"`
+	NetworkConfiguration          *NetworkConfiguration    `parquet:"name=network_configuration" json:"network_configuration" diff:"network_configuration"`
+	PendingCount                  int32                    `parquet:"name=pending_count,type=INT32" json:"pending_count" diff:"pending_count"`
+	PlacementConstraints          []*PlacementConstraint   `parquet:"name=placement_constraints,type=MAP,convertedtype=LIST" json:"placement_constraints" diff:"placement_constraints"`
+	PlacementStrategy             []*PlacementStrategy     `parquet:"name=placement_strategy,type=MAP,convertedtype=LIST" json:"placement_strategy" diff:"placement_strategy"`
+	PlatformFamily                string                   `parquet:"name=platform_family,type=BYTE_ARRAY,convertedtype=UTF8" json:"platform_family" diff:"platform_family"`
+	PlatformVersion               string                   `parquet:"name=platform_version,type=BYTE_ARRAY,convertedtype=UTF8" json:"platform_version" diff:"platform_version"`
+	PropagateTags                 string                   `parquet:"name=propagate_tags,type=BYTE_ARRAY,convertedtype=UTF8" json:"propagate_tags" diff:"propagate_tags"`
+	RoleArn                       string                   `parquet:"name=role_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"role_arn" diff:"role_arn"`
+	RunningCount                  int32                    `parquet:"name=running_count,type=INT32" json:"running_count" diff:"running_count"`
+	SchedulingStrategy            string                   `parquet:"name=scheduling_strategy,type=BYTE_ARRAY,convertedtype=UTF8" json:"scheduling_strategy" diff:"scheduling_strategy"`
+	ServiceArn                    string                   `parquet:"name=service_arn,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"service_arn" diff:"service_arn,identifier"`
+	ServiceName                   string                   `parquet:"name=service_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"service_name" diff:"service_name"`
+	ServiceRegistries             []*ServiceRegistry       `parquet:"name=service_registries,type=MAP,convertedtype=LIST" json:"service_registries" diff:"service_registries"`
+	Status                        string                   `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
+	Tags                          map[string]string        `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8" json:"tags" diff:"tags"`
+	TaskDefinition                string                   `parquet:"name=task_definition,type=BYTE_ARRAY,convertedtype=UTF8" json:"task_definition" diff:"task_definition"`
+	TaskSets                      []*TaskSet               `parquet:"name=task_sets,type=MAP,convertedtype=LIST" json:"task_sets" diff:"task_sets"`
+	AccountId                     string                   `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"account_id" diff:"account_id"`
+	Region                        string                   `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8" json:"region" diff:"region"`
+	ReportTime                    int64                    `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"report_time" diff:"report_time,immutable"`
+	CreatedAtMilli                int64                    `parquet:"name=created_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"created_at" diff:"created_at"`
 }
 
+func (x *Service) GetReportTime() int64 {
+	return x.ReportTime
+}

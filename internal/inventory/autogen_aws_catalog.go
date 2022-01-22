@@ -14,6 +14,10 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/elasticloadbalancing"
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/elasticloadbalancingv2"
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/iam"
+	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/lambda"
+	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/rds"
+	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/redshift"
+	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/route53"
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/s3"
 )
 
@@ -32,270 +36,308 @@ type AwsCatalogService struct {
 var (
 	AwsCatalog = []AwsCatalogService{
 		{
-			ServiceName: "cloudwatchlogs",
+			ServiceName:     "cloudwatchlogs",
 			RegionOverrides: []string{},
 			Resources: []AwsCatalogResource{
 				{
-					ResourceName: "log_groups",
+					ResourceName:  "log_groups",
 					ResourceModel: &cloudwatchlogs.LogGroup{},
 					FetchFunction: cloudwatchlogs.FetchLogGroup,
 				},
-
 			},
 		},
 		{
-			ServiceName: "dynamodb",
+			ServiceName:     "dynamodb",
 			RegionOverrides: []string{},
 			Resources: []AwsCatalogResource{
 				{
-					ResourceName: "tables",
+					ResourceName:  "tables",
 					ResourceModel: &dynamodb.TableDescription{},
 					FetchFunction: dynamodb.FetchTableDescription,
 				},
-
 			},
 		},
 		{
-			ServiceName: "ec2",
+			ServiceName:     "ec2",
 			RegionOverrides: []string{},
 			Resources: []AwsCatalogResource{
 				{
-					ResourceName: "addresses",
+					ResourceName:  "addresses",
 					ResourceModel: &ec2.Address{},
 					FetchFunction: ec2.FetchAddress,
 				},
 				{
-					ResourceName: "dhcp_options",
+					ResourceName:  "dhcp_options",
 					ResourceModel: &ec2.DhcpOptions{},
 					FetchFunction: ec2.FetchDhcpOptions,
 				},
 				{
-					ResourceName: "images",
+					ResourceName:  "images",
 					ResourceModel: &ec2.Image{},
 					FetchFunction: ec2.FetchImage,
 				},
 				{
-					ResourceName: "instance_types",
+					ResourceName:  "instance_types",
 					ResourceModel: &ec2.InstanceTypeInfo{},
 					FetchFunction: ec2.FetchInstanceTypeInfo,
 				},
 				{
-					ResourceName: "instances",
+					ResourceName:  "instances",
 					ResourceModel: &ec2.Instance{},
 					FetchFunction: ec2.FetchInstance,
 				},
 				{
-					ResourceName: "internet_gateways",
+					ResourceName:  "internet_gateways",
 					ResourceModel: &ec2.InternetGateway{},
 					FetchFunction: ec2.FetchInternetGateway,
 				},
 				{
-					ResourceName: "managed_prefix_lists",
+					ResourceName:  "managed_prefix_lists",
 					ResourceModel: &ec2.ManagedPrefixList{},
 					FetchFunction: ec2.FetchManagedPrefixList,
 				},
 				{
-					ResourceName: "nat_gateways",
+					ResourceName:  "nat_gateways",
 					ResourceModel: &ec2.NatGateway{},
 					FetchFunction: ec2.FetchNatGateway,
 				},
 				{
-					ResourceName: "network_acls",
+					ResourceName:  "network_acls",
 					ResourceModel: &ec2.NetworkAcl{},
 					FetchFunction: ec2.FetchNetworkAcl,
 				},
 				{
-					ResourceName: "network_interfaces",
+					ResourceName:  "network_interfaces",
 					ResourceModel: &ec2.NetworkInterface{},
 					FetchFunction: ec2.FetchNetworkInterface,
 				},
 				{
-					ResourceName: "placement_groups",
+					ResourceName:  "placement_groups",
 					ResourceModel: &ec2.PlacementGroup{},
 					FetchFunction: ec2.FetchPlacementGroup,
 				},
 				{
-					ResourceName: "reserved_instances",
+					ResourceName:  "reserved_instances",
 					ResourceModel: &ec2.ReservedInstances{},
 					FetchFunction: ec2.FetchReservedInstances,
 				},
 				{
-					ResourceName: "route_tables",
+					ResourceName:  "route_tables",
 					ResourceModel: &ec2.RouteTable{},
 					FetchFunction: ec2.FetchRouteTable,
 				},
 				{
-					ResourceName: "security_groups",
+					ResourceName:  "security_groups",
 					ResourceModel: &ec2.SecurityGroup{},
 					FetchFunction: ec2.FetchSecurityGroup,
 				},
 				{
-					ResourceName: "subnets",
+					ResourceName:  "subnets",
 					ResourceModel: &ec2.Subnet{},
 					FetchFunction: ec2.FetchSubnet,
 				},
 				{
-					ResourceName: "transit_gateway_peering_attachments",
+					ResourceName:  "transit_gateway_peering_attachments",
 					ResourceModel: &ec2.TransitGatewayPeeringAttachment{},
 					FetchFunction: ec2.FetchTransitGatewayPeeringAttachment,
 				},
 				{
-					ResourceName: "transit_gateway_route_tables",
+					ResourceName:  "transit_gateway_route_tables",
 					ResourceModel: &ec2.TransitGatewayRouteTable{},
 					FetchFunction: ec2.FetchTransitGatewayRouteTable,
 				},
 				{
-					ResourceName: "transit_gateway_vpc_attachments",
+					ResourceName:  "transit_gateway_vpc_attachments",
 					ResourceModel: &ec2.TransitGatewayVpcAttachment{},
 					FetchFunction: ec2.FetchTransitGatewayVpcAttachment,
 				},
 				{
-					ResourceName: "transit_gateways",
+					ResourceName:  "transit_gateways",
 					ResourceModel: &ec2.TransitGateway{},
 					FetchFunction: ec2.FetchTransitGateway,
 				},
 				{
-					ResourceName: "volumes",
+					ResourceName:  "volumes",
 					ResourceModel: &ec2.Volume{},
 					FetchFunction: ec2.FetchVolume,
 				},
 				{
-					ResourceName: "vpc_endpoints",
+					ResourceName:  "vpc_endpoints",
 					ResourceModel: &ec2.VpcEndpoint{},
 					FetchFunction: ec2.FetchVpcEndpoint,
 				},
 				{
-					ResourceName: "vpc_peering_connections",
+					ResourceName:  "vpc_peering_connections",
 					ResourceModel: &ec2.VpcPeeringConnection{},
 					FetchFunction: ec2.FetchVpcPeeringConnection,
 				},
 				{
-					ResourceName: "vpcs",
+					ResourceName:  "vpcs",
 					ResourceModel: &ec2.Vpc{},
 					FetchFunction: ec2.FetchVpc,
 				},
 				{
-					ResourceName: "vpn_gateways",
+					ResourceName:  "vpn_gateways",
 					ResourceModel: &ec2.VpnGateway{},
 					FetchFunction: ec2.FetchVpnGateway,
 				},
-
 			},
 		},
 		{
-			ServiceName: "ecs",
+			ServiceName:     "ecs",
 			RegionOverrides: []string{},
 			Resources: []AwsCatalogResource{
 				{
-					ResourceName: "clusters",
+					ResourceName:  "clusters",
 					ResourceModel: &ecs.Cluster{},
 					FetchFunction: ecs.FetchCluster,
 				},
 				{
-					ResourceName: "services",
+					ResourceName:  "services",
 					ResourceModel: &ecs.Service{},
 					FetchFunction: ecs.FetchService,
 				},
 				{
-					ResourceName: "tasks",
+					ResourceName:  "tasks",
 					ResourceModel: &ecs.Task{},
 					FetchFunction: ecs.FetchTask,
 				},
-
 			},
 		},
 		{
-			ServiceName: "efs",
+			ServiceName:     "efs",
 			RegionOverrides: []string{},
 			Resources: []AwsCatalogResource{
 				{
-					ResourceName: "filesystems",
+					ResourceName:  "filesystems",
 					ResourceModel: &efs.FileSystemDescription{},
 					FetchFunction: efs.FetchFileSystemDescription,
 				},
-
 			},
 		},
 		{
-			ServiceName: "elasticache",
+			ServiceName:     "elasticache",
 			RegionOverrides: []string{},
 			Resources: []AwsCatalogResource{
 				{
-					ResourceName: "cache_clusters",
+					ResourceName:  "cache_clusters",
 					ResourceModel: &elasticache.CacheCluster{},
 					FetchFunction: elasticache.FetchCacheCluster,
 				},
-
 			},
 		},
 		{
-			ServiceName: "elasticloadbalancing",
+			ServiceName:     "elasticloadbalancing",
 			RegionOverrides: []string{},
 			Resources: []AwsCatalogResource{
 				{
-					ResourceName: "load_balancers",
+					ResourceName:  "load_balancers",
 					ResourceModel: &elasticloadbalancing.LoadBalancerDescription{},
 					FetchFunction: elasticloadbalancing.FetchLoadBalancerDescription,
 				},
-
 			},
 		},
 		{
-			ServiceName: "elasticloadbalancingv2",
+			ServiceName:     "elasticloadbalancingv2",
 			RegionOverrides: []string{},
 			Resources: []AwsCatalogResource{
 				{
-					ResourceName: "load_balancers",
+					ResourceName:  "load_balancers",
 					ResourceModel: &elasticloadbalancingv2.LoadBalancer{},
 					FetchFunction: elasticloadbalancingv2.FetchLoadBalancer,
 				},
 				{
-					ResourceName: "target_groups",
+					ResourceName:  "target_groups",
 					ResourceModel: &elasticloadbalancingv2.TargetGroup{},
 					FetchFunction: elasticloadbalancingv2.FetchTargetGroup,
 				},
-
 			},
 		},
 		{
-			ServiceName: "iam",
+			ServiceName:     "iam",
 			RegionOverrides: []string{"us-east-1"},
 			Resources: []AwsCatalogResource{
 				{
-					ResourceName: "groups",
+					ResourceName:  "groups",
 					ResourceModel: &iam.Group{},
 					FetchFunction: iam.FetchGroup,
 				},
 				{
-					ResourceName: "policies",
+					ResourceName:  "policies",
 					ResourceModel: &iam.Policy{},
 					FetchFunction: iam.FetchPolicy,
 				},
 				{
-					ResourceName: "roles",
+					ResourceName:  "roles",
 					ResourceModel: &iam.Role{},
 					FetchFunction: iam.FetchRole,
 				},
 				{
-					ResourceName: "users",
+					ResourceName:  "users",
 					ResourceModel: &iam.User{},
 					FetchFunction: iam.FetchUser,
 				},
-
 			},
 		},
 		{
-			ServiceName: "s3",
+			ServiceName:     "lambda",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "filesystems",
+					ResourceModel: &lambda.FunctionConfiguration{},
+					FetchFunction: lambda.FetchFunctionConfiguration,
+				},
+			},
+		},
+		{
+			ServiceName:     "rds",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "db_clusters",
+					ResourceModel: &rds.DBCluster{},
+					FetchFunction: rds.FetchDBCluster,
+				},
+				{
+					ResourceName:  "db_instances",
+					ResourceModel: &rds.DBInstance{},
+					FetchFunction: rds.FetchDBInstance,
+				},
+			},
+		},
+		{
+			ServiceName:     "redshift",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "clusters",
+					ResourceModel: &redshift.Cluster{},
+					FetchFunction: redshift.FetchCluster,
+				},
+			},
+		},
+		{
+			ServiceName:     "route53",
 			RegionOverrides: []string{"us-east-1"},
 			Resources: []AwsCatalogResource{
 				{
-					ResourceName: "buckets",
+					ResourceName:  "hosted_zones",
+					ResourceModel: &route53.HostedZone{},
+					FetchFunction: route53.FetchHostedZone,
+				},
+			},
+		},
+		{
+			ServiceName:     "s3",
+			RegionOverrides: []string{"us-east-1"},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "buckets",
 					ResourceModel: &s3.Bucket{},
 					FetchFunction: s3.FetchBucket,
 				},
-
 			},
 		},
-
 	}
 )

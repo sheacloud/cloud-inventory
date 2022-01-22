@@ -68,8 +68,8 @@ resource "aws_glue_catalog_table" "aws_efs_filesystems" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -142,12 +142,6 @@ resource "aws_glue_catalog_table" "aws_efs_filesystems" {
     columns {
       name       = "creation_time"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }

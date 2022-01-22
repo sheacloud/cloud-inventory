@@ -6,23 +6,25 @@ import (
 )
 
 type NatGateway struct {
-	ConnectivityType string `parquet:"name=connectivity_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CreateTime *time.Time 
-	DeleteTime *time.Time 
-	FailureCode string `parquet:"name=failure_code,type=BYTE_ARRAY,convertedtype=UTF8"`
-	FailureMessage string `parquet:"name=failure_message,type=BYTE_ARRAY,convertedtype=UTF8"`
-	NatGatewayAddresses []*NatGatewayAddress `parquet:"name=nat_gateway_addresses,type=MAP,convertedtype=LIST"`
-	NatGatewayId string `parquet:"name=nat_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	ProvisionedBandwidth *ProvisionedBandwidth `parquet:"name=provisioned_bandwidth"`
-	State string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
-	SubnetId string `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TagsOld []*Tag `parquet:"name=tags_old,type=MAP,convertedtype=LIST"`
-	VpcId string `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId string `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Region string `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ReportTime int64 `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	CreateTimeMilli int64 `parquet:"name=create_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	DeleteTimeMilli int64 `parquet:"name=delete_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	Tags map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	ConnectivityType     string `parquet:"name=connectivity_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"connectivity_type" diff:"connectivity_type"`
+	CreateTime           *time.Time
+	DeleteTime           *time.Time
+	FailureCode          string                `parquet:"name=failure_code,type=BYTE_ARRAY,convertedtype=UTF8" json:"failure_code" diff:"failure_code"`
+	FailureMessage       string                `parquet:"name=failure_message,type=BYTE_ARRAY,convertedtype=UTF8" json:"failure_message" diff:"failure_message"`
+	NatGatewayAddresses  []*NatGatewayAddress  `parquet:"name=nat_gateway_addresses,type=MAP,convertedtype=LIST" json:"nat_gateway_addresses" diff:"nat_gateway_addresses"`
+	NatGatewayId         string                `parquet:"name=nat_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"nat_gateway_id" diff:"nat_gateway_id,identifier"`
+	ProvisionedBandwidth *ProvisionedBandwidth `parquet:"name=provisioned_bandwidth" json:"provisioned_bandwidth" diff:"provisioned_bandwidth"`
+	State                string                `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8" json:"state" diff:"state"`
+	SubnetId             string                `parquet:"name=subnet_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"subnet_id" diff:"subnet_id"`
+	Tags                 map[string]string     `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8" json:"tags" diff:"tags"`
+	VpcId                string                `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"vpc_id" diff:"vpc_id"`
+	AccountId            string                `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"account_id" diff:"account_id"`
+	Region               string                `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8" json:"region" diff:"region"`
+	ReportTime           int64                 `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"report_time" diff:"report_time,immutable"`
+	CreateTimeMilli      int64                 `parquet:"name=create_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"create_time" diff:"create_time"`
+	DeleteTimeMilli      int64                 `parquet:"name=delete_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"delete_time" diff:"delete_time"`
 }
 
+func (x *NatGateway) GetReportTime() int64 {
+	return x.ReportTime
+}

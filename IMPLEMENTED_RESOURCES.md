@@ -59,6 +59,19 @@
  - roles
  - users
 
+## Lambda
+ - filesystems
+
+## RDS
+ - db_clusters
+ - db_instances
+
+## Redshift
+ - clusters
+
+## Route53
+ - hosted_zones
+
 ## S3
  - buckets
 

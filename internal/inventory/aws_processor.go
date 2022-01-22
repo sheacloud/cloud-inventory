@@ -51,8 +51,12 @@ func FetchAwsInventory(ctx context.Context, accountIds []string, regions []strin
 	// start the result processor
 	resultProcessorWaitGroup := &sync.WaitGroup{}
 	resultProcessorWaitGroup.Add(1)
-	resultFileIndices := []string{"meta", "inventory_results", "report_date=" + reportTime.Format("2006-01-02")}
-	resultIndexFile, err := fileManager.GetIndexedFile(resultFileIndices, new(meta.InventoryResults))
+
+	reportDateString := reportTime.Format("2006-01-02")
+	reportTimeMilli := reportTime.UTC().UnixMilli()
+
+	resultFileIndices := []string{"meta", "inventory_results"}
+	resultIndexFile, err := fileManager.GetIndexedFile(resultFileIndices, reportDateString, reportTimeMilli, new(meta.InventoryResults))
 	if err != nil {
 		logrus.Errorf("error getting result index file: %v", err)
 		panic(err)
@@ -124,9 +128,9 @@ func FetchAwsInventory(ctx context.Context, accountIds []string, regions []strin
 
 	for _, service := range AwsCatalog {
 		for _, resource := range service.Resources {
-			fileIndices := []string{"aws", service.ServiceName, resource.ResourceName, "report_date=" + reportTime.Format("2006-01-02")}
+			fileIndices := []string{"aws", service.ServiceName, resource.ResourceName}
 			fileIndex := strings.Join(fileIndices, "/")
-			indexFile, err := fileManager.GetIndexedFile(fileIndices, resource.ResourceModel)
+			indexFile, err := fileManager.GetIndexedFile(fileIndices, reportDateString, reportTimeMilli, resource.ResourceModel)
 			if err != nil {
 				panic(err)
 			}
@@ -161,8 +165,13 @@ func FetchAwsInventory(ctx context.Context, accountIds []string, regions []strin
 
 			go func() {
 				indexFileWaitGroups[fileIndex].Wait()
+				logrus.Infof("Writing manifest file for %s", fileIndex)
+				err := indexFile.UpdateManifest(ctx)
+				if err != nil {
+					panic(err)
+				}
 				logrus.Infof("Closing index file %s", fileIndex)
-				err := indexFile.Close()
+				err = indexFile.Close()
 				if err != nil {
 					panic(err)
 				}

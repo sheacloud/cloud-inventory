@@ -57,7 +57,7 @@ func isTimeField(s string) bool {
 }
 
 func isTagField(s string) bool {
-	return s == "Tags" || s == "TagSet"
+	return s == "Tags" || s == "TagSet" || s == "TagList"
 }
 
 func isUnmodelableField(s string) bool {

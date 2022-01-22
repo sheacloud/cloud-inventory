@@ -6,247 +6,245 @@ import (
 )
 
 type Attachment struct {
-	Details []*KeyValuePair `parquet:"name=details,type=MAP,convertedtype=LIST"`
-	Id string `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Type string `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Details []*KeyValuePair `parquet:"name=details,type=MAP,convertedtype=LIST" json:"details" diff:"details"`
+	Id      string          `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8" json:"id" diff:"id"`
+	Status  string          `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
+	Type    string          `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8" json:"type" diff:"type"`
 }
 
 type KeyValuePair struct {
-	Name string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Name  string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8" json:"name" diff:"name"`
+	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8" json:"value" diff:"value"`
 }
 
 type ClusterConfiguration struct {
-	ExecuteCommandConfiguration *ExecuteCommandConfiguration `parquet:"name=execute_command_configuration"`
+	ExecuteCommandConfiguration *ExecuteCommandConfiguration `parquet:"name=execute_command_configuration" json:"execute_command_configuration" diff:"execute_command_configuration"`
 }
 
 type ExecuteCommandConfiguration struct {
-	KmsKeyId string `parquet:"name=kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	LogConfiguration *ExecuteCommandLogConfiguration `parquet:"name=log_configuration"`
-	Logging string `parquet:"name=logging,type=BYTE_ARRAY,convertedtype=UTF8"`
+	KmsKeyId         string                          `parquet:"name=kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"kms_key_id" diff:"kms_key_id"`
+	LogConfiguration *ExecuteCommandLogConfiguration `parquet:"name=log_configuration" json:"log_configuration" diff:"log_configuration"`
+	Logging          string                          `parquet:"name=logging,type=BYTE_ARRAY,convertedtype=UTF8" json:"logging" diff:"logging"`
 }
 
 type ExecuteCommandLogConfiguration struct {
-	CloudWatchEncryptionEnabled bool `parquet:"name=cloud_watch_encryption_enabled,type=BOOLEAN"`
-	CloudWatchLogGroupName string `parquet:"name=cloud_watch_log_group_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	S3BucketName string `parquet:"name=s3_bucket_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	S3EncryptionEnabled bool `parquet:"name=s3_encryption_enabled,type=BOOLEAN"`
-	S3KeyPrefix string `parquet:"name=s3_key_prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
+	CloudWatchEncryptionEnabled bool   `parquet:"name=cloud_watch_encryption_enabled,type=BOOLEAN" json:"cloud_watch_encryption_enabled" diff:"cloud_watch_encryption_enabled"`
+	CloudWatchLogGroupName      string `parquet:"name=cloud_watch_log_group_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"cloud_watch_log_group_name" diff:"cloud_watch_log_group_name"`
+	S3BucketName                string `parquet:"name=s3_bucket_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"s3_bucket_name" diff:"s3_bucket_name"`
+	S3EncryptionEnabled         bool   `parquet:"name=s3_encryption_enabled,type=BOOLEAN" json:"s3_encryption_enabled" diff:"s3_encryption_enabled"`
+	S3KeyPrefix                 string `parquet:"name=s3_key_prefix,type=BYTE_ARRAY,convertedtype=UTF8" json:"s3_key_prefix" diff:"s3_key_prefix"`
 }
 
 type CapacityProviderStrategyItem struct {
-	CapacityProvider string `parquet:"name=capacity_provider,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Base int32 `parquet:"name=base,type=INT32"`
-	Weight int32 `parquet:"name=weight,type=INT32"`
+	CapacityProvider string `parquet:"name=capacity_provider,type=BYTE_ARRAY,convertedtype=UTF8" json:"capacity_provider" diff:"capacity_provider"`
+	Base             int32  `parquet:"name=base,type=INT32" json:"base" diff:"base"`
+	Weight           int32  `parquet:"name=weight,type=INT32" json:"weight" diff:"weight"`
 }
 
 type ClusterSetting struct {
-	Name string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Name  string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8" json:"name" diff:"name"`
+	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8" json:"value" diff:"value"`
 }
 
 type Tag struct {
-	Key string `parquet:"name=key,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Key   string `parquet:"name=key,type=BYTE_ARRAY,convertedtype=UTF8" json:"key" diff:"key"`
+	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8" json:"value" diff:"value"`
 }
 
 type DeploymentConfiguration struct {
-	DeploymentCircuitBreaker *DeploymentCircuitBreaker `parquet:"name=deployment_circuit_breaker"`
-	MaximumPercent int32 `parquet:"name=maximum_percent,type=INT32"`
-	MinimumHealthyPercent int32 `parquet:"name=minimum_healthy_percent,type=INT32"`
+	DeploymentCircuitBreaker *DeploymentCircuitBreaker `parquet:"name=deployment_circuit_breaker" json:"deployment_circuit_breaker" diff:"deployment_circuit_breaker"`
+	MaximumPercent           int32                     `parquet:"name=maximum_percent,type=INT32" json:"maximum_percent" diff:"maximum_percent"`
+	MinimumHealthyPercent    int32                     `parquet:"name=minimum_healthy_percent,type=INT32" json:"minimum_healthy_percent" diff:"minimum_healthy_percent"`
 }
 
 type DeploymentCircuitBreaker struct {
-	Enable bool `parquet:"name=enable,type=BOOLEAN"`
-	Rollback bool `parquet:"name=rollback,type=BOOLEAN"`
+	Enable   bool `parquet:"name=enable,type=BOOLEAN" json:"enable" diff:"enable"`
+	Rollback bool `parquet:"name=rollback,type=BOOLEAN" json:"rollback" diff:"rollback"`
 }
 
 type DeploymentController struct {
-	Type string `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Type string `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8" json:"type" diff:"type"`
 }
 
 type Deployment struct {
-	CapacityProviderStrategy []*CapacityProviderStrategyItem `parquet:"name=capacity_provider_strategy,type=MAP,convertedtype=LIST"`
-	CreatedAt *time.Time 
-	DesiredCount int32 `parquet:"name=desired_count,type=INT32"`
-	FailedTasks int32 `parquet:"name=failed_tasks,type=INT32"`
-	Id string `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	LaunchType string `parquet:"name=launch_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	NetworkConfiguration *NetworkConfiguration `parquet:"name=network_configuration"`
-	PendingCount int32 `parquet:"name=pending_count,type=INT32"`
-	PlatformFamily string `parquet:"name=platform_family,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PlatformVersion string `parquet:"name=platform_version,type=BYTE_ARRAY,convertedtype=UTF8"`
-	RolloutState string `parquet:"name=rollout_state,type=BYTE_ARRAY,convertedtype=UTF8"`
-	RolloutStateReason string `parquet:"name=rollout_state_reason,type=BYTE_ARRAY,convertedtype=UTF8"`
-	RunningCount int32 `parquet:"name=running_count,type=INT32"`
-	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TaskDefinition string `parquet:"name=task_definition,type=BYTE_ARRAY,convertedtype=UTF8"`
-	UpdatedAt *time.Time 
-	CreatedAtMilli int64 `parquet:"name=created_at,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	UpdatedAtMilli int64 `parquet:"name=updated_at,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	CapacityProviderStrategy []*CapacityProviderStrategyItem `parquet:"name=capacity_provider_strategy,type=MAP,convertedtype=LIST" json:"capacity_provider_strategy" diff:"capacity_provider_strategy"`
+	CreatedAt                *time.Time
+	DesiredCount             int32                 `parquet:"name=desired_count,type=INT32" json:"desired_count" diff:"desired_count"`
+	FailedTasks              int32                 `parquet:"name=failed_tasks,type=INT32" json:"failed_tasks" diff:"failed_tasks"`
+	Id                       string                `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8" json:"id" diff:"id"`
+	LaunchType               string                `parquet:"name=launch_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"launch_type" diff:"launch_type"`
+	NetworkConfiguration     *NetworkConfiguration `parquet:"name=network_configuration" json:"network_configuration" diff:"network_configuration"`
+	PendingCount             int32                 `parquet:"name=pending_count,type=INT32" json:"pending_count" diff:"pending_count"`
+	PlatformFamily           string                `parquet:"name=platform_family,type=BYTE_ARRAY,convertedtype=UTF8" json:"platform_family" diff:"platform_family"`
+	PlatformVersion          string                `parquet:"name=platform_version,type=BYTE_ARRAY,convertedtype=UTF8" json:"platform_version" diff:"platform_version"`
+	RolloutState             string                `parquet:"name=rollout_state,type=BYTE_ARRAY,convertedtype=UTF8" json:"rollout_state" diff:"rollout_state"`
+	RolloutStateReason       string                `parquet:"name=rollout_state_reason,type=BYTE_ARRAY,convertedtype=UTF8" json:"rollout_state_reason" diff:"rollout_state_reason"`
+	RunningCount             int32                 `parquet:"name=running_count,type=INT32" json:"running_count" diff:"running_count"`
+	Status                   string                `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
+	TaskDefinition           string                `parquet:"name=task_definition,type=BYTE_ARRAY,convertedtype=UTF8" json:"task_definition" diff:"task_definition"`
+	UpdatedAt                *time.Time
+	CreatedAtMilli           int64 `parquet:"name=created_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"created_at" diff:"created_at"`
+	UpdatedAtMilli           int64 `parquet:"name=updated_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"updated_at" diff:"updated_at"`
 }
 
 type NetworkConfiguration struct {
-	AwsvpcConfiguration *AwsVpcConfiguration `parquet:"name=awsvpc_configuration"`
+	AwsvpcConfiguration *AwsVpcConfiguration `parquet:"name=awsvpc_configuration" json:"awsvpc_configuration" diff:"awsvpc_configuration"`
 }
 
 type AwsVpcConfiguration struct {
-	Subnets []string `parquet:"name=subnets,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	AssignPublicIp string `parquet:"name=assign_public_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
-	SecurityGroups []string `parquet:"name=security_groups,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
+	Subnets        []string `parquet:"name=subnets,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"subnets" diff:"subnets"`
+	AssignPublicIp string   `parquet:"name=assign_public_ip,type=BYTE_ARRAY,convertedtype=UTF8" json:"assign_public_ip" diff:"assign_public_ip"`
+	SecurityGroups []string `parquet:"name=security_groups,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"security_groups" diff:"security_groups"`
 }
 
 type LoadBalancer struct {
-	ContainerName string `parquet:"name=container_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ContainerPort int32 `parquet:"name=container_port,type=INT32"`
-	LoadBalancerName string `parquet:"name=load_balancer_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TargetGroupArn string `parquet:"name=target_group_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ContainerName    string `parquet:"name=container_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"container_name" diff:"container_name"`
+	ContainerPort    int32  `parquet:"name=container_port,type=INT32" json:"container_port" diff:"container_port"`
+	LoadBalancerName string `parquet:"name=load_balancer_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"load_balancer_name" diff:"load_balancer_name"`
+	TargetGroupArn   string `parquet:"name=target_group_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"target_group_arn" diff:"target_group_arn"`
 }
 
 type PlacementConstraint struct {
-	Expression string `parquet:"name=expression,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Type string `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Expression string `parquet:"name=expression,type=BYTE_ARRAY,convertedtype=UTF8" json:"expression" diff:"expression"`
+	Type       string `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8" json:"type" diff:"type"`
 }
 
 type PlacementStrategy struct {
-	Field string `parquet:"name=field,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Type string `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Field string `parquet:"name=field,type=BYTE_ARRAY,convertedtype=UTF8" json:"field" diff:"field"`
+	Type  string `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8" json:"type" diff:"type"`
 }
 
 type ServiceRegistry struct {
-	ContainerName string `parquet:"name=container_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ContainerPort int32 `parquet:"name=container_port,type=INT32"`
-	Port int32 `parquet:"name=port,type=INT32"`
-	RegistryArn string `parquet:"name=registry_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ContainerName string `parquet:"name=container_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"container_name" diff:"container_name"`
+	ContainerPort int32  `parquet:"name=container_port,type=INT32" json:"container_port" diff:"container_port"`
+	Port          int32  `parquet:"name=port,type=INT32" json:"port" diff:"port"`
+	RegistryArn   string `parquet:"name=registry_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"registry_arn" diff:"registry_arn"`
 }
 
 type TaskSet struct {
-	CapacityProviderStrategy []*CapacityProviderStrategyItem `parquet:"name=capacity_provider_strategy,type=MAP,convertedtype=LIST"`
-	ClusterArn string `parquet:"name=cluster_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ComputedDesiredCount int32 `parquet:"name=computed_desired_count,type=INT32"`
-	CreatedAt *time.Time 
-	ExternalId string `parquet:"name=external_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Id string `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	LaunchType string `parquet:"name=launch_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	LoadBalancers []*LoadBalancer `parquet:"name=load_balancers,type=MAP,convertedtype=LIST"`
-	NetworkConfiguration *NetworkConfiguration `parquet:"name=network_configuration"`
-	PendingCount int32 `parquet:"name=pending_count,type=INT32"`
-	PlatformFamily string `parquet:"name=platform_family,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PlatformVersion string `parquet:"name=platform_version,type=BYTE_ARRAY,convertedtype=UTF8"`
-	RunningCount int32 `parquet:"name=running_count,type=INT32"`
-	Scale *Scale `parquet:"name=scale"`
-	ServiceArn string `parquet:"name=service_arn,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	ServiceRegistries []*ServiceRegistry `parquet:"name=service_registries,type=MAP,convertedtype=LIST"`
-	StabilityStatus string `parquet:"name=stability_status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	StabilityStatusAt *time.Time 
-	StartedBy string `parquet:"name=started_by,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tags []*Tag `parquet:"name=tags,type=MAP,convertedtype=LIST"`
-	TaskDefinition string `parquet:"name=task_definition,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TaskSetArn string `parquet:"name=task_set_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-	UpdatedAt *time.Time 
-	CreatedAtMilli int64 `parquet:"name=created_at,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	StabilityStatusAtMilli int64 `parquet:"name=stability_status_at,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	UpdatedAtMilli int64 `parquet:"name=updated_at,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	CapacityProviderStrategy []*CapacityProviderStrategyItem `parquet:"name=capacity_provider_strategy,type=MAP,convertedtype=LIST" json:"capacity_provider_strategy" diff:"capacity_provider_strategy"`
+	ClusterArn               string                          `parquet:"name=cluster_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"cluster_arn" diff:"cluster_arn"`
+	ComputedDesiredCount     int32                           `parquet:"name=computed_desired_count,type=INT32" json:"computed_desired_count" diff:"computed_desired_count"`
+	CreatedAt                *time.Time
+	ExternalId               string                `parquet:"name=external_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"external_id" diff:"external_id"`
+	Id                       string                `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8" json:"id" diff:"id"`
+	LaunchType               string                `parquet:"name=launch_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"launch_type" diff:"launch_type"`
+	LoadBalancers            []*LoadBalancer       `parquet:"name=load_balancers,type=MAP,convertedtype=LIST" json:"load_balancers" diff:"load_balancers"`
+	NetworkConfiguration     *NetworkConfiguration `parquet:"name=network_configuration" json:"network_configuration" diff:"network_configuration"`
+	PendingCount             int32                 `parquet:"name=pending_count,type=INT32" json:"pending_count" diff:"pending_count"`
+	PlatformFamily           string                `parquet:"name=platform_family,type=BYTE_ARRAY,convertedtype=UTF8" json:"platform_family" diff:"platform_family"`
+	PlatformVersion          string                `parquet:"name=platform_version,type=BYTE_ARRAY,convertedtype=UTF8" json:"platform_version" diff:"platform_version"`
+	RunningCount             int32                 `parquet:"name=running_count,type=INT32" json:"running_count" diff:"running_count"`
+	Scale                    *Scale                `parquet:"name=scale" json:"scale" diff:"scale"`
+	ServiceArn               string                `parquet:"name=service_arn,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"service_arn" diff:"service_arn,identifier"`
+	ServiceRegistries        []*ServiceRegistry    `parquet:"name=service_registries,type=MAP,convertedtype=LIST" json:"service_registries" diff:"service_registries"`
+	StabilityStatus          string                `parquet:"name=stability_status,type=BYTE_ARRAY,convertedtype=UTF8" json:"stability_status" diff:"stability_status"`
+	StabilityStatusAt        *time.Time
+	StartedBy                string `parquet:"name=started_by,type=BYTE_ARRAY,convertedtype=UTF8" json:"started_by" diff:"started_by"`
+	Status                   string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
+	Tags                     []*Tag `parquet:"name=tags,type=MAP,convertedtype=LIST" json:"tags" diff:"tags"`
+	TaskDefinition           string `parquet:"name=task_definition,type=BYTE_ARRAY,convertedtype=UTF8" json:"task_definition" diff:"task_definition"`
+	TaskSetArn               string `parquet:"name=task_set_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"task_set_arn" diff:"task_set_arn"`
+	UpdatedAt                *time.Time
+	CreatedAtMilli           int64 `parquet:"name=created_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"created_at" diff:"created_at"`
+	StabilityStatusAtMilli   int64 `parquet:"name=stability_status_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"stability_status_at" diff:"stability_status_at"`
+	UpdatedAtMilli           int64 `parquet:"name=updated_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"updated_at" diff:"updated_at"`
 }
 
 type Scale struct {
-	Unit string `parquet:"name=unit,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Value float64 `parquet:"name=value,type=DOUBLE"`
+	Unit  string  `parquet:"name=unit,type=BYTE_ARRAY,convertedtype=UTF8" json:"unit" diff:"unit"`
+	Value float64 `parquet:"name=value,type=DOUBLE" json:"value" diff:"value"`
 }
 
 type Attribute struct {
-	Name string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TargetId string `parquet:"name=target_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TargetType string `parquet:"name=target_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Name       string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8" json:"name" diff:"name"`
+	TargetId   string `parquet:"name=target_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"target_id" diff:"target_id"`
+	TargetType string `parquet:"name=target_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"target_type" diff:"target_type"`
+	Value      string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8" json:"value" diff:"value"`
 }
 
 type Container struct {
-	ContainerArn string `parquet:"name=container_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Cpu string `parquet:"name=cpu,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ExitCode int32 `parquet:"name=exit_code,type=INT32"`
-	GpuIds []string `parquet:"name=gpu_ids,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	HealthStatus string `parquet:"name=health_status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Image string `parquet:"name=image,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ImageDigest string `parquet:"name=image_digest,type=BYTE_ARRAY,convertedtype=UTF8"`
-	LastStatus string `parquet:"name=last_status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ManagedAgents []*ManagedAgent `parquet:"name=managed_agents,type=MAP,convertedtype=LIST"`
-	Memory string `parquet:"name=memory,type=BYTE_ARRAY,convertedtype=UTF8"`
-	MemoryReservation string `parquet:"name=memory_reservation,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Name string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	NetworkBindings []*NetworkBinding `parquet:"name=network_bindings,type=MAP,convertedtype=LIST"`
-	NetworkInterfaces []*NetworkInterface `parquet:"name=network_interfaces,type=MAP,convertedtype=LIST"`
-	Reason string `parquet:"name=reason,type=BYTE_ARRAY,convertedtype=UTF8"`
-	RuntimeId string `parquet:"name=runtime_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TaskArn string `parquet:"name=task_arn,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
+	ContainerArn      string              `parquet:"name=container_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"container_arn" diff:"container_arn"`
+	Cpu               string              `parquet:"name=cpu,type=BYTE_ARRAY,convertedtype=UTF8" json:"cpu" diff:"cpu"`
+	ExitCode          int32               `parquet:"name=exit_code,type=INT32" json:"exit_code" diff:"exit_code"`
+	GpuIds            []string            `parquet:"name=gpu_ids,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"gpu_ids" diff:"gpu_ids"`
+	HealthStatus      string              `parquet:"name=health_status,type=BYTE_ARRAY,convertedtype=UTF8" json:"health_status" diff:"health_status"`
+	Image             string              `parquet:"name=image,type=BYTE_ARRAY,convertedtype=UTF8" json:"image" diff:"image"`
+	ImageDigest       string              `parquet:"name=image_digest,type=BYTE_ARRAY,convertedtype=UTF8" json:"image_digest" diff:"image_digest"`
+	LastStatus        string              `parquet:"name=last_status,type=BYTE_ARRAY,convertedtype=UTF8" json:"last_status" diff:"last_status"`
+	ManagedAgents     []*ManagedAgent     `parquet:"name=managed_agents,type=MAP,convertedtype=LIST" json:"managed_agents" diff:"managed_agents"`
+	Memory            string              `parquet:"name=memory,type=BYTE_ARRAY,convertedtype=UTF8" json:"memory" diff:"memory"`
+	MemoryReservation string              `parquet:"name=memory_reservation,type=BYTE_ARRAY,convertedtype=UTF8" json:"memory_reservation" diff:"memory_reservation"`
+	Name              string              `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8" json:"name" diff:"name"`
+	NetworkBindings   []*NetworkBinding   `parquet:"name=network_bindings,type=MAP,convertedtype=LIST" json:"network_bindings" diff:"network_bindings"`
+	NetworkInterfaces []*NetworkInterface `parquet:"name=network_interfaces,type=MAP,convertedtype=LIST" json:"network_interfaces" diff:"network_interfaces"`
+	Reason            string              `parquet:"name=reason,type=BYTE_ARRAY,convertedtype=UTF8" json:"reason" diff:"reason"`
+	RuntimeId         string              `parquet:"name=runtime_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"runtime_id" diff:"runtime_id"`
+	TaskArn           string              `parquet:"name=task_arn,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"task_arn" diff:"task_arn,identifier"`
 }
 
 type ManagedAgent struct {
-	LastStartedAt *time.Time 
-	LastStatus string `parquet:"name=last_status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Name string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Reason string `parquet:"name=reason,type=BYTE_ARRAY,convertedtype=UTF8"`
-	LastStartedAtMilli int64 `parquet:"name=last_started_at,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	LastStartedAt      *time.Time
+	LastStatus         string `parquet:"name=last_status,type=BYTE_ARRAY,convertedtype=UTF8" json:"last_status" diff:"last_status"`
+	Name               string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8" json:"name" diff:"name"`
+	Reason             string `parquet:"name=reason,type=BYTE_ARRAY,convertedtype=UTF8" json:"reason" diff:"reason"`
+	LastStartedAtMilli int64  `parquet:"name=last_started_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"last_started_at" diff:"last_started_at"`
 }
 
 type NetworkBinding struct {
-	BindIP string `parquet:"name=bind_ip,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ContainerPort int32 `parquet:"name=container_port,type=INT32"`
-	HostPort int32 `parquet:"name=host_port,type=INT32"`
-	Protocol string `parquet:"name=protocol,type=BYTE_ARRAY,convertedtype=UTF8"`
+	BindIP        string `parquet:"name=bind_ip,type=BYTE_ARRAY,convertedtype=UTF8" json:"bind_ip" diff:"bind_ip"`
+	ContainerPort int32  `parquet:"name=container_port,type=INT32" json:"container_port" diff:"container_port"`
+	HostPort      int32  `parquet:"name=host_port,type=INT32" json:"host_port" diff:"host_port"`
+	Protocol      string `parquet:"name=protocol,type=BYTE_ARRAY,convertedtype=UTF8" json:"protocol" diff:"protocol"`
 }
 
 type NetworkInterface struct {
-	AttachmentId string `parquet:"name=attachment_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Ipv6Address string `parquet:"name=ipv6_address,type=BYTE_ARRAY,convertedtype=UTF8"`
-	PrivateIpv4Address string `parquet:"name=private_ipv4_address,type=BYTE_ARRAY,convertedtype=UTF8"`
+	AttachmentId       string `parquet:"name=attachment_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"attachment_id" diff:"attachment_id"`
+	Ipv6Address        string `parquet:"name=ipv6_address,type=BYTE_ARRAY,convertedtype=UTF8" json:"ipv6_address" diff:"ipv6_address"`
+	PrivateIpv4Address string `parquet:"name=private_ipv4_address,type=BYTE_ARRAY,convertedtype=UTF8" json:"private_ipv4_address" diff:"private_ipv4_address"`
 }
 
 type EphemeralStorage struct {
-	SizeInGiB int32 `parquet:"name=size_in_gi_b,type=INT32"`
+	SizeInGiB int32 `parquet:"name=size_in_gi_b,type=INT32" json:"size_in_gi_b" diff:"size_in_gi_b"`
 }
 
 type InferenceAccelerator struct {
-	DeviceName string `parquet:"name=device_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	DeviceType string `parquet:"name=device_type,type=BYTE_ARRAY,convertedtype=UTF8"`
+	DeviceName string `parquet:"name=device_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"device_name" diff:"device_name"`
+	DeviceType string `parquet:"name=device_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"device_type" diff:"device_type"`
 }
 
 type TaskOverride struct {
-	ContainerOverrides []*ContainerOverride `parquet:"name=container_overrides,type=MAP,convertedtype=LIST"`
-	Cpu string `parquet:"name=cpu,type=BYTE_ARRAY,convertedtype=UTF8"`
-	EphemeralStorage *EphemeralStorage `parquet:"name=ephemeral_storage"`
-	ExecutionRoleArn string `parquet:"name=execution_role_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-	InferenceAcceleratorOverrides []*InferenceAcceleratorOverride `parquet:"name=inference_accelerator_overrides,type=MAP,convertedtype=LIST"`
-	Memory string `parquet:"name=memory,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TaskRoleArn string `parquet:"name=task_role_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ContainerOverrides            []*ContainerOverride            `parquet:"name=container_overrides,type=MAP,convertedtype=LIST" json:"container_overrides" diff:"container_overrides"`
+	Cpu                           string                          `parquet:"name=cpu,type=BYTE_ARRAY,convertedtype=UTF8" json:"cpu" diff:"cpu"`
+	EphemeralStorage              *EphemeralStorage               `parquet:"name=ephemeral_storage" json:"ephemeral_storage" diff:"ephemeral_storage"`
+	ExecutionRoleArn              string                          `parquet:"name=execution_role_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"execution_role_arn" diff:"execution_role_arn"`
+	InferenceAcceleratorOverrides []*InferenceAcceleratorOverride `parquet:"name=inference_accelerator_overrides,type=MAP,convertedtype=LIST" json:"inference_accelerator_overrides" diff:"inference_accelerator_overrides"`
+	Memory                        string                          `parquet:"name=memory,type=BYTE_ARRAY,convertedtype=UTF8" json:"memory" diff:"memory"`
+	TaskRoleArn                   string                          `parquet:"name=task_role_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"task_role_arn" diff:"task_role_arn"`
 }
 
 type ContainerOverride struct {
-	Command []string `parquet:"name=command,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	Cpu int32 `parquet:"name=cpu,type=INT32"`
-	Environment []*KeyValuePair `parquet:"name=environment,type=MAP,convertedtype=LIST"`
-	EnvironmentFiles []*EnvironmentFile `parquet:"name=environment_files,type=MAP,convertedtype=LIST"`
-	Memory int32 `parquet:"name=memory,type=INT32"`
-	MemoryReservation int32 `parquet:"name=memory_reservation,type=INT32"`
-	Name string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ResourceRequirements []*ResourceRequirement `parquet:"name=resource_requirements,type=MAP,convertedtype=LIST"`
+	Command              []string               `parquet:"name=command,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"command" diff:"command"`
+	Cpu                  int32                  `parquet:"name=cpu,type=INT32" json:"cpu" diff:"cpu"`
+	Environment          []*KeyValuePair        `parquet:"name=environment,type=MAP,convertedtype=LIST" json:"environment" diff:"environment"`
+	EnvironmentFiles     []*EnvironmentFile     `parquet:"name=environment_files,type=MAP,convertedtype=LIST" json:"environment_files" diff:"environment_files"`
+	Memory               int32                  `parquet:"name=memory,type=INT32" json:"memory" diff:"memory"`
+	MemoryReservation    int32                  `parquet:"name=memory_reservation,type=INT32" json:"memory_reservation" diff:"memory_reservation"`
+	Name                 string                 `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8" json:"name" diff:"name"`
+	ResourceRequirements []*ResourceRequirement `parquet:"name=resource_requirements,type=MAP,convertedtype=LIST" json:"resource_requirements" diff:"resource_requirements"`
 }
 
 type EnvironmentFile struct {
-	Type string `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Type  string `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8" json:"type" diff:"type"`
+	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8" json:"value" diff:"value"`
 }
 
 type ResourceRequirement struct {
-	Type string `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Type  string `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8" json:"type" diff:"type"`
+	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8" json:"value" diff:"value"`
 }
 
 type InferenceAcceleratorOverride struct {
-	DeviceName string `parquet:"name=device_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	DeviceType string `parquet:"name=device_type,type=BYTE_ARRAY,convertedtype=UTF8"`
+	DeviceName string `parquet:"name=device_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"device_name" diff:"device_name"`
+	DeviceType string `parquet:"name=device_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"device_type" diff:"device_type"`
 }
-
-

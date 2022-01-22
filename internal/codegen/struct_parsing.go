@@ -145,17 +145,12 @@ func (p *StructModel) AddConvertedTimeFields() {
 }
 
 func (p *StructModel) ConvertTagFields() {
-	fieldsToAdd := []*FieldModel{}
 	for _, field := range p.Fields {
 		if isTagField(field.Name) && strings.HasPrefix(field.Type, "[]") {
-			fieldsToAdd = append(fieldsToAdd, &FieldModel{
-				Name: "Tags",
-				Type: "map[string]string",
-			})
-			field.Name = field.Name + "Old"
+			field.Name = "Tags"
+			field.Type = "map[string]string"
 		}
 	}
-	p.Fields = append(p.Fields, fieldsToAdd...)
 }
 
 func (p *StructModel) PopulateFieldTags(primaryObjectField string) {
@@ -174,10 +169,10 @@ func (p *StructModel) PopulateFieldTags(primaryObjectField string) {
 
 		// populate parquet tags
 
-		fieldParquetName := toSnakeCase(field.Name)
-		fieldParquetName = strings.TrimSuffix(fieldParquetName, "_milli")
+		fieldSnakeCaseName := toSnakeCase(field.Name)
+		fieldSnakeCaseName = strings.TrimSuffix(fieldSnakeCaseName, "_milli")
 
-		parquetTags := "name=" + fieldParquetName
+		parquetTags := "name=" + fieldSnakeCaseName
 
 		if strings.HasPrefix(field.Type, "[]") {
 			listType := field.Type[2:]
@@ -238,6 +233,18 @@ func (p *StructModel) PopulateFieldTags(primaryObjectField string) {
 		// add primary key tag
 		if field.Name == primaryObjectField {
 			tags += " inventory_primary_key:\"true\""
+		}
+
+		// add json tags
+		tags += " json:\"" + fieldSnakeCaseName + "\""
+
+		// add diff tags
+		if field.Name == "ReportTime" {
+			tags += " diff:\"report_time,immutable\""
+		} else if field.Name == primaryObjectField {
+			tags += " diff:\"" + fieldSnakeCaseName + ",identifier\""
+		} else {
+			tags += " diff:\"" + fieldSnakeCaseName + "\""
 		}
 
 		field.Tags = "`" + tags + "`"

@@ -179,8 +179,8 @@ resource "aws_glue_catalog_table" "aws_iam_policies" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -211,12 +211,6 @@ resource "aws_glue_catalog_table" "aws_iam_policies" {
     columns {
       name       = "update_date"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -302,8 +296,8 @@ resource "aws_glue_catalog_table" "aws_iam_roles" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -340,12 +334,6 @@ resource "aws_glue_catalog_table" "aws_iam_roles" {
     columns {
       name       = "create_date"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -413,8 +401,8 @@ resource "aws_glue_catalog_table" "aws_iam_users" {
       parameters = {}
     }
     columns {
-      name       = "tags_old"
-      type       = "array<struct<key:string,value:string>>"
+      name       = "tags"
+      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }
@@ -475,12 +463,6 @@ resource "aws_glue_catalog_table" "aws_iam_users" {
     columns {
       name       = "password_last_used"
       type       = "timestamp"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
-      name       = "tags"
-      type       = "map<string,string>"
       comment    = ""
       parameters = {}
     }

@@ -6,26 +6,28 @@ import (
 )
 
 type Volume struct {
-	Attachments []*VolumeAttachment `parquet:"name=attachments,type=MAP,convertedtype=LIST"`
-	AvailabilityZone string `parquet:"name=availability_zone,type=BYTE_ARRAY,convertedtype=UTF8"`
-	CreateTime *time.Time 
-	Encrypted bool `parquet:"name=encrypted,type=BOOLEAN"`
-	FastRestored bool `parquet:"name=fast_restored,type=BOOLEAN"`
-	Iops int32 `parquet:"name=iops,type=INT32"`
-	KmsKeyId string `parquet:"name=kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	MultiAttachEnabled bool `parquet:"name=multi_attach_enabled,type=BOOLEAN"`
-	OutpostArn string `parquet:"name=outpost_arn,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Size int32 `parquet:"name=size,type=INT32"`
-	SnapshotId string `parquet:"name=snapshot_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	State string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TagsOld []*Tag `parquet:"name=tags_old,type=MAP,convertedtype=LIST"`
-	Throughput int32 `parquet:"name=throughput,type=INT32"`
-	VolumeId string `parquet:"name=volume_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	VolumeType string `parquet:"name=volume_type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId string `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Region string `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ReportTime int64 `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	CreateTimeMilli int64 `parquet:"name=create_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	Tags map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	Attachments        []*VolumeAttachment `parquet:"name=attachments,type=MAP,convertedtype=LIST" json:"attachments" diff:"attachments"`
+	AvailabilityZone   string              `parquet:"name=availability_zone,type=BYTE_ARRAY,convertedtype=UTF8" json:"availability_zone" diff:"availability_zone"`
+	CreateTime         *time.Time
+	Encrypted          bool              `parquet:"name=encrypted,type=BOOLEAN" json:"encrypted" diff:"encrypted"`
+	FastRestored       bool              `parquet:"name=fast_restored,type=BOOLEAN" json:"fast_restored" diff:"fast_restored"`
+	Iops               int32             `parquet:"name=iops,type=INT32" json:"iops" diff:"iops"`
+	KmsKeyId           string            `parquet:"name=kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"kms_key_id" diff:"kms_key_id"`
+	MultiAttachEnabled bool              `parquet:"name=multi_attach_enabled,type=BOOLEAN" json:"multi_attach_enabled" diff:"multi_attach_enabled"`
+	OutpostArn         string            `parquet:"name=outpost_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"outpost_arn" diff:"outpost_arn"`
+	Size               int32             `parquet:"name=size,type=INT32" json:"size" diff:"size"`
+	SnapshotId         string            `parquet:"name=snapshot_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"snapshot_id" diff:"snapshot_id"`
+	State              string            `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8" json:"state" diff:"state"`
+	Tags               map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8" json:"tags" diff:"tags"`
+	Throughput         int32             `parquet:"name=throughput,type=INT32" json:"throughput" diff:"throughput"`
+	VolumeId           string            `parquet:"name=volume_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"volume_id" diff:"volume_id,identifier"`
+	VolumeType         string            `parquet:"name=volume_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"volume_type" diff:"volume_type"`
+	AccountId          string            `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"account_id" diff:"account_id"`
+	Region             string            `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8" json:"region" diff:"region"`
+	ReportTime         int64             `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"report_time" diff:"report_time,immutable"`
+	CreateTimeMilli    int64             `parquet:"name=create_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"create_time" diff:"create_time"`
 }
 
+func (x *Volume) GetReportTime() int64 {
+	return x.ReportTime
+}

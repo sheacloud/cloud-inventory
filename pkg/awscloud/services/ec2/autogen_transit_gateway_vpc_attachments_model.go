@@ -6,19 +6,21 @@ import (
 )
 
 type TransitGatewayVpcAttachment struct {
-	CreationTime *time.Time 
-	Options *TransitGatewayVpcAttachmentOptions `parquet:"name=options"`
-	State string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8"`
-	SubnetIds []string `parquet:"name=subnet_ids,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	TagsOld []*Tag `parquet:"name=tags_old,type=MAP,convertedtype=LIST"`
-	TransitGatewayAttachmentId string `parquet:"name=transit_gateway_attachment_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true"`
-	TransitGatewayId string `parquet:"name=transit_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	VpcId string `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	VpcOwnerId string `parquet:"name=vpc_owner_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId string `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Region string `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ReportTime int64 `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	CreationTimeMilli int64 `parquet:"name=creation_time,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
-	Tags map[string]string `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8"`
+	CreationTime               *time.Time
+	Options                    *TransitGatewayVpcAttachmentOptions `parquet:"name=options" json:"options" diff:"options"`
+	State                      string                              `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8" json:"state" diff:"state"`
+	SubnetIds                  []string                            `parquet:"name=subnet_ids,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"subnet_ids" diff:"subnet_ids"`
+	Tags                       map[string]string                   `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8" json:"tags" diff:"tags"`
+	TransitGatewayAttachmentId string                              `parquet:"name=transit_gateway_attachment_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"transit_gateway_attachment_id" diff:"transit_gateway_attachment_id,identifier"`
+	TransitGatewayId           string                              `parquet:"name=transit_gateway_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"transit_gateway_id" diff:"transit_gateway_id"`
+	VpcId                      string                              `parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"vpc_id" diff:"vpc_id"`
+	VpcOwnerId                 string                              `parquet:"name=vpc_owner_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"vpc_owner_id" diff:"vpc_owner_id"`
+	AccountId                  string                              `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"account_id" diff:"account_id"`
+	Region                     string                              `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8" json:"region" diff:"region"`
+	ReportTime                 int64                               `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"report_time" diff:"report_time,immutable"`
+	CreationTimeMilli          int64                               `parquet:"name=creation_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"creation_time" diff:"creation_time"`
 }
 
+func (x *TransitGatewayVpcAttachment) GetReportTime() int64 {
+	return x.ReportTime
+}

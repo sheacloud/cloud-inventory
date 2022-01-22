@@ -7,6 +7,7 @@ aws_service "ecs" {
     resource "clusters" {
         fetch_function = "ListClusters"
         object_name = "Cluster"
+        object_plural_name = "Clusters"
         object_unique_id = "ClusterArn"
         object_response_field = "Clusters"
         model_only = true
@@ -19,6 +20,7 @@ aws_service "ecs" {
     resource "services" {
         fetch_function = "ListServices"
         object_name = "Service"
+        object_plural_name = "Services"
         object_unique_id = "ServiceArn"
         object_response_field = "Services"
         model_only = true
@@ -31,6 +33,7 @@ aws_service "ecs" {
     resource "tasks" {
         fetch_function = "ListTasks"
         object_name = "Task"
+        object_plural_name = "Tasks"
         object_unique_id = "TaskArn"
         object_response_field = "Tasks"
         model_only = true

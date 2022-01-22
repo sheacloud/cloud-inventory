@@ -16,23 +16,22 @@ func FetchLoadBalancer(ctx context.Context, params *awscloud.AwsFetchInput) *aws
 	var fetchedResources int
 	var failedResources int
 	inventoryResults := &meta.InventoryResults{
-		Cloud: "aws",
-		Service: "elasticloadbalancingv2",
-		Resource: "load_balancers",
-		AccountId: params.AccountId,
-		Region: params.Region,
+		Cloud:      "aws",
+		Service:    "elasticloadbalancingv2",
+		Resource:   "load_balancers",
+		AccountId:  params.AccountId,
+		Region:     params.Region,
 		ReportTime: params.ReportTime.UTC().UnixMilli(),
 	}
 
 	awsClient := params.RegionalClients[params.Region]
 	client := awsClient.ElasticLoadBalancingV2()
 
-	
 	paginator := elasticloadbalancingv2.NewDescribeLoadBalancersPaginator(client, &elasticloadbalancingv2.DescribeLoadBalancersInput{})
 
 	for paginator.HasMorePages() {
 		output, err := paginator.NextPage(ctx)
-	
+
 		if err != nil {
 			fetchingErrors = append(fetchingErrors, fmt.Errorf("error calling DescribeLoadBalancers in %s/%s: %w", params.AccountId, params.Region, err))
 			break
@@ -43,17 +42,14 @@ func FetchLoadBalancer(ctx context.Context, params *awscloud.AwsFetchInput) *aws
 			model := new(LoadBalancer)
 			copier.Copy(&model, &object)
 
-			
 			model.AccountId = params.AccountId
 			model.Region = params.Region
 			model.ReportTime = params.ReportTime.UTC().UnixMilli()
 
-			
 			if err = PostProcessLoadBalancer(ctx, params, model); err != nil {
 				fetchingErrors = append(fetchingErrors, fmt.Errorf("error post-processing LoadBalancer %s %s/%s: %w", model.LoadBalancerArn, params.AccountId, params.Region, err))
 				failedResources++
 			}
-			
 
 			err = params.OutputFile.Write(ctx, model)
 			if err != nil {

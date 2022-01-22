@@ -6,223 +6,221 @@ import (
 )
 
 type ReplicationConfiguration struct {
-	Role string `parquet:"name=role,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Rules []*ReplicationRule `parquet:"name=rules,type=MAP,convertedtype=LIST"`
+	Role  string             `parquet:"name=role,type=BYTE_ARRAY,convertedtype=UTF8" json:"role" diff:"role"`
+	Rules []*ReplicationRule `parquet:"name=rules,type=MAP,convertedtype=LIST" json:"rules" diff:"rules"`
 }
 
 type ReplicationRule struct {
-	Destination *Destination `parquet:"name=destination"`
-	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	DeleteMarkerReplication *DeleteMarkerReplication `parquet:"name=delete_marker_replication"`
-	ExistingObjectReplication *ExistingObjectReplication `parquet:"name=existing_object_replication"`
-	ID string `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Prefix string `parquet:"name=prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Priority int32 `parquet:"name=priority,type=INT32"`
-	SourceSelectionCriteria *SourceSelectionCriteria `parquet:"name=source_selection_criteria"`
+	Destination               *Destination               `parquet:"name=destination" json:"destination" diff:"destination"`
+	Status                    string                     `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
+	DeleteMarkerReplication   *DeleteMarkerReplication   `parquet:"name=delete_marker_replication" json:"delete_marker_replication" diff:"delete_marker_replication"`
+	ExistingObjectReplication *ExistingObjectReplication `parquet:"name=existing_object_replication" json:"existing_object_replication" diff:"existing_object_replication"`
+	ID                        string                     `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8" json:"id" diff:"id"`
+	Prefix                    string                     `parquet:"name=prefix,type=BYTE_ARRAY,convertedtype=UTF8" json:"prefix" diff:"prefix"`
+	Priority                  int32                      `parquet:"name=priority,type=INT32" json:"priority" diff:"priority"`
+	SourceSelectionCriteria   *SourceSelectionCriteria   `parquet:"name=source_selection_criteria" json:"source_selection_criteria" diff:"source_selection_criteria"`
 }
 
 type Destination struct {
-	Bucket string `parquet:"name=bucket,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccessControlTranslation *AccessControlTranslation `parquet:"name=access_control_translation"`
-	Account string `parquet:"name=account,type=BYTE_ARRAY,convertedtype=UTF8"`
-	EncryptionConfiguration *EncryptionConfiguration `parquet:"name=encryption_configuration"`
-	Metrics *Metrics `parquet:"name=metrics"`
-	ReplicationTime *ReplicationTime `parquet:"name=replication_time"`
-	StorageClass string `parquet:"name=storage_class,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Bucket                   string                    `parquet:"name=bucket,type=BYTE_ARRAY,convertedtype=UTF8" json:"bucket" diff:"bucket"`
+	AccessControlTranslation *AccessControlTranslation `parquet:"name=access_control_translation" json:"access_control_translation" diff:"access_control_translation"`
+	Account                  string                    `parquet:"name=account,type=BYTE_ARRAY,convertedtype=UTF8" json:"account" diff:"account"`
+	EncryptionConfiguration  *EncryptionConfiguration  `parquet:"name=encryption_configuration" json:"encryption_configuration" diff:"encryption_configuration"`
+	Metrics                  *Metrics                  `parquet:"name=metrics" json:"metrics" diff:"metrics"`
+	ReplicationTime          *ReplicationTime          `parquet:"name=replication_time" json:"replication_time" diff:"replication_time"`
+	StorageClass             string                    `parquet:"name=storage_class,type=BYTE_ARRAY,convertedtype=UTF8" json:"storage_class" diff:"storage_class"`
 }
 
 type AccessControlTranslation struct {
-	Owner string `parquet:"name=owner,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Owner string `parquet:"name=owner,type=BYTE_ARRAY,convertedtype=UTF8" json:"owner" diff:"owner"`
 }
 
 type EncryptionConfiguration struct {
-	ReplicaKmsKeyID string `parquet:"name=replica_kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	ReplicaKmsKeyID string `parquet:"name=replica_kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"replica_kms_key_id" diff:"replica_kms_key_id"`
 }
 
 type Metrics struct {
-	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	EventThreshold *ReplicationTimeValue `parquet:"name=event_threshold"`
+	Status         string                `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
+	EventThreshold *ReplicationTimeValue `parquet:"name=event_threshold" json:"event_threshold" diff:"event_threshold"`
 }
 
 type ReplicationTimeValue struct {
-	Minutes int32 `parquet:"name=minutes,type=INT32"`
+	Minutes int32 `parquet:"name=minutes,type=INT32" json:"minutes" diff:"minutes"`
 }
 
 type ReplicationTime struct {
-	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Time *ReplicationTimeValue `parquet:"name=time"`
+	Status string                `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
+	Time   *ReplicationTimeValue `parquet:"name=time" json:"time" diff:"time"`
 }
 
 type DeleteMarkerReplication struct {
-	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
 }
 
 type ExistingObjectReplication struct {
-	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
 }
 
 type SourceSelectionCriteria struct {
-	ReplicaModifications *ReplicaModifications `parquet:"name=replica_modifications"`
-	SseKmsEncryptedObjects *SseKmsEncryptedObjects `parquet:"name=sse_kms_encrypted_objects"`
+	ReplicaModifications   *ReplicaModifications   `parquet:"name=replica_modifications" json:"replica_modifications" diff:"replica_modifications"`
+	SseKmsEncryptedObjects *SseKmsEncryptedObjects `parquet:"name=sse_kms_encrypted_objects" json:"sse_kms_encrypted_objects" diff:"sse_kms_encrypted_objects"`
 }
 
 type ReplicaModifications struct {
-	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
 }
 
 type SseKmsEncryptedObjects struct {
-	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
 }
 
 type Grant struct {
-	Grantee *Grantee `parquet:"name=grantee"`
-	Permission string `parquet:"name=permission,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Grantee    *Grantee `parquet:"name=grantee" json:"grantee" diff:"grantee"`
+	Permission string   `parquet:"name=permission,type=BYTE_ARRAY,convertedtype=UTF8" json:"permission" diff:"permission"`
 }
 
 type Grantee struct {
-	Type string `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8"`
-	DisplayName string `parquet:"name=display_name,type=BYTE_ARRAY,convertedtype=UTF8"`
-	EmailAddress string `parquet:"name=email_address,type=BYTE_ARRAY,convertedtype=UTF8"`
-	ID string `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	URI string `parquet:"name=uri,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Type         string `parquet:"name=type,type=BYTE_ARRAY,convertedtype=UTF8" json:"type" diff:"type"`
+	DisplayName  string `parquet:"name=display_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"display_name" diff:"display_name"`
+	EmailAddress string `parquet:"name=email_address,type=BYTE_ARRAY,convertedtype=UTF8" json:"email_address" diff:"email_address"`
+	ID           string `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8" json:"id" diff:"id"`
+	URI          string `parquet:"name=uri,type=BYTE_ARRAY,convertedtype=UTF8" json:"uri" diff:"uri"`
 }
 
 type CORSRule struct {
-	AllowedMethods []string `parquet:"name=allowed_methods,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	AllowedOrigins []string `parquet:"name=allowed_origins,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	AllowedHeaders []string `parquet:"name=allowed_headers,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	ExposeHeaders []string `parquet:"name=expose_headers,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
-	ID string `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	MaxAgeSeconds int32 `parquet:"name=max_age_seconds,type=INT32"`
+	AllowedMethods []string `parquet:"name=allowed_methods,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"allowed_methods" diff:"allowed_methods"`
+	AllowedOrigins []string `parquet:"name=allowed_origins,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"allowed_origins" diff:"allowed_origins"`
+	AllowedHeaders []string `parquet:"name=allowed_headers,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"allowed_headers" diff:"allowed_headers"`
+	ExposeHeaders  []string `parquet:"name=expose_headers,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"expose_headers" diff:"expose_headers"`
+	ID             string   `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8" json:"id" diff:"id"`
+	MaxAgeSeconds  int32    `parquet:"name=max_age_seconds,type=INT32" json:"max_age_seconds" diff:"max_age_seconds"`
 }
 
 type ServerSideEncryptionConfiguration struct {
-	Rules []*ServerSideEncryptionRule `parquet:"name=rules,type=MAP,convertedtype=LIST"`
+	Rules []*ServerSideEncryptionRule `parquet:"name=rules,type=MAP,convertedtype=LIST" json:"rules" diff:"rules"`
 }
 
 type ServerSideEncryptionRule struct {
-	ApplyServerSideEncryptionByDefault *ServerSideEncryptionByDefault `parquet:"name=apply_server_side_encryption_by_default"`
-	BucketKeyEnabled bool `parquet:"name=bucket_key_enabled,type=BOOLEAN"`
+	ApplyServerSideEncryptionByDefault *ServerSideEncryptionByDefault `parquet:"name=apply_server_side_encryption_by_default" json:"apply_server_side_encryption_by_default" diff:"apply_server_side_encryption_by_default"`
+	BucketKeyEnabled                   bool                           `parquet:"name=bucket_key_enabled,type=BOOLEAN" json:"bucket_key_enabled" diff:"bucket_key_enabled"`
 }
 
 type ServerSideEncryptionByDefault struct {
-	SSEAlgorithm string `parquet:"name=sse_algorithm,type=BYTE_ARRAY,convertedtype=UTF8"`
-	KMSMasterKeyID string `parquet:"name=kms_master_key_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	SSEAlgorithm   string `parquet:"name=sse_algorithm,type=BYTE_ARRAY,convertedtype=UTF8" json:"sse_algorithm" diff:"sse_algorithm"`
+	KMSMasterKeyID string `parquet:"name=kms_master_key_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"kms_master_key_id" diff:"kms_master_key_id"`
 }
 
 type IntelligentTieringConfiguration struct {
-	Id string `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tierings []*Tiering `parquet:"name=tierings,type=MAP,convertedtype=LIST"`
-	Filter *IntelligentTieringFilter `parquet:"name=filter"`
+	Id       string                    `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8" json:"id" diff:"id"`
+	Status   string                    `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
+	Tierings []*Tiering                `parquet:"name=tierings,type=MAP,convertedtype=LIST" json:"tierings" diff:"tierings"`
+	Filter   *IntelligentTieringFilter `parquet:"name=filter" json:"filter" diff:"filter"`
 }
 
 type Tiering struct {
-	AccessTier string `parquet:"name=access_tier,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Days int32 `parquet:"name=days,type=INT32"`
+	AccessTier string `parquet:"name=access_tier,type=BYTE_ARRAY,convertedtype=UTF8" json:"access_tier" diff:"access_tier"`
+	Days       int32  `parquet:"name=days,type=INT32" json:"days" diff:"days"`
 }
 
 type IntelligentTieringFilter struct {
-	And *IntelligentTieringAndOperator `parquet:"name=and"`
-	Prefix string `parquet:"name=prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tag *Tag `parquet:"name=tag"`
+	And    *IntelligentTieringAndOperator `parquet:"name=and" json:"and" diff:"and"`
+	Prefix string                         `parquet:"name=prefix,type=BYTE_ARRAY,convertedtype=UTF8" json:"prefix" diff:"prefix"`
+	Tag    *Tag                           `parquet:"name=tag" json:"tag" diff:"tag"`
 }
 
 type IntelligentTieringAndOperator struct {
-	Prefix string `parquet:"name=prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Tags []*Tag `parquet:"name=tags,type=MAP,convertedtype=LIST"`
+	Prefix string `parquet:"name=prefix,type=BYTE_ARRAY,convertedtype=UTF8" json:"prefix" diff:"prefix"`
+	Tags   []*Tag `parquet:"name=tags,type=MAP,convertedtype=LIST" json:"tags" diff:"tags"`
 }
 
 type Tag struct {
-	Key string `parquet:"name=key,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Key   string `parquet:"name=key,type=BYTE_ARRAY,convertedtype=UTF8" json:"key" diff:"key"`
+	Value string `parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8" json:"value" diff:"value"`
 }
 
 type InventoryConfiguration struct {
-	Destination *InventoryDestination `parquet:"name=destination"`
-	Id string `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	IncludedObjectVersions string `parquet:"name=included_object_versions,type=BYTE_ARRAY,convertedtype=UTF8"`
-	IsEnabled bool `parquet:"name=is_enabled,type=BOOLEAN"`
-	Schedule *InventorySchedule `parquet:"name=schedule"`
-	Filter *InventoryFilter `parquet:"name=filter"`
-	OptionalFields []string `parquet:"name=optional_fields,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8"`
+	Destination            *InventoryDestination `parquet:"name=destination" json:"destination" diff:"destination"`
+	Id                     string                `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8" json:"id" diff:"id"`
+	IncludedObjectVersions string                `parquet:"name=included_object_versions,type=BYTE_ARRAY,convertedtype=UTF8" json:"included_object_versions" diff:"included_object_versions"`
+	IsEnabled              bool                  `parquet:"name=is_enabled,type=BOOLEAN" json:"is_enabled" diff:"is_enabled"`
+	Schedule               *InventorySchedule    `parquet:"name=schedule" json:"schedule" diff:"schedule"`
+	Filter                 *InventoryFilter      `parquet:"name=filter" json:"filter" diff:"filter"`
+	OptionalFields         []string              `parquet:"name=optional_fields,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"optional_fields" diff:"optional_fields"`
 }
 
 type InventoryDestination struct {
-	S3BucketDestination *InventoryS3BucketDestination `parquet:"name=s3_bucket_destination"`
+	S3BucketDestination *InventoryS3BucketDestination `parquet:"name=s3_bucket_destination" json:"s3_bucket_destination" diff:"s3_bucket_destination"`
 }
 
 type InventoryS3BucketDestination struct {
-	Bucket string `parquet:"name=bucket,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Format string `parquet:"name=format,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AccountId string `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Encryption *InventoryEncryption `parquet:"name=encryption"`
-	Prefix string `parquet:"name=prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Bucket     string               `parquet:"name=bucket,type=BYTE_ARRAY,convertedtype=UTF8" json:"bucket" diff:"bucket"`
+	Format     string               `parquet:"name=format,type=BYTE_ARRAY,convertedtype=UTF8" json:"format" diff:"format"`
+	AccountId  string               `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"account_id" diff:"account_id"`
+	Encryption *InventoryEncryption `parquet:"name=encryption" json:"encryption" diff:"encryption"`
+	Prefix     string               `parquet:"name=prefix,type=BYTE_ARRAY,convertedtype=UTF8" json:"prefix" diff:"prefix"`
 }
 
 type InventoryEncryption struct {
-	SSEKMS *SSEKMS `parquet:"name=ssekms"`
+	SSEKMS *SSEKMS `parquet:"name=ssekms" json:"ssekms" diff:"ssekms"`
 }
 
 type SSEKMS struct {
-	KeyId string `parquet:"name=key_id,type=BYTE_ARRAY,convertedtype=UTF8"`
+	KeyId string `parquet:"name=key_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"key_id" diff:"key_id"`
 }
 
 type InventorySchedule struct {
-	Frequency string `parquet:"name=frequency,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Frequency string `parquet:"name=frequency,type=BYTE_ARRAY,convertedtype=UTF8" json:"frequency" diff:"frequency"`
 }
 
 type InventoryFilter struct {
-	Prefix string `parquet:"name=prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Prefix string `parquet:"name=prefix,type=BYTE_ARRAY,convertedtype=UTF8" json:"prefix" diff:"prefix"`
 }
 
 type LifecycleRule struct {
-	Status string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8"`
-	AbortIncompleteMultipartUpload *AbortIncompleteMultipartUpload `parquet:"name=abort_incomplete_multipart_upload"`
-	Expiration *LifecycleExpiration `parquet:"name=expiration"`
-	ID string `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8"`
-	NoncurrentVersionExpiration *NoncurrentVersionExpiration `parquet:"name=noncurrent_version_expiration"`
-	NoncurrentVersionTransitions []*NoncurrentVersionTransition `parquet:"name=noncurrent_version_transitions,type=MAP,convertedtype=LIST"`
-	Prefix string `parquet:"name=prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
-	Transitions []*Transition `parquet:"name=transitions,type=MAP,convertedtype=LIST"`
+	Status                         string                          `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
+	AbortIncompleteMultipartUpload *AbortIncompleteMultipartUpload `parquet:"name=abort_incomplete_multipart_upload" json:"abort_incomplete_multipart_upload" diff:"abort_incomplete_multipart_upload"`
+	Expiration                     *LifecycleExpiration            `parquet:"name=expiration" json:"expiration" diff:"expiration"`
+	ID                             string                          `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8" json:"id" diff:"id"`
+	NoncurrentVersionExpiration    *NoncurrentVersionExpiration    `parquet:"name=noncurrent_version_expiration" json:"noncurrent_version_expiration" diff:"noncurrent_version_expiration"`
+	NoncurrentVersionTransitions   []*NoncurrentVersionTransition  `parquet:"name=noncurrent_version_transitions,type=MAP,convertedtype=LIST" json:"noncurrent_version_transitions" diff:"noncurrent_version_transitions"`
+	Prefix                         string                          `parquet:"name=prefix,type=BYTE_ARRAY,convertedtype=UTF8" json:"prefix" diff:"prefix"`
+	Transitions                    []*Transition                   `parquet:"name=transitions,type=MAP,convertedtype=LIST" json:"transitions" diff:"transitions"`
 }
 
 type AbortIncompleteMultipartUpload struct {
-	DaysAfterInitiation int32 `parquet:"name=days_after_initiation,type=INT32"`
+	DaysAfterInitiation int32 `parquet:"name=days_after_initiation,type=INT32" json:"days_after_initiation" diff:"days_after_initiation"`
 }
 
 type LifecycleExpiration struct {
-	Date *time.Time 
-	Days int32 `parquet:"name=days,type=INT32"`
-	ExpiredObjectDeleteMarker bool `parquet:"name=expired_object_delete_marker,type=BOOLEAN"`
-	DateMilli int64 `parquet:"name=date,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	Date                      *time.Time
+	Days                      int32 `parquet:"name=days,type=INT32" json:"days" diff:"days"`
+	ExpiredObjectDeleteMarker bool  `parquet:"name=expired_object_delete_marker,type=BOOLEAN" json:"expired_object_delete_marker" diff:"expired_object_delete_marker"`
+	DateMilli                 int64 `parquet:"name=date,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"date" diff:"date"`
 }
 
 type NoncurrentVersionExpiration struct {
-	NoncurrentDays int32 `parquet:"name=noncurrent_days,type=INT32"`
+	NoncurrentDays int32 `parquet:"name=noncurrent_days,type=INT32" json:"noncurrent_days" diff:"noncurrent_days"`
 }
 
 type NoncurrentVersionTransition struct {
-	NoncurrentDays int32 `parquet:"name=noncurrent_days,type=INT32"`
-	StorageClass string `parquet:"name=storage_class,type=BYTE_ARRAY,convertedtype=UTF8"`
+	NoncurrentDays int32  `parquet:"name=noncurrent_days,type=INT32" json:"noncurrent_days" diff:"noncurrent_days"`
+	StorageClass   string `parquet:"name=storage_class,type=BYTE_ARRAY,convertedtype=UTF8" json:"storage_class" diff:"storage_class"`
 }
 
 type Transition struct {
-	Date *time.Time 
-	Days int32 `parquet:"name=days,type=INT32"`
-	StorageClass string `parquet:"name=storage_class,type=BYTE_ARRAY,convertedtype=UTF8"`
-	DateMilli int64 `parquet:"name=date,type=INT64,convertedtype=TIMESTAMP_MILLIS"`
+	Date         *time.Time
+	Days         int32  `parquet:"name=days,type=INT32" json:"days" diff:"days"`
+	StorageClass string `parquet:"name=storage_class,type=BYTE_ARRAY,convertedtype=UTF8" json:"storage_class" diff:"storage_class"`
+	DateMilli    int64  `parquet:"name=date,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"date" diff:"date"`
 }
 
 type LoggingEnabled struct {
-	TargetBucket string `parquet:"name=target_bucket,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TargetPrefix string `parquet:"name=target_prefix,type=BYTE_ARRAY,convertedtype=UTF8"`
-	TargetGrants []*TargetGrant `parquet:"name=target_grants,type=MAP,convertedtype=LIST"`
+	TargetBucket string         `parquet:"name=target_bucket,type=BYTE_ARRAY,convertedtype=UTF8" json:"target_bucket" diff:"target_bucket"`
+	TargetPrefix string         `parquet:"name=target_prefix,type=BYTE_ARRAY,convertedtype=UTF8" json:"target_prefix" diff:"target_prefix"`
+	TargetGrants []*TargetGrant `parquet:"name=target_grants,type=MAP,convertedtype=LIST" json:"target_grants" diff:"target_grants"`
 }
 
 type TargetGrant struct {
-	Grantee *Grantee `parquet:"name=grantee"`
-	Permission string `parquet:"name=permission,type=BYTE_ARRAY,convertedtype=UTF8"`
+	Grantee    *Grantee `parquet:"name=grantee" json:"grantee" diff:"grantee"`
+	Permission string   `parquet:"name=permission,type=BYTE_ARRAY,convertedtype=UTF8" json:"permission" diff:"permission"`
 }
-
-

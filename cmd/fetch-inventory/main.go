@@ -85,7 +85,7 @@ func main() {
 
 	s3Client := s3.NewFromConfig(cfg)
 
-	fileManager := indexedstorage.NewIndexedFileManager(viper.GetString("s3_bucket"), "inventory/", "parquet", s3Client, 4)
+	fileManager := indexedstorage.NewIndexedFileManager(viper.GetString("s3_bucket"), "inventory/", "parquet", s3Client)
 
 	accountIDs := strings.Split(viper.GetString("aws_account_ids"), ",")
 	regions := strings.Split(viper.GetString("aws_regions"), ",")

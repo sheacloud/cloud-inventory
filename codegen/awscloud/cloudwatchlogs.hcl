@@ -6,6 +6,7 @@ aws_service "cloudwatchlogs" {
     resource "log_groups" {
         fetch_function = "DescribeLogGroups"
         object_name = "LogGroup"
+        object_plural_name = "LogGroups"
         object_unique_id = "Arn"
         object_response_field = "LogGroups"
         model_only = false
