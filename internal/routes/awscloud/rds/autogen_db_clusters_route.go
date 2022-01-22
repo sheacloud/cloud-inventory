@@ -69,7 +69,68 @@ func ListDBClusters(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 	c.IndentedJSON(200, results)
 }
 
-// DiffDBClusters godoc
+// GetDBCluster godoc
+// @Summary      Get a specific DBCluster
+// @Description  Get a specific DBCluster by its DBClusterArn
+// @Tags         aws rds
+// @Produce      json
+// @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
+// @Param        db_cluster_arn path string true "The db_cluster_arn of the DBCluster to retrieve"
+// @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
+// @Param		 region query string false  "A specific region to pull data from. All regions by default"
+// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
+// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Success      200  {object}   rds.DBCluster
+// @Failure      400
+// @Failure 	 404
+// @Router       /inventory/aws/rds/db_clusters/{db_cluster_arn} [get]
+func GetDBCluster(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+	var params routes.AwsQueryParameters
+	if err := c.BindQuery(&params); err != nil {
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	err := params.Process()
+	if err != nil {
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	id := c.Param("db_cluster_arn")
+
+	s3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "rds", "db_clusters"}, *params.ReportDate, params.GetRequestTimeSelection(), s3Client, new(rds.DBCluster))
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	results := []interface{}{}
+	for s3DirReader.HasNextFile() {
+		resultInterface, err := s3DirReader.ReadNextFile()
+		if err != nil {
+			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+			return
+		}
+		results = append(results, resultInterface...)
+	}
+
+	// Filter results
+	for _, result := range results {
+		obj := result.(*rds.DBCluster)
+		if params.AccountId != nil && obj.AccountId != *params.AccountId {
+			continue
+		}
+		if params.Region != nil && obj.Region != *params.Region {
+			continue
+		}
+		if obj.DBClusterArn == id {
+			c.IndentedJSON(200, obj)
+			return
+		}
+	}
+	c.AbortWithStatusJSON(404, gin.H{"error": "No DBCluster found with db_cluster_arn " + id})
+}
+
+// DiffMultiDBClusters godoc
 // @Summary      Diff DBClusters
 // @Description  get a diff of DBClusters between two points in time
 // @Tags         aws rds
@@ -85,7 +146,7 @@ func ListDBClusters(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/rds/db_clusters [get]
-func DiffDBClusters(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+func DiffMultiDBClusters(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -166,23 +227,25 @@ func DiffDBClusters(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 	c.IndentedJSON(200, changelog)
 }
 
-// GetDBCluster godoc
-// @Summary      Get a specific DBCluster
-// @Description  Get a specific DBCluster by its DBClusterArn
+// DiffSingleDBCluster godoc
+// @Summary      Diff DBCluster
+// @Description  get a diff of DBCluster between two points in time
 // @Tags         aws rds
 // @Produce      json
-// @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
-// @Param        db_cluster_arn path string true "The db_cluster_arn of the DBCluster to retrieve"
+// @Param        start_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
+// @Param		 start_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
+// @Param		 start_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param        end_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
+// @Param		 end_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
+// @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
-// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
-// @Success      200  {object}   rds.DBCluster
+// @Param        db_cluster_arn path string true "The db_cluster_arn of the DBCluster to retrieve"
+// @Success      200  {array}   routes.Diff
 // @Failure      400
-// @Failure 	 404
-// @Router       /inventory/aws/rds/db_clusters/{db_cluster_arn} [get]
-func GetDBCluster(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
-	var params routes.AwsQueryParameters
+// @Router       /diff/aws/rds/db_clusters/{db_cluster_arn} [get]
+func DiffSingleDBCluster(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
@@ -195,23 +258,23 @@ func GetDBCluster(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 
 	id := c.Param("db_cluster_arn")
 
-	s3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "rds", "db_clusters"}, *params.ReportDate, params.GetRequestTimeSelection(), s3Client, new(rds.DBCluster))
+	var startObject *rds.DBCluster
+	startS3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "rds", "db_clusters"}, *params.StartReportDate, params.GetRequestStartTimeSelection(), s3Client, new(rds.DBCluster))
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
-	results := []interface{}{}
-	for s3DirReader.HasNextFile() {
-		resultInterface, err := s3DirReader.ReadNextFile()
+	startResults := []interface{}{}
+	for startS3DirReader.HasNextFile() {
+		resultInterface, err := startS3DirReader.ReadNextFile()
 		if err != nil {
 			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 			return
 		}
-		results = append(results, resultInterface...)
+		startResults = append(startResults, resultInterface...)
 	}
-
 	// Filter results
-	for _, result := range results {
+	for _, result := range startResults {
 		obj := result.(*rds.DBCluster)
 		if params.AccountId != nil && obj.AccountId != *params.AccountId {
 			continue
@@ -220,9 +283,51 @@ func GetDBCluster(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 			continue
 		}
 		if obj.DBClusterArn == id {
-			c.IndentedJSON(200, obj)
-			return
+			startObject = obj
+			break
 		}
 	}
-	c.AbortWithStatusJSON(404, gin.H{"error": "No DBCluster found with db_cluster_arn " + id})
+
+	var endObject *rds.DBCluster
+	endS3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "rds", "db_clusters"}, *params.EndReportDate, params.GetRequestEndTimeSelection(), s3Client, new(rds.DBCluster))
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	endResults := []interface{}{}
+	for endS3DirReader.HasNextFile() {
+		resultInterface, err := endS3DirReader.ReadNextFile()
+		if err != nil {
+			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+			return
+		}
+		endResults = append(endResults, resultInterface...)
+	}
+	// Filter results
+	for _, result := range endResults {
+		obj := result.(*rds.DBCluster)
+		if params.AccountId != nil && obj.AccountId != *params.AccountId {
+			continue
+		}
+		if params.Region != nil && obj.Region != *params.Region {
+			continue
+		}
+		if obj.DBClusterArn == id {
+			endObject = obj
+			break
+		}
+	}
+
+	if startObject == nil && endObject == nil {
+		c.AbortWithStatusJSON(404, gin.H{"error": "No DBCluster found with db_cluster_arn " + id})
+		return
+	} else {
+		changelog, err := diff.Diff(startObject, endObject)
+		if err != nil {
+			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+			return
+		}
+		c.IndentedJSON(200, changelog)
+		return
+	}
 }

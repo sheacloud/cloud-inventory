@@ -69,7 +69,68 @@ func ListServices(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 	c.IndentedJSON(200, results)
 }
 
-// DiffServices godoc
+// GetService godoc
+// @Summary      Get a specific Service
+// @Description  Get a specific Service by its ServiceArn
+// @Tags         aws ecs
+// @Produce      json
+// @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
+// @Param        service_arn path string true "The service_arn of the Service to retrieve"
+// @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
+// @Param		 region query string false  "A specific region to pull data from. All regions by default"
+// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
+// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Success      200  {object}   ecs.Service
+// @Failure      400
+// @Failure 	 404
+// @Router       /inventory/aws/ecs/services/{service_arn} [get]
+func GetService(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+	var params routes.AwsQueryParameters
+	if err := c.BindQuery(&params); err != nil {
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	err := params.Process()
+	if err != nil {
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	id := c.Param("service_arn")
+
+	s3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "ecs", "services"}, *params.ReportDate, params.GetRequestTimeSelection(), s3Client, new(ecs.Service))
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	results := []interface{}{}
+	for s3DirReader.HasNextFile() {
+		resultInterface, err := s3DirReader.ReadNextFile()
+		if err != nil {
+			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+			return
+		}
+		results = append(results, resultInterface...)
+	}
+
+	// Filter results
+	for _, result := range results {
+		obj := result.(*ecs.Service)
+		if params.AccountId != nil && obj.AccountId != *params.AccountId {
+			continue
+		}
+		if params.Region != nil && obj.Region != *params.Region {
+			continue
+		}
+		if obj.ServiceArn == id {
+			c.IndentedJSON(200, obj)
+			return
+		}
+	}
+	c.AbortWithStatusJSON(404, gin.H{"error": "No Service found with service_arn " + id})
+}
+
+// DiffMultiServices godoc
 // @Summary      Diff Services
 // @Description  get a diff of Services between two points in time
 // @Tags         aws ecs
@@ -85,7 +146,7 @@ func ListServices(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/ecs/services [get]
-func DiffServices(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+func DiffMultiServices(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -166,23 +227,25 @@ func DiffServices(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 	c.IndentedJSON(200, changelog)
 }
 
-// GetService godoc
-// @Summary      Get a specific Service
-// @Description  Get a specific Service by its ServiceArn
+// DiffSingleService godoc
+// @Summary      Diff Service
+// @Description  get a diff of Service between two points in time
 // @Tags         aws ecs
 // @Produce      json
-// @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
-// @Param        service_arn path string true "The service_arn of the Service to retrieve"
+// @Param        start_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
+// @Param		 start_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
+// @Param		 start_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param        end_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
+// @Param		 end_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
+// @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
-// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
-// @Success      200  {object}   ecs.Service
+// @Param        service_arn path string true "The service_arn of the Service to retrieve"
+// @Success      200  {array}   routes.Diff
 // @Failure      400
-// @Failure 	 404
-// @Router       /inventory/aws/ecs/services/{service_arn} [get]
-func GetService(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
-	var params routes.AwsQueryParameters
+// @Router       /diff/aws/ecs/services/{service_arn} [get]
+func DiffSingleService(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
@@ -195,23 +258,23 @@ func GetService(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 
 	id := c.Param("service_arn")
 
-	s3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "ecs", "services"}, *params.ReportDate, params.GetRequestTimeSelection(), s3Client, new(ecs.Service))
+	var startObject *ecs.Service
+	startS3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "ecs", "services"}, *params.StartReportDate, params.GetRequestStartTimeSelection(), s3Client, new(ecs.Service))
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
-	results := []interface{}{}
-	for s3DirReader.HasNextFile() {
-		resultInterface, err := s3DirReader.ReadNextFile()
+	startResults := []interface{}{}
+	for startS3DirReader.HasNextFile() {
+		resultInterface, err := startS3DirReader.ReadNextFile()
 		if err != nil {
 			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 			return
 		}
-		results = append(results, resultInterface...)
+		startResults = append(startResults, resultInterface...)
 	}
-
 	// Filter results
-	for _, result := range results {
+	for _, result := range startResults {
 		obj := result.(*ecs.Service)
 		if params.AccountId != nil && obj.AccountId != *params.AccountId {
 			continue
@@ -220,9 +283,51 @@ func GetService(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 			continue
 		}
 		if obj.ServiceArn == id {
-			c.IndentedJSON(200, obj)
-			return
+			startObject = obj
+			break
 		}
 	}
-	c.AbortWithStatusJSON(404, gin.H{"error": "No Service found with service_arn " + id})
+
+	var endObject *ecs.Service
+	endS3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "ecs", "services"}, *params.EndReportDate, params.GetRequestEndTimeSelection(), s3Client, new(ecs.Service))
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	endResults := []interface{}{}
+	for endS3DirReader.HasNextFile() {
+		resultInterface, err := endS3DirReader.ReadNextFile()
+		if err != nil {
+			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+			return
+		}
+		endResults = append(endResults, resultInterface...)
+	}
+	// Filter results
+	for _, result := range endResults {
+		obj := result.(*ecs.Service)
+		if params.AccountId != nil && obj.AccountId != *params.AccountId {
+			continue
+		}
+		if params.Region != nil && obj.Region != *params.Region {
+			continue
+		}
+		if obj.ServiceArn == id {
+			endObject = obj
+			break
+		}
+	}
+
+	if startObject == nil && endObject == nil {
+		c.AbortWithStatusJSON(404, gin.H{"error": "No Service found with service_arn " + id})
+		return
+	} else {
+		changelog, err := diff.Diff(startObject, endObject)
+		if err != nil {
+			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+			return
+		}
+		c.IndentedJSON(200, changelog)
+		return
+	}
 }

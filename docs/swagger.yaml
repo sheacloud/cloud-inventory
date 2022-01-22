@@ -5490,6 +5490,77 @@ paths:
       summary: Diff LogGroups
       tags:
       - aws cloudwatchlogs
+  /diff/aws/cloudwatchlogs/log_groups/{arn}:
+    get:
+      description: get a diff of LogGroup between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The arn of the LogGroup to retrieve
+        in: path
+        name: arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff LogGroup
+      tags:
+      - aws cloudwatchlogs
   /diff/aws/dynamodb/tables:
     get:
       description: get a diff of TableDescriptions between two points in time
@@ -5554,6 +5625,77 @@ paths:
         "400":
           description: ""
       summary: Diff TableDescriptions
+      tags:
+      - aws dynamodb
+  /diff/aws/dynamodb/tables/{table_arn}:
+    get:
+      description: get a diff of TableDescription between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The table_arn of the TableDescription to retrieve
+        in: path
+        name: table_arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff TableDescription
       tags:
       - aws dynamodb
   /diff/aws/ec2/addresses:
@@ -5622,6 +5764,77 @@ paths:
       summary: Diff Addresses
       tags:
       - aws ec2
+  /diff/aws/ec2/addresses/{allocation_id}:
+    get:
+      description: get a diff of Address between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The allocation_id of the Address to retrieve
+        in: path
+        name: allocation_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff Address
+      tags:
+      - aws ec2
   /diff/aws/ec2/dhcp_options:
     get:
       description: get a diff of DhcpOptions between two points in time
@@ -5673,6 +5886,77 @@ paths:
       - description: A specific region to pull data from. All regions by default
         in: query
         name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff DhcpOptions
+      tags:
+      - aws ec2
+  /diff/aws/ec2/dhcp_options/{dhcp_options_id}:
+    get:
+      description: get a diff of DhcpOptions between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The dhcp_options_id of the DhcpOptions to retrieve
+        in: path
+        name: dhcp_options_id
+        required: true
         type: string
       produces:
       - application/json
@@ -5754,6 +6038,77 @@ paths:
       summary: Diff Images
       tags:
       - aws ec2
+  /diff/aws/ec2/images/{image_id}:
+    get:
+      description: get a diff of Image between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The image_id of the Image to retrieve
+        in: path
+        name: image_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff Image
+      tags:
+      - aws ec2
   /diff/aws/ec2/instance_types:
     get:
       description: get a diff of InstanceTypes between two points in time
@@ -5818,6 +6173,77 @@ paths:
         "400":
           description: ""
       summary: Diff InstanceTypes
+      tags:
+      - aws ec2
+  /diff/aws/ec2/instance_types/{instance_type}:
+    get:
+      description: get a diff of InstanceTypeInfo between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The instance_type of the InstanceTypeInfo to retrieve
+        in: path
+        name: instance_type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff InstanceTypeInfo
       tags:
       - aws ec2
   /diff/aws/ec2/instances:
@@ -5886,6 +6312,77 @@ paths:
       summary: Diff Instances
       tags:
       - aws ec2
+  /diff/aws/ec2/instances/{instance_id}:
+    get:
+      description: get a diff of Instance between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The instance_id of the Instance to retrieve
+        in: path
+        name: instance_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff Instance
+      tags:
+      - aws ec2
   /diff/aws/ec2/internet_gateways:
     get:
       description: get a diff of InternetGateways between two points in time
@@ -5950,6 +6447,77 @@ paths:
         "400":
           description: ""
       summary: Diff InternetGateways
+      tags:
+      - aws ec2
+  /diff/aws/ec2/internet_gateways/{internet_gateway_id}:
+    get:
+      description: get a diff of InternetGateway between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The internet_gateway_id of the InternetGateway to retrieve
+        in: path
+        name: internet_gateway_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff InternetGateway
       tags:
       - aws ec2
   /diff/aws/ec2/managed_prefix_lists:
@@ -6018,6 +6586,77 @@ paths:
       summary: Diff ManagedPrefixLists
       tags:
       - aws ec2
+  /diff/aws/ec2/managed_prefix_lists/{prefix_list_arn}:
+    get:
+      description: get a diff of ManagedPrefixList between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The prefix_list_arn of the ManagedPrefixList to retrieve
+        in: path
+        name: prefix_list_arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff ManagedPrefixList
+      tags:
+      - aws ec2
   /diff/aws/ec2/nat_gateways:
     get:
       description: get a diff of NatGateways between two points in time
@@ -6082,6 +6721,77 @@ paths:
         "400":
           description: ""
       summary: Diff NatGateways
+      tags:
+      - aws ec2
+  /diff/aws/ec2/nat_gateways/{nat_gateway_id}:
+    get:
+      description: get a diff of NatGateway between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The nat_gateway_id of the NatGateway to retrieve
+        in: path
+        name: nat_gateway_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff NatGateway
       tags:
       - aws ec2
   /diff/aws/ec2/network_acls:
@@ -6150,6 +6860,77 @@ paths:
       summary: Diff NetworkAcls
       tags:
       - aws ec2
+  /diff/aws/ec2/network_acls/{network_acl_id}:
+    get:
+      description: get a diff of NetworkAcl between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The network_acl_id of the NetworkAcl to retrieve
+        in: path
+        name: network_acl_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff NetworkAcl
+      tags:
+      - aws ec2
   /diff/aws/ec2/network_interfaces:
     get:
       description: get a diff of NetworkInterfaces between two points in time
@@ -6214,6 +6995,77 @@ paths:
         "400":
           description: ""
       summary: Diff NetworkInterfaces
+      tags:
+      - aws ec2
+  /diff/aws/ec2/network_interfaces/{network_interface_id}:
+    get:
+      description: get a diff of NetworkInterface between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The network_interface_id of the NetworkInterface to retrieve
+        in: path
+        name: network_interface_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff NetworkInterface
       tags:
       - aws ec2
   /diff/aws/ec2/placement_groups:
@@ -6282,6 +7134,77 @@ paths:
       summary: Diff PlacementGroups
       tags:
       - aws ec2
+  /diff/aws/ec2/placement_groups/{group_id}:
+    get:
+      description: get a diff of PlacementGroup between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The group_id of the PlacementGroup to retrieve
+        in: path
+        name: group_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff PlacementGroup
+      tags:
+      - aws ec2
   /diff/aws/ec2/reserved_instances:
     get:
       description: get a diff of ReservedInstances between two points in time
@@ -6333,6 +7256,77 @@ paths:
       - description: A specific region to pull data from. All regions by default
         in: query
         name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff ReservedInstances
+      tags:
+      - aws ec2
+  /diff/aws/ec2/reserved_instances/{reserved_instances_id}:
+    get:
+      description: get a diff of ReservedInstances between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The reserved_instances_id of the ReservedInstances to retrieve
+        in: path
+        name: reserved_instances_id
+        required: true
         type: string
       produces:
       - application/json
@@ -6414,6 +7408,77 @@ paths:
       summary: Diff RouteTables
       tags:
       - aws ec2
+  /diff/aws/ec2/route_tables/{route_table_id}:
+    get:
+      description: get a diff of RouteTable between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The route_table_id of the RouteTable to retrieve
+        in: path
+        name: route_table_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff RouteTable
+      tags:
+      - aws ec2
   /diff/aws/ec2/security_groups:
     get:
       description: get a diff of SecurityGroups between two points in time
@@ -6480,6 +7545,77 @@ paths:
       summary: Diff SecurityGroups
       tags:
       - aws ec2
+  /diff/aws/ec2/security_groups/{group_id}:
+    get:
+      description: get a diff of SecurityGroup between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The group_id of the SecurityGroup to retrieve
+        in: path
+        name: group_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff SecurityGroup
+      tags:
+      - aws ec2
   /diff/aws/ec2/subnets:
     get:
       description: get a diff of Subnets between two points in time
@@ -6544,6 +7680,77 @@ paths:
         "400":
           description: ""
       summary: Diff Subnets
+      tags:
+      - aws ec2
+  /diff/aws/ec2/subnets/{subnet_id}:
+    get:
+      description: get a diff of Subnet between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The subnet_id of the Subnet to retrieve
+        in: path
+        name: subnet_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff Subnet
       tags:
       - aws ec2
   /diff/aws/ec2/transit_gateway_peering_attachments:
@@ -6613,6 +7820,79 @@ paths:
       summary: Diff TransitGatewayPeeringAttachments
       tags:
       - aws ec2
+  /diff/aws/ec2/transit_gateway_peering_attachments/{transit_gateway_attachment_id}:
+    get:
+      description: get a diff of TransitGatewayPeeringAttachment between two points
+        in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The transit_gateway_attachment_id of the TransitGatewayPeeringAttachment
+          to retrieve
+        in: path
+        name: transit_gateway_attachment_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff TransitGatewayPeeringAttachment
+      tags:
+      - aws ec2
   /diff/aws/ec2/transit_gateway_route_tables:
     get:
       description: get a diff of TransitGatewayRouteTables between two points in time
@@ -6677,6 +7957,78 @@ paths:
         "400":
           description: ""
       summary: Diff TransitGatewayRouteTables
+      tags:
+      - aws ec2
+  /diff/aws/ec2/transit_gateway_route_tables/{transit_gateway_route_table_id}:
+    get:
+      description: get a diff of TransitGatewayRouteTable between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The transit_gateway_route_table_id of the TransitGatewayRouteTable
+          to retrieve
+        in: path
+        name: transit_gateway_route_table_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff TransitGatewayRouteTable
       tags:
       - aws ec2
   /diff/aws/ec2/transit_gateway_vpc_attachments:
@@ -6746,6 +8098,79 @@ paths:
       summary: Diff TransitGatewayVpcAttachments
       tags:
       - aws ec2
+  /diff/aws/ec2/transit_gateway_vpc_attachments/{transit_gateway_attachment_id}:
+    get:
+      description: get a diff of TransitGatewayVpcAttachment between two points in
+        time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The transit_gateway_attachment_id of the TransitGatewayVpcAttachment
+          to retrieve
+        in: path
+        name: transit_gateway_attachment_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff TransitGatewayVpcAttachment
+      tags:
+      - aws ec2
   /diff/aws/ec2/transit_gateways:
     get:
       description: get a diff of TransitGateways between two points in time
@@ -6810,6 +8235,77 @@ paths:
         "400":
           description: ""
       summary: Diff TransitGateways
+      tags:
+      - aws ec2
+  /diff/aws/ec2/transit_gateways/{transit_gateway_id}:
+    get:
+      description: get a diff of TransitGateway between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The transit_gateway_id of the TransitGateway to retrieve
+        in: path
+        name: transit_gateway_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff TransitGateway
       tags:
       - aws ec2
   /diff/aws/ec2/volumes:
@@ -6878,6 +8374,77 @@ paths:
       summary: Diff Volumes
       tags:
       - aws ec2
+  /diff/aws/ec2/volumes/{volume_id}:
+    get:
+      description: get a diff of Volume between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The volume_id of the Volume to retrieve
+        in: path
+        name: volume_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff Volume
+      tags:
+      - aws ec2
   /diff/aws/ec2/vpc_endpoints:
     get:
       description: get a diff of VpcEndpoints between two points in time
@@ -6942,6 +8509,77 @@ paths:
         "400":
           description: ""
       summary: Diff VpcEndpoints
+      tags:
+      - aws ec2
+  /diff/aws/ec2/vpc_endpoints/{vpc_endpoint_id}:
+    get:
+      description: get a diff of VpcEndpoint between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The vpc_endpoint_id of the VpcEndpoint to retrieve
+        in: path
+        name: vpc_endpoint_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff VpcEndpoint
       tags:
       - aws ec2
   /diff/aws/ec2/vpc_peering_connections:
@@ -7010,6 +8648,78 @@ paths:
       summary: Diff VpcPeeringConnections
       tags:
       - aws ec2
+  /diff/aws/ec2/vpc_peering_connections/{vpc_peering_connection_id}:
+    get:
+      description: get a diff of VpcPeeringConnection between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The vpc_peering_connection_id of the VpcPeeringConnection to
+          retrieve
+        in: path
+        name: vpc_peering_connection_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff VpcPeeringConnection
+      tags:
+      - aws ec2
   /diff/aws/ec2/vpcs:
     get:
       description: get a diff of Vpcs between two points in time
@@ -7074,6 +8784,77 @@ paths:
         "400":
           description: ""
       summary: Diff Vpcs
+      tags:
+      - aws ec2
+  /diff/aws/ec2/vpcs/{vpc_id}:
+    get:
+      description: get a diff of Vpc between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The vpc_id of the Vpc to retrieve
+        in: path
+        name: vpc_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff Vpc
       tags:
       - aws ec2
   /diff/aws/ec2/vpn_gateways:
@@ -7142,6 +8923,77 @@ paths:
       summary: Diff VpnGateways
       tags:
       - aws ec2
+  /diff/aws/ec2/vpn_gateways/{vpn_gateway_id}:
+    get:
+      description: get a diff of VpnGateway between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The vpn_gateway_id of the VpnGateway to retrieve
+        in: path
+        name: vpn_gateway_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff VpnGateway
+      tags:
+      - aws ec2
   /diff/aws/ecs/clusters:
     get:
       description: get a diff of Clusters between two points in time
@@ -7206,6 +9058,77 @@ paths:
         "400":
           description: ""
       summary: Diff Clusters
+      tags:
+      - aws ecs
+  /diff/aws/ecs/clusters/{cluster_arn}:
+    get:
+      description: get a diff of Cluster between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The cluster_arn of the Cluster to retrieve
+        in: path
+        name: cluster_arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff Cluster
       tags:
       - aws ecs
   /diff/aws/ecs/services:
@@ -7274,6 +9197,77 @@ paths:
       summary: Diff Services
       tags:
       - aws ecs
+  /diff/aws/ecs/services/{service_arn}:
+    get:
+      description: get a diff of Service between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The service_arn of the Service to retrieve
+        in: path
+        name: service_arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff Service
+      tags:
+      - aws ecs
   /diff/aws/ecs/tasks:
     get:
       description: get a diff of Tasks between two points in time
@@ -7338,6 +9332,77 @@ paths:
         "400":
           description: ""
       summary: Diff Tasks
+      tags:
+      - aws ecs
+  /diff/aws/ecs/tasks/{task_arn}:
+    get:
+      description: get a diff of Task between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The task_arn of the Task to retrieve
+        in: path
+        name: task_arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff Task
       tags:
       - aws ecs
   /diff/aws/efs/filesystems:
@@ -7406,6 +9471,77 @@ paths:
       summary: Diff FileSystems
       tags:
       - aws efs
+  /diff/aws/efs/filesystems/{file_system_id}:
+    get:
+      description: get a diff of FileSystemDescription between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The file_system_id of the FileSystemDescription to retrieve
+        in: path
+        name: file_system_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff FileSystemDescription
+      tags:
+      - aws efs
   /diff/aws/elasticache/cache_clusters:
     get:
       description: get a diff of CacheClusters between two points in time
@@ -7470,6 +9606,77 @@ paths:
         "400":
           description: ""
       summary: Diff CacheClusters
+      tags:
+      - aws elasticache
+  /diff/aws/elasticache/cache_clusters/{arn}:
+    get:
+      description: get a diff of CacheCluster between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The arn of the CacheCluster to retrieve
+        in: path
+        name: arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff CacheCluster
       tags:
       - aws elasticache
   /diff/aws/elasticloadbalancing/load_balancers:
@@ -7538,6 +9745,77 @@ paths:
       summary: Diff LoadBalancers
       tags:
       - aws elasticloadbalancing
+  /diff/aws/elasticloadbalancing/load_balancers/{load_balancer_name}:
+    get:
+      description: get a diff of LoadBalancerDescription between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The load_balancer_name of the LoadBalancerDescription to retrieve
+        in: path
+        name: load_balancer_name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff LoadBalancerDescription
+      tags:
+      - aws elasticloadbalancing
   /diff/aws/elasticloadbalancingv2/load_balancers:
     get:
       description: get a diff of LoadBalancers between two points in time
@@ -7602,6 +9880,77 @@ paths:
         "400":
           description: ""
       summary: Diff LoadBalancers
+      tags:
+      - aws elasticloadbalancingv2
+  /diff/aws/elasticloadbalancingv2/load_balancers/{load_balancer_arn}:
+    get:
+      description: get a diff of LoadBalancer between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The load_balancer_arn of the LoadBalancer to retrieve
+        in: path
+        name: load_balancer_arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff LoadBalancer
       tags:
       - aws elasticloadbalancingv2
   /diff/aws/elasticloadbalancingv2/target_groups:
@@ -7670,6 +10019,77 @@ paths:
       summary: Diff TargetGroups
       tags:
       - aws elasticloadbalancingv2
+  /diff/aws/elasticloadbalancingv2/target_groups/{target_group_arn}:
+    get:
+      description: get a diff of TargetGroup between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The target_group_arn of the TargetGroup to retrieve
+        in: path
+        name: target_group_arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff TargetGroup
+      tags:
+      - aws elasticloadbalancingv2
   /diff/aws/iam/groups:
     get:
       description: get a diff of Groups between two points in time
@@ -7734,6 +10154,77 @@ paths:
         "400":
           description: ""
       summary: Diff Groups
+      tags:
+      - aws iam
+  /diff/aws/iam/groups/{group_id}:
+    get:
+      description: get a diff of Group between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The group_id of the Group to retrieve
+        in: path
+        name: group_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff Group
       tags:
       - aws iam
   /diff/aws/iam/policies:
@@ -7802,6 +10293,77 @@ paths:
       summary: Diff Policies
       tags:
       - aws iam
+  /diff/aws/iam/policies/{policy_id}:
+    get:
+      description: get a diff of Policy between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The policy_id of the Policy to retrieve
+        in: path
+        name: policy_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff Policy
+      tags:
+      - aws iam
   /diff/aws/iam/roles:
     get:
       description: get a diff of Roles between two points in time
@@ -7866,6 +10428,77 @@ paths:
         "400":
           description: ""
       summary: Diff Roles
+      tags:
+      - aws iam
+  /diff/aws/iam/roles/{role_id}:
+    get:
+      description: get a diff of Role between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The role_id of the Role to retrieve
+        in: path
+        name: role_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff Role
       tags:
       - aws iam
   /diff/aws/iam/users:
@@ -7934,6 +10567,77 @@ paths:
       summary: Diff Users
       tags:
       - aws iam
+  /diff/aws/iam/users/{user_id}:
+    get:
+      description: get a diff of User between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The user_id of the User to retrieve
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff User
+      tags:
+      - aws iam
   /diff/aws/lambda/filesystems:
     get:
       description: get a diff of Functions between two points in time
@@ -7998,6 +10702,77 @@ paths:
         "400":
           description: ""
       summary: Diff Functions
+      tags:
+      - aws lambda
+  /diff/aws/lambda/filesystems/{function_arn}:
+    get:
+      description: get a diff of FunctionConfiguration between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The function_arn of the FunctionConfiguration to retrieve
+        in: path
+        name: function_arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff FunctionConfiguration
       tags:
       - aws lambda
   /diff/aws/rds/db_clusters:
@@ -8066,6 +10841,77 @@ paths:
       summary: Diff DBClusters
       tags:
       - aws rds
+  /diff/aws/rds/db_clusters/{db_cluster_arn}:
+    get:
+      description: get a diff of DBCluster between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The db_cluster_arn of the DBCluster to retrieve
+        in: path
+        name: db_cluster_arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff DBCluster
+      tags:
+      - aws rds
   /diff/aws/rds/db_instances:
     get:
       description: get a diff of DBInstances between two points in time
@@ -8130,6 +10976,77 @@ paths:
         "400":
           description: ""
       summary: Diff DBInstances
+      tags:
+      - aws rds
+  /diff/aws/rds/db_instances/{db_instance_arn}:
+    get:
+      description: get a diff of DBInstance between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The db_instance_arn of the DBInstance to retrieve
+        in: path
+        name: db_instance_arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff DBInstance
       tags:
       - aws rds
   /diff/aws/redshift/clusters:
@@ -8198,6 +11115,77 @@ paths:
       summary: Diff Clusters
       tags:
       - aws redshift
+  /diff/aws/redshift/clusters/{cluster_identifier}:
+    get:
+      description: get a diff of Cluster between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The cluster_identifier of the Cluster to retrieve
+        in: path
+        name: cluster_identifier
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff Cluster
+      tags:
+      - aws redshift
   /diff/aws/route53/hosted_zones:
     get:
       description: get a diff of HostedZones between two points in time
@@ -8264,6 +11252,77 @@ paths:
       summary: Diff HostedZones
       tags:
       - aws route53
+  /diff/aws/route53/hosted_zones/{id}:
+    get:
+      description: get a diff of HostedZone between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The id of the HostedZone to retrieve
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff HostedZone
+      tags:
+      - aws route53
   /diff/aws/s3/buckets:
     get:
       description: get a diff of Buckets between two points in time
@@ -8328,6 +11387,77 @@ paths:
         "400":
           description: ""
       summary: Diff Buckets
+      tags:
+      - aws s3
+  /diff/aws/s3/buckets/{name}:
+    get:
+      description: get a diff of Bucket between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before' or 'after'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The name of the Bucket to retrieve
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      summary: Diff Bucket
       tags:
       - aws s3
   /inventory/aws/cloudwatchlogs/log_groups:

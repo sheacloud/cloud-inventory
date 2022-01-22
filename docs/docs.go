@@ -122,6 +122,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/cloudwatchlogs/log_groups/{arn}": {
+            "get": {
+                "description": "get a diff of LogGroup between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws cloudwatchlogs"
+                ],
+                "summary": "Diff LogGroup",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The arn of the LogGroup to retrieve",
+                        "name": "arn",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/dynamodb/tables": {
             "get": {
                 "description": "get a diff of TableDescriptions between two points in time",
@@ -196,6 +295,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/dynamodb/tables/{table_arn}": {
+            "get": {
+                "description": "get a diff of TableDescription between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws dynamodb"
+                ],
+                "summary": "Diff TableDescription",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The table_arn of the TableDescription to retrieve",
+                        "name": "table_arn",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -306,6 +504,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/ec2/addresses/{allocation_id}": {
+            "get": {
+                "description": "get a diff of Address between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff Address",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The allocation_id of the Address to retrieve",
+                        "name": "allocation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/ec2/dhcp_options": {
             "get": {
                 "description": "get a diff of DhcpOptions between two points in time",
@@ -380,6 +677,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/ec2/dhcp_options/{dhcp_options_id}": {
+            "get": {
+                "description": "get a diff of DhcpOptions between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff DhcpOptions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The dhcp_options_id of the DhcpOptions to retrieve",
+                        "name": "dhcp_options_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -490,6 +886,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/ec2/images/{image_id}": {
+            "get": {
+                "description": "get a diff of Image between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff Image",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The image_id of the Image to retrieve",
+                        "name": "image_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/ec2/instance_types": {
             "get": {
                 "description": "get a diff of InstanceTypes between two points in time",
@@ -564,6 +1059,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/ec2/instance_types/{instance_type}": {
+            "get": {
+                "description": "get a diff of InstanceTypeInfo between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff InstanceTypeInfo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The instance_type of the InstanceTypeInfo to retrieve",
+                        "name": "instance_type",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -674,6 +1268,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/ec2/instances/{instance_id}": {
+            "get": {
+                "description": "get a diff of Instance between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff Instance",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The instance_id of the Instance to retrieve",
+                        "name": "instance_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/ec2/internet_gateways": {
             "get": {
                 "description": "get a diff of InternetGateways between two points in time",
@@ -748,6 +1441,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/ec2/internet_gateways/{internet_gateway_id}": {
+            "get": {
+                "description": "get a diff of InternetGateway between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff InternetGateway",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The internet_gateway_id of the InternetGateway to retrieve",
+                        "name": "internet_gateway_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -858,6 +1650,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/ec2/managed_prefix_lists/{prefix_list_arn}": {
+            "get": {
+                "description": "get a diff of ManagedPrefixList between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff ManagedPrefixList",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The prefix_list_arn of the ManagedPrefixList to retrieve",
+                        "name": "prefix_list_arn",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/ec2/nat_gateways": {
             "get": {
                 "description": "get a diff of NatGateways between two points in time",
@@ -932,6 +1823,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/ec2/nat_gateways/{nat_gateway_id}": {
+            "get": {
+                "description": "get a diff of NatGateway between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff NatGateway",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The nat_gateway_id of the NatGateway to retrieve",
+                        "name": "nat_gateway_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1042,6 +2032,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/ec2/network_acls/{network_acl_id}": {
+            "get": {
+                "description": "get a diff of NetworkAcl between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff NetworkAcl",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The network_acl_id of the NetworkAcl to retrieve",
+                        "name": "network_acl_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/ec2/network_interfaces": {
             "get": {
                 "description": "get a diff of NetworkInterfaces between two points in time",
@@ -1116,6 +2205,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/ec2/network_interfaces/{network_interface_id}": {
+            "get": {
+                "description": "get a diff of NetworkInterface between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff NetworkInterface",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The network_interface_id of the NetworkInterface to retrieve",
+                        "name": "network_interface_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1226,6 +2414,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/ec2/placement_groups/{group_id}": {
+            "get": {
+                "description": "get a diff of PlacementGroup between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff PlacementGroup",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The group_id of the PlacementGroup to retrieve",
+                        "name": "group_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/ec2/reserved_instances": {
             "get": {
                 "description": "get a diff of ReservedInstances between two points in time",
@@ -1300,6 +2587,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/ec2/reserved_instances/{reserved_instances_id}": {
+            "get": {
+                "description": "get a diff of ReservedInstances between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff ReservedInstances",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The reserved_instances_id of the ReservedInstances to retrieve",
+                        "name": "reserved_instances_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1410,6 +2796,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/ec2/route_tables/{route_table_id}": {
+            "get": {
+                "description": "get a diff of RouteTable between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff RouteTable",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The route_table_id of the RouteTable to retrieve",
+                        "name": "route_table_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/ec2/security_groups": {
             "get": {
                 "description": "get a diff of SecurityGroups between two points in time",
@@ -1484,6 +2969,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/ec2/security_groups/{group_id}": {
+            "get": {
+                "description": "get a diff of SecurityGroup between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff SecurityGroup",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The group_id of the SecurityGroup to retrieve",
+                        "name": "group_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1594,6 +3178,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/ec2/subnets/{subnet_id}": {
+            "get": {
+                "description": "get a diff of Subnet between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff Subnet",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The subnet_id of the Subnet to retrieve",
+                        "name": "subnet_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/ec2/transit_gateway_peering_attachments": {
             "get": {
                 "description": "get a diff of TransitGatewayPeeringAttachments between two points in time",
@@ -1668,6 +3351,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/ec2/transit_gateway_peering_attachments/{transit_gateway_attachment_id}": {
+            "get": {
+                "description": "get a diff of TransitGatewayPeeringAttachment between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff TransitGatewayPeeringAttachment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The transit_gateway_attachment_id of the TransitGatewayPeeringAttachment to retrieve",
+                        "name": "transit_gateway_attachment_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1778,6 +3560,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/ec2/transit_gateway_route_tables/{transit_gateway_route_table_id}": {
+            "get": {
+                "description": "get a diff of TransitGatewayRouteTable between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff TransitGatewayRouteTable",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The transit_gateway_route_table_id of the TransitGatewayRouteTable to retrieve",
+                        "name": "transit_gateway_route_table_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/ec2/transit_gateway_vpc_attachments": {
             "get": {
                 "description": "get a diff of TransitGatewayVpcAttachments between two points in time",
@@ -1852,6 +3733,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/ec2/transit_gateway_vpc_attachments/{transit_gateway_attachment_id}": {
+            "get": {
+                "description": "get a diff of TransitGatewayVpcAttachment between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff TransitGatewayVpcAttachment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The transit_gateway_attachment_id of the TransitGatewayVpcAttachment to retrieve",
+                        "name": "transit_gateway_attachment_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1962,6 +3942,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/ec2/transit_gateways/{transit_gateway_id}": {
+            "get": {
+                "description": "get a diff of TransitGateway between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff TransitGateway",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The transit_gateway_id of the TransitGateway to retrieve",
+                        "name": "transit_gateway_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/ec2/volumes": {
             "get": {
                 "description": "get a diff of Volumes between two points in time",
@@ -2036,6 +4115,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/ec2/volumes/{volume_id}": {
+            "get": {
+                "description": "get a diff of Volume between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff Volume",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The volume_id of the Volume to retrieve",
+                        "name": "volume_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2146,6 +4324,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/ec2/vpc_endpoints/{vpc_endpoint_id}": {
+            "get": {
+                "description": "get a diff of VpcEndpoint between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff VpcEndpoint",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The vpc_endpoint_id of the VpcEndpoint to retrieve",
+                        "name": "vpc_endpoint_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/ec2/vpc_peering_connections": {
             "get": {
                 "description": "get a diff of VpcPeeringConnections between two points in time",
@@ -2220,6 +4497,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/ec2/vpc_peering_connections/{vpc_peering_connection_id}": {
+            "get": {
+                "description": "get a diff of VpcPeeringConnection between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff VpcPeeringConnection",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The vpc_peering_connection_id of the VpcPeeringConnection to retrieve",
+                        "name": "vpc_peering_connection_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2330,6 +4706,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/ec2/vpcs/{vpc_id}": {
+            "get": {
+                "description": "get a diff of Vpc between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff Vpc",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The vpc_id of the Vpc to retrieve",
+                        "name": "vpc_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/ec2/vpn_gateways": {
             "get": {
                 "description": "get a diff of VpnGateways between two points in time",
@@ -2404,6 +4879,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/ec2/vpn_gateways/{vpn_gateway_id}": {
+            "get": {
+                "description": "get a diff of VpnGateway between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Diff VpnGateway",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The vpn_gateway_id of the VpnGateway to retrieve",
+                        "name": "vpn_gateway_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2514,6 +5088,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/ecs/clusters/{cluster_arn}": {
+            "get": {
+                "description": "get a diff of Cluster between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ecs"
+                ],
+                "summary": "Diff Cluster",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The cluster_arn of the Cluster to retrieve",
+                        "name": "cluster_arn",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/ecs/services": {
             "get": {
                 "description": "get a diff of Services between two points in time",
@@ -2588,6 +5261,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/ecs/services/{service_arn}": {
+            "get": {
+                "description": "get a diff of Service between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ecs"
+                ],
+                "summary": "Diff Service",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The service_arn of the Service to retrieve",
+                        "name": "service_arn",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2698,6 +5470,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/ecs/tasks/{task_arn}": {
+            "get": {
+                "description": "get a diff of Task between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ecs"
+                ],
+                "summary": "Diff Task",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The task_arn of the Task to retrieve",
+                        "name": "task_arn",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/efs/filesystems": {
             "get": {
                 "description": "get a diff of FileSystems between two points in time",
@@ -2772,6 +5643,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/efs/filesystems/{file_system_id}": {
+            "get": {
+                "description": "get a diff of FileSystemDescription between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws efs"
+                ],
+                "summary": "Diff FileSystemDescription",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The file_system_id of the FileSystemDescription to retrieve",
+                        "name": "file_system_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2882,6 +5852,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/elasticache/cache_clusters/{arn}": {
+            "get": {
+                "description": "get a diff of CacheCluster between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws elasticache"
+                ],
+                "summary": "Diff CacheCluster",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The arn of the CacheCluster to retrieve",
+                        "name": "arn",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/elasticloadbalancing/load_balancers": {
             "get": {
                 "description": "get a diff of LoadBalancers between two points in time",
@@ -2956,6 +6025,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/elasticloadbalancing/load_balancers/{load_balancer_name}": {
+            "get": {
+                "description": "get a diff of LoadBalancerDescription between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws elasticloadbalancing"
+                ],
+                "summary": "Diff LoadBalancerDescription",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The load_balancer_name of the LoadBalancerDescription to retrieve",
+                        "name": "load_balancer_name",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -3066,6 +6234,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/elasticloadbalancingv2/load_balancers/{load_balancer_arn}": {
+            "get": {
+                "description": "get a diff of LoadBalancer between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws elasticloadbalancingv2"
+                ],
+                "summary": "Diff LoadBalancer",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The load_balancer_arn of the LoadBalancer to retrieve",
+                        "name": "load_balancer_arn",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/elasticloadbalancingv2/target_groups": {
             "get": {
                 "description": "get a diff of TargetGroups between two points in time",
@@ -3140,6 +6407,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/elasticloadbalancingv2/target_groups/{target_group_arn}": {
+            "get": {
+                "description": "get a diff of TargetGroup between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws elasticloadbalancingv2"
+                ],
+                "summary": "Diff TargetGroup",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The target_group_arn of the TargetGroup to retrieve",
+                        "name": "target_group_arn",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -3250,6 +6616,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/iam/groups/{group_id}": {
+            "get": {
+                "description": "get a diff of Group between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws iam"
+                ],
+                "summary": "Diff Group",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The group_id of the Group to retrieve",
+                        "name": "group_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/iam/policies": {
             "get": {
                 "description": "get a diff of Policies between two points in time",
@@ -3324,6 +6789,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/iam/policies/{policy_id}": {
+            "get": {
+                "description": "get a diff of Policy between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws iam"
+                ],
+                "summary": "Diff Policy",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The policy_id of the Policy to retrieve",
+                        "name": "policy_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -3434,6 +6998,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/iam/roles/{role_id}": {
+            "get": {
+                "description": "get a diff of Role between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws iam"
+                ],
+                "summary": "Diff Role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The role_id of the Role to retrieve",
+                        "name": "role_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/iam/users": {
             "get": {
                 "description": "get a diff of Users between two points in time",
@@ -3508,6 +7171,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/iam/users/{user_id}": {
+            "get": {
+                "description": "get a diff of User between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws iam"
+                ],
+                "summary": "Diff User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The user_id of the User to retrieve",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -3618,6 +7380,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/lambda/filesystems/{function_arn}": {
+            "get": {
+                "description": "get a diff of FunctionConfiguration between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws lambda"
+                ],
+                "summary": "Diff FunctionConfiguration",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The function_arn of the FunctionConfiguration to retrieve",
+                        "name": "function_arn",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/rds/db_clusters": {
             "get": {
                 "description": "get a diff of DBClusters between two points in time",
@@ -3692,6 +7553,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/rds/db_clusters/{db_cluster_arn}": {
+            "get": {
+                "description": "get a diff of DBCluster between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws rds"
+                ],
+                "summary": "Diff DBCluster",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The db_cluster_arn of the DBCluster to retrieve",
+                        "name": "db_cluster_arn",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -3802,6 +7762,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/rds/db_instances/{db_instance_arn}": {
+            "get": {
+                "description": "get a diff of DBInstance between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws rds"
+                ],
+                "summary": "Diff DBInstance",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The db_instance_arn of the DBInstance to retrieve",
+                        "name": "db_instance_arn",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/redshift/clusters": {
             "get": {
                 "description": "get a diff of Clusters between two points in time",
@@ -3876,6 +7935,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/redshift/clusters/{cluster_identifier}": {
+            "get": {
+                "description": "get a diff of Cluster between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws redshift"
+                ],
+                "summary": "Diff Cluster",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The cluster_identifier of the Cluster to retrieve",
+                        "name": "cluster_identifier",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -3986,6 +8144,105 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/route53/hosted_zones/{id}": {
+            "get": {
+                "description": "get a diff of HostedZone between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws route53"
+                ],
+                "summary": "Diff HostedZone",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The id of the HostedZone to retrieve",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/s3/buckets": {
             "get": {
                 "description": "get a diff of Buckets between two points in time",
@@ -4060,6 +8317,105 @@ var doc = `{
                         "description": "A specific region to pull data from. All regions by default",
                         "name": "region",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/s3/buckets/{name}": {
+            "get": {
+                "description": "get a diff of Bucket between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws s3"
+                ],
+                "summary": "Diff Bucket",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The name of the Bucket to retrieve",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {

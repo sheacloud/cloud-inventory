@@ -28,7 +28,10 @@ func AddDiffRoutes(r *gin.RouterGroup, s3Client *awsS3.Client, s3Bucket string) 
 
 {{range $resourceIndex, $resourceElement := $serviceElement.Resources}}
     r.GET("/{{$serviceElement.Name}}/{{$resourceElement.Name}}", func(c *gin.Context) {
-        {{$serviceElement.Name}}.Diff{{$resourceElement.ObjectPluralName}}(c, s3Client, s3Bucket)
+        {{$serviceElement.Name}}.DiffMulti{{$resourceElement.ObjectPluralName}}(c, s3Client, s3Bucket)
+    })
+    r.GET("/{{$serviceElement.Name}}/{{$resourceElement.Name}}/:{{$resourceElement.ObjectUniqueIdSnakeCase}}", func(c *gin.Context) {
+        {{$serviceElement.Name}}.DiffSingle{{$resourceElement.ObjectName}}(c, s3Client, s3Bucket)
     })
 {{end}}
 {{end}}

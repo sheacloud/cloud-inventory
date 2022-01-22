@@ -69,7 +69,68 @@ func ListTableDescriptions(c *gin.Context, s3Client *awsS3.Client, s3Bucket stri
 	c.IndentedJSON(200, results)
 }
 
-// DiffTableDescriptions godoc
+// GetTableDescription godoc
+// @Summary      Get a specific TableDescription
+// @Description  Get a specific TableDescription by its TableArn
+// @Tags         aws dynamodb
+// @Produce      json
+// @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
+// @Param        table_arn path string true "The table_arn of the TableDescription to retrieve"
+// @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
+// @Param		 region query string false  "A specific region to pull data from. All regions by default"
+// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
+// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Success      200  {object}   dynamodb.TableDescription
+// @Failure      400
+// @Failure 	 404
+// @Router       /inventory/aws/dynamodb/tables/{table_arn} [get]
+func GetTableDescription(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+	var params routes.AwsQueryParameters
+	if err := c.BindQuery(&params); err != nil {
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	err := params.Process()
+	if err != nil {
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	id := c.Param("table_arn")
+
+	s3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "dynamodb", "tables"}, *params.ReportDate, params.GetRequestTimeSelection(), s3Client, new(dynamodb.TableDescription))
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	results := []interface{}{}
+	for s3DirReader.HasNextFile() {
+		resultInterface, err := s3DirReader.ReadNextFile()
+		if err != nil {
+			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+			return
+		}
+		results = append(results, resultInterface...)
+	}
+
+	// Filter results
+	for _, result := range results {
+		obj := result.(*dynamodb.TableDescription)
+		if params.AccountId != nil && obj.AccountId != *params.AccountId {
+			continue
+		}
+		if params.Region != nil && obj.Region != *params.Region {
+			continue
+		}
+		if obj.TableArn == id {
+			c.IndentedJSON(200, obj)
+			return
+		}
+	}
+	c.AbortWithStatusJSON(404, gin.H{"error": "No TableDescription found with table_arn " + id})
+}
+
+// DiffMultiTableDescriptions godoc
 // @Summary      Diff TableDescriptions
 // @Description  get a diff of TableDescriptions between two points in time
 // @Tags         aws dynamodb
@@ -85,7 +146,7 @@ func ListTableDescriptions(c *gin.Context, s3Client *awsS3.Client, s3Bucket stri
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/dynamodb/tables [get]
-func DiffTableDescriptions(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+func DiffMultiTableDescriptions(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -166,23 +227,25 @@ func DiffTableDescriptions(c *gin.Context, s3Client *awsS3.Client, s3Bucket stri
 	c.IndentedJSON(200, changelog)
 }
 
-// GetTableDescription godoc
-// @Summary      Get a specific TableDescription
-// @Description  Get a specific TableDescription by its TableArn
+// DiffSingleTableDescription godoc
+// @Summary      Diff TableDescription
+// @Description  get a diff of TableDescription between two points in time
 // @Tags         aws dynamodb
 // @Produce      json
-// @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
-// @Param        table_arn path string true "The table_arn of the TableDescription to retrieve"
+// @Param        start_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
+// @Param		 start_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
+// @Param		 start_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param        end_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
+// @Param		 end_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
+// @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
-// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
-// @Success      200  {object}   dynamodb.TableDescription
+// @Param        table_arn path string true "The table_arn of the TableDescription to retrieve"
+// @Success      200  {array}   routes.Diff
 // @Failure      400
-// @Failure 	 404
-// @Router       /inventory/aws/dynamodb/tables/{table_arn} [get]
-func GetTableDescription(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
-	var params routes.AwsQueryParameters
+// @Router       /diff/aws/dynamodb/tables/{table_arn} [get]
+func DiffSingleTableDescription(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
@@ -195,23 +258,23 @@ func GetTableDescription(c *gin.Context, s3Client *awsS3.Client, s3Bucket string
 
 	id := c.Param("table_arn")
 
-	s3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "dynamodb", "tables"}, *params.ReportDate, params.GetRequestTimeSelection(), s3Client, new(dynamodb.TableDescription))
+	var startObject *dynamodb.TableDescription
+	startS3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "dynamodb", "tables"}, *params.StartReportDate, params.GetRequestStartTimeSelection(), s3Client, new(dynamodb.TableDescription))
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
-	results := []interface{}{}
-	for s3DirReader.HasNextFile() {
-		resultInterface, err := s3DirReader.ReadNextFile()
+	startResults := []interface{}{}
+	for startS3DirReader.HasNextFile() {
+		resultInterface, err := startS3DirReader.ReadNextFile()
 		if err != nil {
 			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 			return
 		}
-		results = append(results, resultInterface...)
+		startResults = append(startResults, resultInterface...)
 	}
-
 	// Filter results
-	for _, result := range results {
+	for _, result := range startResults {
 		obj := result.(*dynamodb.TableDescription)
 		if params.AccountId != nil && obj.AccountId != *params.AccountId {
 			continue
@@ -220,9 +283,51 @@ func GetTableDescription(c *gin.Context, s3Client *awsS3.Client, s3Bucket string
 			continue
 		}
 		if obj.TableArn == id {
-			c.IndentedJSON(200, obj)
-			return
+			startObject = obj
+			break
 		}
 	}
-	c.AbortWithStatusJSON(404, gin.H{"error": "No TableDescription found with table_arn " + id})
+
+	var endObject *dynamodb.TableDescription
+	endS3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "dynamodb", "tables"}, *params.EndReportDate, params.GetRequestEndTimeSelection(), s3Client, new(dynamodb.TableDescription))
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	endResults := []interface{}{}
+	for endS3DirReader.HasNextFile() {
+		resultInterface, err := endS3DirReader.ReadNextFile()
+		if err != nil {
+			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+			return
+		}
+		endResults = append(endResults, resultInterface...)
+	}
+	// Filter results
+	for _, result := range endResults {
+		obj := result.(*dynamodb.TableDescription)
+		if params.AccountId != nil && obj.AccountId != *params.AccountId {
+			continue
+		}
+		if params.Region != nil && obj.Region != *params.Region {
+			continue
+		}
+		if obj.TableArn == id {
+			endObject = obj
+			break
+		}
+	}
+
+	if startObject == nil && endObject == nil {
+		c.AbortWithStatusJSON(404, gin.H{"error": "No TableDescription found with table_arn " + id})
+		return
+	} else {
+		changelog, err := diff.Diff(startObject, endObject)
+		if err != nil {
+			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+			return
+		}
+		c.IndentedJSON(200, changelog)
+		return
+	}
 }

@@ -69,7 +69,68 @@ func ListRouteTables(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 	c.IndentedJSON(200, results)
 }
 
-// DiffRouteTables godoc
+// GetRouteTable godoc
+// @Summary      Get a specific RouteTable
+// @Description  Get a specific RouteTable by its RouteTableId
+// @Tags         aws ec2
+// @Produce      json
+// @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
+// @Param        route_table_id path string true "The route_table_id of the RouteTable to retrieve"
+// @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
+// @Param		 region query string false  "A specific region to pull data from. All regions by default"
+// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
+// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Success      200  {object}   ec2.RouteTable
+// @Failure      400
+// @Failure 	 404
+// @Router       /inventory/aws/ec2/route_tables/{route_table_id} [get]
+func GetRouteTable(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+	var params routes.AwsQueryParameters
+	if err := c.BindQuery(&params); err != nil {
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	err := params.Process()
+	if err != nil {
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	id := c.Param("route_table_id")
+
+	s3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "ec2", "route_tables"}, *params.ReportDate, params.GetRequestTimeSelection(), s3Client, new(ec2.RouteTable))
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	results := []interface{}{}
+	for s3DirReader.HasNextFile() {
+		resultInterface, err := s3DirReader.ReadNextFile()
+		if err != nil {
+			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+			return
+		}
+		results = append(results, resultInterface...)
+	}
+
+	// Filter results
+	for _, result := range results {
+		obj := result.(*ec2.RouteTable)
+		if params.AccountId != nil && obj.AccountId != *params.AccountId {
+			continue
+		}
+		if params.Region != nil && obj.Region != *params.Region {
+			continue
+		}
+		if obj.RouteTableId == id {
+			c.IndentedJSON(200, obj)
+			return
+		}
+	}
+	c.AbortWithStatusJSON(404, gin.H{"error": "No RouteTable found with route_table_id " + id})
+}
+
+// DiffMultiRouteTables godoc
 // @Summary      Diff RouteTables
 // @Description  get a diff of RouteTables between two points in time
 // @Tags         aws ec2
@@ -85,7 +146,7 @@ func ListRouteTables(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/ec2/route_tables [get]
-func DiffRouteTables(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+func DiffMultiRouteTables(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -166,23 +227,25 @@ func DiffRouteTables(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 	c.IndentedJSON(200, changelog)
 }
 
-// GetRouteTable godoc
-// @Summary      Get a specific RouteTable
-// @Description  Get a specific RouteTable by its RouteTableId
+// DiffSingleRouteTable godoc
+// @Summary      Diff RouteTable
+// @Description  get a diff of RouteTable between two points in time
 // @Tags         aws ec2
 // @Produce      json
-// @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
-// @Param        route_table_id path string true "The route_table_id of the RouteTable to retrieve"
+// @Param        start_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
+// @Param		 start_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
+// @Param		 start_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param        end_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
+// @Param		 end_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
+// @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
-// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
-// @Success      200  {object}   ec2.RouteTable
+// @Param        route_table_id path string true "The route_table_id of the RouteTable to retrieve"
+// @Success      200  {array}   routes.Diff
 // @Failure      400
-// @Failure 	 404
-// @Router       /inventory/aws/ec2/route_tables/{route_table_id} [get]
-func GetRouteTable(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
-	var params routes.AwsQueryParameters
+// @Router       /diff/aws/ec2/route_tables/{route_table_id} [get]
+func DiffSingleRouteTable(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
@@ -195,23 +258,23 @@ func GetRouteTable(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 
 	id := c.Param("route_table_id")
 
-	s3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "ec2", "route_tables"}, *params.ReportDate, params.GetRequestTimeSelection(), s3Client, new(ec2.RouteTable))
+	var startObject *ec2.RouteTable
+	startS3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "ec2", "route_tables"}, *params.StartReportDate, params.GetRequestStartTimeSelection(), s3Client, new(ec2.RouteTable))
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
-	results := []interface{}{}
-	for s3DirReader.HasNextFile() {
-		resultInterface, err := s3DirReader.ReadNextFile()
+	startResults := []interface{}{}
+	for startS3DirReader.HasNextFile() {
+		resultInterface, err := startS3DirReader.ReadNextFile()
 		if err != nil {
 			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 			return
 		}
-		results = append(results, resultInterface...)
+		startResults = append(startResults, resultInterface...)
 	}
-
 	// Filter results
-	for _, result := range results {
+	for _, result := range startResults {
 		obj := result.(*ec2.RouteTable)
 		if params.AccountId != nil && obj.AccountId != *params.AccountId {
 			continue
@@ -220,9 +283,51 @@ func GetRouteTable(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 			continue
 		}
 		if obj.RouteTableId == id {
-			c.IndentedJSON(200, obj)
-			return
+			startObject = obj
+			break
 		}
 	}
-	c.AbortWithStatusJSON(404, gin.H{"error": "No RouteTable found with route_table_id " + id})
+
+	var endObject *ec2.RouteTable
+	endS3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "ec2", "route_tables"}, *params.EndReportDate, params.GetRequestEndTimeSelection(), s3Client, new(ec2.RouteTable))
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	endResults := []interface{}{}
+	for endS3DirReader.HasNextFile() {
+		resultInterface, err := endS3DirReader.ReadNextFile()
+		if err != nil {
+			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+			return
+		}
+		endResults = append(endResults, resultInterface...)
+	}
+	// Filter results
+	for _, result := range endResults {
+		obj := result.(*ec2.RouteTable)
+		if params.AccountId != nil && obj.AccountId != *params.AccountId {
+			continue
+		}
+		if params.Region != nil && obj.Region != *params.Region {
+			continue
+		}
+		if obj.RouteTableId == id {
+			endObject = obj
+			break
+		}
+	}
+
+	if startObject == nil && endObject == nil {
+		c.AbortWithStatusJSON(404, gin.H{"error": "No RouteTable found with route_table_id " + id})
+		return
+	} else {
+		changelog, err := diff.Diff(startObject, endObject)
+		if err != nil {
+			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+			return
+		}
+		c.IndentedJSON(200, changelog)
+		return
+	}
 }

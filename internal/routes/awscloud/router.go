@@ -335,179 +335,311 @@ func AddInventoryRoutes(r *gin.RouterGroup, s3Client *awsS3.Client, s3Bucket str
 func AddDiffRoutes(r *gin.RouterGroup, s3Client *awsS3.Client, s3Bucket string) {
 
 	r.GET("/cloudwatchlogs/log_groups", func(c *gin.Context) {
-		cloudwatchlogs.DiffLogGroups(c, s3Client, s3Bucket)
+		cloudwatchlogs.DiffMultiLogGroups(c, s3Client, s3Bucket)
+	})
+	r.GET("/cloudwatchlogs/log_groups/:arn", func(c *gin.Context) {
+		cloudwatchlogs.DiffSingleLogGroup(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/dynamodb/tables", func(c *gin.Context) {
-		dynamodb.DiffTableDescriptions(c, s3Client, s3Bucket)
+		dynamodb.DiffMultiTableDescriptions(c, s3Client, s3Bucket)
+	})
+	r.GET("/dynamodb/tables/:table_arn", func(c *gin.Context) {
+		dynamodb.DiffSingleTableDescription(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/addresses", func(c *gin.Context) {
-		ec2.DiffAddresses(c, s3Client, s3Bucket)
+		ec2.DiffMultiAddresses(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/addresses/:allocation_id", func(c *gin.Context) {
+		ec2.DiffSingleAddress(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/dhcp_options", func(c *gin.Context) {
-		ec2.DiffDhcpOptions(c, s3Client, s3Bucket)
+		ec2.DiffMultiDhcpOptions(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/dhcp_options/:dhcp_options_id", func(c *gin.Context) {
+		ec2.DiffSingleDhcpOptions(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/images", func(c *gin.Context) {
-		ec2.DiffImages(c, s3Client, s3Bucket)
+		ec2.DiffMultiImages(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/images/:image_id", func(c *gin.Context) {
+		ec2.DiffSingleImage(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/instance_types", func(c *gin.Context) {
-		ec2.DiffInstanceTypes(c, s3Client, s3Bucket)
+		ec2.DiffMultiInstanceTypes(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/instance_types/:instance_type", func(c *gin.Context) {
+		ec2.DiffSingleInstanceTypeInfo(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/instances", func(c *gin.Context) {
-		ec2.DiffInstances(c, s3Client, s3Bucket)
+		ec2.DiffMultiInstances(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/instances/:instance_id", func(c *gin.Context) {
+		ec2.DiffSingleInstance(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/internet_gateways", func(c *gin.Context) {
-		ec2.DiffInternetGateways(c, s3Client, s3Bucket)
+		ec2.DiffMultiInternetGateways(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/internet_gateways/:internet_gateway_id", func(c *gin.Context) {
+		ec2.DiffSingleInternetGateway(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/managed_prefix_lists", func(c *gin.Context) {
-		ec2.DiffManagedPrefixLists(c, s3Client, s3Bucket)
+		ec2.DiffMultiManagedPrefixLists(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/managed_prefix_lists/:prefix_list_arn", func(c *gin.Context) {
+		ec2.DiffSingleManagedPrefixList(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/nat_gateways", func(c *gin.Context) {
-		ec2.DiffNatGateways(c, s3Client, s3Bucket)
+		ec2.DiffMultiNatGateways(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/nat_gateways/:nat_gateway_id", func(c *gin.Context) {
+		ec2.DiffSingleNatGateway(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/network_acls", func(c *gin.Context) {
-		ec2.DiffNetworkAcls(c, s3Client, s3Bucket)
+		ec2.DiffMultiNetworkAcls(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/network_acls/:network_acl_id", func(c *gin.Context) {
+		ec2.DiffSingleNetworkAcl(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/network_interfaces", func(c *gin.Context) {
-		ec2.DiffNetworkInterfaces(c, s3Client, s3Bucket)
+		ec2.DiffMultiNetworkInterfaces(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/network_interfaces/:network_interface_id", func(c *gin.Context) {
+		ec2.DiffSingleNetworkInterface(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/placement_groups", func(c *gin.Context) {
-		ec2.DiffPlacementGroups(c, s3Client, s3Bucket)
+		ec2.DiffMultiPlacementGroups(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/placement_groups/:group_id", func(c *gin.Context) {
+		ec2.DiffSinglePlacementGroup(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/reserved_instances", func(c *gin.Context) {
-		ec2.DiffReservedInstances(c, s3Client, s3Bucket)
+		ec2.DiffMultiReservedInstances(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/reserved_instances/:reserved_instances_id", func(c *gin.Context) {
+		ec2.DiffSingleReservedInstances(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/route_tables", func(c *gin.Context) {
-		ec2.DiffRouteTables(c, s3Client, s3Bucket)
+		ec2.DiffMultiRouteTables(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/route_tables/:route_table_id", func(c *gin.Context) {
+		ec2.DiffSingleRouteTable(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/security_groups", func(c *gin.Context) {
-		ec2.DiffSecurityGroups(c, s3Client, s3Bucket)
+		ec2.DiffMultiSecurityGroups(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/security_groups/:group_id", func(c *gin.Context) {
+		ec2.DiffSingleSecurityGroup(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/subnets", func(c *gin.Context) {
-		ec2.DiffSubnets(c, s3Client, s3Bucket)
+		ec2.DiffMultiSubnets(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/subnets/:subnet_id", func(c *gin.Context) {
+		ec2.DiffSingleSubnet(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/transit_gateway_peering_attachments", func(c *gin.Context) {
-		ec2.DiffTransitGatewayPeeringAttachments(c, s3Client, s3Bucket)
+		ec2.DiffMultiTransitGatewayPeeringAttachments(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/transit_gateway_peering_attachments/:transit_gateway_attachment_id", func(c *gin.Context) {
+		ec2.DiffSingleTransitGatewayPeeringAttachment(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/transit_gateway_route_tables", func(c *gin.Context) {
-		ec2.DiffTransitGatewayRouteTables(c, s3Client, s3Bucket)
+		ec2.DiffMultiTransitGatewayRouteTables(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/transit_gateway_route_tables/:transit_gateway_route_table_id", func(c *gin.Context) {
+		ec2.DiffSingleTransitGatewayRouteTable(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/transit_gateway_vpc_attachments", func(c *gin.Context) {
-		ec2.DiffTransitGatewayVpcAttachments(c, s3Client, s3Bucket)
+		ec2.DiffMultiTransitGatewayVpcAttachments(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/transit_gateway_vpc_attachments/:transit_gateway_attachment_id", func(c *gin.Context) {
+		ec2.DiffSingleTransitGatewayVpcAttachment(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/transit_gateways", func(c *gin.Context) {
-		ec2.DiffTransitGateways(c, s3Client, s3Bucket)
+		ec2.DiffMultiTransitGateways(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/transit_gateways/:transit_gateway_id", func(c *gin.Context) {
+		ec2.DiffSingleTransitGateway(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/volumes", func(c *gin.Context) {
-		ec2.DiffVolumes(c, s3Client, s3Bucket)
+		ec2.DiffMultiVolumes(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/volumes/:volume_id", func(c *gin.Context) {
+		ec2.DiffSingleVolume(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/vpc_endpoints", func(c *gin.Context) {
-		ec2.DiffVpcEndpoints(c, s3Client, s3Bucket)
+		ec2.DiffMultiVpcEndpoints(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/vpc_endpoints/:vpc_endpoint_id", func(c *gin.Context) {
+		ec2.DiffSingleVpcEndpoint(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/vpc_peering_connections", func(c *gin.Context) {
-		ec2.DiffVpcPeeringConnections(c, s3Client, s3Bucket)
+		ec2.DiffMultiVpcPeeringConnections(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/vpc_peering_connections/:vpc_peering_connection_id", func(c *gin.Context) {
+		ec2.DiffSingleVpcPeeringConnection(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/vpcs", func(c *gin.Context) {
-		ec2.DiffVpcs(c, s3Client, s3Bucket)
+		ec2.DiffMultiVpcs(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/vpcs/:vpc_id", func(c *gin.Context) {
+		ec2.DiffSingleVpc(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ec2/vpn_gateways", func(c *gin.Context) {
-		ec2.DiffVpnGateways(c, s3Client, s3Bucket)
+		ec2.DiffMultiVpnGateways(c, s3Client, s3Bucket)
+	})
+	r.GET("/ec2/vpn_gateways/:vpn_gateway_id", func(c *gin.Context) {
+		ec2.DiffSingleVpnGateway(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ecs/clusters", func(c *gin.Context) {
-		ecs.DiffClusters(c, s3Client, s3Bucket)
+		ecs.DiffMultiClusters(c, s3Client, s3Bucket)
+	})
+	r.GET("/ecs/clusters/:cluster_arn", func(c *gin.Context) {
+		ecs.DiffSingleCluster(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ecs/services", func(c *gin.Context) {
-		ecs.DiffServices(c, s3Client, s3Bucket)
+		ecs.DiffMultiServices(c, s3Client, s3Bucket)
+	})
+	r.GET("/ecs/services/:service_arn", func(c *gin.Context) {
+		ecs.DiffSingleService(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/ecs/tasks", func(c *gin.Context) {
-		ecs.DiffTasks(c, s3Client, s3Bucket)
+		ecs.DiffMultiTasks(c, s3Client, s3Bucket)
+	})
+	r.GET("/ecs/tasks/:task_arn", func(c *gin.Context) {
+		ecs.DiffSingleTask(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/efs/filesystems", func(c *gin.Context) {
-		efs.DiffFileSystems(c, s3Client, s3Bucket)
+		efs.DiffMultiFileSystems(c, s3Client, s3Bucket)
+	})
+	r.GET("/efs/filesystems/:file_system_id", func(c *gin.Context) {
+		efs.DiffSingleFileSystemDescription(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/elasticache/cache_clusters", func(c *gin.Context) {
-		elasticache.DiffCacheClusters(c, s3Client, s3Bucket)
+		elasticache.DiffMultiCacheClusters(c, s3Client, s3Bucket)
+	})
+	r.GET("/elasticache/cache_clusters/:arn", func(c *gin.Context) {
+		elasticache.DiffSingleCacheCluster(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/elasticloadbalancing/load_balancers", func(c *gin.Context) {
-		elasticloadbalancing.DiffLoadBalancers(c, s3Client, s3Bucket)
+		elasticloadbalancing.DiffMultiLoadBalancers(c, s3Client, s3Bucket)
+	})
+	r.GET("/elasticloadbalancing/load_balancers/:load_balancer_name", func(c *gin.Context) {
+		elasticloadbalancing.DiffSingleLoadBalancerDescription(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/elasticloadbalancingv2/load_balancers", func(c *gin.Context) {
-		elasticloadbalancingv2.DiffLoadBalancers(c, s3Client, s3Bucket)
+		elasticloadbalancingv2.DiffMultiLoadBalancers(c, s3Client, s3Bucket)
+	})
+	r.GET("/elasticloadbalancingv2/load_balancers/:load_balancer_arn", func(c *gin.Context) {
+		elasticloadbalancingv2.DiffSingleLoadBalancer(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/elasticloadbalancingv2/target_groups", func(c *gin.Context) {
-		elasticloadbalancingv2.DiffTargetGroups(c, s3Client, s3Bucket)
+		elasticloadbalancingv2.DiffMultiTargetGroups(c, s3Client, s3Bucket)
+	})
+	r.GET("/elasticloadbalancingv2/target_groups/:target_group_arn", func(c *gin.Context) {
+		elasticloadbalancingv2.DiffSingleTargetGroup(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/iam/groups", func(c *gin.Context) {
-		iam.DiffGroups(c, s3Client, s3Bucket)
+		iam.DiffMultiGroups(c, s3Client, s3Bucket)
+	})
+	r.GET("/iam/groups/:group_id", func(c *gin.Context) {
+		iam.DiffSingleGroup(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/iam/policies", func(c *gin.Context) {
-		iam.DiffPolicies(c, s3Client, s3Bucket)
+		iam.DiffMultiPolicies(c, s3Client, s3Bucket)
+	})
+	r.GET("/iam/policies/:policy_id", func(c *gin.Context) {
+		iam.DiffSinglePolicy(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/iam/roles", func(c *gin.Context) {
-		iam.DiffRoles(c, s3Client, s3Bucket)
+		iam.DiffMultiRoles(c, s3Client, s3Bucket)
+	})
+	r.GET("/iam/roles/:role_id", func(c *gin.Context) {
+		iam.DiffSingleRole(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/iam/users", func(c *gin.Context) {
-		iam.DiffUsers(c, s3Client, s3Bucket)
+		iam.DiffMultiUsers(c, s3Client, s3Bucket)
+	})
+	r.GET("/iam/users/:user_id", func(c *gin.Context) {
+		iam.DiffSingleUser(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/lambda/filesystems", func(c *gin.Context) {
-		lambda.DiffFunctions(c, s3Client, s3Bucket)
+		lambda.DiffMultiFunctions(c, s3Client, s3Bucket)
+	})
+	r.GET("/lambda/filesystems/:function_arn", func(c *gin.Context) {
+		lambda.DiffSingleFunctionConfiguration(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/rds/db_clusters", func(c *gin.Context) {
-		rds.DiffDBClusters(c, s3Client, s3Bucket)
+		rds.DiffMultiDBClusters(c, s3Client, s3Bucket)
+	})
+	r.GET("/rds/db_clusters/:db_cluster_arn", func(c *gin.Context) {
+		rds.DiffSingleDBCluster(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/rds/db_instances", func(c *gin.Context) {
-		rds.DiffDBInstances(c, s3Client, s3Bucket)
+		rds.DiffMultiDBInstances(c, s3Client, s3Bucket)
+	})
+	r.GET("/rds/db_instances/:db_instance_arn", func(c *gin.Context) {
+		rds.DiffSingleDBInstance(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/redshift/clusters", func(c *gin.Context) {
-		redshift.DiffClusters(c, s3Client, s3Bucket)
+		redshift.DiffMultiClusters(c, s3Client, s3Bucket)
+	})
+	r.GET("/redshift/clusters/:cluster_identifier", func(c *gin.Context) {
+		redshift.DiffSingleCluster(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/route53/hosted_zones", func(c *gin.Context) {
-		route53.DiffHostedZones(c, s3Client, s3Bucket)
+		route53.DiffMultiHostedZones(c, s3Client, s3Bucket)
+	})
+	r.GET("/route53/hosted_zones/:id", func(c *gin.Context) {
+		route53.DiffSingleHostedZone(c, s3Client, s3Bucket)
 	})
 
 	r.GET("/s3/buckets", func(c *gin.Context) {
-		s3.DiffBuckets(c, s3Client, s3Bucket)
+		s3.DiffMultiBuckets(c, s3Client, s3Bucket)
+	})
+	r.GET("/s3/buckets/:name", func(c *gin.Context) {
+		s3.DiffSingleBucket(c, s3Client, s3Bucket)
 	})
 
 }
