@@ -3,8 +3,11 @@ package main
 import (
 	"context"
 
+	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/gin-gonic/gin"
 	_ "github.com/sheacloud/cloud-inventory/docs"
 	"github.com/sheacloud/cloud-inventory/internal/api"
@@ -21,7 +24,8 @@ var (
 		"fatal": logrus.FatalLevel,
 	}
 
-	router = gin.Default()
+	router    = gin.Default()
+	ginLambda *ginadapter.GinLambdaV2
 )
 
 func initOptions() {
@@ -65,6 +69,12 @@ func init() {
 	s3Client := s3.NewFromConfig(cfg)
 
 	router = api.GetRouter(s3Client, viper.GetString("s3_bucket"))
+
+	ginLambda = ginadapter.NewV2(router)
+}
+
+func Handler(ctx context.Context, event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
+	return ginLambda.ProxyWithContext(ctx, event)
 }
 
 // @title           Cloud Inventory API
@@ -80,5 +90,5 @@ func init() {
 // @host      localhost:8080
 // @BasePath  /api/v1
 func main() {
-	router.Run()
+	lambda.Start(Handler)
 }

@@ -60,7 +60,7 @@
  - users
 
 ## Lambda
- - filesystems
+ - functions
 
 ## RDS
  - db_clusters

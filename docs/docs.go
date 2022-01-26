@@ -7288,7 +7288,7 @@ var doc = `{
                 }
             }
         },
-        "/diff/aws/lambda/filesystems": {
+        "/diff/aws/lambda/functions": {
             "get": {
                 "description": "get a diff of Functions between two points in time",
                 "produces": [
@@ -7380,7 +7380,7 @@ var doc = `{
                 }
             }
         },
-        "/diff/aws/lambda/filesystems/{function_arn}": {
+        "/diff/aws/lambda/functions/{function_arn}": {
             "get": {
                 "description": "get a diff of FunctionConfiguration between two points in time",
                 "produces": [
@@ -13640,9 +13640,9 @@ var doc = `{
                 }
             }
         },
-        "/inventory/aws/lambda/filesystems": {
+        "/inventory/aws/lambda/functions": {
             "get": {
-                "description": "get a list of filesystems",
+                "description": "get a list of functions",
                 "produces": [
                     "application/json"
                 ],
@@ -13705,7 +13705,7 @@ var doc = `{
                 }
             }
         },
-        "/inventory/aws/lambda/filesystems/{function_arn}": {
+        "/inventory/aws/lambda/functions/{function_arn}": {
             "get": {
                 "description": "Get a specific FunctionConfiguration by its FunctionArn",
                 "produces": [

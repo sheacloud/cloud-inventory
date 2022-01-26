@@ -1,6 +1,6 @@
 
-resource "aws_glue_catalog_table" "aws_lambda_filesystems" {
-  name          = "aws_lambda_filesystems"
+resource "aws_glue_catalog_table" "aws_lambda_functions" {
+  name          = "aws_lambda_functions"
   database_name = var.glue_database_name
   table_type    = "EXTERNAL_TABLE"
   parameters = {
@@ -13,7 +13,7 @@ resource "aws_glue_catalog_table" "aws_lambda_filesystems" {
   }
 
   storage_descriptor {
-    location      = "s3://${var.s3_bucket_name}/inventory/aws/lambda/filesystems/"
+    location      = "s3://${var.s3_bucket_name}/inventory/aws/lambda/functions/"
     input_format  = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat"
     output_format = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat"
 

@@ -3,6 +3,7 @@ module github.com/sheacloud/cloud-inventory
 go 1.17
 
 require (
+	github.com/aws/aws-lambda-go v1.28.0
 	github.com/aws/aws-sdk-go-v2 v1.12.0
 	github.com/aws/aws-sdk-go-v2/config v1.8.1
 	github.com/aws/aws-sdk-go-v2/credentials v1.4.1
@@ -20,6 +21,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.15.1
 	github.com/aws/aws-sdk-go-v2/service/sts v1.7.0
 	github.com/aws/smithy-go v1.9.1
+	github.com/awslabs/aws-lambda-go-api-proxy v0.12.0
 	github.com/fatih/structtag v1.2.0
 	github.com/gin-gonic/gin v1.7.7
 	github.com/google/uuid v1.3.0

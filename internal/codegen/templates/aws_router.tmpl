@@ -4,7 +4,7 @@ package awscloud
 import (
 	awsS3 "github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/gin-gonic/gin"
-{{range $index, $element := .Services}}	"github.com/sheacloud/cloud-inventory/internal/routes/awscloud/{{$element.Name}}"
+{{range $index, $element := .Services}}	"github.com/sheacloud/cloud-inventory/internal/api/routes/awscloud/{{$element.Name}}"
 {{end}}
 )
 

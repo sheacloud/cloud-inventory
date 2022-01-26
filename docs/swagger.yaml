@@ -10638,7 +10638,7 @@ paths:
       summary: Diff User
       tags:
       - aws iam
-  /diff/aws/lambda/filesystems:
+  /diff/aws/lambda/functions:
     get:
       description: get a diff of Functions between two points in time
       parameters:
@@ -10704,7 +10704,7 @@ paths:
       summary: Diff Functions
       tags:
       - aws lambda
-  /diff/aws/lambda/filesystems/{function_arn}:
+  /diff/aws/lambda/functions/{function_arn}:
     get:
       description: get a diff of FunctionConfiguration between two points in time
       parameters:
@@ -15074,9 +15074,9 @@ paths:
       summary: Get a specific User
       tags:
       - aws iam
-  /inventory/aws/lambda/filesystems:
+  /inventory/aws/lambda/functions:
     get:
-      description: get a list of filesystems
+      description: get a list of functions
       parameters:
       - description: Which date to pull data from. Current date by default
         format: date
@@ -15119,7 +15119,7 @@ paths:
       summary: List Functions
       tags:
       - aws lambda
-  /inventory/aws/lambda/filesystems/{function_arn}:
+  /inventory/aws/lambda/functions/{function_arn}:
     get:
       description: Get a specific FunctionConfiguration by its FunctionArn
       parameters:

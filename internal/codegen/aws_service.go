@@ -77,7 +77,7 @@ var (
 )
 
 func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) error {
-	apiRoutesBaseDirectory := "./internal/routes/awscloud/"
+	apiRoutesBaseDirectory := "./internal/api/routes/awscloud/"
 
 	for _, service := range template.Services {
 		logrus.Info("Generating code for service " + service.Name)
@@ -297,7 +297,7 @@ func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) e
 	outputFile.WriteString(implementedResourcesCode)
 
 	// generate aws router code
-	outputPath = "./internal/routes/awscloud/router.go"
+	outputPath = "./internal/api/routes/awscloud/router.go"
 	outputFile, err = os.Create(outputPath)
 	if err != nil {
 		panic(err)

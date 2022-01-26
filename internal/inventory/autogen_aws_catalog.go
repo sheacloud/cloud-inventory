@@ -284,7 +284,7 @@ var (
 			RegionOverrides: []string{},
 			Resources: []AwsCatalogResource{
 				{
-					ResourceName:  "filesystems",
+					ResourceName:  "functions",
 					ResourceModel: &lambda.FunctionConfiguration{},
 					FetchFunction: lambda.FetchFunctionConfiguration,
 				},

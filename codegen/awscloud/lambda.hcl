@@ -3,7 +3,7 @@ aws_service "lambda" {
     sdk_path = "github.com/aws/aws-sdk-go-v2/service/lambda"
     extra_utilized_functions = []
 
-    resource "filesystems" {
+    resource "functions" {
         fetch_function = "ListFunctions"
         object_name = "FunctionConfiguration"
         object_plural_name = "Functions"

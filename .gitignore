@@ -39,3 +39,5 @@ terraform.rc
 
 
 workspace.code-workspace
+
+build/
