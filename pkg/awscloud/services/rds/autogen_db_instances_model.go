@@ -6,15 +6,15 @@ import (
 )
 
 type DBInstance struct {
-	ActivityStreamEngineNativeAuditFieldsIncluded bool              `parquet:"name=activity_stream_engine_native_audit_fields_included,type=BOOLEAN" json:"activity_stream_engine_native_audit_fields_included" diff:"activity_stream_engine_native_audit_fields_included"`
-	ActivityStreamKinesisStreamName               string            `parquet:"name=activity_stream_kinesis_stream_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"activity_stream_kinesis_stream_name" diff:"activity_stream_kinesis_stream_name"`
-	ActivityStreamKmsKeyId                        string            `parquet:"name=activity_stream_kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"activity_stream_kms_key_id" diff:"activity_stream_kms_key_id"`
-	ActivityStreamMode                            string            `parquet:"name=activity_stream_mode,type=BYTE_ARRAY,convertedtype=UTF8" json:"activity_stream_mode" diff:"activity_stream_mode"`
-	ActivityStreamStatus                          string            `parquet:"name=activity_stream_status,type=BYTE_ARRAY,convertedtype=UTF8" json:"activity_stream_status" diff:"activity_stream_status"`
-	AllocatedStorage                              int32             `parquet:"name=allocated_storage,type=INT32" json:"allocated_storage" diff:"allocated_storage"`
-	AssociatedRoles                               []*DBInstanceRole `parquet:"name=associated_roles,type=MAP,convertedtype=LIST" json:"associated_roles" diff:"associated_roles"`
-	AutoMinorVersionUpgrade                       bool              `parquet:"name=auto_minor_version_upgrade,type=BOOLEAN" json:"auto_minor_version_upgrade" diff:"auto_minor_version_upgrade"`
-	AutomaticRestartTime                          *time.Time
+	ActivityStreamEngineNativeAuditFieldsIncluded bool                                     `parquet:"name=activity_stream_engine_native_audit_fields_included,type=BOOLEAN" json:"activity_stream_engine_native_audit_fields_included" diff:"activity_stream_engine_native_audit_fields_included"`
+	ActivityStreamKinesisStreamName               string                                   `parquet:"name=activity_stream_kinesis_stream_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"activity_stream_kinesis_stream_name" diff:"activity_stream_kinesis_stream_name"`
+	ActivityStreamKmsKeyId                        string                                   `parquet:"name=activity_stream_kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"activity_stream_kms_key_id" diff:"activity_stream_kms_key_id"`
+	ActivityStreamMode                            string                                   `parquet:"name=activity_stream_mode,type=BYTE_ARRAY,convertedtype=UTF8" json:"activity_stream_mode" diff:"activity_stream_mode"`
+	ActivityStreamStatus                          string                                   `parquet:"name=activity_stream_status,type=BYTE_ARRAY,convertedtype=UTF8" json:"activity_stream_status" diff:"activity_stream_status"`
+	AllocatedStorage                              int32                                    `parquet:"name=allocated_storage,type=INT32" json:"allocated_storage" diff:"allocated_storage"`
+	AssociatedRoles                               []*DBInstanceRole                        `parquet:"name=associated_roles,type=MAP,convertedtype=LIST" json:"associated_roles" diff:"associated_roles"`
+	AutoMinorVersionUpgrade                       bool                                     `parquet:"name=auto_minor_version_upgrade,type=BOOLEAN" json:"auto_minor_version_upgrade" diff:"auto_minor_version_upgrade"`
+	AutomaticRestartTime                          *time.Time                               `json:"-"`
 	AutomationMode                                string                                   `parquet:"name=automation_mode,type=BYTE_ARRAY,convertedtype=UTF8" json:"automation_mode" diff:"automation_mode"`
 	AvailabilityZone                              string                                   `parquet:"name=availability_zone,type=BYTE_ARRAY,convertedtype=UTF8" json:"availability_zone" diff:"availability_zone"`
 	AwsBackupRecoveryPointArn                     string                                   `parquet:"name=aws_backup_recovery_point_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"aws_backup_recovery_point_arn" diff:"aws_backup_recovery_point_arn"`
@@ -45,48 +45,48 @@ type DBInstance struct {
 	EngineVersion                                 string                                   `parquet:"name=engine_version,type=BYTE_ARRAY,convertedtype=UTF8" json:"engine_version" diff:"engine_version"`
 	EnhancedMonitoringResourceArn                 string                                   `parquet:"name=enhanced_monitoring_resource_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"enhanced_monitoring_resource_arn" diff:"enhanced_monitoring_resource_arn"`
 	IAMDatabaseAuthenticationEnabled              bool                                     `parquet:"name=iam_database_authentication_enabled,type=BOOLEAN" json:"iam_database_authentication_enabled" diff:"iam_database_authentication_enabled"`
-	InstanceCreateTime                            *time.Time
-	Iops                                          int32  `parquet:"name=iops,type=INT32" json:"iops" diff:"iops"`
-	KmsKeyId                                      string `parquet:"name=kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"kms_key_id" diff:"kms_key_id"`
-	LatestRestorableTime                          *time.Time
-	LicenseModel                                  string                   `parquet:"name=license_model,type=BYTE_ARRAY,convertedtype=UTF8" json:"license_model" diff:"license_model"`
-	ListenerEndpoint                              *Endpoint                `parquet:"name=listener_endpoint" json:"listener_endpoint" diff:"listener_endpoint"`
-	MasterUsername                                string                   `parquet:"name=master_username,type=BYTE_ARRAY,convertedtype=UTF8" json:"master_username" diff:"master_username"`
-	MaxAllocatedStorage                           int32                    `parquet:"name=max_allocated_storage,type=INT32" json:"max_allocated_storage" diff:"max_allocated_storage"`
-	MonitoringInterval                            int32                    `parquet:"name=monitoring_interval,type=INT32" json:"monitoring_interval" diff:"monitoring_interval"`
-	MonitoringRoleArn                             string                   `parquet:"name=monitoring_role_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"monitoring_role_arn" diff:"monitoring_role_arn"`
-	MultiAZ                                       bool                     `parquet:"name=multi_az,type=BOOLEAN" json:"multi_az" diff:"multi_az"`
-	NcharCharacterSetName                         string                   `parquet:"name=nchar_character_set_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"nchar_character_set_name" diff:"nchar_character_set_name"`
-	OptionGroupMemberships                        []*OptionGroupMembership `parquet:"name=option_group_memberships,type=MAP,convertedtype=LIST" json:"option_group_memberships" diff:"option_group_memberships"`
-	PendingModifiedValues                         *PendingModifiedValues   `parquet:"name=pending_modified_values" json:"pending_modified_values" diff:"pending_modified_values"`
-	PerformanceInsightsEnabled                    bool                     `parquet:"name=performance_insights_enabled,type=BOOLEAN" json:"performance_insights_enabled" diff:"performance_insights_enabled"`
-	PerformanceInsightsKMSKeyId                   string                   `parquet:"name=performance_insights_kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"performance_insights_kms_key_id" diff:"performance_insights_kms_key_id"`
-	PerformanceInsightsRetentionPeriod            int32                    `parquet:"name=performance_insights_retention_period,type=INT32" json:"performance_insights_retention_period" diff:"performance_insights_retention_period"`
-	PreferredBackupWindow                         string                   `parquet:"name=preferred_backup_window,type=BYTE_ARRAY,convertedtype=UTF8" json:"preferred_backup_window" diff:"preferred_backup_window"`
-	PreferredMaintenanceWindow                    string                   `parquet:"name=preferred_maintenance_window,type=BYTE_ARRAY,convertedtype=UTF8" json:"preferred_maintenance_window" diff:"preferred_maintenance_window"`
-	ProcessorFeatures                             []*ProcessorFeature      `parquet:"name=processor_features,type=MAP,convertedtype=LIST" json:"processor_features" diff:"processor_features"`
-	PromotionTier                                 int32                    `parquet:"name=promotion_tier,type=INT32" json:"promotion_tier" diff:"promotion_tier"`
-	PubliclyAccessible                            bool                     `parquet:"name=publicly_accessible,type=BOOLEAN" json:"publicly_accessible" diff:"publicly_accessible"`
-	ReadReplicaDBClusterIdentifiers               []string                 `parquet:"name=read_replica_db_cluster_identifiers,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"read_replica_db_cluster_identifiers" diff:"read_replica_db_cluster_identifiers"`
-	ReadReplicaDBInstanceIdentifiers              []string                 `parquet:"name=read_replica_db_instance_identifiers,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"read_replica_db_instance_identifiers" diff:"read_replica_db_instance_identifiers"`
-	ReadReplicaSourceDBInstanceIdentifier         string                   `parquet:"name=read_replica_source_db_instance_identifier,type=BYTE_ARRAY,convertedtype=UTF8" json:"read_replica_source_db_instance_identifier" diff:"read_replica_source_db_instance_identifier"`
-	ReplicaMode                                   string                   `parquet:"name=replica_mode,type=BYTE_ARRAY,convertedtype=UTF8" json:"replica_mode" diff:"replica_mode"`
-	ResumeFullAutomationModeTime                  *time.Time
-	SecondaryAvailabilityZone                     string                        `parquet:"name=secondary_availability_zone,type=BYTE_ARRAY,convertedtype=UTF8" json:"secondary_availability_zone" diff:"secondary_availability_zone"`
-	StatusInfos                                   []*DBInstanceStatusInfo       `parquet:"name=status_infos,type=MAP,convertedtype=LIST" json:"status_infos" diff:"status_infos"`
-	StorageEncrypted                              bool                          `parquet:"name=storage_encrypted,type=BOOLEAN" json:"storage_encrypted" diff:"storage_encrypted"`
-	StorageType                                   string                        `parquet:"name=storage_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"storage_type" diff:"storage_type"`
-	Tags                                          map[string]string             `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8" json:"tags" diff:"tags"`
-	TdeCredentialArn                              string                        `parquet:"name=tde_credential_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"tde_credential_arn" diff:"tde_credential_arn"`
-	Timezone                                      string                        `parquet:"name=timezone,type=BYTE_ARRAY,convertedtype=UTF8" json:"timezone" diff:"timezone"`
-	VpcSecurityGroups                             []*VpcSecurityGroupMembership `parquet:"name=vpc_security_groups,type=MAP,convertedtype=LIST" json:"vpc_security_groups" diff:"vpc_security_groups"`
-	AccountId                                     string                        `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"account_id" diff:"account_id"`
-	Region                                        string                        `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8" json:"region" diff:"region"`
-	ReportTime                                    int64                         `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"report_time" diff:"report_time,immutable"`
-	AutomaticRestartTimeMilli                     int64                         `parquet:"name=automatic_restart_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"automatic_restart_time" diff:"automatic_restart_time"`
-	InstanceCreateTimeMilli                       int64                         `parquet:"name=instance_create_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"instance_create_time" diff:"instance_create_time"`
-	LatestRestorableTimeMilli                     int64                         `parquet:"name=latest_restorable_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"latest_restorable_time" diff:"latest_restorable_time"`
-	ResumeFullAutomationModeTimeMilli             int64                         `parquet:"name=resume_full_automation_mode_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"resume_full_automation_mode_time" diff:"resume_full_automation_mode_time"`
+	InstanceCreateTime                            *time.Time                               `json:"-"`
+	Iops                                          int32                                    `parquet:"name=iops,type=INT32" json:"iops" diff:"iops"`
+	KmsKeyId                                      string                                   `parquet:"name=kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"kms_key_id" diff:"kms_key_id"`
+	LatestRestorableTime                          *time.Time                               `json:"-"`
+	LicenseModel                                  string                                   `parquet:"name=license_model,type=BYTE_ARRAY,convertedtype=UTF8" json:"license_model" diff:"license_model"`
+	ListenerEndpoint                              *Endpoint                                `parquet:"name=listener_endpoint" json:"listener_endpoint" diff:"listener_endpoint"`
+	MasterUsername                                string                                   `parquet:"name=master_username,type=BYTE_ARRAY,convertedtype=UTF8" json:"master_username" diff:"master_username"`
+	MaxAllocatedStorage                           int32                                    `parquet:"name=max_allocated_storage,type=INT32" json:"max_allocated_storage" diff:"max_allocated_storage"`
+	MonitoringInterval                            int32                                    `parquet:"name=monitoring_interval,type=INT32" json:"monitoring_interval" diff:"monitoring_interval"`
+	MonitoringRoleArn                             string                                   `parquet:"name=monitoring_role_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"monitoring_role_arn" diff:"monitoring_role_arn"`
+	MultiAZ                                       bool                                     `parquet:"name=multi_az,type=BOOLEAN" json:"multi_az" diff:"multi_az"`
+	NcharCharacterSetName                         string                                   `parquet:"name=nchar_character_set_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"nchar_character_set_name" diff:"nchar_character_set_name"`
+	OptionGroupMemberships                        []*OptionGroupMembership                 `parquet:"name=option_group_memberships,type=MAP,convertedtype=LIST" json:"option_group_memberships" diff:"option_group_memberships"`
+	PendingModifiedValues                         *PendingModifiedValues                   `parquet:"name=pending_modified_values" json:"pending_modified_values" diff:"pending_modified_values"`
+	PerformanceInsightsEnabled                    bool                                     `parquet:"name=performance_insights_enabled,type=BOOLEAN" json:"performance_insights_enabled" diff:"performance_insights_enabled"`
+	PerformanceInsightsKMSKeyId                   string                                   `parquet:"name=performance_insights_kms_key_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"performance_insights_kms_key_id" diff:"performance_insights_kms_key_id"`
+	PerformanceInsightsRetentionPeriod            int32                                    `parquet:"name=performance_insights_retention_period,type=INT32" json:"performance_insights_retention_period" diff:"performance_insights_retention_period"`
+	PreferredBackupWindow                         string                                   `parquet:"name=preferred_backup_window,type=BYTE_ARRAY,convertedtype=UTF8" json:"preferred_backup_window" diff:"preferred_backup_window"`
+	PreferredMaintenanceWindow                    string                                   `parquet:"name=preferred_maintenance_window,type=BYTE_ARRAY,convertedtype=UTF8" json:"preferred_maintenance_window" diff:"preferred_maintenance_window"`
+	ProcessorFeatures                             []*ProcessorFeature                      `parquet:"name=processor_features,type=MAP,convertedtype=LIST" json:"processor_features" diff:"processor_features"`
+	PromotionTier                                 int32                                    `parquet:"name=promotion_tier,type=INT32" json:"promotion_tier" diff:"promotion_tier"`
+	PubliclyAccessible                            bool                                     `parquet:"name=publicly_accessible,type=BOOLEAN" json:"publicly_accessible" diff:"publicly_accessible"`
+	ReadReplicaDBClusterIdentifiers               []string                                 `parquet:"name=read_replica_db_cluster_identifiers,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"read_replica_db_cluster_identifiers" diff:"read_replica_db_cluster_identifiers"`
+	ReadReplicaDBInstanceIdentifiers              []string                                 `parquet:"name=read_replica_db_instance_identifiers,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"read_replica_db_instance_identifiers" diff:"read_replica_db_instance_identifiers"`
+	ReadReplicaSourceDBInstanceIdentifier         string                                   `parquet:"name=read_replica_source_db_instance_identifier,type=BYTE_ARRAY,convertedtype=UTF8" json:"read_replica_source_db_instance_identifier" diff:"read_replica_source_db_instance_identifier"`
+	ReplicaMode                                   string                                   `parquet:"name=replica_mode,type=BYTE_ARRAY,convertedtype=UTF8" json:"replica_mode" diff:"replica_mode"`
+	ResumeFullAutomationModeTime                  *time.Time                               `json:"-"`
+	SecondaryAvailabilityZone                     string                                   `parquet:"name=secondary_availability_zone,type=BYTE_ARRAY,convertedtype=UTF8" json:"secondary_availability_zone" diff:"secondary_availability_zone"`
+	StatusInfos                                   []*DBInstanceStatusInfo                  `parquet:"name=status_infos,type=MAP,convertedtype=LIST" json:"status_infos" diff:"status_infos"`
+	StorageEncrypted                              bool                                     `parquet:"name=storage_encrypted,type=BOOLEAN" json:"storage_encrypted" diff:"storage_encrypted"`
+	StorageType                                   string                                   `parquet:"name=storage_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"storage_type" diff:"storage_type"`
+	Tags                                          map[string]string                        `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8" json:"tags" diff:"tags"`
+	TdeCredentialArn                              string                                   `parquet:"name=tde_credential_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"tde_credential_arn" diff:"tde_credential_arn"`
+	Timezone                                      string                                   `parquet:"name=timezone,type=BYTE_ARRAY,convertedtype=UTF8" json:"timezone" diff:"timezone"`
+	VpcSecurityGroups                             []*VpcSecurityGroupMembership            `parquet:"name=vpc_security_groups,type=MAP,convertedtype=LIST" json:"vpc_security_groups" diff:"vpc_security_groups"`
+	AccountId                                     string                                   `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"account_id" diff:"account_id"`
+	Region                                        string                                   `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8" json:"region" diff:"region"`
+	ReportTime                                    int64                                    `parquet:"name=report_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"report_time" diff:"report_time,immutable"`
+	AutomaticRestartTimeMilli                     int64                                    `parquet:"name=automatic_restart_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"automatic_restart_time" diff:"automatic_restart_time"`
+	InstanceCreateTimeMilli                       int64                                    `parquet:"name=instance_create_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"instance_create_time" diff:"instance_create_time"`
+	LatestRestorableTimeMilli                     int64                                    `parquet:"name=latest_restorable_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"latest_restorable_time" diff:"latest_restorable_time"`
+	ResumeFullAutomationModeTimeMilli             int64                                    `parquet:"name=resume_full_automation_mode_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"resume_full_automation_mode_time" diff:"resume_full_automation_mode_time"`
 }
 
 func (x *DBInstance) GetReportTime() int64 {

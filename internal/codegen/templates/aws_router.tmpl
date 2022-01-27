@@ -4,9 +4,42 @@ package awscloud
 import (
 	awsS3 "github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/gin-gonic/gin"
+	"github.com/sheacloud/cloud-inventory/internal/api/routes"
 {{range $index, $element := .Services}}	"github.com/sheacloud/cloud-inventory/internal/api/routes/awscloud/{{$element.Name}}"
 {{end}}
 )
+
+// GetAwsMetadata godoc
+// @Summary      Get Aws Metadata
+// @Description  get a list of Aws metadata
+// @Tags         aws
+// @Produce      json
+// @Success      200  {array}   routes.AwsMetadata
+// @Failure      400
+// @Router       /metadata/aws [get]
+func GetAwsMetadata(c *gin.Context) {
+	c.IndentedJSON(200, routes.AwsMetadata{
+		Services: []string{
+{{range $index, $element := .Services}}         "{{$element.Name}}",
+{{end}}		},
+	})
+}
+
+func AddMetadataRoutes(r *gin.RouterGroup, s3Client *awsS3.Client, s3Bucket string) {
+
+    r.GET("/", GetAwsMetadata)
+	
+{{range $index, $element := .Services}} r.GET("/{{$element.Name}}", {{$element.Name}}.Get{{$element.ServiceCapName}}Metadata)
+{{end}}
+
+    {{range $serviceIndex, $serviceElement := .Services}}
+{{range $resourceIndex, $resourceElement := $serviceElement.Resources}}
+    r.GET("/{{$serviceElement.Name}}/{{$resourceElement.Name}}", func(c *gin.Context) {
+		{{$serviceElement.Name}}.Get{{$resourceElement.ObjectPluralName}}Metadata(c, s3Client, s3Bucket)
+	})
+{{end}}
+{{end}}
+}
 
 func AddInventoryRoutes(r *gin.RouterGroup, s3Client *awsS3.Client, s3Bucket string) {
 {{range $serviceIndex, $serviceElement := .Services}}

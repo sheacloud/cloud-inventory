@@ -6,8 +6,8 @@ import (
 )
 
 type Role struct {
-	Arn                 string `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"arn" diff:"arn"`
-	CreateDate          *time.Time
+	Arn                 string                       `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"arn" diff:"arn"`
+	CreateDate          *time.Time                   `json:"-"`
 	Path                string                       `parquet:"name=path,type=BYTE_ARRAY,convertedtype=UTF8" json:"path" diff:"path"`
 	RoleId              string                       `parquet:"name=role_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"role_id" diff:"role_id,identifier"`
 	RoleName            string                       `parquet:"name=role_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"role_name" diff:"role_name"`

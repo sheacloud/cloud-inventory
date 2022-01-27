@@ -6,10 +6,10 @@ import (
 )
 
 type TableDescription struct {
-	ArchivalSummary        *ArchivalSummary       `parquet:"name=archival_summary" json:"archival_summary" diff:"archival_summary"`
-	AttributeDefinitions   []*AttributeDefinition `parquet:"name=attribute_definitions,type=MAP,convertedtype=LIST" json:"attribute_definitions" diff:"attribute_definitions"`
-	BillingModeSummary     *BillingModeSummary    `parquet:"name=billing_mode_summary" json:"billing_mode_summary" diff:"billing_mode_summary"`
-	CreationDateTime       *time.Time
+	ArchivalSummary        *ArchivalSummary                   `parquet:"name=archival_summary" json:"archival_summary" diff:"archival_summary"`
+	AttributeDefinitions   []*AttributeDefinition             `parquet:"name=attribute_definitions,type=MAP,convertedtype=LIST" json:"attribute_definitions" diff:"attribute_definitions"`
+	BillingModeSummary     *BillingModeSummary                `parquet:"name=billing_mode_summary" json:"billing_mode_summary" diff:"billing_mode_summary"`
+	CreationDateTime       *time.Time                         `json:"-"`
 	GlobalSecondaryIndexes []*GlobalSecondaryIndexDescription `parquet:"name=global_secondary_indexes,type=MAP,convertedtype=LIST" json:"global_secondary_indexes" diff:"global_secondary_indexes"`
 	GlobalTableVersion     string                             `parquet:"name=global_table_version,type=BYTE_ARRAY,convertedtype=UTF8" json:"global_table_version" diff:"global_table_version"`
 	ItemCount              int64                              `parquet:"name=item_count,type=INT64" json:"item_count" diff:"item_count"`

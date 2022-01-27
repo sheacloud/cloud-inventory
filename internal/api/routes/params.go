@@ -29,7 +29,7 @@ func (p *AwsQueryParameters) Process() error {
 		return fmt.Errorf("time_selection_reference must be set when time_selection is not 'latest'")
 	}
 	if p.TimeSelectionReferenceString != nil {
-		parsedTime, err := time.Parse(time.RFC3339, *p.TimeSelectionReferenceString)
+		parsedTime, err := time.Parse(time.RFC3339Nano, *p.TimeSelectionReferenceString)
 		if err != nil {
 			return fmt.Errorf("time_selection_reference must be a valid RFC3339 timestamp")
 		}
@@ -68,7 +68,7 @@ func (p *AwsDiffParameters) Process() error {
 		return fmt.Errorf("start_time_selection_reference must be set when start_time_selection is not 'latest'")
 	}
 	if p.StartTimeSelectionReferenceString != nil {
-		parsedTime, err := time.Parse(time.RFC3339, *p.StartTimeSelectionReferenceString)
+		parsedTime, err := time.Parse(time.RFC3339Nano, *p.StartTimeSelectionReferenceString)
 		if err != nil {
 			return fmt.Errorf("start_time_selection_reference must be a valid RFC3339 timestamp")
 		}
@@ -83,7 +83,7 @@ func (p *AwsDiffParameters) Process() error {
 		return fmt.Errorf("end_time_selection_reference must be set when end_time_selection is not 'latest'")
 	}
 	if p.EndTimeSelectionReferenceString != nil {
-		parsedTime, err := time.Parse(time.RFC3339, *p.EndTimeSelectionReferenceString)
+		parsedTime, err := time.Parse(time.RFC3339Nano, *p.EndTimeSelectionReferenceString)
 		if err != nil {
 			return fmt.Errorf("end_time_selection_reference must be a valid RFC3339 timestamp")
 		}

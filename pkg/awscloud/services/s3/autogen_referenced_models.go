@@ -192,10 +192,10 @@ type AbortIncompleteMultipartUpload struct {
 }
 
 type LifecycleExpiration struct {
-	Date                      *time.Time
-	Days                      int32 `parquet:"name=days,type=INT32" json:"days" diff:"days"`
-	ExpiredObjectDeleteMarker bool  `parquet:"name=expired_object_delete_marker,type=BOOLEAN" json:"expired_object_delete_marker" diff:"expired_object_delete_marker"`
-	DateMilli                 int64 `parquet:"name=date,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"date" diff:"date"`
+	Date                      *time.Time `json:"-"`
+	Days                      int32      `parquet:"name=days,type=INT32" json:"days" diff:"days"`
+	ExpiredObjectDeleteMarker bool       `parquet:"name=expired_object_delete_marker,type=BOOLEAN" json:"expired_object_delete_marker" diff:"expired_object_delete_marker"`
+	DateMilli                 int64      `parquet:"name=date,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"date" diff:"date"`
 }
 
 type NoncurrentVersionExpiration struct {
@@ -208,10 +208,10 @@ type NoncurrentVersionTransition struct {
 }
 
 type Transition struct {
-	Date         *time.Time
-	Days         int32  `parquet:"name=days,type=INT32" json:"days" diff:"days"`
-	StorageClass string `parquet:"name=storage_class,type=BYTE_ARRAY,convertedtype=UTF8" json:"storage_class" diff:"storage_class"`
-	DateMilli    int64  `parquet:"name=date,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"date" diff:"date"`
+	Date         *time.Time `json:"-"`
+	Days         int32      `parquet:"name=days,type=INT32" json:"days" diff:"days"`
+	StorageClass string     `parquet:"name=storage_class,type=BYTE_ARRAY,convertedtype=UTF8" json:"storage_class" diff:"storage_class"`
+	DateMilli    int64      `parquet:"name=date,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"date" diff:"date"`
 }
 
 type LoggingEnabled struct {

@@ -6,7 +6,7 @@ import (
 )
 
 type FileSystemDescription struct {
-	CreationTime                 *time.Time
+	CreationTime                 *time.Time        `json:"-"`
 	CreationToken                string            `parquet:"name=creation_token,type=BYTE_ARRAY,convertedtype=UTF8" json:"creation_token" diff:"creation_token"`
 	FileSystemId                 string            `parquet:"name=file_system_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"file_system_id" diff:"file_system_id,identifier"`
 	LifeCycleState               string            `parquet:"name=life_cycle_state,type=BYTE_ARRAY,convertedtype=UTF8" json:"life_cycle_state" diff:"life_cycle_state"`

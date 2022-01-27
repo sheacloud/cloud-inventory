@@ -8,7 +8,41 @@ import (
 	"github.com/sheacloud/cloud-inventory/internal/api/routes"
 	"github.com/sheacloud/cloud-inventory/internal/indexedstorage"
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/ecs"
+	"time"
 )
+
+// GetServicesMetadata godoc
+// @Summary      Get Services Metadata
+// @Description  get a list of services metadata
+// @Tags         aws ecs
+// @Produce      json
+// @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
+// @Success      200  {array}   routes.AwsResourceMetadata
+// @Failure      400
+// @Router       /metadata/aws/ecs/services [get]
+func GetServicesMetadata(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+	reportDate := c.Query("report_date")
+	if reportDate == "" {
+		reportDate = time.Now().UTC().Format("2006-01-02")
+	}
+
+	s3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "ecs", "services"}, reportDate, indexedstorage.RequestTimeSelection{}, s3Client, new(ecs.Service))
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	reportTimes, err := s3DirReader.GetAvailableDateTimes()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.IndentedJSON(200, routes.AwsResourceMetadata{
+		DateTimes: reportTimes,
+		IdField:   "service_arn",
+	})
+}
 
 // ListServices godoc
 // @Summary      List Services
@@ -18,8 +52,8 @@ import (
 // @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
-// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Success      200  {array}   ecs.Service
 // @Failure      400
 // @Router       /inventory/aws/ecs/services [get]
@@ -40,6 +74,12 @@ func ListServices(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	err = s3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	results := []interface{}{}
 	for s3DirReader.HasNextFile() {
 		resultInterface, err := s3DirReader.ReadNextFile()
@@ -78,8 +118,8 @@ func ListServices(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 // @Param        service_arn path string true "The service_arn of the Service to retrieve"
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
-// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Success      200  {object}   ecs.Service
 // @Failure      400
 // @Failure 	 404
@@ -103,6 +143,12 @@ func GetService(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	err = s3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	results := []interface{}{}
 	for s3DirReader.HasNextFile() {
 		resultInterface, err := s3DirReader.ReadNextFile()
@@ -136,11 +182,11 @@ func GetService(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 // @Tags         aws ecs
 // @Produce      json
 // @Param        start_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
-// @Param		 start_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 start_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 start_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 start_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param        end_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
-// @Param		 end_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 end_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Success      200  {array}   routes.Diff
@@ -163,6 +209,12 @@ func DiffMultiServices(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) 
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	err = startS3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	startResults := []interface{}{}
 	for startS3DirReader.HasNextFile() {
 		resultInterface, err := startS3DirReader.ReadNextFile()
@@ -193,6 +245,12 @@ func DiffMultiServices(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) 
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	err = endS3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	endResults := []interface{}{}
 	for endS3DirReader.HasNextFile() {
 		resultInterface, err := endS3DirReader.ReadNextFile()
@@ -233,11 +291,11 @@ func DiffMultiServices(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) 
 // @Tags         aws ecs
 // @Produce      json
 // @Param        start_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
-// @Param		 start_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 start_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 start_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 start_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param        end_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
-// @Param		 end_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 end_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param        service_arn path string true "The service_arn of the Service to retrieve"
@@ -264,6 +322,12 @@ func DiffSingleService(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) 
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	err = startS3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	startResults := []interface{}{}
 	for startS3DirReader.HasNextFile() {
 		resultInterface, err := startS3DirReader.ReadNextFile()
@@ -294,6 +358,12 @@ func DiffSingleService(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) 
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	err = endS3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	endResults := []interface{}{}
 	for endS3DirReader.HasNextFile() {
 		resultInterface, err := endS3DirReader.ReadNextFile()

@@ -6,8 +6,8 @@ import (
 )
 
 type TransitGatewayPeeringAttachment struct {
-	AccepterTgwInfo            *PeeringTgwInfo `parquet:"name=accepter_tgw_info" json:"accepter_tgw_info" diff:"accepter_tgw_info"`
-	CreationTime               *time.Time
+	AccepterTgwInfo            *PeeringTgwInfo          `parquet:"name=accepter_tgw_info" json:"accepter_tgw_info" diff:"accepter_tgw_info"`
+	CreationTime               *time.Time               `json:"-"`
 	RequesterTgwInfo           *PeeringTgwInfo          `parquet:"name=requester_tgw_info" json:"requester_tgw_info" diff:"requester_tgw_info"`
 	State                      string                   `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8" json:"state" diff:"state"`
 	Status                     *PeeringAttachmentStatus `parquet:"name=status" json:"status" diff:"status"`

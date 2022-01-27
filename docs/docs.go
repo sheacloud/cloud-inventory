@@ -53,7 +53,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -63,7 +64,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -79,7 +80,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -89,7 +91,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -145,7 +147,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -155,7 +158,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -171,7 +174,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -181,7 +185,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -244,7 +248,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -254,7 +259,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -270,7 +275,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -280,7 +286,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -336,7 +342,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -346,7 +353,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -362,7 +369,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -372,7 +380,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -435,7 +443,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -445,7 +454,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -461,7 +470,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -471,7 +481,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -527,7 +537,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -537,7 +548,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -553,7 +564,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -563,7 +575,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -626,7 +638,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -636,7 +649,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -652,7 +665,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -662,7 +676,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -718,7 +732,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -728,7 +743,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -744,7 +759,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -754,7 +770,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -817,7 +833,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -827,7 +844,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -843,7 +860,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -853,7 +871,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -909,7 +927,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -919,7 +938,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -935,7 +954,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -945,7 +965,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -1008,7 +1028,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1018,7 +1039,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -1034,7 +1055,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1044,7 +1066,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -1100,7 +1122,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1110,7 +1133,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -1126,7 +1149,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1136,7 +1160,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -1199,7 +1223,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1209,7 +1234,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -1225,7 +1250,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1235,7 +1261,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -1291,7 +1317,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1301,7 +1328,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -1317,7 +1344,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1327,7 +1355,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -1390,7 +1418,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1400,7 +1429,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -1416,7 +1445,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1426,7 +1456,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -1482,7 +1512,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1492,7 +1523,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -1508,7 +1539,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1518,7 +1550,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -1581,7 +1613,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1591,7 +1624,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -1607,7 +1640,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1617,7 +1651,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -1673,7 +1707,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1683,7 +1718,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -1699,7 +1734,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1709,7 +1745,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -1772,7 +1808,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1782,7 +1819,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -1798,7 +1835,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1808,7 +1846,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -1864,7 +1902,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1874,7 +1913,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -1890,7 +1929,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1900,7 +1940,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -1963,7 +2003,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1973,7 +2014,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -1989,7 +2030,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -1999,7 +2041,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -2055,7 +2097,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2065,7 +2108,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -2081,7 +2124,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2091,7 +2135,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -2154,7 +2198,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2164,7 +2209,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -2180,7 +2225,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2190,7 +2236,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -2246,7 +2292,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2256,7 +2303,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -2272,7 +2319,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2282,7 +2330,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -2345,7 +2393,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2355,7 +2404,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -2371,7 +2420,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2381,7 +2431,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -2437,7 +2487,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2447,7 +2498,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -2463,7 +2514,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2473,7 +2525,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -2536,7 +2588,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2546,7 +2599,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -2562,7 +2615,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2572,7 +2626,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -2628,7 +2682,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2638,7 +2693,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -2654,7 +2709,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2664,7 +2720,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -2727,7 +2783,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2737,7 +2794,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -2753,7 +2810,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2763,7 +2821,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -2819,7 +2877,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2829,7 +2888,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -2845,7 +2904,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2855,7 +2915,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -2918,7 +2978,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2928,7 +2989,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -2944,7 +3005,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -2954,7 +3016,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -3010,7 +3072,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3020,7 +3083,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -3036,7 +3099,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3046,7 +3110,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -3109,7 +3173,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3119,7 +3184,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -3135,7 +3200,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3145,7 +3211,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -3201,7 +3267,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3211,7 +3278,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -3227,7 +3294,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3237,7 +3305,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -3300,7 +3368,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3310,7 +3379,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -3326,7 +3395,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3336,7 +3406,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -3392,7 +3462,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3402,7 +3473,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -3418,7 +3489,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3428,7 +3500,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -3491,7 +3563,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3501,7 +3574,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -3517,7 +3590,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3527,7 +3601,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -3583,7 +3657,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3593,7 +3668,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -3609,7 +3684,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3619,7 +3695,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -3682,7 +3758,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3692,7 +3769,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -3708,7 +3785,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3718,7 +3796,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -3774,7 +3852,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3784,7 +3863,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -3800,7 +3879,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3810,7 +3890,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -3873,7 +3953,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3883,7 +3964,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -3899,7 +3980,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3909,7 +3991,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -3965,7 +4047,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -3975,7 +4058,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -3991,7 +4074,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4001,7 +4085,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -4064,7 +4148,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4074,7 +4159,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -4090,7 +4175,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4100,7 +4186,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -4156,7 +4242,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4166,7 +4253,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -4182,7 +4269,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4192,7 +4280,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -4255,7 +4343,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4265,7 +4354,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -4281,7 +4370,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4291,7 +4381,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -4347,7 +4437,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4357,7 +4448,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -4373,7 +4464,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4383,7 +4475,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -4446,7 +4538,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4456,7 +4549,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -4472,7 +4565,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4482,7 +4576,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -4538,7 +4632,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4548,7 +4643,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -4564,7 +4659,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4574,7 +4670,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -4637,7 +4733,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4647,7 +4744,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -4663,7 +4760,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4673,7 +4771,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -4729,7 +4827,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4739,7 +4838,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -4755,7 +4854,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4765,7 +4865,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -4828,7 +4928,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4838,7 +4939,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -4854,7 +4955,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4864,7 +4966,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -4920,7 +5022,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4930,7 +5033,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -4946,7 +5049,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -4956,7 +5060,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -5019,7 +5123,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5029,7 +5134,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -5045,7 +5150,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5055,7 +5161,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -5111,7 +5217,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5121,7 +5228,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -5137,7 +5244,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5147,7 +5255,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -5210,7 +5318,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5220,7 +5329,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -5236,7 +5345,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5246,7 +5356,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -5302,7 +5412,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5312,7 +5423,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -5328,7 +5439,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5338,7 +5450,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -5401,7 +5513,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5411,7 +5524,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -5427,7 +5540,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5437,7 +5551,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -5493,7 +5607,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5503,7 +5618,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -5519,7 +5634,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5529,7 +5645,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -5592,7 +5708,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5602,7 +5719,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -5618,7 +5735,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5628,7 +5746,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -5684,7 +5802,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5694,7 +5813,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -5710,7 +5829,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5720,7 +5840,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -5783,7 +5903,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5793,7 +5914,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -5809,7 +5930,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5819,7 +5941,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -5875,7 +5997,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5885,7 +6008,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -5901,7 +6024,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5911,7 +6035,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -5974,7 +6098,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -5984,7 +6109,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -6000,7 +6125,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6010,7 +6136,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -6066,7 +6192,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6076,7 +6203,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -6092,7 +6219,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6102,7 +6230,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -6165,7 +6293,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6175,7 +6304,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -6191,7 +6320,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6201,7 +6331,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -6257,7 +6387,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6267,7 +6398,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -6283,7 +6414,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6293,7 +6425,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -6356,7 +6488,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6366,7 +6499,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -6382,7 +6515,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6392,7 +6526,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -6448,7 +6582,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6458,7 +6593,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -6474,7 +6609,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6484,7 +6620,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -6547,7 +6683,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6557,7 +6694,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -6573,7 +6710,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6583,7 +6721,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -6639,7 +6777,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6649,7 +6788,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -6665,7 +6804,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6675,7 +6815,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -6738,7 +6878,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6748,7 +6889,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -6764,7 +6905,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6774,7 +6916,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -6830,7 +6972,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6840,7 +6983,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -6856,7 +6999,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6866,7 +7010,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -6929,7 +7073,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6939,7 +7084,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -6955,7 +7100,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -6965,7 +7111,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -7021,7 +7167,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7031,7 +7178,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -7047,7 +7194,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7057,7 +7205,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -7120,7 +7268,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7130,7 +7279,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -7146,7 +7295,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7156,7 +7306,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -7212,7 +7362,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7222,7 +7373,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -7238,7 +7389,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7248,7 +7400,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -7311,7 +7463,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7321,7 +7474,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -7337,7 +7490,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7347,7 +7501,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -7403,7 +7557,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7413,7 +7568,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -7429,7 +7584,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7439,7 +7595,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -7502,7 +7658,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7512,7 +7669,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -7528,7 +7685,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7538,7 +7696,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -7594,7 +7752,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7604,7 +7763,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -7620,7 +7779,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7630,7 +7790,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -7693,7 +7853,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7703,7 +7864,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -7719,7 +7880,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7729,7 +7891,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -7785,7 +7947,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7795,7 +7958,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -7811,7 +7974,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7821,7 +7985,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -7884,7 +8048,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7894,7 +8059,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -7910,7 +8075,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7920,7 +8086,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -7976,7 +8142,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -7986,7 +8153,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -8002,7 +8169,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -8012,7 +8180,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -8075,7 +8243,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -8085,7 +8254,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -8101,7 +8270,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -8111,7 +8281,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -8167,7 +8337,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -8177,7 +8348,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -8193,7 +8364,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -8203,7 +8375,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -8266,7 +8438,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -8276,7 +8449,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -8292,7 +8465,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -8302,7 +8476,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -8358,7 +8532,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -8368,7 +8543,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "start_time_selection_reference",
                         "in": "query"
                     },
@@ -8384,7 +8559,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -8394,7 +8570,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "end_time_selection_reference",
                         "in": "query"
                     },
@@ -8468,7 +8644,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -8478,7 +8655,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -8540,7 +8717,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -8550,7 +8728,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -8605,7 +8783,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -8615,7 +8794,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -8677,7 +8856,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -8687,7 +8867,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -8742,7 +8922,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -8752,7 +8933,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -8814,7 +8995,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -8824,7 +9006,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -8879,7 +9061,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -8889,7 +9072,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -8951,7 +9134,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -8961,7 +9145,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -9016,7 +9200,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -9026,7 +9211,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -9088,7 +9273,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -9098,7 +9284,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -9153,7 +9339,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -9163,7 +9350,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -9225,7 +9412,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -9235,7 +9423,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -9290,7 +9478,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -9300,7 +9489,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -9362,7 +9551,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -9372,7 +9562,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -9427,7 +9617,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -9437,7 +9628,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -9499,7 +9690,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -9509,7 +9701,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -9564,7 +9756,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -9574,7 +9767,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -9636,7 +9829,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -9646,7 +9840,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -9701,7 +9895,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -9711,7 +9906,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -9773,7 +9968,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -9783,7 +9979,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -9838,7 +10034,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -9848,7 +10045,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -9910,7 +10107,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -9920,7 +10118,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -9975,7 +10173,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -9985,7 +10184,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -10047,7 +10246,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -10057,7 +10257,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -10112,7 +10312,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -10122,7 +10323,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -10184,7 +10385,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -10194,7 +10396,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -10249,7 +10451,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -10259,7 +10462,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -10321,7 +10524,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -10331,7 +10535,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -10386,7 +10590,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -10396,7 +10601,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -10458,7 +10663,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -10468,7 +10674,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -10523,7 +10729,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -10533,7 +10740,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -10595,7 +10802,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -10605,7 +10813,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -10660,7 +10868,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -10670,7 +10879,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -10732,7 +10941,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -10742,7 +10952,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -10797,7 +11007,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -10807,7 +11018,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -10869,7 +11080,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -10879,7 +11091,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -10934,7 +11146,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -10944,7 +11157,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -11006,7 +11219,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -11016,7 +11230,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -11071,7 +11285,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -11081,7 +11296,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -11143,7 +11358,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -11153,7 +11369,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -11208,7 +11424,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -11218,7 +11435,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -11280,7 +11497,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -11290,7 +11508,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -11345,7 +11563,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -11355,7 +11574,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -11417,7 +11636,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -11427,7 +11647,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -11482,7 +11702,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -11492,7 +11713,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -11554,7 +11775,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -11564,7 +11786,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -11619,7 +11841,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -11629,7 +11852,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -11691,7 +11914,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -11701,7 +11925,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -11756,7 +11980,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -11766,7 +11991,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -11828,7 +12053,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -11838,7 +12064,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -11893,7 +12119,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -11903,7 +12130,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -11965,7 +12192,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -11975,7 +12203,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -12030,7 +12258,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -12040,7 +12269,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -12102,7 +12331,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -12112,7 +12342,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -12167,7 +12397,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -12177,7 +12408,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -12239,7 +12470,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -12249,7 +12481,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -12304,7 +12536,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -12314,7 +12547,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -12376,7 +12609,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -12386,7 +12620,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -12441,7 +12675,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -12451,7 +12686,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -12513,7 +12748,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -12523,7 +12759,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -12578,7 +12814,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -12588,7 +12825,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -12650,7 +12887,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -12660,7 +12898,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -12715,7 +12953,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -12725,7 +12964,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -12787,7 +13026,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -12797,7 +13037,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -12852,7 +13092,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -12862,7 +13103,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -12924,7 +13165,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -12934,7 +13176,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -12989,7 +13231,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -12999,7 +13242,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -13061,7 +13304,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -13071,7 +13315,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -13126,7 +13370,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -13136,7 +13381,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -13198,7 +13443,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -13208,7 +13454,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -13263,7 +13509,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -13273,7 +13520,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -13335,7 +13582,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -13345,7 +13593,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -13400,7 +13648,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -13410,7 +13659,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -13472,7 +13721,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -13482,7 +13732,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -13537,7 +13787,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -13547,7 +13798,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -13609,7 +13860,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -13619,7 +13871,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -13674,7 +13926,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -13684,7 +13937,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -13746,7 +13999,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -13756,7 +14010,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -13811,7 +14065,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -13821,7 +14076,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -13883,7 +14138,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -13893,7 +14149,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -13948,7 +14204,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -13958,7 +14215,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -14020,7 +14277,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -14030,7 +14288,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -14085,7 +14343,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -14095,7 +14354,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -14157,7 +14416,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -14167,7 +14427,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -14222,7 +14482,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -14232,7 +14493,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -14294,7 +14555,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -14304,7 +14566,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -14359,7 +14621,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -14369,7 +14632,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -14431,7 +14694,8 @@ var doc = `{
                         "enum": [
                             "latest",
                             "before",
-                            "after"
+                            "after",
+                            "at"
                         ],
                         "type": "string",
                         "description": "How to select the time range to pull data from. 'latest' by default",
@@ -14441,7 +14705,7 @@ var doc = `{
                     {
                         "type": "string",
                         "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'.",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
                     }
@@ -14457,6 +14721,1936 @@ var doc = `{
                         "description": ""
                     },
                     "404": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws": {
+            "get": {
+                "description": "get a list of Aws metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws"
+                ],
+                "summary": "Get Aws Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/cloudwatchlogs": {
+            "get": {
+                "description": "get a list of CloudWatchLogs metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws cloudwatchlogs"
+                ],
+                "summary": "Get CloudWatchLogs Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/cloudwatchlogs/log_groups": {
+            "get": {
+                "description": "get a list of log_groups metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws cloudwatchlogs"
+                ],
+                "summary": "Get LogGroups Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/dynamodb": {
+            "get": {
+                "description": "get a list of DynamoDB metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws dynamodb"
+                ],
+                "summary": "Get DynamoDB Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/dynamodb/tables": {
+            "get": {
+                "description": "get a list of tables metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws dynamodb"
+                ],
+                "summary": "Get TableDescriptions Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2": {
+            "get": {
+                "description": "get a list of EC2 metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get EC2 Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/addresses": {
+            "get": {
+                "description": "get a list of addresses metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get Addresses Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/dhcp_options": {
+            "get": {
+                "description": "get a list of dhcp_options metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get DhcpOptions Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/images": {
+            "get": {
+                "description": "get a list of images metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get Images Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/instance_types": {
+            "get": {
+                "description": "get a list of instance_types metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get InstanceTypes Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/instances": {
+            "get": {
+                "description": "get a list of instances metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get Instances Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/internet_gateways": {
+            "get": {
+                "description": "get a list of internet_gateways metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get InternetGateways Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/managed_prefix_lists": {
+            "get": {
+                "description": "get a list of managed_prefix_lists metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get ManagedPrefixLists Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/nat_gateways": {
+            "get": {
+                "description": "get a list of nat_gateways metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get NatGateways Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/network_acls": {
+            "get": {
+                "description": "get a list of network_acls metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get NetworkAcls Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/network_interfaces": {
+            "get": {
+                "description": "get a list of network_interfaces metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get NetworkInterfaces Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/placement_groups": {
+            "get": {
+                "description": "get a list of placement_groups metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get PlacementGroups Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/reserved_instances": {
+            "get": {
+                "description": "get a list of reserved_instances metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get ReservedInstances Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/route_tables": {
+            "get": {
+                "description": "get a list of route_tables metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get RouteTables Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/security_groups": {
+            "get": {
+                "description": "get a list of security_groups metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get SecurityGroups Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/subnets": {
+            "get": {
+                "description": "get a list of subnets metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get Subnets Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/transit_gateway_peering_attachments": {
+            "get": {
+                "description": "get a list of transit_gateway_peering_attachments metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get TransitGatewayPeeringAttachments Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/transit_gateway_route_tables": {
+            "get": {
+                "description": "get a list of transit_gateway_route_tables metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get TransitGatewayRouteTables Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/transit_gateway_vpc_attachments": {
+            "get": {
+                "description": "get a list of transit_gateway_vpc_attachments metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get TransitGatewayVpcAttachments Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/transit_gateways": {
+            "get": {
+                "description": "get a list of transit_gateways metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get TransitGateways Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/volumes": {
+            "get": {
+                "description": "get a list of volumes metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get Volumes Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/vpc_endpoints": {
+            "get": {
+                "description": "get a list of vpc_endpoints metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get VpcEndpoints Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/vpc_peering_connections": {
+            "get": {
+                "description": "get a list of vpc_peering_connections metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get VpcPeeringConnections Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/vpcs": {
+            "get": {
+                "description": "get a list of vpcs metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get Vpcs Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ec2/vpn_gateways": {
+            "get": {
+                "description": "get a list of vpn_gateways metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ec2"
+                ],
+                "summary": "Get VpnGateways Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ecs": {
+            "get": {
+                "description": "get a list of ECS metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ecs"
+                ],
+                "summary": "Get ECS Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ecs/clusters": {
+            "get": {
+                "description": "get a list of clusters metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ecs"
+                ],
+                "summary": "Get Clusters Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ecs/services": {
+            "get": {
+                "description": "get a list of services metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ecs"
+                ],
+                "summary": "Get Services Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/ecs/tasks": {
+            "get": {
+                "description": "get a list of tasks metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws ecs"
+                ],
+                "summary": "Get Tasks Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/efs": {
+            "get": {
+                "description": "get a list of EFS metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws efs"
+                ],
+                "summary": "Get EFS Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/efs/filesystems": {
+            "get": {
+                "description": "get a list of filesystems metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws efs"
+                ],
+                "summary": "Get FileSystems Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/elasticache": {
+            "get": {
+                "description": "get a list of ElastiCache metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws elasticache"
+                ],
+                "summary": "Get ElastiCache Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/elasticache/cache_clusters": {
+            "get": {
+                "description": "get a list of cache_clusters metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws elasticache"
+                ],
+                "summary": "Get CacheClusters Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/elasticloadbalancing": {
+            "get": {
+                "description": "get a list of ElasticLoadBalancing metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws elasticloadbalancing"
+                ],
+                "summary": "Get ElasticLoadBalancing Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/elasticloadbalancing/load_balancers": {
+            "get": {
+                "description": "get a list of load_balancers metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws elasticloadbalancing"
+                ],
+                "summary": "Get LoadBalancers Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/elasticloadbalancingv2": {
+            "get": {
+                "description": "get a list of ElasticLoadBalancingV2 metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws elasticloadbalancingv2"
+                ],
+                "summary": "Get ElasticLoadBalancingV2 Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/elasticloadbalancingv2/load_balancers": {
+            "get": {
+                "description": "get a list of load_balancers metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws elasticloadbalancingv2"
+                ],
+                "summary": "Get LoadBalancers Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/elasticloadbalancingv2/target_groups": {
+            "get": {
+                "description": "get a list of target_groups metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws elasticloadbalancingv2"
+                ],
+                "summary": "Get TargetGroups Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/iam": {
+            "get": {
+                "description": "get a list of IAM metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws iam"
+                ],
+                "summary": "Get IAM Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/iam/groups": {
+            "get": {
+                "description": "get a list of groups metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws iam"
+                ],
+                "summary": "Get Groups Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/iam/policies": {
+            "get": {
+                "description": "get a list of policies metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws iam"
+                ],
+                "summary": "Get Policies Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/iam/roles": {
+            "get": {
+                "description": "get a list of roles metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws iam"
+                ],
+                "summary": "Get Roles Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/iam/users": {
+            "get": {
+                "description": "get a list of users metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws iam"
+                ],
+                "summary": "Get Users Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/lambda": {
+            "get": {
+                "description": "get a list of Lambda metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws lambda"
+                ],
+                "summary": "Get Lambda Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/lambda/functions": {
+            "get": {
+                "description": "get a list of functions metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws lambda"
+                ],
+                "summary": "Get Functions Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/rds": {
+            "get": {
+                "description": "get a list of RDS metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws rds"
+                ],
+                "summary": "Get RDS Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/rds/db_clusters": {
+            "get": {
+                "description": "get a list of db_clusters metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws rds"
+                ],
+                "summary": "Get DBClusters Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/rds/db_instances": {
+            "get": {
+                "description": "get a list of db_instances metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws rds"
+                ],
+                "summary": "Get DBInstances Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/redshift": {
+            "get": {
+                "description": "get a list of Redshift metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws redshift"
+                ],
+                "summary": "Get Redshift Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/redshift/clusters": {
+            "get": {
+                "description": "get a list of clusters metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws redshift"
+                ],
+                "summary": "Get Clusters Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/route53": {
+            "get": {
+                "description": "get a list of Route53 metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws route53"
+                ],
+                "summary": "Get Route53 Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/route53/hosted_zones": {
+            "get": {
+                "description": "get a list of hosted_zones metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws route53"
+                ],
+                "summary": "Get HostedZones Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/s3": {
+            "get": {
+                "description": "get a list of S3 metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws s3"
+                ],
+                "summary": "Get S3 Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/s3/buckets": {
+            "get": {
+                "description": "get a list of buckets metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws s3"
+                ],
+                "summary": "Get Buckets Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
                         "description": ""
                     }
                 }
@@ -14502,9 +16696,6 @@ var doc = `{
         "dynamodb.ArchivalSummary": {
             "type": "object",
             "properties": {
-                "archivalDateTime": {
-                    "type": "string"
-                },
                 "archival_backup_arn": {
                     "type": "string"
                 },
@@ -14531,9 +16722,6 @@ var doc = `{
             "type": "object",
             "properties": {
                 "billing_mode": {
-                    "type": "string"
-                },
-                "lastUpdateToPayPerRequestDateTime": {
                     "type": "string"
                 },
                 "last_update_to_pay_per_request_date_time": {
@@ -14630,12 +16818,6 @@ var doc = `{
         "dynamodb.ProvisionedThroughputDescription": {
             "type": "object",
             "properties": {
-                "lastDecreaseDateTime": {
-                    "type": "string"
-                },
-                "lastIncreaseDateTime": {
-                    "type": "string"
-                },
                 "last_decrease_date_time": {
                     "type": "integer"
                 },
@@ -14679,9 +16861,6 @@ var doc = `{
                 "region_name": {
                     "type": "string"
                 },
-                "replicaInaccessibleDateTime": {
-                    "type": "string"
-                },
                 "replica_inaccessible_date_time": {
                     "type": "integer"
                 },
@@ -14713,9 +16892,6 @@ var doc = `{
         "dynamodb.RestoreSummary": {
             "type": "object",
             "properties": {
-                "restoreDateTime": {
-                    "type": "string"
-                },
                 "restore_date_time": {
                     "type": "integer"
                 },
@@ -14733,9 +16909,6 @@ var doc = `{
         "dynamodb.SSEDescription": {
             "type": "object",
             "properties": {
-                "inaccessibleEncryptionDateTime": {
-                    "type": "string"
-                },
                 "inaccessible_encryption_date_time": {
                     "type": "integer"
                 },
@@ -14764,9 +16937,6 @@ var doc = `{
         "dynamodb.TableClassSummary": {
             "type": "object",
             "properties": {
-                "lastUpdateDateTime": {
-                    "type": "string"
-                },
                 "last_update_date_time": {
                     "type": "integer"
                 },
@@ -14792,9 +16962,6 @@ var doc = `{
                 },
                 "billing_mode_summary": {
                     "$ref": "#/definitions/dynamodb.BillingModeSummary"
-                },
-                "creationDateTime": {
-                    "type": "string"
                 },
                 "creation_date_time": {
                     "type": "integer"
@@ -15127,9 +17294,6 @@ var doc = `{
         "ec2.EbsInstanceBlockDevice": {
             "type": "object",
             "properties": {
-                "attachTime": {
-                    "type": "string"
-                },
                 "attach_time": {
                     "type": "integer"
                 },
@@ -15195,9 +17359,6 @@ var doc = `{
         "ec2.ElasticInferenceAcceleratorAssociation": {
             "type": "object",
             "properties": {
-                "elasticInferenceAcceleratorAssociationTime": {
-                    "type": "string"
-                },
                 "elastic_inference_accelerator_arn": {
                     "type": "string"
                 },
@@ -15555,9 +17716,6 @@ var doc = `{
                 "key_name": {
                     "type": "string"
                 },
-                "launchTime": {
-                    "type": "string"
-                },
                 "launch_time": {
                     "type": "integer"
                 },
@@ -15659,9 +17817,6 @@ var doc = `{
                     "additionalProperties": {
                         "type": "string"
                     }
-                },
-                "usageOperationUpdateTime": {
-                    "type": "string"
                 },
                 "usage_operation": {
                     "type": "string"
@@ -15829,9 +17984,6 @@ var doc = `{
         "ec2.InstanceNetworkInterfaceAttachment": {
             "type": "object",
             "properties": {
-                "attachTime": {
-                    "type": "string"
-                },
                 "attach_time": {
                     "type": "integer"
                 },
@@ -16216,14 +18368,8 @@ var doc = `{
                 "connectivity_type": {
                     "type": "string"
                 },
-                "createTime": {
-                    "type": "string"
-                },
                 "create_time": {
                     "type": "integer"
-                },
-                "deleteTime": {
-                    "type": "string"
                 },
                 "delete_time": {
                     "type": "integer"
@@ -16570,9 +18716,6 @@ var doc = `{
         "ec2.NetworkInterfaceAttachment": {
             "type": "object",
             "properties": {
-                "attachTime": {
-                    "type": "string"
-                },
                 "attach_time": {
                     "type": "integer"
                 },
@@ -16810,16 +18953,10 @@ var doc = `{
         "ec2.ProvisionedBandwidth": {
             "type": "object",
             "properties": {
-                "provisionTime": {
-                    "type": "string"
-                },
                 "provision_time": {
                     "type": "integer"
                 },
                 "provisioned": {
-                    "type": "string"
-                },
-                "requestTime": {
                     "type": "string"
                 },
                 "request_time": {
@@ -17235,9 +19372,6 @@ var doc = `{
                 "account_id": {
                     "type": "string"
                 },
-                "creationTime": {
-                    "type": "string"
-                },
                 "creation_time": {
                     "type": "integer"
                 },
@@ -17320,9 +19454,6 @@ var doc = `{
                 "account_id": {
                     "type": "string"
                 },
-                "creationTime": {
-                    "type": "string"
-                },
                 "creation_time": {
                     "type": "integer"
                 },
@@ -17356,9 +19487,6 @@ var doc = `{
             "type": "object",
             "properties": {
                 "account_id": {
-                    "type": "string"
-                },
-                "creationTime": {
                     "type": "string"
                 },
                 "creation_time": {
@@ -17397,9 +19525,6 @@ var doc = `{
             "type": "object",
             "properties": {
                 "account_id": {
-                    "type": "string"
-                },
-                "creationTime": {
                     "type": "string"
                 },
                 "creation_time": {
@@ -17524,9 +19649,6 @@ var doc = `{
                 "availability_zone": {
                     "type": "string"
                 },
-                "createTime": {
-                    "type": "string"
-                },
                 "create_time": {
                     "type": "integer"
                 },
@@ -17583,9 +19705,6 @@ var doc = `{
         "ec2.VolumeAttachment": {
             "type": "object",
             "properties": {
-                "attachTime": {
-                    "type": "string"
-                },
                 "attach_time": {
                     "type": "integer"
                 },
@@ -17701,9 +19820,6 @@ var doc = `{
                 "account_id": {
                     "type": "string"
                 },
-                "creationTimestamp": {
-                    "type": "string"
-                },
                 "creation_timestamp": {
                     "type": "integer"
                 },
@@ -17808,9 +19924,6 @@ var doc = `{
                     "$ref": "#/definitions/ec2.VpcPeeringConnectionVpcInfo"
                 },
                 "account_id": {
-                    "type": "string"
-                },
-                "expirationTime": {
                     "type": "string"
                 },
                 "expiration_time": {
@@ -18222,9 +20335,6 @@ var doc = `{
                         "$ref": "#/definitions/ecs.CapacityProviderStrategyItem"
                     }
                 },
-                "createdAt": {
-                    "type": "string"
-                },
                 "created_at": {
                     "type": "integer"
                 },
@@ -18265,9 +20375,6 @@ var doc = `{
                     "type": "string"
                 },
                 "task_definition": {
-                    "type": "string"
-                },
-                "updatedAt": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -18414,9 +20521,6 @@ var doc = `{
         "ecs.ManagedAgent": {
             "type": "object",
             "properties": {
-                "lastStartedAt": {
-                    "type": "string"
-                },
                 "last_started_at": {
                     "type": "integer"
                 },
@@ -18527,9 +20631,6 @@ var doc = `{
                     }
                 },
                 "cluster_arn": {
-                    "type": "string"
-                },
-                "createdAt": {
                     "type": "string"
                 },
                 "created_at": {
@@ -18703,9 +20804,6 @@ var doc = `{
                 "connectivity": {
                     "type": "string"
                 },
-                "connectivityAt": {
-                    "type": "string"
-                },
                 "connectivity_at": {
                     "type": "integer"
                 },
@@ -18721,9 +20819,6 @@ var doc = `{
                 "cpu": {
                     "type": "string"
                 },
-                "createdAt": {
-                    "type": "string"
-                },
                 "created_at": {
                     "type": "integer"
                 },
@@ -18735,9 +20830,6 @@ var doc = `{
                 },
                 "ephemeral_storage": {
                     "$ref": "#/definitions/ecs.EphemeralStorage"
-                },
-                "executionStoppedAt": {
-                    "type": "string"
                 },
                 "execution_stopped_at": {
                     "type": "integer"
@@ -18772,12 +20864,6 @@ var doc = `{
                 "platform_version": {
                     "type": "string"
                 },
-                "pullStartedAt": {
-                    "type": "string"
-                },
-                "pullStoppedAt": {
-                    "type": "string"
-                },
                 "pull_started_at": {
                     "type": "integer"
                 },
@@ -18790,9 +20876,6 @@ var doc = `{
                 "report_time": {
                     "type": "integer"
                 },
-                "startedAt": {
-                    "type": "string"
-                },
                 "started_at": {
                     "type": "integer"
                 },
@@ -18802,16 +20885,10 @@ var doc = `{
                 "stop_code": {
                     "type": "string"
                 },
-                "stoppedAt": {
-                    "type": "string"
-                },
                 "stopped_at": {
                     "type": "integer"
                 },
                 "stopped_reason": {
-                    "type": "string"
-                },
-                "stoppingAt": {
                     "type": "string"
                 },
                 "stopping_at": {
@@ -18881,9 +20958,6 @@ var doc = `{
                 "computed_desired_count": {
                     "type": "integer"
                 },
-                "createdAt": {
-                    "type": "string"
-                },
                 "created_at": {
                     "type": "integer"
                 },
@@ -18929,9 +21003,6 @@ var doc = `{
                         "$ref": "#/definitions/ecs.ServiceRegistry"
                     }
                 },
-                "stabilityStatusAt": {
-                    "type": "string"
-                },
                 "stability_status": {
                     "type": "string"
                 },
@@ -18956,9 +21027,6 @@ var doc = `{
                 "task_set_arn": {
                     "type": "string"
                 },
-                "updatedAt": {
-                    "type": "string"
-                },
                 "updated_at": {
                     "type": "integer"
                 }
@@ -18974,9 +21042,6 @@ var doc = `{
                     "type": "string"
                 },
                 "availability_zone_name": {
-                    "type": "string"
-                },
-                "creationTime": {
                     "type": "string"
                 },
                 "creation_time": {
@@ -19064,9 +21129,6 @@ var doc = `{
                 "at_rest_encryption_enabled": {
                     "type": "boolean"
                 },
-                "authTokenLastModifiedDate": {
-                    "type": "string"
-                },
                 "auth_token_enabled": {
                     "type": "boolean"
                 },
@@ -19075,9 +21137,6 @@ var doc = `{
                 },
                 "auto_minor_version_upgrade": {
                     "type": "boolean"
-                },
-                "cacheClusterCreateTime": {
-                    "type": "string"
                 },
                 "cache_cluster_create_time": {
                     "type": "integer"
@@ -19183,9 +21242,6 @@ var doc = `{
         "elasticache.CacheNode": {
             "type": "object",
             "properties": {
-                "cacheNodeCreateTime": {
-                    "type": "string"
-                },
                 "cache_node_create_time": {
                     "type": "integer"
                 },
@@ -19489,9 +21545,6 @@ var doc = `{
                     "type": "string"
                 },
                 "canonical_hosted_zone_name_id": {
-                    "type": "string"
-                },
-                "createdTime": {
                     "type": "string"
                 },
                 "created_time": {
@@ -19801,9 +21854,6 @@ var doc = `{
                 "canonical_hosted_zone_id": {
                     "type": "string"
                 },
-                "createdTime": {
-                    "type": "string"
-                },
                 "created_time": {
                     "type": "integer"
                 },
@@ -20075,9 +22125,6 @@ var doc = `{
                 "access_key_id": {
                     "type": "string"
                 },
-                "createDate": {
-                    "type": "string"
-                },
                 "create_date": {
                     "type": "integer"
                 },
@@ -20123,9 +22170,6 @@ var doc = `{
                         "$ref": "#/definitions/iam.AttachedPolicy"
                     }
                 },
-                "createDate": {
-                    "type": "string"
-                },
                 "create_date": {
                     "type": "integer"
                 },
@@ -20161,9 +22205,6 @@ var doc = `{
         "iam.LoginProfile": {
             "type": "object",
             "properties": {
-                "createDate": {
-                    "type": "string"
-                },
                 "create_date": {
                     "type": "integer"
                 },
@@ -20183,9 +22224,6 @@ var doc = `{
                 },
                 "attachment_count": {
                     "type": "integer"
-                },
-                "createDate": {
-                    "type": "string"
                 },
                 "create_date": {
                     "type": "integer"
@@ -20223,9 +22261,6 @@ var doc = `{
                         "type": "string"
                     }
                 },
-                "updateDate": {
-                    "type": "string"
-                },
                 "update_date": {
                     "type": "integer"
                 }
@@ -20245,9 +22280,6 @@ var doc = `{
                     "items": {
                         "$ref": "#/definitions/iam.AttachedPolicy"
                     }
-                },
-                "createDate": {
-                    "type": "string"
                 },
                 "create_date": {
                     "type": "integer"
@@ -20296,9 +22328,6 @@ var doc = `{
         "iam.RoleLastUsed": {
             "type": "object",
             "properties": {
-                "lastUsedDate": {
-                    "type": "string"
-                },
                 "last_used_date": {
                     "type": "integer"
                 },
@@ -20328,9 +22357,6 @@ var doc = `{
                         "$ref": "#/definitions/iam.AttachedPolicy"
                     }
                 },
-                "createDate": {
-                    "type": "string"
-                },
                 "create_date": {
                     "type": "integer"
                 },
@@ -20348,9 +22374,6 @@ var doc = `{
                 },
                 "login_profile": {
                     "$ref": "#/definitions/iam.LoginProfile"
-                },
-                "passwordLastUsed": {
-                    "type": "string"
                 },
                 "password_last_used": {
                     "type": "integer"
@@ -20661,9 +22684,6 @@ var doc = `{
                 "auto_minor_version_upgrade": {
                     "type": "boolean"
                 },
-                "automaticRestartTime": {
-                    "type": "string"
-                },
                 "automatic_restart_time": {
                     "type": "integer"
                 },
@@ -20689,9 +22709,6 @@ var doc = `{
                     "type": "string"
                 },
                 "clone_group_id": {
-                    "type": "string"
-                },
-                "clusterCreateTime": {
                     "type": "string"
                 },
                 "cluster_create_time": {
@@ -20751,12 +22768,6 @@ var doc = `{
                         "$ref": "#/definitions/rds.DomainMembership"
                     }
                 },
-                "earliestBacktrackTime": {
-                    "type": "string"
-                },
-                "earliestRestorableTime": {
-                    "type": "string"
-                },
                 "earliest_backtrack_time": {
                     "type": "integer"
                 },
@@ -20800,9 +22811,6 @@ var doc = `{
                     "type": "integer"
                 },
                 "kms_key_id": {
-                    "type": "string"
-                },
-                "latestRestorableTime": {
                     "type": "string"
                 },
                 "latest_restorable_time": {
@@ -20966,9 +22974,6 @@ var doc = `{
                 "auto_minor_version_upgrade": {
                     "type": "boolean"
                 },
-                "automaticRestartTime": {
-                    "type": "string"
-                },
                 "automatic_restart_time": {
                     "type": "integer"
                 },
@@ -21077,9 +23082,6 @@ var doc = `{
                 "iam_database_authentication_enabled": {
                     "type": "boolean"
                 },
-                "instanceCreateTime": {
-                    "type": "string"
-                },
                 "instance_create_time": {
                     "type": "integer"
                 },
@@ -21087,9 +23089,6 @@ var doc = `{
                     "type": "integer"
                 },
                 "kms_key_id": {
-                    "type": "string"
-                },
-                "latestRestorableTime": {
                     "type": "string"
                 },
                 "latest_restorable_time": {
@@ -21178,9 +23177,6 @@ var doc = `{
                 },
                 "report_time": {
                     "type": "integer"
-                },
-                "resumeFullAutomationModeTime": {
-                    "type": "string"
                 },
                 "resume_full_automation_mode_time": {
                     "type": "integer"
@@ -21428,9 +23424,6 @@ var doc = `{
                         "$ref": "#/definitions/rds.ProcessorFeature"
                     }
                 },
-                "resumeFullAutomationModeTime": {
-                    "type": "string"
-                },
                 "resume_full_automation_mode_time": {
                     "type": "integer"
                 },
@@ -21533,9 +23526,6 @@ var doc = `{
                 "availability_zone_relocation_status": {
                     "type": "string"
                 },
-                "clusterCreateTime": {
-                    "type": "string"
-                },
                 "cluster_availability_status": {
                     "type": "string"
                 },
@@ -21614,9 +23604,6 @@ var doc = `{
                 "enhanced_vpc_routing": {
                     "type": "boolean"
                 },
-                "expectedNextSnapshotScheduleTime": {
-                    "type": "string"
-                },
                 "expected_next_snapshot_schedule_time": {
                     "type": "integer"
                 },
@@ -21645,9 +23632,6 @@ var doc = `{
                     "type": "string"
                 },
                 "modify_status": {
-                    "type": "string"
-                },
-                "nextMaintenanceWindowStartTime": {
                     "type": "string"
                 },
                 "next_maintenance_window_start_time": {
@@ -21825,12 +23809,6 @@ var doc = `{
         "redshift.DeferredMaintenanceWindow": {
             "type": "object",
             "properties": {
-                "deferMaintenanceEndTime": {
-                    "type": "string"
-                },
-                "deferMaintenanceStartTime": {
-                    "type": "string"
-                },
                 "defer_maintenance_end_time": {
                     "type": "integer"
                 },
@@ -21939,9 +23917,6 @@ var doc = `{
         "redshift.ReservedNodeExchangeStatus": {
             "type": "object",
             "properties": {
-                "requestTime": {
-                    "type": "string"
-                },
                 "request_time": {
                     "type": "integer"
                 },
@@ -22110,6 +24085,42 @@ var doc = `{
                 }
             }
         },
+        "routes.AwsMetadata": {
+            "type": "object",
+            "properties": {
+                "services": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "routes.AwsResourceMetadata": {
+            "type": "object",
+            "properties": {
+                "datetimes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id_field": {
+                    "type": "string"
+                }
+            }
+        },
+        "routes.AwsServiceMetadata": {
+            "type": "object",
+            "properties": {
+                "resources": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "routes.Diff": {
             "type": "object",
             "properties": {
@@ -22159,9 +24170,6 @@ var doc = `{
                     "items": {
                         "$ref": "#/definitions/s3.CORSRule"
                     }
-                },
-                "creationDate": {
-                    "type": "string"
                 },
                 "creation_date": {
                     "type": "integer"

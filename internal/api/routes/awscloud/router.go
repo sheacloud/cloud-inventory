@@ -4,6 +4,7 @@ package awscloud
 import (
 	awsS3 "github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/gin-gonic/gin"
+	"github.com/sheacloud/cloud-inventory/internal/api/routes"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/awscloud/cloudwatchlogs"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/awscloud/dynamodb"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/awscloud/ec2"
@@ -19,6 +20,232 @@ import (
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/awscloud/route53"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/awscloud/s3"
 )
+
+// GetAwsMetadata godoc
+// @Summary      Get Aws Metadata
+// @Description  get a list of Aws metadata
+// @Tags         aws
+// @Produce      json
+// @Success      200  {array}   routes.AwsMetadata
+// @Failure      400
+// @Router       /metadata/aws [get]
+func GetAwsMetadata(c *gin.Context) {
+	c.IndentedJSON(200, routes.AwsMetadata{
+		Services: []string{
+			"cloudwatchlogs",
+			"dynamodb",
+			"ec2",
+			"ecs",
+			"efs",
+			"elasticache",
+			"elasticloadbalancing",
+			"elasticloadbalancingv2",
+			"iam",
+			"lambda",
+			"rds",
+			"redshift",
+			"route53",
+			"s3",
+		},
+	})
+}
+
+func AddMetadataRoutes(r *gin.RouterGroup, s3Client *awsS3.Client, s3Bucket string) {
+
+	r.GET("/", GetAwsMetadata)
+
+	r.GET("/cloudwatchlogs", cloudwatchlogs.GetCloudWatchLogsMetadata)
+	r.GET("/dynamodb", dynamodb.GetDynamoDBMetadata)
+	r.GET("/ec2", ec2.GetEC2Metadata)
+	r.GET("/ecs", ecs.GetECSMetadata)
+	r.GET("/efs", efs.GetEFSMetadata)
+	r.GET("/elasticache", elasticache.GetElastiCacheMetadata)
+	r.GET("/elasticloadbalancing", elasticloadbalancing.GetElasticLoadBalancingMetadata)
+	r.GET("/elasticloadbalancingv2", elasticloadbalancingv2.GetElasticLoadBalancingV2Metadata)
+	r.GET("/iam", iam.GetIAMMetadata)
+	r.GET("/lambda", lambda.GetLambdaMetadata)
+	r.GET("/rds", rds.GetRDSMetadata)
+	r.GET("/redshift", redshift.GetRedshiftMetadata)
+	r.GET("/route53", route53.GetRoute53Metadata)
+	r.GET("/s3", s3.GetS3Metadata)
+
+	r.GET("/cloudwatchlogs/log_groups", func(c *gin.Context) {
+		cloudwatchlogs.GetLogGroupsMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/dynamodb/tables", func(c *gin.Context) {
+		dynamodb.GetTableDescriptionsMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/addresses", func(c *gin.Context) {
+		ec2.GetAddressesMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/dhcp_options", func(c *gin.Context) {
+		ec2.GetDhcpOptionsMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/images", func(c *gin.Context) {
+		ec2.GetImagesMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/instance_types", func(c *gin.Context) {
+		ec2.GetInstanceTypesMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/instances", func(c *gin.Context) {
+		ec2.GetInstancesMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/internet_gateways", func(c *gin.Context) {
+		ec2.GetInternetGatewaysMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/managed_prefix_lists", func(c *gin.Context) {
+		ec2.GetManagedPrefixListsMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/nat_gateways", func(c *gin.Context) {
+		ec2.GetNatGatewaysMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/network_acls", func(c *gin.Context) {
+		ec2.GetNetworkAclsMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/network_interfaces", func(c *gin.Context) {
+		ec2.GetNetworkInterfacesMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/placement_groups", func(c *gin.Context) {
+		ec2.GetPlacementGroupsMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/reserved_instances", func(c *gin.Context) {
+		ec2.GetReservedInstancesMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/route_tables", func(c *gin.Context) {
+		ec2.GetRouteTablesMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/security_groups", func(c *gin.Context) {
+		ec2.GetSecurityGroupsMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/subnets", func(c *gin.Context) {
+		ec2.GetSubnetsMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/transit_gateway_peering_attachments", func(c *gin.Context) {
+		ec2.GetTransitGatewayPeeringAttachmentsMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/transit_gateway_route_tables", func(c *gin.Context) {
+		ec2.GetTransitGatewayRouteTablesMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/transit_gateway_vpc_attachments", func(c *gin.Context) {
+		ec2.GetTransitGatewayVpcAttachmentsMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/transit_gateways", func(c *gin.Context) {
+		ec2.GetTransitGatewaysMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/volumes", func(c *gin.Context) {
+		ec2.GetVolumesMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/vpc_endpoints", func(c *gin.Context) {
+		ec2.GetVpcEndpointsMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/vpc_peering_connections", func(c *gin.Context) {
+		ec2.GetVpcPeeringConnectionsMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/vpcs", func(c *gin.Context) {
+		ec2.GetVpcsMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ec2/vpn_gateways", func(c *gin.Context) {
+		ec2.GetVpnGatewaysMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ecs/clusters", func(c *gin.Context) {
+		ecs.GetClustersMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ecs/services", func(c *gin.Context) {
+		ecs.GetServicesMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/ecs/tasks", func(c *gin.Context) {
+		ecs.GetTasksMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/efs/filesystems", func(c *gin.Context) {
+		efs.GetFileSystemsMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/elasticache/cache_clusters", func(c *gin.Context) {
+		elasticache.GetCacheClustersMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/elasticloadbalancing/load_balancers", func(c *gin.Context) {
+		elasticloadbalancing.GetLoadBalancersMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/elasticloadbalancingv2/load_balancers", func(c *gin.Context) {
+		elasticloadbalancingv2.GetLoadBalancersMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/elasticloadbalancingv2/target_groups", func(c *gin.Context) {
+		elasticloadbalancingv2.GetTargetGroupsMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/iam/groups", func(c *gin.Context) {
+		iam.GetGroupsMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/iam/policies", func(c *gin.Context) {
+		iam.GetPoliciesMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/iam/roles", func(c *gin.Context) {
+		iam.GetRolesMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/iam/users", func(c *gin.Context) {
+		iam.GetUsersMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/lambda/functions", func(c *gin.Context) {
+		lambda.GetFunctionsMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/rds/db_clusters", func(c *gin.Context) {
+		rds.GetDBClustersMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/rds/db_instances", func(c *gin.Context) {
+		rds.GetDBInstancesMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/redshift/clusters", func(c *gin.Context) {
+		redshift.GetClustersMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/route53/hosted_zones", func(c *gin.Context) {
+		route53.GetHostedZonesMetadata(c, s3Client, s3Bucket)
+	})
+
+	r.GET("/s3/buckets", func(c *gin.Context) {
+		s3.GetBucketsMetadata(c, s3Client, s3Bucket)
+	})
+
+}
 
 func AddInventoryRoutes(r *gin.RouterGroup, s3Client *awsS3.Client, s3Bucket string) {
 

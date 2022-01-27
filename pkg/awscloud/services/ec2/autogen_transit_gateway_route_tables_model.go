@@ -6,7 +6,7 @@ import (
 )
 
 type TransitGatewayRouteTable struct {
-	CreationTime                 *time.Time
+	CreationTime                 *time.Time        `json:"-"`
 	DefaultAssociationRouteTable bool              `parquet:"name=default_association_route_table,type=BOOLEAN" json:"default_association_route_table" diff:"default_association_route_table"`
 	DefaultPropagationRouteTable bool              `parquet:"name=default_propagation_route_table,type=BOOLEAN" json:"default_propagation_route_table" diff:"default_propagation_route_table"`
 	State                        string            `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8" json:"state" diff:"state"`

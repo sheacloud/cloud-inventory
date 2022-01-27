@@ -68,23 +68,23 @@ type DeploymentController struct {
 
 type Deployment struct {
 	CapacityProviderStrategy []*CapacityProviderStrategyItem `parquet:"name=capacity_provider_strategy,type=MAP,convertedtype=LIST" json:"capacity_provider_strategy" diff:"capacity_provider_strategy"`
-	CreatedAt                *time.Time
-	DesiredCount             int32                 `parquet:"name=desired_count,type=INT32" json:"desired_count" diff:"desired_count"`
-	FailedTasks              int32                 `parquet:"name=failed_tasks,type=INT32" json:"failed_tasks" diff:"failed_tasks"`
-	Id                       string                `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8" json:"id" diff:"id"`
-	LaunchType               string                `parquet:"name=launch_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"launch_type" diff:"launch_type"`
-	NetworkConfiguration     *NetworkConfiguration `parquet:"name=network_configuration" json:"network_configuration" diff:"network_configuration"`
-	PendingCount             int32                 `parquet:"name=pending_count,type=INT32" json:"pending_count" diff:"pending_count"`
-	PlatformFamily           string                `parquet:"name=platform_family,type=BYTE_ARRAY,convertedtype=UTF8" json:"platform_family" diff:"platform_family"`
-	PlatformVersion          string                `parquet:"name=platform_version,type=BYTE_ARRAY,convertedtype=UTF8" json:"platform_version" diff:"platform_version"`
-	RolloutState             string                `parquet:"name=rollout_state,type=BYTE_ARRAY,convertedtype=UTF8" json:"rollout_state" diff:"rollout_state"`
-	RolloutStateReason       string                `parquet:"name=rollout_state_reason,type=BYTE_ARRAY,convertedtype=UTF8" json:"rollout_state_reason" diff:"rollout_state_reason"`
-	RunningCount             int32                 `parquet:"name=running_count,type=INT32" json:"running_count" diff:"running_count"`
-	Status                   string                `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
-	TaskDefinition           string                `parquet:"name=task_definition,type=BYTE_ARRAY,convertedtype=UTF8" json:"task_definition" diff:"task_definition"`
-	UpdatedAt                *time.Time
-	CreatedAtMilli           int64 `parquet:"name=created_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"created_at" diff:"created_at"`
-	UpdatedAtMilli           int64 `parquet:"name=updated_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"updated_at" diff:"updated_at"`
+	CreatedAt                *time.Time                      `json:"-"`
+	DesiredCount             int32                           `parquet:"name=desired_count,type=INT32" json:"desired_count" diff:"desired_count"`
+	FailedTasks              int32                           `parquet:"name=failed_tasks,type=INT32" json:"failed_tasks" diff:"failed_tasks"`
+	Id                       string                          `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8" json:"id" diff:"id"`
+	LaunchType               string                          `parquet:"name=launch_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"launch_type" diff:"launch_type"`
+	NetworkConfiguration     *NetworkConfiguration           `parquet:"name=network_configuration" json:"network_configuration" diff:"network_configuration"`
+	PendingCount             int32                           `parquet:"name=pending_count,type=INT32" json:"pending_count" diff:"pending_count"`
+	PlatformFamily           string                          `parquet:"name=platform_family,type=BYTE_ARRAY,convertedtype=UTF8" json:"platform_family" diff:"platform_family"`
+	PlatformVersion          string                          `parquet:"name=platform_version,type=BYTE_ARRAY,convertedtype=UTF8" json:"platform_version" diff:"platform_version"`
+	RolloutState             string                          `parquet:"name=rollout_state,type=BYTE_ARRAY,convertedtype=UTF8" json:"rollout_state" diff:"rollout_state"`
+	RolloutStateReason       string                          `parquet:"name=rollout_state_reason,type=BYTE_ARRAY,convertedtype=UTF8" json:"rollout_state_reason" diff:"rollout_state_reason"`
+	RunningCount             int32                           `parquet:"name=running_count,type=INT32" json:"running_count" diff:"running_count"`
+	Status                   string                          `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
+	TaskDefinition           string                          `parquet:"name=task_definition,type=BYTE_ARRAY,convertedtype=UTF8" json:"task_definition" diff:"task_definition"`
+	UpdatedAt                *time.Time                      `json:"-"`
+	CreatedAtMilli           int64                           `parquet:"name=created_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"created_at" diff:"created_at"`
+	UpdatedAtMilli           int64                           `parquet:"name=updated_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"updated_at" diff:"updated_at"`
 }
 
 type NetworkConfiguration struct {
@@ -125,30 +125,30 @@ type TaskSet struct {
 	CapacityProviderStrategy []*CapacityProviderStrategyItem `parquet:"name=capacity_provider_strategy,type=MAP,convertedtype=LIST" json:"capacity_provider_strategy" diff:"capacity_provider_strategy"`
 	ClusterArn               string                          `parquet:"name=cluster_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"cluster_arn" diff:"cluster_arn"`
 	ComputedDesiredCount     int32                           `parquet:"name=computed_desired_count,type=INT32" json:"computed_desired_count" diff:"computed_desired_count"`
-	CreatedAt                *time.Time
-	ExternalId               string                `parquet:"name=external_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"external_id" diff:"external_id"`
-	Id                       string                `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8" json:"id" diff:"id"`
-	LaunchType               string                `parquet:"name=launch_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"launch_type" diff:"launch_type"`
-	LoadBalancers            []*LoadBalancer       `parquet:"name=load_balancers,type=MAP,convertedtype=LIST" json:"load_balancers" diff:"load_balancers"`
-	NetworkConfiguration     *NetworkConfiguration `parquet:"name=network_configuration" json:"network_configuration" diff:"network_configuration"`
-	PendingCount             int32                 `parquet:"name=pending_count,type=INT32" json:"pending_count" diff:"pending_count"`
-	PlatformFamily           string                `parquet:"name=platform_family,type=BYTE_ARRAY,convertedtype=UTF8" json:"platform_family" diff:"platform_family"`
-	PlatformVersion          string                `parquet:"name=platform_version,type=BYTE_ARRAY,convertedtype=UTF8" json:"platform_version" diff:"platform_version"`
-	RunningCount             int32                 `parquet:"name=running_count,type=INT32" json:"running_count" diff:"running_count"`
-	Scale                    *Scale                `parquet:"name=scale" json:"scale" diff:"scale"`
-	ServiceArn               string                `parquet:"name=service_arn,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"service_arn" diff:"service_arn,identifier"`
-	ServiceRegistries        []*ServiceRegistry    `parquet:"name=service_registries,type=MAP,convertedtype=LIST" json:"service_registries" diff:"service_registries"`
-	StabilityStatus          string                `parquet:"name=stability_status,type=BYTE_ARRAY,convertedtype=UTF8" json:"stability_status" diff:"stability_status"`
-	StabilityStatusAt        *time.Time
-	StartedBy                string `parquet:"name=started_by,type=BYTE_ARRAY,convertedtype=UTF8" json:"started_by" diff:"started_by"`
-	Status                   string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
-	Tags                     []*Tag `parquet:"name=tags,type=MAP,convertedtype=LIST" json:"tags" diff:"tags"`
-	TaskDefinition           string `parquet:"name=task_definition,type=BYTE_ARRAY,convertedtype=UTF8" json:"task_definition" diff:"task_definition"`
-	TaskSetArn               string `parquet:"name=task_set_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"task_set_arn" diff:"task_set_arn"`
-	UpdatedAt                *time.Time
-	CreatedAtMilli           int64 `parquet:"name=created_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"created_at" diff:"created_at"`
-	StabilityStatusAtMilli   int64 `parquet:"name=stability_status_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"stability_status_at" diff:"stability_status_at"`
-	UpdatedAtMilli           int64 `parquet:"name=updated_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"updated_at" diff:"updated_at"`
+	CreatedAt                *time.Time                      `json:"-"`
+	ExternalId               string                          `parquet:"name=external_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"external_id" diff:"external_id"`
+	Id                       string                          `parquet:"name=id,type=BYTE_ARRAY,convertedtype=UTF8" json:"id" diff:"id"`
+	LaunchType               string                          `parquet:"name=launch_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"launch_type" diff:"launch_type"`
+	LoadBalancers            []*LoadBalancer                 `parquet:"name=load_balancers,type=MAP,convertedtype=LIST" json:"load_balancers" diff:"load_balancers"`
+	NetworkConfiguration     *NetworkConfiguration           `parquet:"name=network_configuration" json:"network_configuration" diff:"network_configuration"`
+	PendingCount             int32                           `parquet:"name=pending_count,type=INT32" json:"pending_count" diff:"pending_count"`
+	PlatformFamily           string                          `parquet:"name=platform_family,type=BYTE_ARRAY,convertedtype=UTF8" json:"platform_family" diff:"platform_family"`
+	PlatformVersion          string                          `parquet:"name=platform_version,type=BYTE_ARRAY,convertedtype=UTF8" json:"platform_version" diff:"platform_version"`
+	RunningCount             int32                           `parquet:"name=running_count,type=INT32" json:"running_count" diff:"running_count"`
+	Scale                    *Scale                          `parquet:"name=scale" json:"scale" diff:"scale"`
+	ServiceArn               string                          `parquet:"name=service_arn,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"service_arn" diff:"service_arn,identifier"`
+	ServiceRegistries        []*ServiceRegistry              `parquet:"name=service_registries,type=MAP,convertedtype=LIST" json:"service_registries" diff:"service_registries"`
+	StabilityStatus          string                          `parquet:"name=stability_status,type=BYTE_ARRAY,convertedtype=UTF8" json:"stability_status" diff:"stability_status"`
+	StabilityStatusAt        *time.Time                      `json:"-"`
+	StartedBy                string                          `parquet:"name=started_by,type=BYTE_ARRAY,convertedtype=UTF8" json:"started_by" diff:"started_by"`
+	Status                   string                          `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
+	Tags                     []*Tag                          `parquet:"name=tags,type=MAP,convertedtype=LIST" json:"tags" diff:"tags"`
+	TaskDefinition           string                          `parquet:"name=task_definition,type=BYTE_ARRAY,convertedtype=UTF8" json:"task_definition" diff:"task_definition"`
+	TaskSetArn               string                          `parquet:"name=task_set_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"task_set_arn" diff:"task_set_arn"`
+	UpdatedAt                *time.Time                      `json:"-"`
+	CreatedAtMilli           int64                           `parquet:"name=created_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"created_at" diff:"created_at"`
+	StabilityStatusAtMilli   int64                           `parquet:"name=stability_status_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"stability_status_at" diff:"stability_status_at"`
+	UpdatedAtMilli           int64                           `parquet:"name=updated_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"updated_at" diff:"updated_at"`
 }
 
 type Scale struct {
@@ -184,11 +184,11 @@ type Container struct {
 }
 
 type ManagedAgent struct {
-	LastStartedAt      *time.Time
-	LastStatus         string `parquet:"name=last_status,type=BYTE_ARRAY,convertedtype=UTF8" json:"last_status" diff:"last_status"`
-	Name               string `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8" json:"name" diff:"name"`
-	Reason             string `parquet:"name=reason,type=BYTE_ARRAY,convertedtype=UTF8" json:"reason" diff:"reason"`
-	LastStartedAtMilli int64  `parquet:"name=last_started_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"last_started_at" diff:"last_started_at"`
+	LastStartedAt      *time.Time `json:"-"`
+	LastStatus         string     `parquet:"name=last_status,type=BYTE_ARRAY,convertedtype=UTF8" json:"last_status" diff:"last_status"`
+	Name               string     `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8" json:"name" diff:"name"`
+	Reason             string     `parquet:"name=reason,type=BYTE_ARRAY,convertedtype=UTF8" json:"reason" diff:"reason"`
+	LastStartedAtMilli int64      `parquet:"name=last_started_at,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"last_started_at" diff:"last_started_at"`
 }
 
 type NetworkBinding struct {

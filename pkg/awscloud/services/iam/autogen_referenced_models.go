@@ -21,20 +21,20 @@ type AttachedPermissionsBoundary struct {
 }
 
 type RoleLastUsed struct {
-	LastUsedDate      *time.Time
-	Region            string `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8" json:"region" diff:"region"`
-	LastUsedDateMilli int64  `parquet:"name=last_used_date,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"last_used_date" diff:"last_used_date"`
+	LastUsedDate      *time.Time `json:"-"`
+	Region            string     `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8" json:"region" diff:"region"`
+	LastUsedDateMilli int64      `parquet:"name=last_used_date,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"last_used_date" diff:"last_used_date"`
 }
 
 type AccessKeyMetadata struct {
-	AccessKeyId     string `parquet:"name=access_key_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"access_key_id" diff:"access_key_id"`
-	CreateDate      *time.Time
-	Status          string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
-	CreateDateMilli int64  `parquet:"name=create_date,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"create_date" diff:"create_date"`
+	AccessKeyId     string     `parquet:"name=access_key_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"access_key_id" diff:"access_key_id"`
+	CreateDate      *time.Time `json:"-"`
+	Status          string     `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
+	CreateDateMilli int64      `parquet:"name=create_date,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"create_date" diff:"create_date"`
 }
 
 type LoginProfile struct {
-	CreateDate            *time.Time
-	PasswordResetRequired bool  `parquet:"name=password_reset_required,type=BOOLEAN" json:"password_reset_required" diff:"password_reset_required"`
-	CreateDateMilli       int64 `parquet:"name=create_date,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"create_date" diff:"create_date"`
+	CreateDate            *time.Time `json:"-"`
+	PasswordResetRequired bool       `parquet:"name=password_reset_required,type=BOOLEAN" json:"password_reset_required" diff:"password_reset_required"`
+	CreateDateMilli       int64      `parquet:"name=create_date,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"create_date" diff:"create_date"`
 }

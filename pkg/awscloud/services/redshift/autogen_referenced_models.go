@@ -50,11 +50,11 @@ type DataTransferProgress struct {
 }
 
 type DeferredMaintenanceWindow struct {
-	DeferMaintenanceEndTime        *time.Time
-	DeferMaintenanceIdentifier     string `parquet:"name=defer_maintenance_identifier,type=BYTE_ARRAY,convertedtype=UTF8" json:"defer_maintenance_identifier" diff:"defer_maintenance_identifier"`
-	DeferMaintenanceStartTime      *time.Time
-	DeferMaintenanceEndTimeMilli   int64 `parquet:"name=defer_maintenance_end_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"defer_maintenance_end_time" diff:"defer_maintenance_end_time"`
-	DeferMaintenanceStartTimeMilli int64 `parquet:"name=defer_maintenance_start_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"defer_maintenance_start_time" diff:"defer_maintenance_start_time"`
+	DeferMaintenanceEndTime        *time.Time `json:"-"`
+	DeferMaintenanceIdentifier     string     `parquet:"name=defer_maintenance_identifier,type=BYTE_ARRAY,convertedtype=UTF8" json:"defer_maintenance_identifier" diff:"defer_maintenance_identifier"`
+	DeferMaintenanceStartTime      *time.Time `json:"-"`
+	DeferMaintenanceEndTimeMilli   int64      `parquet:"name=defer_maintenance_end_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"defer_maintenance_end_time" diff:"defer_maintenance_end_time"`
+	DeferMaintenanceStartTimeMilli int64      `parquet:"name=defer_maintenance_start_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"defer_maintenance_start_time" diff:"defer_maintenance_start_time"`
 }
 
 type ElasticIpStatus struct {
@@ -106,16 +106,16 @@ type PendingModifiedValues struct {
 }
 
 type ReservedNodeExchangeStatus struct {
-	RequestTime                   *time.Time
-	ReservedNodeExchangeRequestId string `parquet:"name=reserved_node_exchange_request_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"reserved_node_exchange_request_id" diff:"reserved_node_exchange_request_id"`
-	SourceReservedNodeCount       int32  `parquet:"name=source_reserved_node_count,type=INT32" json:"source_reserved_node_count" diff:"source_reserved_node_count"`
-	SourceReservedNodeId          string `parquet:"name=source_reserved_node_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"source_reserved_node_id" diff:"source_reserved_node_id"`
-	SourceReservedNodeType        string `parquet:"name=source_reserved_node_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"source_reserved_node_type" diff:"source_reserved_node_type"`
-	Status                        string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
-	TargetReservedNodeCount       int32  `parquet:"name=target_reserved_node_count,type=INT32" json:"target_reserved_node_count" diff:"target_reserved_node_count"`
-	TargetReservedNodeOfferingId  string `parquet:"name=target_reserved_node_offering_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"target_reserved_node_offering_id" diff:"target_reserved_node_offering_id"`
-	TargetReservedNodeType        string `parquet:"name=target_reserved_node_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"target_reserved_node_type" diff:"target_reserved_node_type"`
-	RequestTimeMilli              int64  `parquet:"name=request_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"request_time" diff:"request_time"`
+	RequestTime                   *time.Time `json:"-"`
+	ReservedNodeExchangeRequestId string     `parquet:"name=reserved_node_exchange_request_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"reserved_node_exchange_request_id" diff:"reserved_node_exchange_request_id"`
+	SourceReservedNodeCount       int32      `parquet:"name=source_reserved_node_count,type=INT32" json:"source_reserved_node_count" diff:"source_reserved_node_count"`
+	SourceReservedNodeId          string     `parquet:"name=source_reserved_node_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"source_reserved_node_id" diff:"source_reserved_node_id"`
+	SourceReservedNodeType        string     `parquet:"name=source_reserved_node_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"source_reserved_node_type" diff:"source_reserved_node_type"`
+	Status                        string     `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
+	TargetReservedNodeCount       int32      `parquet:"name=target_reserved_node_count,type=INT32" json:"target_reserved_node_count" diff:"target_reserved_node_count"`
+	TargetReservedNodeOfferingId  string     `parquet:"name=target_reserved_node_offering_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"target_reserved_node_offering_id" diff:"target_reserved_node_offering_id"`
+	TargetReservedNodeType        string     `parquet:"name=target_reserved_node_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"target_reserved_node_type" diff:"target_reserved_node_type"`
+	RequestTimeMilli              int64      `parquet:"name=request_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"request_time" diff:"request_time"`
 }
 
 type ResizeInfo struct {

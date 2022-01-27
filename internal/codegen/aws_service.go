@@ -236,6 +236,7 @@ func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) e
 			SdkPath:           service.SdkPath,
 			SdkClientName:     service.ServiceCapName,
 			UtilizedFunctions: utilizedFunctions,
+			ServiceConfig:     service,
 		}
 
 		outputPath = outputBaseDirectory + "interfaces/" + "autogen_" + service.Name + "_client.go"
@@ -258,6 +259,16 @@ func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) e
 			outputFile.WriteString(helperFileCode)
 			outputFile.Close()
 		}
+
+		// generate the metadata route code
+		outputPath = serviceApiRoutePath + "autogen_metadata_route.go"
+		outputFile, err = os.Create(outputPath)
+		if err != nil {
+			panic(err)
+		}
+		metadataRouteFileCode := serviceTemplate.GetServiceMetadataRouteFileCode()
+		outputFile.WriteString(metadataRouteFileCode)
+		outputFile.Close()
 	}
 
 	// generate client interface code

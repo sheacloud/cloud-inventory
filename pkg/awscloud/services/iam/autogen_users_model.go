@@ -6,12 +6,12 @@ import (
 )
 
 type User struct {
-	Arn                   string `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"arn" diff:"arn"`
-	CreateDate            *time.Time
-	Path                  string `parquet:"name=path,type=BYTE_ARRAY,convertedtype=UTF8" json:"path" diff:"path"`
-	UserId                string `parquet:"name=user_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"user_id" diff:"user_id,identifier"`
-	UserName              string `parquet:"name=user_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"user_name" diff:"user_name"`
-	PasswordLastUsed      *time.Time
+	Arn                   string                       `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"arn" diff:"arn"`
+	CreateDate            *time.Time                   `json:"-"`
+	Path                  string                       `parquet:"name=path,type=BYTE_ARRAY,convertedtype=UTF8" json:"path" diff:"path"`
+	UserId                string                       `parquet:"name=user_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"user_id" diff:"user_id,identifier"`
+	UserName              string                       `parquet:"name=user_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"user_name" diff:"user_name"`
+	PasswordLastUsed      *time.Time                   `json:"-"`
 	PermissionsBoundary   *AttachedPermissionsBoundary `parquet:"name=permissions_boundary" json:"permissions_boundary" diff:"permissions_boundary"`
 	Tags                  map[string]string            `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8" json:"tags" diff:"tags"`
 	AccountId             string                       `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"account_id" diff:"account_id"`

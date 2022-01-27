@@ -171,11 +171,11 @@ type InstanceBlockDeviceMapping struct {
 }
 
 type EbsInstanceBlockDevice struct {
-	AttachTime          *time.Time
-	DeleteOnTermination bool   `parquet:"name=delete_on_termination,type=BOOLEAN" json:"delete_on_termination" diff:"delete_on_termination"`
-	Status              string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
-	VolumeId            string `parquet:"name=volume_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"volume_id" diff:"volume_id"`
-	AttachTimeMilli     int64  `parquet:"name=attach_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"attach_time" diff:"attach_time"`
+	AttachTime          *time.Time `json:"-"`
+	DeleteOnTermination bool       `parquet:"name=delete_on_termination,type=BOOLEAN" json:"delete_on_termination" diff:"delete_on_termination"`
+	Status              string     `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
+	VolumeId            string     `parquet:"name=volume_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"volume_id" diff:"volume_id"`
+	AttachTimeMilli     int64      `parquet:"name=attach_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"attach_time" diff:"attach_time"`
 }
 
 type CapacityReservationSpecificationResponse struct {
@@ -201,11 +201,11 @@ type ElasticGpuAssociation struct {
 }
 
 type ElasticInferenceAcceleratorAssociation struct {
-	ElasticInferenceAcceleratorArn                  string `parquet:"name=elastic_inference_accelerator_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"elastic_inference_accelerator_arn" diff:"elastic_inference_accelerator_arn"`
-	ElasticInferenceAcceleratorAssociationId        string `parquet:"name=elastic_inference_accelerator_association_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"elastic_inference_accelerator_association_id" diff:"elastic_inference_accelerator_association_id"`
-	ElasticInferenceAcceleratorAssociationState     string `parquet:"name=elastic_inference_accelerator_association_state,type=BYTE_ARRAY,convertedtype=UTF8" json:"elastic_inference_accelerator_association_state" diff:"elastic_inference_accelerator_association_state"`
-	ElasticInferenceAcceleratorAssociationTime      *time.Time
-	ElasticInferenceAcceleratorAssociationTimeMilli int64 `parquet:"name=elastic_inference_accelerator_association_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"elastic_inference_accelerator_association_time" diff:"elastic_inference_accelerator_association_time"`
+	ElasticInferenceAcceleratorArn                  string     `parquet:"name=elastic_inference_accelerator_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"elastic_inference_accelerator_arn" diff:"elastic_inference_accelerator_arn"`
+	ElasticInferenceAcceleratorAssociationId        string     `parquet:"name=elastic_inference_accelerator_association_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"elastic_inference_accelerator_association_id" diff:"elastic_inference_accelerator_association_id"`
+	ElasticInferenceAcceleratorAssociationState     string     `parquet:"name=elastic_inference_accelerator_association_state,type=BYTE_ARRAY,convertedtype=UTF8" json:"elastic_inference_accelerator_association_state" diff:"elastic_inference_accelerator_association_state"`
+	ElasticInferenceAcceleratorAssociationTime      *time.Time `json:"-"`
+	ElasticInferenceAcceleratorAssociationTimeMilli int64      `parquet:"name=elastic_inference_accelerator_association_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"elastic_inference_accelerator_association_time" diff:"elastic_inference_accelerator_association_time"`
 }
 
 type EnclaveOptions struct {
@@ -267,13 +267,13 @@ type InstanceNetworkInterfaceAssociation struct {
 }
 
 type InstanceNetworkInterfaceAttachment struct {
-	AttachTime          *time.Time
-	AttachmentId        string `parquet:"name=attachment_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"attachment_id" diff:"attachment_id"`
-	DeleteOnTermination bool   `parquet:"name=delete_on_termination,type=BOOLEAN" json:"delete_on_termination" diff:"delete_on_termination"`
-	DeviceIndex         int32  `parquet:"name=device_index,type=INT32" json:"device_index" diff:"device_index"`
-	NetworkCardIndex    int32  `parquet:"name=network_card_index,type=INT32" json:"network_card_index" diff:"network_card_index"`
-	Status              string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
-	AttachTimeMilli     int64  `parquet:"name=attach_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"attach_time" diff:"attach_time"`
+	AttachTime          *time.Time `json:"-"`
+	AttachmentId        string     `parquet:"name=attachment_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"attachment_id" diff:"attachment_id"`
+	DeleteOnTermination bool       `parquet:"name=delete_on_termination,type=BOOLEAN" json:"delete_on_termination" diff:"delete_on_termination"`
+	DeviceIndex         int32      `parquet:"name=device_index,type=INT32" json:"device_index" diff:"device_index"`
+	NetworkCardIndex    int32      `parquet:"name=network_card_index,type=INT32" json:"network_card_index" diff:"network_card_index"`
+	Status              string     `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
+	AttachTimeMilli     int64      `parquet:"name=attach_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"attach_time" diff:"attach_time"`
 }
 
 type GroupIdentifier struct {
@@ -335,13 +335,13 @@ type NatGatewayAddress struct {
 }
 
 type ProvisionedBandwidth struct {
-	ProvisionTime      *time.Time
-	Provisioned        string `parquet:"name=provisioned,type=BYTE_ARRAY,convertedtype=UTF8" json:"provisioned" diff:"provisioned"`
-	RequestTime        *time.Time
-	Requested          string `parquet:"name=requested,type=BYTE_ARRAY,convertedtype=UTF8" json:"requested" diff:"requested"`
-	Status             string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
-	ProvisionTimeMilli int64  `parquet:"name=provision_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"provision_time" diff:"provision_time"`
-	RequestTimeMilli   int64  `parquet:"name=request_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"request_time" diff:"request_time"`
+	ProvisionTime      *time.Time `json:"-"`
+	Provisioned        string     `parquet:"name=provisioned,type=BYTE_ARRAY,convertedtype=UTF8" json:"provisioned" diff:"provisioned"`
+	RequestTime        *time.Time `json:"-"`
+	Requested          string     `parquet:"name=requested,type=BYTE_ARRAY,convertedtype=UTF8" json:"requested" diff:"requested"`
+	Status             string     `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
+	ProvisionTimeMilli int64      `parquet:"name=provision_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"provision_time" diff:"provision_time"`
+	RequestTimeMilli   int64      `parquet:"name=request_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"request_time" diff:"request_time"`
 }
 
 type NetworkAclAssociation struct {
@@ -382,15 +382,15 @@ type NetworkInterfaceAssociation struct {
 }
 
 type NetworkInterfaceAttachment struct {
-	AttachTime          *time.Time
-	AttachmentId        string `parquet:"name=attachment_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"attachment_id" diff:"attachment_id"`
-	DeleteOnTermination bool   `parquet:"name=delete_on_termination,type=BOOLEAN" json:"delete_on_termination" diff:"delete_on_termination"`
-	DeviceIndex         int32  `parquet:"name=device_index,type=INT32" json:"device_index" diff:"device_index"`
-	InstanceId          string `parquet:"name=instance_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"instance_id" diff:"instance_id"`
-	InstanceOwnerId     string `parquet:"name=instance_owner_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"instance_owner_id" diff:"instance_owner_id"`
-	NetworkCardIndex    int32  `parquet:"name=network_card_index,type=INT32" json:"network_card_index" diff:"network_card_index"`
-	Status              string `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
-	AttachTimeMilli     int64  `parquet:"name=attach_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"attach_time" diff:"attach_time"`
+	AttachTime          *time.Time `json:"-"`
+	AttachmentId        string     `parquet:"name=attachment_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"attachment_id" diff:"attachment_id"`
+	DeleteOnTermination bool       `parquet:"name=delete_on_termination,type=BOOLEAN" json:"delete_on_termination" diff:"delete_on_termination"`
+	DeviceIndex         int32      `parquet:"name=device_index,type=INT32" json:"device_index" diff:"device_index"`
+	InstanceId          string     `parquet:"name=instance_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"instance_id" diff:"instance_id"`
+	InstanceOwnerId     string     `parquet:"name=instance_owner_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"instance_owner_id" diff:"instance_owner_id"`
+	NetworkCardIndex    int32      `parquet:"name=network_card_index,type=INT32" json:"network_card_index" diff:"network_card_index"`
+	Status              string     `parquet:"name=status,type=BYTE_ARRAY,convertedtype=UTF8" json:"status" diff:"status"`
+	AttachTimeMilli     int64      `parquet:"name=attach_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"attach_time" diff:"attach_time"`
 }
 
 type Ipv4PrefixSpecification struct {
@@ -537,13 +537,13 @@ type TransitGatewayOptions struct {
 }
 
 type VolumeAttachment struct {
-	AttachTime          *time.Time
-	DeleteOnTermination bool   `parquet:"name=delete_on_termination,type=BOOLEAN" json:"delete_on_termination" diff:"delete_on_termination"`
-	Device              string `parquet:"name=device,type=BYTE_ARRAY,convertedtype=UTF8" json:"device" diff:"device"`
-	InstanceId          string `parquet:"name=instance_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"instance_id" diff:"instance_id"`
-	State               string `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8" json:"state" diff:"state"`
-	VolumeId            string `parquet:"name=volume_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"volume_id" diff:"volume_id,identifier"`
-	AttachTimeMilli     int64  `parquet:"name=attach_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"attach_time" diff:"attach_time"`
+	AttachTime          *time.Time `json:"-"`
+	DeleteOnTermination bool       `parquet:"name=delete_on_termination,type=BOOLEAN" json:"delete_on_termination" diff:"delete_on_termination"`
+	Device              string     `parquet:"name=device,type=BYTE_ARRAY,convertedtype=UTF8" json:"device" diff:"device"`
+	InstanceId          string     `parquet:"name=instance_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"instance_id" diff:"instance_id"`
+	State               string     `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8" json:"state" diff:"state"`
+	VolumeId            string     `parquet:"name=volume_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"volume_id" diff:"volume_id,identifier"`
+	AttachTimeMilli     int64      `parquet:"name=attach_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"attach_time" diff:"attach_time"`
 }
 
 type DnsEntry struct {

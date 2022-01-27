@@ -59,7 +59,7 @@ cd ../../
 ```
 6. Deploy the Athena views
 ```
-go run ./cmd/autogen-views
+go run ./cmd/autogen-athena-views
 ```
 
 ## Run an inventory fetch to populate data into S3

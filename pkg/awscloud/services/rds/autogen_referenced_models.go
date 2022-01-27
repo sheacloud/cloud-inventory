@@ -134,9 +134,9 @@ type PendingModifiedValues struct {
 	PendingCloudwatchLogsExports      *PendingCloudwatchLogsExports `parquet:"name=pending_cloudwatch_logs_exports" json:"pending_cloudwatch_logs_exports" diff:"pending_cloudwatch_logs_exports"`
 	Port                              int32                         `parquet:"name=port,type=INT32" json:"port" diff:"port"`
 	ProcessorFeatures                 []*ProcessorFeature           `parquet:"name=processor_features,type=MAP,convertedtype=LIST" json:"processor_features" diff:"processor_features"`
-	ResumeFullAutomationModeTime      *time.Time
-	StorageType                       string `parquet:"name=storage_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"storage_type" diff:"storage_type"`
-	ResumeFullAutomationModeTimeMilli int64  `parquet:"name=resume_full_automation_mode_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"resume_full_automation_mode_time" diff:"resume_full_automation_mode_time"`
+	ResumeFullAutomationModeTime      *time.Time                    `json:"-"`
+	StorageType                       string                        `parquet:"name=storage_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"storage_type" diff:"storage_type"`
+	ResumeFullAutomationModeTimeMilli int64                         `parquet:"name=resume_full_automation_mode_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"resume_full_automation_mode_time" diff:"resume_full_automation_mode_time"`
 }
 
 type ProcessorFeature struct {

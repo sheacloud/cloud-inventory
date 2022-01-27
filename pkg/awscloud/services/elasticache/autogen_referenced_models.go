@@ -6,15 +6,15 @@ import (
 )
 
 type CacheNode struct {
-	CacheNodeCreateTime      *time.Time
-	CacheNodeId              string    `parquet:"name=cache_node_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"cache_node_id" diff:"cache_node_id"`
-	CacheNodeStatus          string    `parquet:"name=cache_node_status,type=BYTE_ARRAY,convertedtype=UTF8" json:"cache_node_status" diff:"cache_node_status"`
-	CustomerAvailabilityZone string    `parquet:"name=customer_availability_zone,type=BYTE_ARRAY,convertedtype=UTF8" json:"customer_availability_zone" diff:"customer_availability_zone"`
-	CustomerOutpostArn       string    `parquet:"name=customer_outpost_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"customer_outpost_arn" diff:"customer_outpost_arn"`
-	Endpoint                 *Endpoint `parquet:"name=endpoint" json:"endpoint" diff:"endpoint"`
-	ParameterGroupStatus     string    `parquet:"name=parameter_group_status,type=BYTE_ARRAY,convertedtype=UTF8" json:"parameter_group_status" diff:"parameter_group_status"`
-	SourceCacheNodeId        string    `parquet:"name=source_cache_node_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"source_cache_node_id" diff:"source_cache_node_id"`
-	CacheNodeCreateTimeMilli int64     `parquet:"name=cache_node_create_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"cache_node_create_time" diff:"cache_node_create_time"`
+	CacheNodeCreateTime      *time.Time `json:"-"`
+	CacheNodeId              string     `parquet:"name=cache_node_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"cache_node_id" diff:"cache_node_id"`
+	CacheNodeStatus          string     `parquet:"name=cache_node_status,type=BYTE_ARRAY,convertedtype=UTF8" json:"cache_node_status" diff:"cache_node_status"`
+	CustomerAvailabilityZone string     `parquet:"name=customer_availability_zone,type=BYTE_ARRAY,convertedtype=UTF8" json:"customer_availability_zone" diff:"customer_availability_zone"`
+	CustomerOutpostArn       string     `parquet:"name=customer_outpost_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"customer_outpost_arn" diff:"customer_outpost_arn"`
+	Endpoint                 *Endpoint  `parquet:"name=endpoint" json:"endpoint" diff:"endpoint"`
+	ParameterGroupStatus     string     `parquet:"name=parameter_group_status,type=BYTE_ARRAY,convertedtype=UTF8" json:"parameter_group_status" diff:"parameter_group_status"`
+	SourceCacheNodeId        string     `parquet:"name=source_cache_node_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"source_cache_node_id" diff:"source_cache_node_id"`
+	CacheNodeCreateTimeMilli int64      `parquet:"name=cache_node_create_time,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"cache_node_create_time" diff:"cache_node_create_time"`
 }
 
 type Endpoint struct {

@@ -6,8 +6,8 @@ import (
 )
 
 type VpcPeeringConnection struct {
-	AccepterVpcInfo        *VpcPeeringConnectionVpcInfo `parquet:"name=accepter_vpc_info" json:"accepter_vpc_info" diff:"accepter_vpc_info"`
-	ExpirationTime         *time.Time
+	AccepterVpcInfo        *VpcPeeringConnectionVpcInfo     `parquet:"name=accepter_vpc_info" json:"accepter_vpc_info" diff:"accepter_vpc_info"`
+	ExpirationTime         *time.Time                       `json:"-"`
 	RequesterVpcInfo       *VpcPeeringConnectionVpcInfo     `parquet:"name=requester_vpc_info" json:"requester_vpc_info" diff:"requester_vpc_info"`
 	Status                 *VpcPeeringConnectionStateReason `parquet:"name=status" json:"status" diff:"status"`
 	Tags                   map[string]string                `parquet:"name=tags,type=MAP,keytype=BYTE_ARRAY,valuetype=BYTE_ARRAY,keyconvertedtype=UTF8,valueconvertedtype=UTF8" json:"tags" diff:"tags"`

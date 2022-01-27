@@ -33,6 +33,7 @@ const (
 	RequestTimeSelectionOptionLatest = RequestTimeSelectionOption("latest")
 	RequestTimeSelectionOptionBefore = RequestTimeSelectionOption("before")
 	RequestTimeSelectionOptionAfter  = RequestTimeSelectionOption("after")
+	RequestTimeSelectionOptionAt     = RequestTimeSelectionOption("at")
 )
 
 type ParquetS3DirectoryReader struct {
@@ -61,12 +62,35 @@ func NewParquetS3DirectoryReader(ctx context.Context, bucket string, indices []s
 		currentFileIndex: 0,
 	}
 
-	err := reader.DetermineDataFiles()
+	return reader, nil
+}
+
+func (r *ParquetS3DirectoryReader) GetAvailableDateTimes() ([]string, error) {
+	// download the manifest for the given request
+	indexPath := strings.Join(r.indices, "/")
+	manifestFileName := fmt.Sprintf("manifests/%s/report_date=%s/manifest.json", indexPath, r.reportDate)
+	manifestFile, err := r.Api.GetObject(r.ctx, &s3.GetObjectInput{
+		Bucket: aws.String(r.Bucket),
+		Key:    aws.String(manifestFileName),
+	})
 	if err != nil {
 		return nil, err
 	}
 
-	return reader, nil
+	manifest := &ParquetS3Manifest{}
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(manifestFile.Body)
+	err = json.Unmarshal(buf.Bytes(), manifest)
+	if err != nil {
+		return nil, err
+	}
+
+	manifestTimes := []string{}
+	for _, reportFile := range manifest.ReportFiles {
+		manifestTimes = append(manifestTimes, time.UnixMilli(reportFile.ReportTime).UTC().Format(time.RFC3339Nano))
+	}
+
+	return manifestTimes, nil
 }
 
 func (r *ParquetS3DirectoryReader) DetermineDataFiles() error {
@@ -120,6 +144,18 @@ func (r *ParquetS3DirectoryReader) DetermineDataFiles() error {
 			return fmt.Errorf("no data from %s after %s", r.reportDate, r.selection.ReferencedTime)
 		}
 		desiredReportTime = earliestTime
+	case RequestTimeSelectionOptionAt:
+		desiredReportTime = r.selection.ReferencedTime.UTC().UnixMilli()
+		validRequestTime := false
+		for _, reportFile := range manifest.ReportFiles {
+			if reportFile.ReportTime == desiredReportTime {
+				validRequestTime = true
+				break
+			}
+		}
+		if !validRequestTime {
+			return fmt.Errorf("no data from %s at %s", r.reportDate, r.selection.ReferencedTime)
+		}
 	}
 
 	for _, reportFile := range manifest.ReportFiles {

@@ -6,7 +6,7 @@ import (
 )
 
 type TransitGatewayVpcAttachment struct {
-	CreationTime               *time.Time
+	CreationTime               *time.Time                          `json:"-"`
 	Options                    *TransitGatewayVpcAttachmentOptions `parquet:"name=options" json:"options" diff:"options"`
 	State                      string                              `parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8" json:"state" diff:"state"`
 	SubnetIds                  []string                            `parquet:"name=subnet_ids,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"subnet_ids" diff:"subnet_ids"`

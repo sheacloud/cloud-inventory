@@ -6,9 +6,9 @@ import (
 )
 
 type NatGateway struct {
-	ConnectivityType     string `parquet:"name=connectivity_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"connectivity_type" diff:"connectivity_type"`
-	CreateTime           *time.Time
-	DeleteTime           *time.Time
+	ConnectivityType     string                `parquet:"name=connectivity_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"connectivity_type" diff:"connectivity_type"`
+	CreateTime           *time.Time            `json:"-"`
+	DeleteTime           *time.Time            `json:"-"`
 	FailureCode          string                `parquet:"name=failure_code,type=BYTE_ARRAY,convertedtype=UTF8" json:"failure_code" diff:"failure_code"`
 	FailureMessage       string                `parquet:"name=failure_message,type=BYTE_ARRAY,convertedtype=UTF8" json:"failure_message" diff:"failure_message"`
 	NatGatewayAddresses  []*NatGatewayAddress  `parquet:"name=nat_gateway_addresses,type=MAP,convertedtype=LIST" json:"nat_gateway_addresses" diff:"nat_gateway_addresses"`

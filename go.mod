@@ -23,6 +23,7 @@ require (
 	github.com/aws/smithy-go v1.9.1
 	github.com/awslabs/aws-lambda-go-api-proxy v0.12.0
 	github.com/fatih/structtag v1.2.0
+	github.com/gin-gonic/contrib v0.0.0-20201101042839-6a891bf89f19
 	github.com/gin-gonic/gin v1.7.7
 	github.com/google/uuid v1.3.0
 	github.com/hashicorp/hcl/v2 v2.11.1

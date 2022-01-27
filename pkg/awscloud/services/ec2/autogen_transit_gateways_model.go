@@ -6,7 +6,7 @@ import (
 )
 
 type TransitGateway struct {
-	CreationTime      *time.Time
+	CreationTime      *time.Time             `json:"-"`
 	Description       string                 `parquet:"name=description,type=BYTE_ARRAY,convertedtype=UTF8" json:"description" diff:"description"`
 	Options           *TransitGatewayOptions `parquet:"name=options" json:"options" diff:"options"`
 	OwnerId           string                 `parquet:"name=owner_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"owner_id" diff:"owner_id"`

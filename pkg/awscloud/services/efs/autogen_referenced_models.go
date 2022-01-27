@@ -6,11 +6,11 @@ import (
 )
 
 type FileSystemSize struct {
-	Value           int64 `parquet:"name=value,type=INT64" json:"value" diff:"value"`
-	Timestamp       *time.Time
-	ValueInIA       int64 `parquet:"name=value_in_ia,type=INT64" json:"value_in_ia" diff:"value_in_ia"`
-	ValueInStandard int64 `parquet:"name=value_in_standard,type=INT64" json:"value_in_standard" diff:"value_in_standard"`
-	TimestampMilli  int64 `parquet:"name=timestamp,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"timestamp" diff:"timestamp"`
+	Value           int64      `parquet:"name=value,type=INT64" json:"value" diff:"value"`
+	Timestamp       *time.Time `json:"-"`
+	ValueInIA       int64      `parquet:"name=value_in_ia,type=INT64" json:"value_in_ia" diff:"value_in_ia"`
+	ValueInStandard int64      `parquet:"name=value_in_standard,type=INT64" json:"value_in_standard" diff:"value_in_standard"`
+	TimestampMilli  int64      `parquet:"name=timestamp,type=INT64,convertedtype=TIMESTAMP_MILLIS" json:"timestamp" diff:"timestamp"`
 }
 
 type Tag struct {

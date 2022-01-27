@@ -31,8 +31,6 @@ definitions:
         type: integer
       archival_reason:
         type: string
-      archivalDateTime:
-        type: string
     type: object
   dynamodb.AttributeDefinition:
     properties:
@@ -47,8 +45,6 @@ definitions:
         type: string
       last_update_to_pay_per_request_date_time:
         type: integer
-      lastUpdateToPayPerRequestDateTime:
-        type: string
     type: object
   dynamodb.GlobalSecondaryIndexDescription:
     properties:
@@ -112,10 +108,6 @@ definitions:
         type: integer
       last_increase_date_time:
         type: integer
-      lastDecreaseDateTime:
-        type: string
-      lastIncreaseDateTime:
-        type: string
       number_of_decreases_today:
         type: integer
       read_capacity_units:
@@ -150,8 +142,6 @@ definitions:
         type: string
       replica_table_class_summary:
         $ref: '#/definitions/dynamodb.TableClassSummary'
-      replicaInaccessibleDateTime:
-        type: string
     type: object
   dynamodb.ReplicaGlobalSecondaryIndexDescription:
     properties:
@@ -166,8 +156,6 @@ definitions:
         type: integer
       restore_in_progress:
         type: boolean
-      restoreDateTime:
-        type: string
       source_backup_arn:
         type: string
       source_table_arn:
@@ -177,8 +165,6 @@ definitions:
     properties:
       inaccessible_encryption_date_time:
         type: integer
-      inaccessibleEncryptionDateTime:
-        type: string
       kms_master_key_arn:
         type: string
       sse_type:
@@ -197,8 +183,6 @@ definitions:
     properties:
       last_update_date_time:
         type: integer
-      lastUpdateDateTime:
-        type: string
       table_class:
         type: string
     type: object
@@ -216,8 +200,6 @@ definitions:
         $ref: '#/definitions/dynamodb.BillingModeSummary'
       creation_date_time:
         type: integer
-      creationDateTime:
-        type: string
       global_secondary_indexes:
         items:
           $ref: '#/definitions/dynamodb.GlobalSecondaryIndexDescription'
@@ -434,8 +416,6 @@ definitions:
     properties:
       attach_time:
         type: integer
-      attachTime:
-        type: string
       delete_on_termination:
         type: boolean
       status:
@@ -484,8 +464,6 @@ definitions:
         type: string
       elastic_inference_accelerator_association_time:
         type: integer
-      elasticInferenceAcceleratorAssociationTime:
-        type: string
     type: object
   ec2.EnclaveOptions:
     properties:
@@ -713,8 +691,6 @@ definitions:
         type: string
       launch_time:
         type: integer
-      launchTime:
-        type: string
       licenses:
         items:
           $ref: '#/definitions/ec2.LicenseConfiguration'
@@ -785,8 +761,6 @@ definitions:
         type: string
       usage_operation_update_time:
         type: integer
-      usageOperationUpdateTime:
-        type: string
       virtualization_type:
         type: string
       vpc_id:
@@ -893,8 +867,6 @@ definitions:
     properties:
       attach_time:
         type: integer
-      attachTime:
-        type: string
       attachment_id:
         type: string
       delete_on_termination:
@@ -1145,12 +1117,8 @@ definitions:
         type: string
       create_time:
         type: integer
-      createTime:
-        type: string
       delete_time:
         type: integer
-      deleteTime:
-        type: string
       failure_code:
         type: string
       failure_message:
@@ -1378,8 +1346,6 @@ definitions:
     properties:
       attach_time:
         type: integer
-      attachTime:
-        type: string
       attachment_id:
         type: string
       delete_on_termination:
@@ -1533,14 +1499,10 @@ definitions:
     properties:
       provision_time:
         type: integer
-      provisionTime:
-        type: string
       provisioned:
         type: string
       request_time:
         type: integer
-      requestTime:
-        type: string
       requested:
         type: string
       status:
@@ -1812,8 +1774,6 @@ definitions:
         type: string
       creation_time:
         type: integer
-      creationTime:
-        type: string
       description:
         type: string
       options:
@@ -1868,8 +1828,6 @@ definitions:
         type: string
       creation_time:
         type: integer
-      creationTime:
-        type: string
       region:
         type: string
       report_time:
@@ -1893,8 +1851,6 @@ definitions:
         type: string
       creation_time:
         type: integer
-      creationTime:
-        type: string
       default_association_route_table:
         type: boolean
       default_propagation_route_table:
@@ -1920,8 +1876,6 @@ definitions:
         type: string
       creation_time:
         type: integer
-      creationTime:
-        type: string
       options:
         $ref: '#/definitions/ec2.TransitGatewayVpcAttachmentOptions'
       region:
@@ -2002,8 +1956,6 @@ definitions:
         type: string
       create_time:
         type: integer
-      createTime:
-        type: string
       encrypted:
         type: boolean
       fast_restored:
@@ -2041,8 +1993,6 @@ definitions:
     properties:
       attach_time:
         type: integer
-      attachTime:
-        type: string
       delete_on_termination:
         type: boolean
       device:
@@ -2118,8 +2068,6 @@ definitions:
         type: string
       creation_timestamp:
         type: integer
-      creationTimestamp:
-        type: string
       dns_entries:
         items:
           $ref: '#/definitions/ec2.DnsEntry'
@@ -2190,8 +2138,6 @@ definitions:
         type: string
       expiration_time:
         type: integer
-      expirationTime:
-        type: string
       region:
         type: string
       report_time:
@@ -2460,8 +2406,6 @@ definitions:
         type: array
       created_at:
         type: integer
-      createdAt:
-        type: string
       desired_count:
         type: integer
       failed_tasks:
@@ -2490,8 +2434,6 @@ definitions:
         type: string
       updated_at:
         type: integer
-      updatedAt:
-        type: string
     type: object
   ecs.DeploymentCircuitBreaker:
     properties:
@@ -2586,8 +2528,6 @@ definitions:
         type: integer
       last_status:
         type: string
-      lastStartedAt:
-        type: string
       name:
         type: string
       reason:
@@ -2659,8 +2599,6 @@ definitions:
       created_at:
         type: integer
       created_by:
-        type: string
-      createdAt:
         type: string
       deployment_configuration:
         $ref: '#/definitions/ecs.DeploymentConfiguration'
@@ -2773,8 +2711,6 @@ definitions:
         type: string
       connectivity_at:
         type: integer
-      connectivityAt:
-        type: string
       container_instance_arn:
         type: string
       containers:
@@ -2785,8 +2721,6 @@ definitions:
         type: string
       created_at:
         type: integer
-      createdAt:
-        type: string
       desired_status:
         type: string
       enable_execute_command:
@@ -2795,8 +2729,6 @@ definitions:
         $ref: '#/definitions/ecs.EphemeralStorage'
       execution_stopped_at:
         type: integer
-      executionStoppedAt:
-        type: string
       group:
         type: string
       health_status:
@@ -2821,10 +2753,6 @@ definitions:
         type: integer
       pull_stopped_at:
         type: integer
-      pullStartedAt:
-        type: string
-      pullStoppedAt:
-        type: string
       region:
         type: string
       report_time:
@@ -2833,20 +2761,14 @@ definitions:
         type: integer
       started_by:
         type: string
-      startedAt:
-        type: string
       stop_code:
         type: string
       stopped_at:
         type: integer
       stopped_reason:
         type: string
-      stoppedAt:
-        type: string
       stopping_at:
         type: integer
-      stoppingAt:
-        type: string
       tags:
         additionalProperties:
           type: string
@@ -2891,8 +2813,6 @@ definitions:
         type: integer
       created_at:
         type: integer
-      createdAt:
-        type: string
       external_id:
         type: string
       id:
@@ -2925,8 +2845,6 @@ definitions:
         type: string
       stability_status_at:
         type: integer
-      stabilityStatusAt:
-        type: string
       started_by:
         type: string
       status:
@@ -2941,8 +2859,6 @@ definitions:
         type: string
       updated_at:
         type: integer
-      updatedAt:
-        type: string
     type: object
   efs.FileSystemDescription:
     properties:
@@ -2955,8 +2871,6 @@ definitions:
       creation_time:
         type: integer
       creation_token:
-        type: string
-      creationTime:
         type: string
       encrypted:
         type: boolean
@@ -3014,8 +2928,6 @@ definitions:
         type: boolean
       auth_token_last_modified_date:
         type: integer
-      authTokenLastModifiedDate:
-        type: string
       auto_minor_version_upgrade:
         type: boolean
       cache_cluster_create_time:
@@ -3037,8 +2949,6 @@ definitions:
           $ref: '#/definitions/elasticache.CacheSecurityGroupMembership'
         type: array
       cache_subnet_group_name:
-        type: string
-      cacheClusterCreateTime:
         type: string
       client_download_landing_page:
         type: string
@@ -3094,8 +3004,6 @@ definitions:
       cache_node_id:
         type: string
       cache_node_status:
-        type: string
-      cacheNodeCreateTime:
         type: string
       customer_availability_zone:
         type: string
@@ -3290,8 +3198,6 @@ definitions:
         type: string
       created_time:
         type: integer
-      createdTime:
-        type: string
       dns_name:
         type: string
       health_check:
@@ -3493,8 +3399,6 @@ definitions:
         type: string
       created_time:
         type: integer
-      createdTime:
-        type: string
       customer_owned_ipv4_pool:
         type: string
       dns_name:
@@ -3672,8 +3576,6 @@ definitions:
         type: string
       create_date:
         type: integer
-      createDate:
-        type: string
       status:
         type: string
     type: object
@@ -3703,8 +3605,6 @@ definitions:
         type: array
       create_date:
         type: integer
-      createDate:
-        type: string
       group_id:
         type: string
       group_name:
@@ -3728,8 +3628,6 @@ definitions:
     properties:
       create_date:
         type: integer
-      createDate:
-        type: string
       password_reset_required:
         type: boolean
     type: object
@@ -3743,8 +3641,6 @@ definitions:
         type: integer
       create_date:
         type: integer
-      createDate:
-        type: string
       default_version_id:
         type: string
       description:
@@ -3769,8 +3665,6 @@ definitions:
         type: object
       update_date:
         type: integer
-      updateDate:
-        type: string
     type: object
   iam.Role:
     properties:
@@ -3784,8 +3678,6 @@ definitions:
         type: array
       create_date:
         type: integer
-      createDate:
-        type: string
       description:
         type: string
       inline_policies:
@@ -3817,8 +3709,6 @@ definitions:
     properties:
       last_used_date:
         type: integer
-      lastUsedDate:
-        type: string
       region:
         type: string
     type: object
@@ -3838,8 +3728,6 @@ definitions:
         type: array
       create_date:
         type: integer
-      createDate:
-        type: string
       group_ids:
         items:
           type: string
@@ -3852,8 +3740,6 @@ definitions:
         $ref: '#/definitions/iam.LoginProfile'
       password_last_used:
         type: integer
-      passwordLastUsed:
-        type: string
       path:
         type: string
       permissions_boundary:
@@ -4056,8 +3942,6 @@ definitions:
         type: boolean
       automatic_restart_time:
         type: integer
-      automaticRestartTime:
-        type: string
       availability_zones:
         items:
           type: string
@@ -4076,8 +3960,6 @@ definitions:
         type: string
       cluster_create_time:
         type: integer
-      clusterCreateTime:
-        type: string
       copy_tags_to_snapshot:
         type: boolean
       cross_account_clone:
@@ -4118,10 +4000,6 @@ definitions:
         type: integer
       earliest_restorable_time:
         type: integer
-      earliestBacktrackTime:
-        type: string
-      earliestRestorableTime:
-        type: string
       enabled_cloudwatch_logs_exports:
         items:
           type: string
@@ -4150,8 +4028,6 @@ definitions:
         type: string
       latest_restorable_time:
         type: integer
-      latestRestorableTime:
-        type: string
       master_username:
         type: string
       monitoring_interval:
@@ -4258,8 +4134,6 @@ definitions:
         type: boolean
       automatic_restart_time:
         type: integer
-      automaticRestartTime:
-        type: string
       automation_mode:
         type: string
       availability_zone:
@@ -4332,16 +4206,12 @@ definitions:
         type: boolean
       instance_create_time:
         type: integer
-      instanceCreateTime:
-        type: string
       iops:
         type: integer
       kms_key_id:
         type: string
       latest_restorable_time:
         type: integer
-      latestRestorableTime:
-        type: string
       license_model:
         type: string
       listener_endpoint:
@@ -4400,8 +4270,6 @@ definitions:
         type: integer
       resume_full_automation_mode_time:
         type: integer
-      resumeFullAutomationModeTime:
-        type: string
       secondary_availability_zone:
         type: string
       status_infos:
@@ -4562,8 +4430,6 @@ definitions:
         type: array
       resume_full_automation_mode_time:
         type: integer
-      resumeFullAutomationModeTime:
-        type: string
       storage_type:
         type: string
     type: object
@@ -4660,8 +4526,6 @@ definitions:
         type: string
       cluster_version:
         type: string
-      clusterCreateTime:
-        type: string
       data_transfer_progress:
         $ref: '#/definitions/redshift.DataTransferProgress'
       db_name:
@@ -4686,8 +4550,6 @@ definitions:
         type: integer
       expected_next_snapshot_schedule_time_status:
         type: string
-      expectedNextSnapshotScheduleTime:
-        type: string
       hsm_status:
         $ref: '#/definitions/redshift.HsmStatus'
       iam_roles:
@@ -4706,8 +4568,6 @@ definitions:
         type: string
       next_maintenance_window_start_time:
         type: integer
-      nextMaintenanceWindowStartTime:
-        type: string
       node_type:
         type: string
       number_of_nodes:
@@ -4826,10 +4686,6 @@ definitions:
         type: string
       defer_maintenance_start_time:
         type: integer
-      deferMaintenanceEndTime:
-        type: string
-      deferMaintenanceStartTime:
-        type: string
     type: object
   redshift.ElasticIpStatus:
     properties:
@@ -4896,8 +4752,6 @@ definitions:
     properties:
       request_time:
         type: integer
-      requestTime:
-        type: string
       reserved_node_exchange_request_id:
         type: string
       source_reserved_node_count:
@@ -5005,6 +4859,29 @@ definitions:
       vpc_region:
         type: string
     type: object
+  routes.AwsMetadata:
+    properties:
+      services:
+        items:
+          type: string
+        type: array
+    type: object
+  routes.AwsResourceMetadata:
+    properties:
+      datetimes:
+        items:
+          type: string
+        type: array
+      id_field:
+        type: string
+    type: object
+  routes.AwsServiceMetadata:
+    properties:
+      resources:
+        items:
+          type: string
+        type: array
+    type: object
   routes.Diff:
     properties:
       from: {}
@@ -5040,8 +4917,6 @@ definitions:
         type: array
       creation_date:
         type: integer
-      creationDate:
-        type: string
       intelligent_tiering_configurations:
         items:
           $ref: '#/definitions/s3.IntelligentTieringConfiguration'
@@ -5439,11 +5314,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -5459,11 +5335,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -5505,11 +5382,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -5525,11 +5403,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -5576,11 +5455,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -5596,11 +5476,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -5642,11 +5523,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -5662,11 +5544,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -5713,11 +5596,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -5733,11 +5617,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -5779,11 +5664,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -5799,11 +5685,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -5850,11 +5737,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -5870,11 +5758,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -5916,11 +5805,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -5936,11 +5826,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -5987,11 +5878,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -6007,11 +5899,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -6053,11 +5946,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -6073,11 +5967,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -6124,11 +6019,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -6144,11 +6040,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -6190,11 +6087,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -6210,11 +6108,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -6261,11 +6160,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -6281,11 +6181,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -6327,11 +6228,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -6347,11 +6249,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -6398,11 +6301,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -6418,11 +6322,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -6464,11 +6369,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -6484,11 +6390,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -6535,11 +6442,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -6555,11 +6463,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -6601,11 +6510,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -6621,11 +6531,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -6672,11 +6583,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -6692,11 +6604,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -6738,11 +6651,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -6758,11 +6672,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -6809,11 +6724,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -6829,11 +6745,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -6875,11 +6792,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -6895,11 +6813,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -6946,11 +6865,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -6966,11 +6886,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -7012,11 +6933,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -7032,11 +6954,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -7083,11 +7006,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -7103,11 +7027,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -7149,11 +7074,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -7169,11 +7095,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -7220,11 +7147,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -7240,11 +7168,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -7286,11 +7215,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -7306,11 +7236,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -7357,11 +7288,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -7377,11 +7309,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -7423,11 +7356,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -7443,11 +7377,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -7494,11 +7429,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -7514,11 +7450,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -7560,11 +7497,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -7580,11 +7518,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -7631,11 +7570,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -7651,11 +7591,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -7697,11 +7638,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -7717,11 +7659,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -7769,11 +7712,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -7789,11 +7733,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -7836,11 +7781,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -7856,11 +7802,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -7908,11 +7855,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -7928,11 +7876,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -7974,11 +7923,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -7994,11 +7944,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -8047,11 +7998,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -8067,11 +8019,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -8114,11 +8067,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -8134,11 +8088,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -8186,11 +8141,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -8206,11 +8162,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -8252,11 +8209,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -8272,11 +8230,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -8323,11 +8282,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -8343,11 +8303,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -8389,11 +8350,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -8409,11 +8371,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -8460,11 +8423,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -8480,11 +8444,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -8526,11 +8491,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -8546,11 +8512,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -8597,11 +8564,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -8617,11 +8585,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -8663,11 +8632,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -8683,11 +8653,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -8735,11 +8706,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -8755,11 +8727,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -8801,11 +8774,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -8821,11 +8795,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -8872,11 +8847,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -8892,11 +8868,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -8938,11 +8915,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -8958,11 +8936,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -9009,11 +8988,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -9029,11 +9009,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -9075,11 +9056,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -9095,11 +9077,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -9146,11 +9129,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -9166,11 +9150,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -9212,11 +9197,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -9232,11 +9218,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -9283,11 +9270,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -9303,11 +9291,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -9349,11 +9338,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -9369,11 +9359,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -9420,11 +9411,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -9440,11 +9432,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -9486,11 +9479,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -9506,11 +9500,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -9557,11 +9552,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -9577,11 +9573,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -9623,11 +9620,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -9643,11 +9641,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -9694,11 +9693,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -9714,11 +9714,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -9760,11 +9761,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -9780,11 +9782,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -9831,11 +9834,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -9851,11 +9855,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -9897,11 +9902,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -9917,11 +9923,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -9968,11 +9975,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -9988,11 +9996,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -10034,11 +10043,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -10054,11 +10064,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -10105,11 +10116,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -10125,11 +10137,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -10171,11 +10184,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -10191,11 +10205,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -10242,11 +10257,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -10262,11 +10278,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -10308,11 +10325,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -10328,11 +10346,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -10379,11 +10398,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -10399,11 +10419,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -10445,11 +10466,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -10465,11 +10487,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -10516,11 +10539,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -10536,11 +10560,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -10582,11 +10607,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -10602,11 +10628,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -10653,11 +10680,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -10673,11 +10701,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -10719,11 +10748,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -10739,11 +10769,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -10790,11 +10821,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -10810,11 +10842,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -10856,11 +10889,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -10876,11 +10910,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -10927,11 +10962,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -10947,11 +10983,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -10993,11 +11030,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -11013,11 +11051,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -11064,11 +11103,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -11084,11 +11124,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -11130,11 +11171,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -11150,11 +11192,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -11201,11 +11244,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -11221,11 +11265,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -11267,11 +11312,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -11287,11 +11333,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -11338,11 +11385,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -11358,11 +11406,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -11404,11 +11453,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: start_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: start_time_selection_reference
@@ -11424,11 +11474,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: end_time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: end_time_selection_reference
@@ -11482,11 +11533,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -11532,11 +11584,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -11577,11 +11630,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -11627,11 +11681,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -11672,11 +11727,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -11722,11 +11778,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -11767,11 +11824,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -11817,11 +11875,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -11862,11 +11921,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -11912,11 +11972,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -11957,11 +12018,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12007,11 +12069,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12052,11 +12115,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12102,11 +12166,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12147,11 +12212,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12197,11 +12263,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12242,11 +12309,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12292,11 +12360,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12337,11 +12406,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12387,11 +12457,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12432,11 +12503,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12482,11 +12554,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12527,11 +12600,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12577,11 +12651,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12622,11 +12697,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12672,11 +12748,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12717,11 +12794,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12767,11 +12845,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12812,11 +12891,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12862,11 +12942,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12907,11 +12988,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -12957,11 +13039,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13002,11 +13085,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13052,11 +13136,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13097,11 +13182,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13148,11 +13234,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13193,11 +13280,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13244,11 +13332,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13289,11 +13378,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13340,11 +13430,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13385,11 +13476,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13435,11 +13527,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13480,11 +13573,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13530,11 +13624,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13575,11 +13670,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13625,11 +13721,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13670,11 +13767,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13721,11 +13819,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13766,11 +13865,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13816,11 +13916,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13861,11 +13962,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13911,11 +14013,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -13956,11 +14059,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14006,11 +14110,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14051,11 +14156,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14101,11 +14207,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14146,11 +14253,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14196,11 +14304,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14241,11 +14350,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14291,11 +14401,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14336,11 +14447,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14386,11 +14498,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14431,11 +14544,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14481,11 +14595,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14526,11 +14641,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14576,11 +14692,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14621,11 +14738,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14671,11 +14789,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14716,11 +14835,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14766,11 +14886,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14811,11 +14932,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14861,11 +14983,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14906,11 +15029,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -14956,11 +15080,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -15001,11 +15126,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -15051,11 +15177,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -15096,11 +15223,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -15146,11 +15274,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -15191,11 +15320,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -15241,11 +15371,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -15286,11 +15417,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -15336,11 +15468,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -15381,11 +15514,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -15431,11 +15565,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -15476,11 +15611,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -15526,11 +15662,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -15571,11 +15708,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -15621,11 +15759,12 @@ paths:
         - latest
         - before
         - after
+        - at
         in: query
         name: time_selection
         type: string
       - description: The reference time to use when selecting the time range to pull
-          data from. Only used when time_selection is 'before' or 'after'.
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
         format: dateTime
         in: query
         name: time_selection_reference
@@ -15642,6 +15781,1273 @@ paths:
         "404":
           description: ""
       summary: Get a specific Bucket
+      tags:
+      - aws s3
+  /metadata/aws:
+    get:
+      description: get a list of Aws metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Aws Metadata
+      tags:
+      - aws
+  /metadata/aws/cloudwatchlogs:
+    get:
+      description: get a list of CloudWatchLogs metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get CloudWatchLogs Metadata
+      tags:
+      - aws cloudwatchlogs
+  /metadata/aws/cloudwatchlogs/log_groups:
+    get:
+      description: get a list of log_groups metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get LogGroups Metadata
+      tags:
+      - aws cloudwatchlogs
+  /metadata/aws/dynamodb:
+    get:
+      description: get a list of DynamoDB metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get DynamoDB Metadata
+      tags:
+      - aws dynamodb
+  /metadata/aws/dynamodb/tables:
+    get:
+      description: get a list of tables metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get TableDescriptions Metadata
+      tags:
+      - aws dynamodb
+  /metadata/aws/ec2:
+    get:
+      description: get a list of EC2 metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get EC2 Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/addresses:
+    get:
+      description: get a list of addresses metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Addresses Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/dhcp_options:
+    get:
+      description: get a list of dhcp_options metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get DhcpOptions Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/images:
+    get:
+      description: get a list of images metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Images Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/instance_types:
+    get:
+      description: get a list of instance_types metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get InstanceTypes Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/instances:
+    get:
+      description: get a list of instances metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Instances Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/internet_gateways:
+    get:
+      description: get a list of internet_gateways metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get InternetGateways Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/managed_prefix_lists:
+    get:
+      description: get a list of managed_prefix_lists metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get ManagedPrefixLists Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/nat_gateways:
+    get:
+      description: get a list of nat_gateways metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get NatGateways Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/network_acls:
+    get:
+      description: get a list of network_acls metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get NetworkAcls Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/network_interfaces:
+    get:
+      description: get a list of network_interfaces metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get NetworkInterfaces Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/placement_groups:
+    get:
+      description: get a list of placement_groups metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get PlacementGroups Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/reserved_instances:
+    get:
+      description: get a list of reserved_instances metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get ReservedInstances Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/route_tables:
+    get:
+      description: get a list of route_tables metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get RouteTables Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/security_groups:
+    get:
+      description: get a list of security_groups metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get SecurityGroups Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/subnets:
+    get:
+      description: get a list of subnets metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Subnets Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/transit_gateway_peering_attachments:
+    get:
+      description: get a list of transit_gateway_peering_attachments metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get TransitGatewayPeeringAttachments Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/transit_gateway_route_tables:
+    get:
+      description: get a list of transit_gateway_route_tables metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get TransitGatewayRouteTables Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/transit_gateway_vpc_attachments:
+    get:
+      description: get a list of transit_gateway_vpc_attachments metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get TransitGatewayVpcAttachments Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/transit_gateways:
+    get:
+      description: get a list of transit_gateways metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get TransitGateways Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/volumes:
+    get:
+      description: get a list of volumes metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Volumes Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/vpc_endpoints:
+    get:
+      description: get a list of vpc_endpoints metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get VpcEndpoints Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/vpc_peering_connections:
+    get:
+      description: get a list of vpc_peering_connections metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get VpcPeeringConnections Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/vpcs:
+    get:
+      description: get a list of vpcs metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Vpcs Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ec2/vpn_gateways:
+    get:
+      description: get a list of vpn_gateways metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get VpnGateways Metadata
+      tags:
+      - aws ec2
+  /metadata/aws/ecs:
+    get:
+      description: get a list of ECS metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get ECS Metadata
+      tags:
+      - aws ecs
+  /metadata/aws/ecs/clusters:
+    get:
+      description: get a list of clusters metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Clusters Metadata
+      tags:
+      - aws ecs
+  /metadata/aws/ecs/services:
+    get:
+      description: get a list of services metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Services Metadata
+      tags:
+      - aws ecs
+  /metadata/aws/ecs/tasks:
+    get:
+      description: get a list of tasks metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Tasks Metadata
+      tags:
+      - aws ecs
+  /metadata/aws/efs:
+    get:
+      description: get a list of EFS metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get EFS Metadata
+      tags:
+      - aws efs
+  /metadata/aws/efs/filesystems:
+    get:
+      description: get a list of filesystems metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get FileSystems Metadata
+      tags:
+      - aws efs
+  /metadata/aws/elasticache:
+    get:
+      description: get a list of ElastiCache metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get ElastiCache Metadata
+      tags:
+      - aws elasticache
+  /metadata/aws/elasticache/cache_clusters:
+    get:
+      description: get a list of cache_clusters metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get CacheClusters Metadata
+      tags:
+      - aws elasticache
+  /metadata/aws/elasticloadbalancing:
+    get:
+      description: get a list of ElasticLoadBalancing metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get ElasticLoadBalancing Metadata
+      tags:
+      - aws elasticloadbalancing
+  /metadata/aws/elasticloadbalancing/load_balancers:
+    get:
+      description: get a list of load_balancers metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get LoadBalancers Metadata
+      tags:
+      - aws elasticloadbalancing
+  /metadata/aws/elasticloadbalancingv2:
+    get:
+      description: get a list of ElasticLoadBalancingV2 metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get ElasticLoadBalancingV2 Metadata
+      tags:
+      - aws elasticloadbalancingv2
+  /metadata/aws/elasticloadbalancingv2/load_balancers:
+    get:
+      description: get a list of load_balancers metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get LoadBalancers Metadata
+      tags:
+      - aws elasticloadbalancingv2
+  /metadata/aws/elasticloadbalancingv2/target_groups:
+    get:
+      description: get a list of target_groups metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get TargetGroups Metadata
+      tags:
+      - aws elasticloadbalancingv2
+  /metadata/aws/iam:
+    get:
+      description: get a list of IAM metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get IAM Metadata
+      tags:
+      - aws iam
+  /metadata/aws/iam/groups:
+    get:
+      description: get a list of groups metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Groups Metadata
+      tags:
+      - aws iam
+  /metadata/aws/iam/policies:
+    get:
+      description: get a list of policies metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Policies Metadata
+      tags:
+      - aws iam
+  /metadata/aws/iam/roles:
+    get:
+      description: get a list of roles metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Roles Metadata
+      tags:
+      - aws iam
+  /metadata/aws/iam/users:
+    get:
+      description: get a list of users metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Users Metadata
+      tags:
+      - aws iam
+  /metadata/aws/lambda:
+    get:
+      description: get a list of Lambda metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Lambda Metadata
+      tags:
+      - aws lambda
+  /metadata/aws/lambda/functions:
+    get:
+      description: get a list of functions metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Functions Metadata
+      tags:
+      - aws lambda
+  /metadata/aws/rds:
+    get:
+      description: get a list of RDS metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get RDS Metadata
+      tags:
+      - aws rds
+  /metadata/aws/rds/db_clusters:
+    get:
+      description: get a list of db_clusters metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get DBClusters Metadata
+      tags:
+      - aws rds
+  /metadata/aws/rds/db_instances:
+    get:
+      description: get a list of db_instances metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get DBInstances Metadata
+      tags:
+      - aws rds
+  /metadata/aws/redshift:
+    get:
+      description: get a list of Redshift metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Redshift Metadata
+      tags:
+      - aws redshift
+  /metadata/aws/redshift/clusters:
+    get:
+      description: get a list of clusters metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Clusters Metadata
+      tags:
+      - aws redshift
+  /metadata/aws/route53:
+    get:
+      description: get a list of Route53 metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Route53 Metadata
+      tags:
+      - aws route53
+  /metadata/aws/route53/hosted_zones:
+    get:
+      description: get a list of hosted_zones metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get HostedZones Metadata
+      tags:
+      - aws route53
+  /metadata/aws/s3:
+    get:
+      description: get a list of S3 metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get S3 Metadata
+      tags:
+      - aws s3
+  /metadata/aws/s3/buckets:
+    get:
+      description: get a list of buckets metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      summary: Get Buckets Metadata
       tags:
       - aws s3
 swagger: "2.0"

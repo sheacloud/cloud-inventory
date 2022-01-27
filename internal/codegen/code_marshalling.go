@@ -54,6 +54,10 @@ var (
 	//go:embed templates/aws_router.tmpl
 	awsRouterTemplateString string
 	awsRouterTemplate       = template.Must(template.New("awsRouter").Parse(awsRouterTemplateString))
+
+	//go:embed templates/aws_service_metadata_route.tmpl
+	awsServiceMetadataRouteTemplateString string
+	awsServiceMetadataRouteTemplate       = template.Must(template.New("awsServiceMetadataRoute").Parse(awsServiceMetadataRouteTemplateString))
 )
 
 type AwsTemplate struct {
@@ -111,6 +115,7 @@ type AwsServiceTemplate struct {
 	SdkPath           string
 	SdkClientName     string
 	UtilizedFunctions []string
+	ServiceConfig     *AwsServiceConfig
 }
 
 func (t *AwsServiceTemplate) GetServiceClientInterfaceFileCode() string {
@@ -125,6 +130,15 @@ func (t *AwsServiceTemplate) GetServiceClientInterfaceFileCode() string {
 func (t *AwsServiceTemplate) GetHelpersFileCode() string {
 	var buf strings.Builder
 	err := helpersFileTemplate.Execute(&buf, t)
+	if err != nil {
+		panic(err)
+	}
+	return buf.String()
+}
+
+func (t *AwsServiceTemplate) GetServiceMetadataRouteFileCode() string {
+	var buf strings.Builder
+	err := awsServiceMetadataRouteTemplate.Execute(&buf, t)
 	if err != nil {
 		panic(err)
 	}

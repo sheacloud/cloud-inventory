@@ -8,7 +8,41 @@ import (
 	"github.com/sheacloud/cloud-inventory/internal/api/routes"
 	"github.com/sheacloud/cloud-inventory/internal/indexedstorage"
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/ec2"
+	"time"
 )
+
+// GetVpcPeeringConnectionsMetadata godoc
+// @Summary      Get VpcPeeringConnections Metadata
+// @Description  get a list of vpc_peering_connections metadata
+// @Tags         aws ec2
+// @Produce      json
+// @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
+// @Success      200  {array}   routes.AwsResourceMetadata
+// @Failure      400
+// @Router       /metadata/aws/ec2/vpc_peering_connections [get]
+func GetVpcPeeringConnectionsMetadata(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+	reportDate := c.Query("report_date")
+	if reportDate == "" {
+		reportDate = time.Now().UTC().Format("2006-01-02")
+	}
+
+	s3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "ec2", "vpc_peering_connections"}, reportDate, indexedstorage.RequestTimeSelection{}, s3Client, new(ec2.VpcPeeringConnection))
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	reportTimes, err := s3DirReader.GetAvailableDateTimes()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.IndentedJSON(200, routes.AwsResourceMetadata{
+		DateTimes: reportTimes,
+		IdField:   "vpc_peering_connection_id",
+	})
+}
 
 // ListVpcPeeringConnections godoc
 // @Summary      List VpcPeeringConnections
@@ -18,8 +52,8 @@ import (
 // @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
-// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Success      200  {array}   ec2.VpcPeeringConnection
 // @Failure      400
 // @Router       /inventory/aws/ec2/vpc_peering_connections [get]
@@ -40,6 +74,12 @@ func ListVpcPeeringConnections(c *gin.Context, s3Client *awsS3.Client, s3Bucket 
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	err = s3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	results := []interface{}{}
 	for s3DirReader.HasNextFile() {
 		resultInterface, err := s3DirReader.ReadNextFile()
@@ -78,8 +118,8 @@ func ListVpcPeeringConnections(c *gin.Context, s3Client *awsS3.Client, s3Bucket 
 // @Param        vpc_peering_connection_id path string true "The vpc_peering_connection_id of the VpcPeeringConnection to retrieve"
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
-// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Success      200  {object}   ec2.VpcPeeringConnection
 // @Failure      400
 // @Failure 	 404
@@ -103,6 +143,12 @@ func GetVpcPeeringConnection(c *gin.Context, s3Client *awsS3.Client, s3Bucket st
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	err = s3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	results := []interface{}{}
 	for s3DirReader.HasNextFile() {
 		resultInterface, err := s3DirReader.ReadNextFile()
@@ -136,11 +182,11 @@ func GetVpcPeeringConnection(c *gin.Context, s3Client *awsS3.Client, s3Bucket st
 // @Tags         aws ec2
 // @Produce      json
 // @Param        start_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
-// @Param		 start_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 start_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 start_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 start_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param        end_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
-// @Param		 end_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 end_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Success      200  {array}   routes.Diff
@@ -163,6 +209,12 @@ func DiffMultiVpcPeeringConnections(c *gin.Context, s3Client *awsS3.Client, s3Bu
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	err = startS3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	startResults := []interface{}{}
 	for startS3DirReader.HasNextFile() {
 		resultInterface, err := startS3DirReader.ReadNextFile()
@@ -193,6 +245,12 @@ func DiffMultiVpcPeeringConnections(c *gin.Context, s3Client *awsS3.Client, s3Bu
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	err = endS3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	endResults := []interface{}{}
 	for endS3DirReader.HasNextFile() {
 		resultInterface, err := endS3DirReader.ReadNextFile()
@@ -233,11 +291,11 @@ func DiffMultiVpcPeeringConnections(c *gin.Context, s3Client *awsS3.Client, s3Bu
 // @Tags         aws ec2
 // @Produce      json
 // @Param        start_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
-// @Param		 start_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 start_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 start_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 start_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param        end_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
-// @Param		 end_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 end_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param        vpc_peering_connection_id path string true "The vpc_peering_connection_id of the VpcPeeringConnection to retrieve"
@@ -264,6 +322,12 @@ func DiffSingleVpcPeeringConnection(c *gin.Context, s3Client *awsS3.Client, s3Bu
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	err = startS3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	startResults := []interface{}{}
 	for startS3DirReader.HasNextFile() {
 		resultInterface, err := startS3DirReader.ReadNextFile()
@@ -294,6 +358,12 @@ func DiffSingleVpcPeeringConnection(c *gin.Context, s3Client *awsS3.Client, s3Bu
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	err = endS3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	endResults := []interface{}{}
 	for endS3DirReader.HasNextFile() {
 		resultInterface, err := endS3DirReader.ReadNextFile()

@@ -6,7 +6,7 @@ import (
 )
 
 type Bucket struct {
-	CreationDate                      *time.Time
+	CreationDate                      *time.Time                         `json:"-"`
 	Name                              string                             `parquet:"name=name,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"name" diff:"name,identifier"`
 	AccountId                         string                             `parquet:"name=account_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"account_id" diff:"account_id"`
 	Region                            string                             `parquet:"name=region,type=BYTE_ARRAY,convertedtype=UTF8" json:"region" diff:"region"`

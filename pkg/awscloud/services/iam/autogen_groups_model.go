@@ -6,8 +6,8 @@ import (
 )
 
 type Group struct {
-	Arn              string `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"arn" diff:"arn"`
-	CreateDate       *time.Time
+	Arn              string            `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"arn" diff:"arn"`
+	CreateDate       *time.Time        `json:"-"`
 	GroupId          string            `parquet:"name=group_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"group_id" diff:"group_id,identifier"`
 	GroupName        string            `parquet:"name=group_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"group_name" diff:"group_name"`
 	Path             string            `parquet:"name=path,type=BYTE_ARRAY,convertedtype=UTF8" json:"path" diff:"path"`

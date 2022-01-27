@@ -6,7 +6,7 @@ import (
 )
 
 type VpcEndpoint struct {
-	CreationTimestamp      *time.Time
+	CreationTimestamp      *time.Time                 `json:"-"`
 	DnsEntries             []*DnsEntry                `parquet:"name=dns_entries,type=MAP,convertedtype=LIST" json:"dns_entries" diff:"dns_entries"`
 	Groups                 []*SecurityGroupIdentifier `parquet:"name=groups,type=MAP,convertedtype=LIST" json:"groups" diff:"groups"`
 	LastError              *LastError                 `parquet:"name=last_error" json:"last_error" diff:"last_error"`

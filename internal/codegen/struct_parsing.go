@@ -162,6 +162,7 @@ func (p *StructModel) PopulateFieldTags(primaryObjectField string) {
 
 		// don't add tags for time fields
 		if isTimeField(field.Type) {
+			field.Tags = "`json:\"-\"`"
 			continue
 		}
 

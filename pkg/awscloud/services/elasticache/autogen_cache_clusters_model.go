@@ -6,12 +6,12 @@ import (
 )
 
 type CacheCluster struct {
-	ARN                                string `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"arn" diff:"arn,identifier"`
-	AtRestEncryptionEnabled            bool   `parquet:"name=at_rest_encryption_enabled,type=BOOLEAN" json:"at_rest_encryption_enabled" diff:"at_rest_encryption_enabled"`
-	AuthTokenEnabled                   bool   `parquet:"name=auth_token_enabled,type=BOOLEAN" json:"auth_token_enabled" diff:"auth_token_enabled"`
-	AuthTokenLastModifiedDate          *time.Time
-	AutoMinorVersionUpgrade            bool `parquet:"name=auto_minor_version_upgrade,type=BOOLEAN" json:"auto_minor_version_upgrade" diff:"auto_minor_version_upgrade"`
-	CacheClusterCreateTime             *time.Time
+	ARN                                string                          `parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"arn" diff:"arn,identifier"`
+	AtRestEncryptionEnabled            bool                            `parquet:"name=at_rest_encryption_enabled,type=BOOLEAN" json:"at_rest_encryption_enabled" diff:"at_rest_encryption_enabled"`
+	AuthTokenEnabled                   bool                            `parquet:"name=auth_token_enabled,type=BOOLEAN" json:"auth_token_enabled" diff:"auth_token_enabled"`
+	AuthTokenLastModifiedDate          *time.Time                      `json:"-"`
+	AutoMinorVersionUpgrade            bool                            `parquet:"name=auto_minor_version_upgrade,type=BOOLEAN" json:"auto_minor_version_upgrade" diff:"auto_minor_version_upgrade"`
+	CacheClusterCreateTime             *time.Time                      `json:"-"`
 	CacheClusterId                     string                          `parquet:"name=cache_cluster_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"cache_cluster_id" diff:"cache_cluster_id"`
 	CacheClusterStatus                 string                          `parquet:"name=cache_cluster_status,type=BYTE_ARRAY,convertedtype=UTF8" json:"cache_cluster_status" diff:"cache_cluster_status"`
 	CacheNodeType                      string                          `parquet:"name=cache_node_type,type=BYTE_ARRAY,convertedtype=UTF8" json:"cache_node_type" diff:"cache_node_type"`

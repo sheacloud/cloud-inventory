@@ -2,6 +2,7 @@
 package {{.ServiceName}}
 
 import (
+	"time"
 	awsS3 "github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/gin-gonic/gin"
 	"github.com/sheacloud/cloud-inventory/internal/indexedstorage"
@@ -9,6 +10,39 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/{{.ServiceName}}"
 	"github.com/r3labs/diff/v2"
 )
+
+// Get{{.ResourceConfig.ObjectPluralName}}Metadata godoc
+// @Summary      Get {{.ResourceConfig.ObjectPluralName}} Metadata
+// @Description  get a list of {{.ResourceConfig.Name}} metadata
+// @Tags         aws {{.ServiceName}}
+// @Produce      json
+// @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
+// @Success      200  {array}   routes.AwsResourceMetadata
+// @Failure      400
+// @Router       /metadata/aws/{{.ServiceName}}/{{.ResourceConfig.Name}} [get]
+func Get{{.ResourceConfig.ObjectPluralName}}Metadata(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+	reportDate := c.Query("report_date")
+	if reportDate == "" {
+		reportDate = time.Now().UTC().Format("2006-01-02")
+	}
+
+	s3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "{{.ServiceName}}", "{{.ResourceConfig.Name}}"}, reportDate, indexedstorage.RequestTimeSelection{}, s3Client, new({{.ServiceName}}.{{.ResourceConfig.ObjectName}}))
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	reportTimes, err := s3DirReader.GetAvailableDateTimes()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.IndentedJSON(200, routes.AwsResourceMetadata{
+		DateTimes: reportTimes,
+		IdField:  "{{.ResourceConfig.ObjectUniqueIdSnakeCase}}",
+	})
+}
 
 // List{{.ResourceConfig.ObjectPluralName}} godoc
 // @Summary      List {{.ResourceConfig.ObjectPluralName}}
@@ -18,8 +52,8 @@ import (
 // @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
-// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Success      200  {array}   {{.ServiceName}}.{{.ResourceConfig.ObjectName}}
 // @Failure      400
 // @Router       /inventory/aws/{{.ServiceName}}/{{.ResourceConfig.Name}} [get]
@@ -40,6 +74,12 @@ func List{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, s3Client *awsS3.Cl
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	err = s3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	results := []interface{}{}
 	for s3DirReader.HasNextFile() {
 		resultInterface, err := s3DirReader.ReadNextFile()
@@ -79,8 +119,8 @@ func List{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, s3Client *awsS3.Cl
 // @Param        {{.ResourceConfig.ObjectUniqueIdSnakeCase}} path string true "The {{.ResourceConfig.ObjectUniqueIdSnakeCase}} of the {{.ResourceConfig.ObjectName}} to retrieve"
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
-// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Success      200  {object}   {{.ServiceName}}.{{.ResourceConfig.ObjectName}}
 // @Failure      400
 // @Failure 	 404
@@ -104,6 +144,12 @@ func Get{{.ResourceConfig.ObjectName}}(c *gin.Context, s3Client *awsS3.Client, s
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	err = s3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	results := []interface{}{}
 	for s3DirReader.HasNextFile() {
 		resultInterface, err := s3DirReader.ReadNextFile()
@@ -138,11 +184,11 @@ func Get{{.ResourceConfig.ObjectName}}(c *gin.Context, s3Client *awsS3.Client, s
 // @Tags         aws {{.ServiceName}}
 // @Produce      json
 // @Param        start_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
-// @Param		 start_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 start_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 start_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 start_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param        end_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
-// @Param		 end_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 end_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Success      200  {array}   routes.Diff
@@ -165,6 +211,12 @@ func DiffMulti{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, s3Client *aws
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+	
+	err = startS3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	startResults := []interface{}{}
 	for startS3DirReader.HasNextFile() {
 		resultInterface, err := startS3DirReader.ReadNextFile()
@@ -195,6 +247,12 @@ func DiffMulti{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, s3Client *aws
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	err = endS3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	endResults := []interface{}{}
 	for endS3DirReader.HasNextFile() {
 		resultInterface, err := endS3DirReader.ReadNextFile()
@@ -236,11 +294,11 @@ func DiffMulti{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, s3Client *aws
 // @Tags         aws {{.ServiceName}}
 // @Produce      json
 // @Param        start_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
-// @Param		 start_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 start_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 start_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 start_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param        end_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
-// @Param		 end_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after)
-// @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before' or 'after'." Format(dateTime)
+// @Param		 end_time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
+// @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param        {{.ResourceConfig.ObjectUniqueIdSnakeCase}} path string true "The {{.ResourceConfig.ObjectUniqueIdSnakeCase}} of the {{.ResourceConfig.ObjectName}} to retrieve"
@@ -267,6 +325,12 @@ func DiffSingle{{.ResourceConfig.ObjectName}}(c *gin.Context, s3Client *awsS3.Cl
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+	
+	err = startS3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	startResults := []interface{}{}
 	for startS3DirReader.HasNextFile() {
 		resultInterface, err := startS3DirReader.ReadNextFile()
@@ -297,6 +361,12 @@ func DiffSingle{{.ResourceConfig.ObjectName}}(c *gin.Context, s3Client *awsS3.Cl
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	err = endS3DirReader.DetermineDataFiles()
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+	}
+
 	endResults := []interface{}{}
 	for endS3DirReader.HasNextFile() {
 		resultInterface, err := endS3DirReader.ReadNextFile()
