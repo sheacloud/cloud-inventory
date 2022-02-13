@@ -11,6 +11,7 @@ import (
 // @Description  get a list of Route53 metadata
 // @Tags         aws route53
 // @Produce      json
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.AwsServiceMetadata
 // @Failure      400
 // @Router       /metadata/aws/route53 [get]

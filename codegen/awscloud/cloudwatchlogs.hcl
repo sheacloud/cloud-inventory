@@ -14,5 +14,6 @@ aws_service "cloudwatchlogs" {
         use_post_processing = false
         excluded_fields = []
         convert_tags = false
+        display_fields = ["LogGroupName"]
     }
 }

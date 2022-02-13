@@ -17,6 +17,7 @@ import (
 // @Tags         aws rds
 // @Produce      json
 // @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.AwsResourceMetadata
 // @Failure      400
 // @Router       /metadata/aws/rds/db_clusters [get]
@@ -41,6 +42,9 @@ func GetDBClustersMetadata(c *gin.Context, s3Client *awsS3.Client, s3Bucket stri
 	c.IndentedJSON(200, routes.AwsResourceMetadata{
 		DateTimes: reportTimes,
 		IdField:   "db_cluster_arn",
+		DisplayFields: []string{
+			"db_cluster_identifier",
+		},
 	})
 }
 
@@ -54,6 +58,7 @@ func GetDBClustersMetadata(c *gin.Context, s3Client *awsS3.Client, s3Bucket stri
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
 // @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
+// @Security     ApiKeyAuth
 // @Success      200  {array}   rds.DBCluster
 // @Failure      400
 // @Router       /inventory/aws/rds/db_clusters [get]
@@ -120,6 +125,7 @@ func ListDBClusters(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
 // @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
+// @Security     ApiKeyAuth
 // @Success      200  {object}   rds.DBCluster
 // @Failure      400
 // @Failure 	 404
@@ -189,6 +195,7 @@ func GetDBCluster(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 // @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/rds/db_clusters [get]
@@ -299,6 +306,7 @@ func DiffMultiDBClusters(c *gin.Context, s3Client *awsS3.Client, s3Bucket string
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param        db_cluster_arn path string true "The db_cluster_arn of the DBCluster to retrieve"
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/rds/db_clusters/{db_cluster_arn} [get]

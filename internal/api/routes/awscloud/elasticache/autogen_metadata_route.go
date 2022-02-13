@@ -11,6 +11,7 @@ import (
 // @Description  get a list of ElastiCache metadata
 // @Tags         aws elasticache
 // @Produce      json
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.AwsServiceMetadata
 // @Failure      400
 // @Router       /metadata/aws/elasticache [get]

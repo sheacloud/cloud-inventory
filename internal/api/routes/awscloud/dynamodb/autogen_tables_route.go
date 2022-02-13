@@ -17,6 +17,7 @@ import (
 // @Tags         aws dynamodb
 // @Produce      json
 // @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.AwsResourceMetadata
 // @Failure      400
 // @Router       /metadata/aws/dynamodb/tables [get]
@@ -41,6 +42,9 @@ func GetTableDescriptionsMetadata(c *gin.Context, s3Client *awsS3.Client, s3Buck
 	c.IndentedJSON(200, routes.AwsResourceMetadata{
 		DateTimes: reportTimes,
 		IdField:   "table_arn",
+		DisplayFields: []string{
+			"table_name",
+		},
 	})
 }
 
@@ -54,6 +58,7 @@ func GetTableDescriptionsMetadata(c *gin.Context, s3Client *awsS3.Client, s3Buck
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
 // @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
+// @Security     ApiKeyAuth
 // @Success      200  {array}   dynamodb.TableDescription
 // @Failure      400
 // @Router       /inventory/aws/dynamodb/tables [get]
@@ -120,6 +125,7 @@ func ListTableDescriptions(c *gin.Context, s3Client *awsS3.Client, s3Bucket stri
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
 // @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
+// @Security     ApiKeyAuth
 // @Success      200  {object}   dynamodb.TableDescription
 // @Failure      400
 // @Failure 	 404
@@ -189,6 +195,7 @@ func GetTableDescription(c *gin.Context, s3Client *awsS3.Client, s3Bucket string
 // @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/dynamodb/tables [get]
@@ -299,6 +306,7 @@ func DiffMultiTableDescriptions(c *gin.Context, s3Client *awsS3.Client, s3Bucket
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param        table_arn path string true "The table_arn of the TableDescription to retrieve"
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/dynamodb/tables/{table_arn} [get]

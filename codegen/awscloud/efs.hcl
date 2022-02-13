@@ -16,5 +16,6 @@ aws_service "efs" {
         excluded_fields = []
         convert_tags = true
         tag_field_name = "Tags"
+        display_fields = ["Name"]
     }
 }

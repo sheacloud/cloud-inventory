@@ -15,6 +15,7 @@ aws_service "elasticloadbalancingv2" {
         use_post_processing = true
         excluded_fields = []
         convert_tags = false
+        display_fields = ["LoadBalancerName"]
 
         child {
             object_name = "Listener"
@@ -39,6 +40,7 @@ aws_service "elasticloadbalancingv2" {
         use_post_processing = true
         excluded_fields = []
         convert_tags = false
+        display_fields = ["TargetGroupName"]
 
         child {
             object_name = "TargetHealthDescription"

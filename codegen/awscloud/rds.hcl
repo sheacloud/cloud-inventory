@@ -16,6 +16,7 @@ aws_service "rds" {
         excluded_fields = []
         convert_tags = true
         tag_field_name = "TagList"
+        display_fields = ["DBClusterIdentifier"]
     }
 
     resource "db_instances" {
@@ -30,5 +31,6 @@ aws_service "rds" {
         excluded_fields = []
         convert_tags = true
         tag_field_name = "TagList"
+        display_fields = ["DBInstanceIdentifier"]
     }
 }

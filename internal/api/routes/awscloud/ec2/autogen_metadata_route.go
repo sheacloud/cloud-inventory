@@ -11,6 +11,7 @@ import (
 // @Description  get a list of EC2 metadata
 // @Tags         aws ec2
 // @Produce      json
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.AwsServiceMetadata
 // @Failure      400
 // @Router       /metadata/aws/ec2 [get]

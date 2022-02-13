@@ -14,5 +14,6 @@ aws_service "lambda" {
         use_post_processing = false
         excluded_fields = ["Environment"] // people might put secrets in the environment variables, don't want to ingest those
         convert_tags = false
+        display_fields = ["FunctionName"]
     }
 }

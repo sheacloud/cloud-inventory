@@ -1,4 +1,4 @@
-basePath: /api/v1
+basePath: /v1
 definitions:
   cloudwatchlogs.LogGroup:
     properties:
@@ -4872,6 +4872,10 @@ definitions:
         items:
           type: string
         type: array
+      display_fields:
+        items:
+          type: string
+        type: array
       id_field:
         type: string
     type: object
@@ -5287,7 +5291,6 @@ definitions:
       storage_class:
         type: string
     type: object
-host: localhost:8080
 info:
   contact:
     email: cloud-inventory@sheacloud.com
@@ -5364,6 +5367,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff LogGroups
       tags:
       - aws cloudwatchlogs
@@ -5437,6 +5442,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff LogGroup
       tags:
       - aws cloudwatchlogs
@@ -5505,6 +5512,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff TableDescriptions
       tags:
       - aws dynamodb
@@ -5578,6 +5587,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff TableDescription
       tags:
       - aws dynamodb
@@ -5646,6 +5657,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Addresses
       tags:
       - aws ec2
@@ -5719,6 +5732,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Address
       tags:
       - aws ec2
@@ -5787,6 +5802,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff DhcpOptions
       tags:
       - aws ec2
@@ -5860,6 +5877,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff DhcpOptions
       tags:
       - aws ec2
@@ -5928,6 +5947,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Images
       tags:
       - aws ec2
@@ -6001,6 +6022,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Image
       tags:
       - aws ec2
@@ -6069,6 +6092,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff InstanceTypes
       tags:
       - aws ec2
@@ -6142,6 +6167,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff InstanceTypeInfo
       tags:
       - aws ec2
@@ -6210,6 +6237,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Instances
       tags:
       - aws ec2
@@ -6283,6 +6312,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Instance
       tags:
       - aws ec2
@@ -6351,6 +6382,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff InternetGateways
       tags:
       - aws ec2
@@ -6424,6 +6457,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff InternetGateway
       tags:
       - aws ec2
@@ -6492,6 +6527,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff ManagedPrefixLists
       tags:
       - aws ec2
@@ -6565,6 +6602,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff ManagedPrefixList
       tags:
       - aws ec2
@@ -6633,6 +6672,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff NatGateways
       tags:
       - aws ec2
@@ -6706,6 +6747,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff NatGateway
       tags:
       - aws ec2
@@ -6774,6 +6817,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff NetworkAcls
       tags:
       - aws ec2
@@ -6847,6 +6892,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff NetworkAcl
       tags:
       - aws ec2
@@ -6915,6 +6962,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff NetworkInterfaces
       tags:
       - aws ec2
@@ -6988,6 +7037,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff NetworkInterface
       tags:
       - aws ec2
@@ -7056,6 +7107,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff PlacementGroups
       tags:
       - aws ec2
@@ -7129,6 +7182,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff PlacementGroup
       tags:
       - aws ec2
@@ -7197,6 +7252,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff ReservedInstances
       tags:
       - aws ec2
@@ -7270,6 +7327,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff ReservedInstances
       tags:
       - aws ec2
@@ -7338,6 +7397,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff RouteTables
       tags:
       - aws ec2
@@ -7411,6 +7472,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff RouteTable
       tags:
       - aws ec2
@@ -7479,6 +7542,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff SecurityGroups
       tags:
       - aws ec2
@@ -7552,6 +7617,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff SecurityGroup
       tags:
       - aws ec2
@@ -7620,6 +7687,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Subnets
       tags:
       - aws ec2
@@ -7693,6 +7762,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Subnet
       tags:
       - aws ec2
@@ -7762,6 +7833,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff TransitGatewayPeeringAttachments
       tags:
       - aws ec2
@@ -7837,6 +7910,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff TransitGatewayPeeringAttachment
       tags:
       - aws ec2
@@ -7905,6 +7980,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff TransitGatewayRouteTables
       tags:
       - aws ec2
@@ -7979,6 +8056,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff TransitGatewayRouteTable
       tags:
       - aws ec2
@@ -8048,6 +8127,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff TransitGatewayVpcAttachments
       tags:
       - aws ec2
@@ -8123,6 +8204,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff TransitGatewayVpcAttachment
       tags:
       - aws ec2
@@ -8191,6 +8274,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff TransitGateways
       tags:
       - aws ec2
@@ -8264,6 +8349,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff TransitGateway
       tags:
       - aws ec2
@@ -8332,6 +8419,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Volumes
       tags:
       - aws ec2
@@ -8405,6 +8494,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Volume
       tags:
       - aws ec2
@@ -8473,6 +8564,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff VpcEndpoints
       tags:
       - aws ec2
@@ -8546,6 +8639,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff VpcEndpoint
       tags:
       - aws ec2
@@ -8614,6 +8709,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff VpcPeeringConnections
       tags:
       - aws ec2
@@ -8688,6 +8785,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff VpcPeeringConnection
       tags:
       - aws ec2
@@ -8756,6 +8855,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Vpcs
       tags:
       - aws ec2
@@ -8829,6 +8930,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Vpc
       tags:
       - aws ec2
@@ -8897,6 +9000,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff VpnGateways
       tags:
       - aws ec2
@@ -8970,6 +9075,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff VpnGateway
       tags:
       - aws ec2
@@ -9038,6 +9145,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Clusters
       tags:
       - aws ecs
@@ -9111,6 +9220,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Cluster
       tags:
       - aws ecs
@@ -9179,6 +9290,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Services
       tags:
       - aws ecs
@@ -9252,6 +9365,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Service
       tags:
       - aws ecs
@@ -9320,6 +9435,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Tasks
       tags:
       - aws ecs
@@ -9393,6 +9510,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Task
       tags:
       - aws ecs
@@ -9461,6 +9580,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff FileSystems
       tags:
       - aws efs
@@ -9534,6 +9655,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff FileSystemDescription
       tags:
       - aws efs
@@ -9602,6 +9725,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff CacheClusters
       tags:
       - aws elasticache
@@ -9675,6 +9800,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff CacheCluster
       tags:
       - aws elasticache
@@ -9743,6 +9870,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff LoadBalancers
       tags:
       - aws elasticloadbalancing
@@ -9816,6 +9945,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff LoadBalancerDescription
       tags:
       - aws elasticloadbalancing
@@ -9884,6 +10015,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff LoadBalancers
       tags:
       - aws elasticloadbalancingv2
@@ -9957,6 +10090,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff LoadBalancer
       tags:
       - aws elasticloadbalancingv2
@@ -10025,6 +10160,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff TargetGroups
       tags:
       - aws elasticloadbalancingv2
@@ -10098,6 +10235,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff TargetGroup
       tags:
       - aws elasticloadbalancingv2
@@ -10166,6 +10305,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Groups
       tags:
       - aws iam
@@ -10239,6 +10380,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Group
       tags:
       - aws iam
@@ -10307,6 +10450,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Policies
       tags:
       - aws iam
@@ -10380,6 +10525,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Policy
       tags:
       - aws iam
@@ -10448,6 +10595,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Roles
       tags:
       - aws iam
@@ -10521,6 +10670,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Role
       tags:
       - aws iam
@@ -10589,6 +10740,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Users
       tags:
       - aws iam
@@ -10662,6 +10815,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff User
       tags:
       - aws iam
@@ -10730,6 +10885,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Functions
       tags:
       - aws lambda
@@ -10803,6 +10960,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff FunctionConfiguration
       tags:
       - aws lambda
@@ -10871,6 +11030,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff DBClusters
       tags:
       - aws rds
@@ -10944,6 +11105,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff DBCluster
       tags:
       - aws rds
@@ -11012,6 +11175,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff DBInstances
       tags:
       - aws rds
@@ -11085,6 +11250,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff DBInstance
       tags:
       - aws rds
@@ -11153,6 +11320,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Clusters
       tags:
       - aws redshift
@@ -11226,6 +11395,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Cluster
       tags:
       - aws redshift
@@ -11294,6 +11465,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff HostedZones
       tags:
       - aws route53
@@ -11367,6 +11540,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff HostedZone
       tags:
       - aws route53
@@ -11435,6 +11610,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Buckets
       tags:
       - aws s3
@@ -11508,6 +11685,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Diff Bucket
       tags:
       - aws s3
@@ -11554,6 +11733,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List LogGroups
       tags:
       - aws cloudwatchlogs
@@ -11605,6 +11786,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific LogGroup
       tags:
       - aws cloudwatchlogs
@@ -11651,6 +11834,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List TableDescriptions
       tags:
       - aws dynamodb
@@ -11702,6 +11887,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific TableDescription
       tags:
       - aws dynamodb
@@ -11748,6 +11935,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List Addresses
       tags:
       - aws ec2
@@ -11799,6 +11988,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific Address
       tags:
       - aws ec2
@@ -11845,6 +12036,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List DhcpOptions
       tags:
       - aws ec2
@@ -11896,6 +12089,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific DhcpOptions
       tags:
       - aws ec2
@@ -11942,6 +12137,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List Images
       tags:
       - aws ec2
@@ -11993,6 +12190,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific Image
       tags:
       - aws ec2
@@ -12039,6 +12238,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List InstanceTypes
       tags:
       - aws ec2
@@ -12090,6 +12291,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific InstanceTypeInfo
       tags:
       - aws ec2
@@ -12136,6 +12339,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List Instances
       tags:
       - aws ec2
@@ -12187,6 +12392,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific Instance
       tags:
       - aws ec2
@@ -12233,6 +12440,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List InternetGateways
       tags:
       - aws ec2
@@ -12284,6 +12493,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific InternetGateway
       tags:
       - aws ec2
@@ -12330,6 +12541,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List ManagedPrefixLists
       tags:
       - aws ec2
@@ -12381,6 +12594,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific ManagedPrefixList
       tags:
       - aws ec2
@@ -12427,6 +12642,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List NatGateways
       tags:
       - aws ec2
@@ -12478,6 +12695,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific NatGateway
       tags:
       - aws ec2
@@ -12524,6 +12743,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List NetworkAcls
       tags:
       - aws ec2
@@ -12575,6 +12796,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific NetworkAcl
       tags:
       - aws ec2
@@ -12621,6 +12844,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List NetworkInterfaces
       tags:
       - aws ec2
@@ -12672,6 +12897,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific NetworkInterface
       tags:
       - aws ec2
@@ -12718,6 +12945,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List PlacementGroups
       tags:
       - aws ec2
@@ -12769,6 +12998,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific PlacementGroup
       tags:
       - aws ec2
@@ -12815,6 +13046,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List ReservedInstances
       tags:
       - aws ec2
@@ -12866,6 +13099,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific ReservedInstances
       tags:
       - aws ec2
@@ -12912,6 +13147,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List RouteTables
       tags:
       - aws ec2
@@ -12963,6 +13200,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific RouteTable
       tags:
       - aws ec2
@@ -13009,6 +13248,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List SecurityGroups
       tags:
       - aws ec2
@@ -13060,6 +13301,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific SecurityGroup
       tags:
       - aws ec2
@@ -13106,6 +13349,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List Subnets
       tags:
       - aws ec2
@@ -13157,6 +13402,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific Subnet
       tags:
       - aws ec2
@@ -13203,6 +13450,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List TransitGatewayPeeringAttachments
       tags:
       - aws ec2
@@ -13255,6 +13504,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific TransitGatewayPeeringAttachment
       tags:
       - aws ec2
@@ -13301,6 +13552,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List TransitGatewayRouteTables
       tags:
       - aws ec2
@@ -13353,6 +13606,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific TransitGatewayRouteTable
       tags:
       - aws ec2
@@ -13399,6 +13654,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List TransitGatewayVpcAttachments
       tags:
       - aws ec2
@@ -13451,6 +13708,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific TransitGatewayVpcAttachment
       tags:
       - aws ec2
@@ -13497,6 +13756,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List TransitGateways
       tags:
       - aws ec2
@@ -13548,6 +13809,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific TransitGateway
       tags:
       - aws ec2
@@ -13594,6 +13857,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List Volumes
       tags:
       - aws ec2
@@ -13645,6 +13910,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific Volume
       tags:
       - aws ec2
@@ -13691,6 +13958,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List VpcEndpoints
       tags:
       - aws ec2
@@ -13742,6 +14011,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific VpcEndpoint
       tags:
       - aws ec2
@@ -13788,6 +14059,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List VpcPeeringConnections
       tags:
       - aws ec2
@@ -13840,6 +14113,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific VpcPeeringConnection
       tags:
       - aws ec2
@@ -13886,6 +14161,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List Vpcs
       tags:
       - aws ec2
@@ -13937,6 +14214,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific Vpc
       tags:
       - aws ec2
@@ -13983,6 +14262,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List VpnGateways
       tags:
       - aws ec2
@@ -14034,6 +14315,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific VpnGateway
       tags:
       - aws ec2
@@ -14080,6 +14363,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List Clusters
       tags:
       - aws ecs
@@ -14131,6 +14416,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific Cluster
       tags:
       - aws ecs
@@ -14177,6 +14464,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List Services
       tags:
       - aws ecs
@@ -14228,6 +14517,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific Service
       tags:
       - aws ecs
@@ -14274,6 +14565,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List Tasks
       tags:
       - aws ecs
@@ -14325,6 +14618,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific Task
       tags:
       - aws ecs
@@ -14371,6 +14666,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List FileSystems
       tags:
       - aws efs
@@ -14422,6 +14719,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific FileSystemDescription
       tags:
       - aws efs
@@ -14468,6 +14767,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List CacheClusters
       tags:
       - aws elasticache
@@ -14519,6 +14820,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific CacheCluster
       tags:
       - aws elasticache
@@ -14565,6 +14868,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List LoadBalancers
       tags:
       - aws elasticloadbalancing
@@ -14616,6 +14921,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific LoadBalancerDescription
       tags:
       - aws elasticloadbalancing
@@ -14662,6 +14969,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List LoadBalancers
       tags:
       - aws elasticloadbalancingv2
@@ -14713,6 +15022,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific LoadBalancer
       tags:
       - aws elasticloadbalancingv2
@@ -14759,6 +15070,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List TargetGroups
       tags:
       - aws elasticloadbalancingv2
@@ -14810,6 +15123,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific TargetGroup
       tags:
       - aws elasticloadbalancingv2
@@ -14856,6 +15171,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List Groups
       tags:
       - aws iam
@@ -14907,6 +15224,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific Group
       tags:
       - aws iam
@@ -14953,6 +15272,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List Policies
       tags:
       - aws iam
@@ -15004,6 +15325,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific Policy
       tags:
       - aws iam
@@ -15050,6 +15373,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List Roles
       tags:
       - aws iam
@@ -15101,6 +15426,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific Role
       tags:
       - aws iam
@@ -15147,6 +15474,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List Users
       tags:
       - aws iam
@@ -15198,6 +15527,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific User
       tags:
       - aws iam
@@ -15244,6 +15575,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List Functions
       tags:
       - aws lambda
@@ -15295,6 +15628,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific FunctionConfiguration
       tags:
       - aws lambda
@@ -15341,6 +15676,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List DBClusters
       tags:
       - aws rds
@@ -15392,6 +15729,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific DBCluster
       tags:
       - aws rds
@@ -15438,6 +15777,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List DBInstances
       tags:
       - aws rds
@@ -15489,6 +15830,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific DBInstance
       tags:
       - aws rds
@@ -15535,6 +15878,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List Clusters
       tags:
       - aws redshift
@@ -15586,6 +15931,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific Cluster
       tags:
       - aws redshift
@@ -15632,6 +15979,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List HostedZones
       tags:
       - aws route53
@@ -15683,6 +16032,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific HostedZone
       tags:
       - aws route53
@@ -15729,6 +16080,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: List Buckets
       tags:
       - aws s3
@@ -15780,6 +16133,8 @@ paths:
           description: ""
         "404":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get a specific Bucket
       tags:
       - aws s3
@@ -15797,6 +16152,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Aws Metadata
       tags:
       - aws
@@ -15814,6 +16171,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get CloudWatchLogs Metadata
       tags:
       - aws cloudwatchlogs
@@ -15837,6 +16196,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get LogGroups Metadata
       tags:
       - aws cloudwatchlogs
@@ -15854,6 +16215,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get DynamoDB Metadata
       tags:
       - aws dynamodb
@@ -15877,6 +16240,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get TableDescriptions Metadata
       tags:
       - aws dynamodb
@@ -15894,6 +16259,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get EC2 Metadata
       tags:
       - aws ec2
@@ -15917,6 +16284,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Addresses Metadata
       tags:
       - aws ec2
@@ -15940,6 +16309,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get DhcpOptions Metadata
       tags:
       - aws ec2
@@ -15963,6 +16334,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Images Metadata
       tags:
       - aws ec2
@@ -15986,6 +16359,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get InstanceTypes Metadata
       tags:
       - aws ec2
@@ -16009,6 +16384,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Instances Metadata
       tags:
       - aws ec2
@@ -16032,6 +16409,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get InternetGateways Metadata
       tags:
       - aws ec2
@@ -16055,6 +16434,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get ManagedPrefixLists Metadata
       tags:
       - aws ec2
@@ -16078,6 +16459,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get NatGateways Metadata
       tags:
       - aws ec2
@@ -16101,6 +16484,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get NetworkAcls Metadata
       tags:
       - aws ec2
@@ -16124,6 +16509,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get NetworkInterfaces Metadata
       tags:
       - aws ec2
@@ -16147,6 +16534,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get PlacementGroups Metadata
       tags:
       - aws ec2
@@ -16170,6 +16559,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get ReservedInstances Metadata
       tags:
       - aws ec2
@@ -16193,6 +16584,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get RouteTables Metadata
       tags:
       - aws ec2
@@ -16216,6 +16609,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get SecurityGroups Metadata
       tags:
       - aws ec2
@@ -16239,6 +16634,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Subnets Metadata
       tags:
       - aws ec2
@@ -16262,6 +16659,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get TransitGatewayPeeringAttachments Metadata
       tags:
       - aws ec2
@@ -16285,6 +16684,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get TransitGatewayRouteTables Metadata
       tags:
       - aws ec2
@@ -16308,6 +16709,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get TransitGatewayVpcAttachments Metadata
       tags:
       - aws ec2
@@ -16331,6 +16734,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get TransitGateways Metadata
       tags:
       - aws ec2
@@ -16354,6 +16759,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Volumes Metadata
       tags:
       - aws ec2
@@ -16377,6 +16784,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get VpcEndpoints Metadata
       tags:
       - aws ec2
@@ -16400,6 +16809,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get VpcPeeringConnections Metadata
       tags:
       - aws ec2
@@ -16423,6 +16834,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Vpcs Metadata
       tags:
       - aws ec2
@@ -16446,6 +16859,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get VpnGateways Metadata
       tags:
       - aws ec2
@@ -16463,6 +16878,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get ECS Metadata
       tags:
       - aws ecs
@@ -16486,6 +16903,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Clusters Metadata
       tags:
       - aws ecs
@@ -16509,6 +16928,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Services Metadata
       tags:
       - aws ecs
@@ -16532,6 +16953,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Tasks Metadata
       tags:
       - aws ecs
@@ -16549,6 +16972,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get EFS Metadata
       tags:
       - aws efs
@@ -16572,6 +16997,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get FileSystems Metadata
       tags:
       - aws efs
@@ -16589,6 +17016,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get ElastiCache Metadata
       tags:
       - aws elasticache
@@ -16612,6 +17041,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get CacheClusters Metadata
       tags:
       - aws elasticache
@@ -16629,6 +17060,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get ElasticLoadBalancing Metadata
       tags:
       - aws elasticloadbalancing
@@ -16652,6 +17085,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get LoadBalancers Metadata
       tags:
       - aws elasticloadbalancing
@@ -16669,6 +17104,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get ElasticLoadBalancingV2 Metadata
       tags:
       - aws elasticloadbalancingv2
@@ -16692,6 +17129,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get LoadBalancers Metadata
       tags:
       - aws elasticloadbalancingv2
@@ -16715,6 +17154,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get TargetGroups Metadata
       tags:
       - aws elasticloadbalancingv2
@@ -16732,6 +17173,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get IAM Metadata
       tags:
       - aws iam
@@ -16755,6 +17198,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Groups Metadata
       tags:
       - aws iam
@@ -16778,6 +17223,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Policies Metadata
       tags:
       - aws iam
@@ -16801,6 +17248,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Roles Metadata
       tags:
       - aws iam
@@ -16824,6 +17273,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Users Metadata
       tags:
       - aws iam
@@ -16841,6 +17292,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Lambda Metadata
       tags:
       - aws lambda
@@ -16864,6 +17317,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Functions Metadata
       tags:
       - aws lambda
@@ -16881,6 +17336,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get RDS Metadata
       tags:
       - aws rds
@@ -16904,6 +17361,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get DBClusters Metadata
       tags:
       - aws rds
@@ -16927,6 +17386,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get DBInstances Metadata
       tags:
       - aws rds
@@ -16944,6 +17405,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Redshift Metadata
       tags:
       - aws redshift
@@ -16967,6 +17430,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Clusters Metadata
       tags:
       - aws redshift
@@ -16984,6 +17449,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Route53 Metadata
       tags:
       - aws route53
@@ -17007,6 +17474,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get HostedZones Metadata
       tags:
       - aws route53
@@ -17024,6 +17493,8 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get S3 Metadata
       tags:
       - aws s3
@@ -17047,7 +17518,14 @@ paths:
             type: array
         "400":
           description: ""
+      security:
+      - ApiKeyAuth: []
       summary: Get Buckets Metadata
       tags:
       - aws s3
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: X-API-Key
+    type: apiKey
 swagger: "2.0"

@@ -15,6 +15,7 @@ aws_service "dynamodb" {
         use_post_processing = false
         excluded_fields = []
         convert_tags = false
+        display_fields = ["TableName"]
 
         extra_field {
             name = "Tags"

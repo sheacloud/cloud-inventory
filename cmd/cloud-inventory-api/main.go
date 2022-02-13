@@ -6,7 +6,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/gin-gonic/gin"
-	_ "github.com/sheacloud/cloud-inventory/docs"
+	"github.com/sheacloud/cloud-inventory/docs"
 	"github.com/sheacloud/cloud-inventory/internal/api"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -33,6 +33,9 @@ func initOptions() {
 
 	viper.BindEnv("log_caller")
 	viper.SetDefault("log_caller", false)
+
+	viper.BindEnv("api_url")
+	viper.SetDefault("api_url", "localhost:3000")
 
 	viper.BindEnv("s3_bucket")
 }
@@ -62,23 +65,13 @@ func init() {
 		panic(err)
 	}
 
+	docs.SwaggerInfo.Host = viper.GetString("api_url")
+
 	s3Client := s3.NewFromConfig(cfg)
 
 	router = api.GetRouter(s3Client, viper.GetString("s3_bucket"))
 }
 
-// @title           Cloud Inventory API
-// @version         1.0
-// @description     Query Cloud Inventory
-
-// @contact.name   Jon Shea
-// @contact.email  cloud-inventory@sheacloud.com
-
-// @license.name  MIT
-// @license.url   https://opensource.org/licenses/MIT
-
-// @host      localhost:8080
-// @BasePath  /api/v1
 func main() {
-	router.Run()
+	router.Run("localhost:3000")
 }

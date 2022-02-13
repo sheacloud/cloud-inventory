@@ -11,6 +11,7 @@ import (
 // @Description  get a list of ElasticLoadBalancingV2 metadata
 // @Tags         aws elasticloadbalancingv2
 // @Produce      json
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.AwsServiceMetadata
 // @Failure      400
 // @Router       /metadata/aws/elasticloadbalancingv2 [get]

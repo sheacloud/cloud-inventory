@@ -17,6 +17,7 @@ import (
 // @Tags         aws ec2
 // @Produce      json
 // @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.AwsResourceMetadata
 // @Failure      400
 // @Router       /metadata/aws/ec2/transit_gateway_peering_attachments [get]
@@ -41,6 +42,9 @@ func GetTransitGatewayPeeringAttachmentsMetadata(c *gin.Context, s3Client *awsS3
 	c.IndentedJSON(200, routes.AwsResourceMetadata{
 		DateTimes: reportTimes,
 		IdField:   "transit_gateway_attachment_id",
+		DisplayFields: []string{
+			"transit_gateway_attachment_id",
+		},
 	})
 }
 
@@ -54,6 +58,7 @@ func GetTransitGatewayPeeringAttachmentsMetadata(c *gin.Context, s3Client *awsS3
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
 // @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
+// @Security     ApiKeyAuth
 // @Success      200  {array}   ec2.TransitGatewayPeeringAttachment
 // @Failure      400
 // @Router       /inventory/aws/ec2/transit_gateway_peering_attachments [get]
@@ -120,6 +125,7 @@ func ListTransitGatewayPeeringAttachments(c *gin.Context, s3Client *awsS3.Client
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
 // @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
+// @Security     ApiKeyAuth
 // @Success      200  {object}   ec2.TransitGatewayPeeringAttachment
 // @Failure      400
 // @Failure 	 404
@@ -189,6 +195,7 @@ func GetTransitGatewayPeeringAttachment(c *gin.Context, s3Client *awsS3.Client, 
 // @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/ec2/transit_gateway_peering_attachments [get]
@@ -299,6 +306,7 @@ func DiffMultiTransitGatewayPeeringAttachments(c *gin.Context, s3Client *awsS3.C
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param        transit_gateway_attachment_id path string true "The transit_gateway_attachment_id of the TransitGatewayPeeringAttachment to retrieve"
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/ec2/transit_gateway_peering_attachments/{transit_gateway_attachment_id} [get]

@@ -11,6 +11,7 @@ import (
 // @Description  get a list of EFS metadata
 // @Tags         aws efs
 // @Produce      json
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.AwsServiceMetadata
 // @Failure      400
 // @Router       /metadata/aws/efs [get]

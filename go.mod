@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/aws/aws-lambda-go v1.28.0
-	github.com/aws/aws-sdk-go-v2 v1.12.0
+	github.com/aws/aws-sdk-go-v2 v1.13.0
 	github.com/aws/aws-sdk-go-v2/config v1.8.1
 	github.com/aws/aws-sdk-go-v2/credentials v1.4.1
 	github.com/aws/aws-sdk-go-v2/service/athena v1.11.0
@@ -20,10 +20,10 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/route53 v1.16.0
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.15.1
 	github.com/aws/aws-sdk-go-v2/service/sts v1.7.0
-	github.com/aws/smithy-go v1.9.1
+	github.com/aws/smithy-go v1.10.0
 	github.com/awslabs/aws-lambda-go-api-proxy v0.12.0
 	github.com/fatih/structtag v1.2.0
-	github.com/gin-gonic/contrib v0.0.0-20201101042839-6a891bf89f19
+	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.7.7
 	github.com/google/uuid v1.3.0
 	github.com/hashicorp/hcl/v2 v2.11.1
@@ -48,8 +48,8 @@ require (
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.5.0 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.3.2 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.3 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.1.0 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.4 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.2.0 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.2.2 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.6.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.4.0 // indirect

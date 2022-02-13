@@ -16,6 +16,7 @@ aws_service "route53" {
         use_post_processing = true
         excluded_fields = ["MasterUserPassword"]
         convert_tags = false
+        display_fields = ["Name"]
 
         extra_field {
             name = "Tags"

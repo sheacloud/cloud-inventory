@@ -32,6 +32,11 @@ var doc = `{
     "paths": {
         "/diff/aws/cloudwatchlogs/log_groups": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of LogGroups between two points in time",
                 "produces": [
                     "application/json"
@@ -126,6 +131,11 @@ var doc = `{
         },
         "/diff/aws/cloudwatchlogs/log_groups/{arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of LogGroup between two points in time",
                 "produces": [
                     "application/json"
@@ -227,6 +237,11 @@ var doc = `{
         },
         "/diff/aws/dynamodb/tables": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of TableDescriptions between two points in time",
                 "produces": [
                     "application/json"
@@ -321,6 +336,11 @@ var doc = `{
         },
         "/diff/aws/dynamodb/tables/{table_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of TableDescription between two points in time",
                 "produces": [
                     "application/json"
@@ -422,6 +442,11 @@ var doc = `{
         },
         "/diff/aws/ec2/addresses": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Addresses between two points in time",
                 "produces": [
                     "application/json"
@@ -516,6 +541,11 @@ var doc = `{
         },
         "/diff/aws/ec2/addresses/{allocation_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Address between two points in time",
                 "produces": [
                     "application/json"
@@ -617,6 +647,11 @@ var doc = `{
         },
         "/diff/aws/ec2/dhcp_options": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of DhcpOptions between two points in time",
                 "produces": [
                     "application/json"
@@ -711,6 +746,11 @@ var doc = `{
         },
         "/diff/aws/ec2/dhcp_options/{dhcp_options_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of DhcpOptions between two points in time",
                 "produces": [
                     "application/json"
@@ -812,6 +852,11 @@ var doc = `{
         },
         "/diff/aws/ec2/images": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Images between two points in time",
                 "produces": [
                     "application/json"
@@ -906,6 +951,11 @@ var doc = `{
         },
         "/diff/aws/ec2/images/{image_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Image between two points in time",
                 "produces": [
                     "application/json"
@@ -1007,6 +1057,11 @@ var doc = `{
         },
         "/diff/aws/ec2/instance_types": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of InstanceTypes between two points in time",
                 "produces": [
                     "application/json"
@@ -1101,6 +1156,11 @@ var doc = `{
         },
         "/diff/aws/ec2/instance_types/{instance_type}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of InstanceTypeInfo between two points in time",
                 "produces": [
                     "application/json"
@@ -1202,6 +1262,11 @@ var doc = `{
         },
         "/diff/aws/ec2/instances": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Instances between two points in time",
                 "produces": [
                     "application/json"
@@ -1296,6 +1361,11 @@ var doc = `{
         },
         "/diff/aws/ec2/instances/{instance_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Instance between two points in time",
                 "produces": [
                     "application/json"
@@ -1397,6 +1467,11 @@ var doc = `{
         },
         "/diff/aws/ec2/internet_gateways": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of InternetGateways between two points in time",
                 "produces": [
                     "application/json"
@@ -1491,6 +1566,11 @@ var doc = `{
         },
         "/diff/aws/ec2/internet_gateways/{internet_gateway_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of InternetGateway between two points in time",
                 "produces": [
                     "application/json"
@@ -1592,6 +1672,11 @@ var doc = `{
         },
         "/diff/aws/ec2/managed_prefix_lists": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of ManagedPrefixLists between two points in time",
                 "produces": [
                     "application/json"
@@ -1686,6 +1771,11 @@ var doc = `{
         },
         "/diff/aws/ec2/managed_prefix_lists/{prefix_list_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of ManagedPrefixList between two points in time",
                 "produces": [
                     "application/json"
@@ -1787,6 +1877,11 @@ var doc = `{
         },
         "/diff/aws/ec2/nat_gateways": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of NatGateways between two points in time",
                 "produces": [
                     "application/json"
@@ -1881,6 +1976,11 @@ var doc = `{
         },
         "/diff/aws/ec2/nat_gateways/{nat_gateway_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of NatGateway between two points in time",
                 "produces": [
                     "application/json"
@@ -1982,6 +2082,11 @@ var doc = `{
         },
         "/diff/aws/ec2/network_acls": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of NetworkAcls between two points in time",
                 "produces": [
                     "application/json"
@@ -2076,6 +2181,11 @@ var doc = `{
         },
         "/diff/aws/ec2/network_acls/{network_acl_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of NetworkAcl between two points in time",
                 "produces": [
                     "application/json"
@@ -2177,6 +2287,11 @@ var doc = `{
         },
         "/diff/aws/ec2/network_interfaces": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of NetworkInterfaces between two points in time",
                 "produces": [
                     "application/json"
@@ -2271,6 +2386,11 @@ var doc = `{
         },
         "/diff/aws/ec2/network_interfaces/{network_interface_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of NetworkInterface between two points in time",
                 "produces": [
                     "application/json"
@@ -2372,6 +2492,11 @@ var doc = `{
         },
         "/diff/aws/ec2/placement_groups": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of PlacementGroups between two points in time",
                 "produces": [
                     "application/json"
@@ -2466,6 +2591,11 @@ var doc = `{
         },
         "/diff/aws/ec2/placement_groups/{group_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of PlacementGroup between two points in time",
                 "produces": [
                     "application/json"
@@ -2567,6 +2697,11 @@ var doc = `{
         },
         "/diff/aws/ec2/reserved_instances": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of ReservedInstances between two points in time",
                 "produces": [
                     "application/json"
@@ -2661,6 +2796,11 @@ var doc = `{
         },
         "/diff/aws/ec2/reserved_instances/{reserved_instances_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of ReservedInstances between two points in time",
                 "produces": [
                     "application/json"
@@ -2762,6 +2902,11 @@ var doc = `{
         },
         "/diff/aws/ec2/route_tables": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of RouteTables between two points in time",
                 "produces": [
                     "application/json"
@@ -2856,6 +3001,11 @@ var doc = `{
         },
         "/diff/aws/ec2/route_tables/{route_table_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of RouteTable between two points in time",
                 "produces": [
                     "application/json"
@@ -2957,6 +3107,11 @@ var doc = `{
         },
         "/diff/aws/ec2/security_groups": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of SecurityGroups between two points in time",
                 "produces": [
                     "application/json"
@@ -3051,6 +3206,11 @@ var doc = `{
         },
         "/diff/aws/ec2/security_groups/{group_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of SecurityGroup between two points in time",
                 "produces": [
                     "application/json"
@@ -3152,6 +3312,11 @@ var doc = `{
         },
         "/diff/aws/ec2/subnets": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Subnets between two points in time",
                 "produces": [
                     "application/json"
@@ -3246,6 +3411,11 @@ var doc = `{
         },
         "/diff/aws/ec2/subnets/{subnet_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Subnet between two points in time",
                 "produces": [
                     "application/json"
@@ -3347,6 +3517,11 @@ var doc = `{
         },
         "/diff/aws/ec2/transit_gateway_peering_attachments": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of TransitGatewayPeeringAttachments between two points in time",
                 "produces": [
                     "application/json"
@@ -3441,6 +3616,11 @@ var doc = `{
         },
         "/diff/aws/ec2/transit_gateway_peering_attachments/{transit_gateway_attachment_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of TransitGatewayPeeringAttachment between two points in time",
                 "produces": [
                     "application/json"
@@ -3542,6 +3722,11 @@ var doc = `{
         },
         "/diff/aws/ec2/transit_gateway_route_tables": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of TransitGatewayRouteTables between two points in time",
                 "produces": [
                     "application/json"
@@ -3636,6 +3821,11 @@ var doc = `{
         },
         "/diff/aws/ec2/transit_gateway_route_tables/{transit_gateway_route_table_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of TransitGatewayRouteTable between two points in time",
                 "produces": [
                     "application/json"
@@ -3737,6 +3927,11 @@ var doc = `{
         },
         "/diff/aws/ec2/transit_gateway_vpc_attachments": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of TransitGatewayVpcAttachments between two points in time",
                 "produces": [
                     "application/json"
@@ -3831,6 +4026,11 @@ var doc = `{
         },
         "/diff/aws/ec2/transit_gateway_vpc_attachments/{transit_gateway_attachment_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of TransitGatewayVpcAttachment between two points in time",
                 "produces": [
                     "application/json"
@@ -3932,6 +4132,11 @@ var doc = `{
         },
         "/diff/aws/ec2/transit_gateways": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of TransitGateways between two points in time",
                 "produces": [
                     "application/json"
@@ -4026,6 +4231,11 @@ var doc = `{
         },
         "/diff/aws/ec2/transit_gateways/{transit_gateway_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of TransitGateway between two points in time",
                 "produces": [
                     "application/json"
@@ -4127,6 +4337,11 @@ var doc = `{
         },
         "/diff/aws/ec2/volumes": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Volumes between two points in time",
                 "produces": [
                     "application/json"
@@ -4221,6 +4436,11 @@ var doc = `{
         },
         "/diff/aws/ec2/volumes/{volume_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Volume between two points in time",
                 "produces": [
                     "application/json"
@@ -4322,6 +4542,11 @@ var doc = `{
         },
         "/diff/aws/ec2/vpc_endpoints": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of VpcEndpoints between two points in time",
                 "produces": [
                     "application/json"
@@ -4416,6 +4641,11 @@ var doc = `{
         },
         "/diff/aws/ec2/vpc_endpoints/{vpc_endpoint_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of VpcEndpoint between two points in time",
                 "produces": [
                     "application/json"
@@ -4517,6 +4747,11 @@ var doc = `{
         },
         "/diff/aws/ec2/vpc_peering_connections": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of VpcPeeringConnections between two points in time",
                 "produces": [
                     "application/json"
@@ -4611,6 +4846,11 @@ var doc = `{
         },
         "/diff/aws/ec2/vpc_peering_connections/{vpc_peering_connection_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of VpcPeeringConnection between two points in time",
                 "produces": [
                     "application/json"
@@ -4712,6 +4952,11 @@ var doc = `{
         },
         "/diff/aws/ec2/vpcs": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Vpcs between two points in time",
                 "produces": [
                     "application/json"
@@ -4806,6 +5051,11 @@ var doc = `{
         },
         "/diff/aws/ec2/vpcs/{vpc_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Vpc between two points in time",
                 "produces": [
                     "application/json"
@@ -4907,6 +5157,11 @@ var doc = `{
         },
         "/diff/aws/ec2/vpn_gateways": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of VpnGateways between two points in time",
                 "produces": [
                     "application/json"
@@ -5001,6 +5256,11 @@ var doc = `{
         },
         "/diff/aws/ec2/vpn_gateways/{vpn_gateway_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of VpnGateway between two points in time",
                 "produces": [
                     "application/json"
@@ -5102,6 +5362,11 @@ var doc = `{
         },
         "/diff/aws/ecs/clusters": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Clusters between two points in time",
                 "produces": [
                     "application/json"
@@ -5196,6 +5461,11 @@ var doc = `{
         },
         "/diff/aws/ecs/clusters/{cluster_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Cluster between two points in time",
                 "produces": [
                     "application/json"
@@ -5297,6 +5567,11 @@ var doc = `{
         },
         "/diff/aws/ecs/services": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Services between two points in time",
                 "produces": [
                     "application/json"
@@ -5391,6 +5666,11 @@ var doc = `{
         },
         "/diff/aws/ecs/services/{service_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Service between two points in time",
                 "produces": [
                     "application/json"
@@ -5492,6 +5772,11 @@ var doc = `{
         },
         "/diff/aws/ecs/tasks": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Tasks between two points in time",
                 "produces": [
                     "application/json"
@@ -5586,6 +5871,11 @@ var doc = `{
         },
         "/diff/aws/ecs/tasks/{task_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Task between two points in time",
                 "produces": [
                     "application/json"
@@ -5687,6 +5977,11 @@ var doc = `{
         },
         "/diff/aws/efs/filesystems": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of FileSystems between two points in time",
                 "produces": [
                     "application/json"
@@ -5781,6 +6076,11 @@ var doc = `{
         },
         "/diff/aws/efs/filesystems/{file_system_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of FileSystemDescription between two points in time",
                 "produces": [
                     "application/json"
@@ -5882,6 +6182,11 @@ var doc = `{
         },
         "/diff/aws/elasticache/cache_clusters": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of CacheClusters between two points in time",
                 "produces": [
                     "application/json"
@@ -5976,6 +6281,11 @@ var doc = `{
         },
         "/diff/aws/elasticache/cache_clusters/{arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of CacheCluster between two points in time",
                 "produces": [
                     "application/json"
@@ -6077,6 +6387,11 @@ var doc = `{
         },
         "/diff/aws/elasticloadbalancing/load_balancers": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of LoadBalancers between two points in time",
                 "produces": [
                     "application/json"
@@ -6171,6 +6486,11 @@ var doc = `{
         },
         "/diff/aws/elasticloadbalancing/load_balancers/{load_balancer_name}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of LoadBalancerDescription between two points in time",
                 "produces": [
                     "application/json"
@@ -6272,6 +6592,11 @@ var doc = `{
         },
         "/diff/aws/elasticloadbalancingv2/load_balancers": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of LoadBalancers between two points in time",
                 "produces": [
                     "application/json"
@@ -6366,6 +6691,11 @@ var doc = `{
         },
         "/diff/aws/elasticloadbalancingv2/load_balancers/{load_balancer_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of LoadBalancer between two points in time",
                 "produces": [
                     "application/json"
@@ -6467,6 +6797,11 @@ var doc = `{
         },
         "/diff/aws/elasticloadbalancingv2/target_groups": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of TargetGroups between two points in time",
                 "produces": [
                     "application/json"
@@ -6561,6 +6896,11 @@ var doc = `{
         },
         "/diff/aws/elasticloadbalancingv2/target_groups/{target_group_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of TargetGroup between two points in time",
                 "produces": [
                     "application/json"
@@ -6662,6 +7002,11 @@ var doc = `{
         },
         "/diff/aws/iam/groups": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Groups between two points in time",
                 "produces": [
                     "application/json"
@@ -6756,6 +7101,11 @@ var doc = `{
         },
         "/diff/aws/iam/groups/{group_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Group between two points in time",
                 "produces": [
                     "application/json"
@@ -6857,6 +7207,11 @@ var doc = `{
         },
         "/diff/aws/iam/policies": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Policies between two points in time",
                 "produces": [
                     "application/json"
@@ -6951,6 +7306,11 @@ var doc = `{
         },
         "/diff/aws/iam/policies/{policy_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Policy between two points in time",
                 "produces": [
                     "application/json"
@@ -7052,6 +7412,11 @@ var doc = `{
         },
         "/diff/aws/iam/roles": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Roles between two points in time",
                 "produces": [
                     "application/json"
@@ -7146,6 +7511,11 @@ var doc = `{
         },
         "/diff/aws/iam/roles/{role_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Role between two points in time",
                 "produces": [
                     "application/json"
@@ -7247,6 +7617,11 @@ var doc = `{
         },
         "/diff/aws/iam/users": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Users between two points in time",
                 "produces": [
                     "application/json"
@@ -7341,6 +7716,11 @@ var doc = `{
         },
         "/diff/aws/iam/users/{user_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of User between two points in time",
                 "produces": [
                     "application/json"
@@ -7442,6 +7822,11 @@ var doc = `{
         },
         "/diff/aws/lambda/functions": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Functions between two points in time",
                 "produces": [
                     "application/json"
@@ -7536,6 +7921,11 @@ var doc = `{
         },
         "/diff/aws/lambda/functions/{function_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of FunctionConfiguration between two points in time",
                 "produces": [
                     "application/json"
@@ -7637,6 +8027,11 @@ var doc = `{
         },
         "/diff/aws/rds/db_clusters": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of DBClusters between two points in time",
                 "produces": [
                     "application/json"
@@ -7731,6 +8126,11 @@ var doc = `{
         },
         "/diff/aws/rds/db_clusters/{db_cluster_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of DBCluster between two points in time",
                 "produces": [
                     "application/json"
@@ -7832,6 +8232,11 @@ var doc = `{
         },
         "/diff/aws/rds/db_instances": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of DBInstances between two points in time",
                 "produces": [
                     "application/json"
@@ -7926,6 +8331,11 @@ var doc = `{
         },
         "/diff/aws/rds/db_instances/{db_instance_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of DBInstance between two points in time",
                 "produces": [
                     "application/json"
@@ -8027,6 +8437,11 @@ var doc = `{
         },
         "/diff/aws/redshift/clusters": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Clusters between two points in time",
                 "produces": [
                     "application/json"
@@ -8121,6 +8536,11 @@ var doc = `{
         },
         "/diff/aws/redshift/clusters/{cluster_identifier}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Cluster between two points in time",
                 "produces": [
                     "application/json"
@@ -8222,6 +8642,11 @@ var doc = `{
         },
         "/diff/aws/route53/hosted_zones": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of HostedZones between two points in time",
                 "produces": [
                     "application/json"
@@ -8316,6 +8741,11 @@ var doc = `{
         },
         "/diff/aws/route53/hosted_zones/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of HostedZone between two points in time",
                 "produces": [
                     "application/json"
@@ -8417,6 +8847,11 @@ var doc = `{
         },
         "/diff/aws/s3/buckets": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Buckets between two points in time",
                 "produces": [
                     "application/json"
@@ -8511,6 +8946,11 @@ var doc = `{
         },
         "/diff/aws/s3/buckets/{name}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a diff of Bucket between two points in time",
                 "produces": [
                     "application/json"
@@ -8612,6 +9052,11 @@ var doc = `{
         },
         "/inventory/aws/cloudwatchlogs/log_groups": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of log_groups",
                 "produces": [
                     "application/json"
@@ -8678,6 +9123,11 @@ var doc = `{
         },
         "/inventory/aws/cloudwatchlogs/log_groups/{arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific LogGroup by its Arn",
                 "produces": [
                     "application/json"
@@ -8751,6 +9201,11 @@ var doc = `{
         },
         "/inventory/aws/dynamodb/tables": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of tables",
                 "produces": [
                     "application/json"
@@ -8817,6 +9272,11 @@ var doc = `{
         },
         "/inventory/aws/dynamodb/tables/{table_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific TableDescription by its TableArn",
                 "produces": [
                     "application/json"
@@ -8890,6 +9350,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/addresses": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of addresses",
                 "produces": [
                     "application/json"
@@ -8956,6 +9421,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/addresses/{allocation_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific Address by its AllocationId",
                 "produces": [
                     "application/json"
@@ -9029,6 +9499,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/dhcp_options": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of dhcp_options",
                 "produces": [
                     "application/json"
@@ -9095,6 +9570,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/dhcp_options/{dhcp_options_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific DhcpOptions by its DhcpOptionsId",
                 "produces": [
                     "application/json"
@@ -9168,6 +9648,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/images": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of images",
                 "produces": [
                     "application/json"
@@ -9234,6 +9719,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/images/{image_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific Image by its ImageId",
                 "produces": [
                     "application/json"
@@ -9307,6 +9797,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/instance_types": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of instance_types",
                 "produces": [
                     "application/json"
@@ -9373,6 +9868,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/instance_types/{instance_type}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific InstanceTypeInfo by its InstanceType",
                 "produces": [
                     "application/json"
@@ -9446,6 +9946,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/instances": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of instances",
                 "produces": [
                     "application/json"
@@ -9512,6 +10017,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/instances/{instance_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific Instance by its InstanceId",
                 "produces": [
                     "application/json"
@@ -9585,6 +10095,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/internet_gateways": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of internet_gateways",
                 "produces": [
                     "application/json"
@@ -9651,6 +10166,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/internet_gateways/{internet_gateway_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific InternetGateway by its InternetGatewayId",
                 "produces": [
                     "application/json"
@@ -9724,6 +10244,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/managed_prefix_lists": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of managed_prefix_lists",
                 "produces": [
                     "application/json"
@@ -9790,6 +10315,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/managed_prefix_lists/{prefix_list_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific ManagedPrefixList by its PrefixListArn",
                 "produces": [
                     "application/json"
@@ -9863,6 +10393,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/nat_gateways": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of nat_gateways",
                 "produces": [
                     "application/json"
@@ -9929,6 +10464,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/nat_gateways/{nat_gateway_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific NatGateway by its NatGatewayId",
                 "produces": [
                     "application/json"
@@ -10002,6 +10542,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/network_acls": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of network_acls",
                 "produces": [
                     "application/json"
@@ -10068,6 +10613,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/network_acls/{network_acl_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific NetworkAcl by its NetworkAclId",
                 "produces": [
                     "application/json"
@@ -10141,6 +10691,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/network_interfaces": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of network_interfaces",
                 "produces": [
                     "application/json"
@@ -10207,6 +10762,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/network_interfaces/{network_interface_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific NetworkInterface by its NetworkInterfaceId",
                 "produces": [
                     "application/json"
@@ -10280,6 +10840,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/placement_groups": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of placement_groups",
                 "produces": [
                     "application/json"
@@ -10346,6 +10911,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/placement_groups/{group_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific PlacementGroup by its GroupId",
                 "produces": [
                     "application/json"
@@ -10419,6 +10989,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/reserved_instances": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of reserved_instances",
                 "produces": [
                     "application/json"
@@ -10485,6 +11060,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/reserved_instances/{reserved_instances_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific ReservedInstances by its ReservedInstancesId",
                 "produces": [
                     "application/json"
@@ -10558,6 +11138,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/route_tables": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of route_tables",
                 "produces": [
                     "application/json"
@@ -10624,6 +11209,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/route_tables/{route_table_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific RouteTable by its RouteTableId",
                 "produces": [
                     "application/json"
@@ -10697,6 +11287,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/security_groups": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of security_groups",
                 "produces": [
                     "application/json"
@@ -10763,6 +11358,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/security_groups/{group_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific SecurityGroup by its GroupId",
                 "produces": [
                     "application/json"
@@ -10836,6 +11436,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/subnets": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of subnets",
                 "produces": [
                     "application/json"
@@ -10902,6 +11507,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/subnets/{subnet_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific Subnet by its SubnetId",
                 "produces": [
                     "application/json"
@@ -10975,6 +11585,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/transit_gateway_peering_attachments": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of transit_gateway_peering_attachments",
                 "produces": [
                     "application/json"
@@ -11041,6 +11656,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/transit_gateway_peering_attachments/{transit_gateway_attachment_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific TransitGatewayPeeringAttachment by its TransitGatewayAttachmentId",
                 "produces": [
                     "application/json"
@@ -11114,6 +11734,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/transit_gateway_route_tables": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of transit_gateway_route_tables",
                 "produces": [
                     "application/json"
@@ -11180,6 +11805,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/transit_gateway_route_tables/{transit_gateway_route_table_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific TransitGatewayRouteTable by its TransitGatewayRouteTableId",
                 "produces": [
                     "application/json"
@@ -11253,6 +11883,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/transit_gateway_vpc_attachments": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of transit_gateway_vpc_attachments",
                 "produces": [
                     "application/json"
@@ -11319,6 +11954,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/transit_gateway_vpc_attachments/{transit_gateway_attachment_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific TransitGatewayVpcAttachment by its TransitGatewayAttachmentId",
                 "produces": [
                     "application/json"
@@ -11392,6 +12032,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/transit_gateways": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of transit_gateways",
                 "produces": [
                     "application/json"
@@ -11458,6 +12103,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/transit_gateways/{transit_gateway_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific TransitGateway by its TransitGatewayId",
                 "produces": [
                     "application/json"
@@ -11531,6 +12181,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/volumes": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of volumes",
                 "produces": [
                     "application/json"
@@ -11597,6 +12252,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/volumes/{volume_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific Volume by its VolumeId",
                 "produces": [
                     "application/json"
@@ -11670,6 +12330,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/vpc_endpoints": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of vpc_endpoints",
                 "produces": [
                     "application/json"
@@ -11736,6 +12401,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/vpc_endpoints/{vpc_endpoint_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific VpcEndpoint by its VpcEndpointId",
                 "produces": [
                     "application/json"
@@ -11809,6 +12479,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/vpc_peering_connections": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of vpc_peering_connections",
                 "produces": [
                     "application/json"
@@ -11875,6 +12550,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/vpc_peering_connections/{vpc_peering_connection_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific VpcPeeringConnection by its VpcPeeringConnectionId",
                 "produces": [
                     "application/json"
@@ -11948,6 +12628,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/vpcs": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of vpcs",
                 "produces": [
                     "application/json"
@@ -12014,6 +12699,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/vpcs/{vpc_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific Vpc by its VpcId",
                 "produces": [
                     "application/json"
@@ -12087,6 +12777,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/vpn_gateways": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of vpn_gateways",
                 "produces": [
                     "application/json"
@@ -12153,6 +12848,11 @@ var doc = `{
         },
         "/inventory/aws/ec2/vpn_gateways/{vpn_gateway_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific VpnGateway by its VpnGatewayId",
                 "produces": [
                     "application/json"
@@ -12226,6 +12926,11 @@ var doc = `{
         },
         "/inventory/aws/ecs/clusters": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of clusters",
                 "produces": [
                     "application/json"
@@ -12292,6 +12997,11 @@ var doc = `{
         },
         "/inventory/aws/ecs/clusters/{cluster_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific Cluster by its ClusterArn",
                 "produces": [
                     "application/json"
@@ -12365,6 +13075,11 @@ var doc = `{
         },
         "/inventory/aws/ecs/services": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of services",
                 "produces": [
                     "application/json"
@@ -12431,6 +13146,11 @@ var doc = `{
         },
         "/inventory/aws/ecs/services/{service_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific Service by its ServiceArn",
                 "produces": [
                     "application/json"
@@ -12504,6 +13224,11 @@ var doc = `{
         },
         "/inventory/aws/ecs/tasks": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of tasks",
                 "produces": [
                     "application/json"
@@ -12570,6 +13295,11 @@ var doc = `{
         },
         "/inventory/aws/ecs/tasks/{task_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific Task by its TaskArn",
                 "produces": [
                     "application/json"
@@ -12643,6 +13373,11 @@ var doc = `{
         },
         "/inventory/aws/efs/filesystems": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of filesystems",
                 "produces": [
                     "application/json"
@@ -12709,6 +13444,11 @@ var doc = `{
         },
         "/inventory/aws/efs/filesystems/{file_system_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific FileSystemDescription by its FileSystemId",
                 "produces": [
                     "application/json"
@@ -12782,6 +13522,11 @@ var doc = `{
         },
         "/inventory/aws/elasticache/cache_clusters": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of cache_clusters",
                 "produces": [
                     "application/json"
@@ -12848,6 +13593,11 @@ var doc = `{
         },
         "/inventory/aws/elasticache/cache_clusters/{arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific CacheCluster by its ARN",
                 "produces": [
                     "application/json"
@@ -12921,6 +13671,11 @@ var doc = `{
         },
         "/inventory/aws/elasticloadbalancing/load_balancers": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of load_balancers",
                 "produces": [
                     "application/json"
@@ -12987,6 +13742,11 @@ var doc = `{
         },
         "/inventory/aws/elasticloadbalancing/load_balancers/{load_balancer_name}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific LoadBalancerDescription by its LoadBalancerName",
                 "produces": [
                     "application/json"
@@ -13060,6 +13820,11 @@ var doc = `{
         },
         "/inventory/aws/elasticloadbalancingv2/load_balancers": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of load_balancers",
                 "produces": [
                     "application/json"
@@ -13126,6 +13891,11 @@ var doc = `{
         },
         "/inventory/aws/elasticloadbalancingv2/load_balancers/{load_balancer_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific LoadBalancer by its LoadBalancerArn",
                 "produces": [
                     "application/json"
@@ -13199,6 +13969,11 @@ var doc = `{
         },
         "/inventory/aws/elasticloadbalancingv2/target_groups": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of target_groups",
                 "produces": [
                     "application/json"
@@ -13265,6 +14040,11 @@ var doc = `{
         },
         "/inventory/aws/elasticloadbalancingv2/target_groups/{target_group_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific TargetGroup by its TargetGroupArn",
                 "produces": [
                     "application/json"
@@ -13338,6 +14118,11 @@ var doc = `{
         },
         "/inventory/aws/iam/groups": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of groups",
                 "produces": [
                     "application/json"
@@ -13404,6 +14189,11 @@ var doc = `{
         },
         "/inventory/aws/iam/groups/{group_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific Group by its GroupId",
                 "produces": [
                     "application/json"
@@ -13477,6 +14267,11 @@ var doc = `{
         },
         "/inventory/aws/iam/policies": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of policies",
                 "produces": [
                     "application/json"
@@ -13543,6 +14338,11 @@ var doc = `{
         },
         "/inventory/aws/iam/policies/{policy_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific Policy by its PolicyId",
                 "produces": [
                     "application/json"
@@ -13616,6 +14416,11 @@ var doc = `{
         },
         "/inventory/aws/iam/roles": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of roles",
                 "produces": [
                     "application/json"
@@ -13682,6 +14487,11 @@ var doc = `{
         },
         "/inventory/aws/iam/roles/{role_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific Role by its RoleId",
                 "produces": [
                     "application/json"
@@ -13755,6 +14565,11 @@ var doc = `{
         },
         "/inventory/aws/iam/users": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of users",
                 "produces": [
                     "application/json"
@@ -13821,6 +14636,11 @@ var doc = `{
         },
         "/inventory/aws/iam/users/{user_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific User by its UserId",
                 "produces": [
                     "application/json"
@@ -13894,6 +14714,11 @@ var doc = `{
         },
         "/inventory/aws/lambda/functions": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of functions",
                 "produces": [
                     "application/json"
@@ -13960,6 +14785,11 @@ var doc = `{
         },
         "/inventory/aws/lambda/functions/{function_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific FunctionConfiguration by its FunctionArn",
                 "produces": [
                     "application/json"
@@ -14033,6 +14863,11 @@ var doc = `{
         },
         "/inventory/aws/rds/db_clusters": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of db_clusters",
                 "produces": [
                     "application/json"
@@ -14099,6 +14934,11 @@ var doc = `{
         },
         "/inventory/aws/rds/db_clusters/{db_cluster_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific DBCluster by its DBClusterArn",
                 "produces": [
                     "application/json"
@@ -14172,6 +15012,11 @@ var doc = `{
         },
         "/inventory/aws/rds/db_instances": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of db_instances",
                 "produces": [
                     "application/json"
@@ -14238,6 +15083,11 @@ var doc = `{
         },
         "/inventory/aws/rds/db_instances/{db_instance_arn}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific DBInstance by its DBInstanceArn",
                 "produces": [
                     "application/json"
@@ -14311,6 +15161,11 @@ var doc = `{
         },
         "/inventory/aws/redshift/clusters": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of clusters",
                 "produces": [
                     "application/json"
@@ -14377,6 +15232,11 @@ var doc = `{
         },
         "/inventory/aws/redshift/clusters/{cluster_identifier}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific Cluster by its ClusterIdentifier",
                 "produces": [
                     "application/json"
@@ -14450,6 +15310,11 @@ var doc = `{
         },
         "/inventory/aws/route53/hosted_zones": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of hosted_zones",
                 "produces": [
                     "application/json"
@@ -14516,6 +15381,11 @@ var doc = `{
         },
         "/inventory/aws/route53/hosted_zones/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific HostedZone by its Id",
                 "produces": [
                     "application/json"
@@ -14589,6 +15459,11 @@ var doc = `{
         },
         "/inventory/aws/s3/buckets": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of buckets",
                 "produces": [
                     "application/json"
@@ -14655,6 +15530,11 @@ var doc = `{
         },
         "/inventory/aws/s3/buckets/{name}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a specific Bucket by its Name",
                 "produces": [
                     "application/json"
@@ -14728,6 +15608,11 @@ var doc = `{
         },
         "/metadata/aws": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of Aws metadata",
                 "produces": [
                     "application/json"
@@ -14754,6 +15639,11 @@ var doc = `{
         },
         "/metadata/aws/cloudwatchlogs": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of CloudWatchLogs metadata",
                 "produces": [
                     "application/json"
@@ -14780,6 +15670,11 @@ var doc = `{
         },
         "/metadata/aws/cloudwatchlogs/log_groups": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of log_groups metadata",
                 "produces": [
                     "application/json"
@@ -14815,6 +15710,11 @@ var doc = `{
         },
         "/metadata/aws/dynamodb": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of DynamoDB metadata",
                 "produces": [
                     "application/json"
@@ -14841,6 +15741,11 @@ var doc = `{
         },
         "/metadata/aws/dynamodb/tables": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of tables metadata",
                 "produces": [
                     "application/json"
@@ -14876,6 +15781,11 @@ var doc = `{
         },
         "/metadata/aws/ec2": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of EC2 metadata",
                 "produces": [
                     "application/json"
@@ -14902,6 +15812,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/addresses": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of addresses metadata",
                 "produces": [
                     "application/json"
@@ -14937,6 +15852,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/dhcp_options": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of dhcp_options metadata",
                 "produces": [
                     "application/json"
@@ -14972,6 +15892,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/images": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of images metadata",
                 "produces": [
                     "application/json"
@@ -15007,6 +15932,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/instance_types": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of instance_types metadata",
                 "produces": [
                     "application/json"
@@ -15042,6 +15972,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/instances": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of instances metadata",
                 "produces": [
                     "application/json"
@@ -15077,6 +16012,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/internet_gateways": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of internet_gateways metadata",
                 "produces": [
                     "application/json"
@@ -15112,6 +16052,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/managed_prefix_lists": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of managed_prefix_lists metadata",
                 "produces": [
                     "application/json"
@@ -15147,6 +16092,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/nat_gateways": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of nat_gateways metadata",
                 "produces": [
                     "application/json"
@@ -15182,6 +16132,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/network_acls": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of network_acls metadata",
                 "produces": [
                     "application/json"
@@ -15217,6 +16172,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/network_interfaces": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of network_interfaces metadata",
                 "produces": [
                     "application/json"
@@ -15252,6 +16212,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/placement_groups": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of placement_groups metadata",
                 "produces": [
                     "application/json"
@@ -15287,6 +16252,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/reserved_instances": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of reserved_instances metadata",
                 "produces": [
                     "application/json"
@@ -15322,6 +16292,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/route_tables": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of route_tables metadata",
                 "produces": [
                     "application/json"
@@ -15357,6 +16332,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/security_groups": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of security_groups metadata",
                 "produces": [
                     "application/json"
@@ -15392,6 +16372,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/subnets": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of subnets metadata",
                 "produces": [
                     "application/json"
@@ -15427,6 +16412,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/transit_gateway_peering_attachments": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of transit_gateway_peering_attachments metadata",
                 "produces": [
                     "application/json"
@@ -15462,6 +16452,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/transit_gateway_route_tables": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of transit_gateway_route_tables metadata",
                 "produces": [
                     "application/json"
@@ -15497,6 +16492,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/transit_gateway_vpc_attachments": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of transit_gateway_vpc_attachments metadata",
                 "produces": [
                     "application/json"
@@ -15532,6 +16532,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/transit_gateways": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of transit_gateways metadata",
                 "produces": [
                     "application/json"
@@ -15567,6 +16572,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/volumes": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of volumes metadata",
                 "produces": [
                     "application/json"
@@ -15602,6 +16612,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/vpc_endpoints": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of vpc_endpoints metadata",
                 "produces": [
                     "application/json"
@@ -15637,6 +16652,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/vpc_peering_connections": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of vpc_peering_connections metadata",
                 "produces": [
                     "application/json"
@@ -15672,6 +16692,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/vpcs": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of vpcs metadata",
                 "produces": [
                     "application/json"
@@ -15707,6 +16732,11 @@ var doc = `{
         },
         "/metadata/aws/ec2/vpn_gateways": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of vpn_gateways metadata",
                 "produces": [
                     "application/json"
@@ -15742,6 +16772,11 @@ var doc = `{
         },
         "/metadata/aws/ecs": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of ECS metadata",
                 "produces": [
                     "application/json"
@@ -15768,6 +16803,11 @@ var doc = `{
         },
         "/metadata/aws/ecs/clusters": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of clusters metadata",
                 "produces": [
                     "application/json"
@@ -15803,6 +16843,11 @@ var doc = `{
         },
         "/metadata/aws/ecs/services": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of services metadata",
                 "produces": [
                     "application/json"
@@ -15838,6 +16883,11 @@ var doc = `{
         },
         "/metadata/aws/ecs/tasks": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of tasks metadata",
                 "produces": [
                     "application/json"
@@ -15873,6 +16923,11 @@ var doc = `{
         },
         "/metadata/aws/efs": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of EFS metadata",
                 "produces": [
                     "application/json"
@@ -15899,6 +16954,11 @@ var doc = `{
         },
         "/metadata/aws/efs/filesystems": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of filesystems metadata",
                 "produces": [
                     "application/json"
@@ -15934,6 +16994,11 @@ var doc = `{
         },
         "/metadata/aws/elasticache": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of ElastiCache metadata",
                 "produces": [
                     "application/json"
@@ -15960,6 +17025,11 @@ var doc = `{
         },
         "/metadata/aws/elasticache/cache_clusters": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of cache_clusters metadata",
                 "produces": [
                     "application/json"
@@ -15995,6 +17065,11 @@ var doc = `{
         },
         "/metadata/aws/elasticloadbalancing": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of ElasticLoadBalancing metadata",
                 "produces": [
                     "application/json"
@@ -16021,6 +17096,11 @@ var doc = `{
         },
         "/metadata/aws/elasticloadbalancing/load_balancers": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of load_balancers metadata",
                 "produces": [
                     "application/json"
@@ -16056,6 +17136,11 @@ var doc = `{
         },
         "/metadata/aws/elasticloadbalancingv2": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of ElasticLoadBalancingV2 metadata",
                 "produces": [
                     "application/json"
@@ -16082,6 +17167,11 @@ var doc = `{
         },
         "/metadata/aws/elasticloadbalancingv2/load_balancers": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of load_balancers metadata",
                 "produces": [
                     "application/json"
@@ -16117,6 +17207,11 @@ var doc = `{
         },
         "/metadata/aws/elasticloadbalancingv2/target_groups": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of target_groups metadata",
                 "produces": [
                     "application/json"
@@ -16152,6 +17247,11 @@ var doc = `{
         },
         "/metadata/aws/iam": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of IAM metadata",
                 "produces": [
                     "application/json"
@@ -16178,6 +17278,11 @@ var doc = `{
         },
         "/metadata/aws/iam/groups": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of groups metadata",
                 "produces": [
                     "application/json"
@@ -16213,6 +17318,11 @@ var doc = `{
         },
         "/metadata/aws/iam/policies": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of policies metadata",
                 "produces": [
                     "application/json"
@@ -16248,6 +17358,11 @@ var doc = `{
         },
         "/metadata/aws/iam/roles": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of roles metadata",
                 "produces": [
                     "application/json"
@@ -16283,6 +17398,11 @@ var doc = `{
         },
         "/metadata/aws/iam/users": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of users metadata",
                 "produces": [
                     "application/json"
@@ -16318,6 +17438,11 @@ var doc = `{
         },
         "/metadata/aws/lambda": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of Lambda metadata",
                 "produces": [
                     "application/json"
@@ -16344,6 +17469,11 @@ var doc = `{
         },
         "/metadata/aws/lambda/functions": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of functions metadata",
                 "produces": [
                     "application/json"
@@ -16379,6 +17509,11 @@ var doc = `{
         },
         "/metadata/aws/rds": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of RDS metadata",
                 "produces": [
                     "application/json"
@@ -16405,6 +17540,11 @@ var doc = `{
         },
         "/metadata/aws/rds/db_clusters": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of db_clusters metadata",
                 "produces": [
                     "application/json"
@@ -16440,6 +17580,11 @@ var doc = `{
         },
         "/metadata/aws/rds/db_instances": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of db_instances metadata",
                 "produces": [
                     "application/json"
@@ -16475,6 +17620,11 @@ var doc = `{
         },
         "/metadata/aws/redshift": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of Redshift metadata",
                 "produces": [
                     "application/json"
@@ -16501,6 +17651,11 @@ var doc = `{
         },
         "/metadata/aws/redshift/clusters": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of clusters metadata",
                 "produces": [
                     "application/json"
@@ -16536,6 +17691,11 @@ var doc = `{
         },
         "/metadata/aws/route53": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of Route53 metadata",
                 "produces": [
                     "application/json"
@@ -16562,6 +17722,11 @@ var doc = `{
         },
         "/metadata/aws/route53/hosted_zones": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of hosted_zones metadata",
                 "produces": [
                     "application/json"
@@ -16597,6 +17762,11 @@ var doc = `{
         },
         "/metadata/aws/s3": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of S3 metadata",
                 "produces": [
                     "application/json"
@@ -16623,6 +17793,11 @@ var doc = `{
         },
         "/metadata/aws/s3/buckets": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get a list of buckets metadata",
                 "produces": [
                     "application/json"
@@ -24105,6 +25280,12 @@ var doc = `{
                         "type": "string"
                     }
                 },
+                "display_fields": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "id_field": {
                     "type": "string"
                 }
@@ -24748,6 +25929,13 @@ var doc = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "X-API-Key",
+            "in": "header"
+        }
     }
 }`
 
@@ -24763,8 +25951,8 @@ type swaggerInfo struct {
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
-	Host:        "localhost:8080",
-	BasePath:    "/api/v1",
+	Host:        "",
+	BasePath:    "/v1",
 	Schemes:     []string{},
 	Title:       "Cloud Inventory API",
 	Description: "Query Cloud Inventory",

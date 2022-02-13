@@ -35,6 +35,7 @@ type AwsResourceConfig struct {
 	UsePostProcessing   bool                `hcl:"use_post_processing,attr"`   // whether or not to use post processing
 	ConvertTags         bool                `hcl:"convert_tags,attr"`          // whether or not to convert tags to map[string]string
 	TagFieldName        string              `hcl:"tag_field_name,optional"`    // the name of the field that contains the tags
+	DisplayFields       []string            `hcl:"display_fields,optional"`    // the fields to display when listing resources
 	ExcludedFields      []string            `hcl:"excluded_fields,optional"`
 	ExtraFields         []*ExtraFieldConfig `hcl:"extra_field,block"`
 	Children            []*ChildConfig      `hcl:"child,block"`

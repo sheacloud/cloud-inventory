@@ -11,6 +11,7 @@ import (
 // @Description  get a list of RDS metadata
 // @Tags         aws rds
 // @Produce      json
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.AwsServiceMetadata
 // @Failure      400
 // @Router       /metadata/aws/rds [get]

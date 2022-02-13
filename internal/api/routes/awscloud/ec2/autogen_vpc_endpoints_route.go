@@ -17,6 +17,7 @@ import (
 // @Tags         aws ec2
 // @Produce      json
 // @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.AwsResourceMetadata
 // @Failure      400
 // @Router       /metadata/aws/ec2/vpc_endpoints [get]
@@ -41,6 +42,9 @@ func GetVpcEndpointsMetadata(c *gin.Context, s3Client *awsS3.Client, s3Bucket st
 	c.IndentedJSON(200, routes.AwsResourceMetadata{
 		DateTimes: reportTimes,
 		IdField:   "vpc_endpoint_id",
+		DisplayFields: []string{
+			"vpc_endpoint_id",
+		},
 	})
 }
 
@@ -54,6 +58,7 @@ func GetVpcEndpointsMetadata(c *gin.Context, s3Client *awsS3.Client, s3Bucket st
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
 // @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
+// @Security     ApiKeyAuth
 // @Success      200  {array}   ec2.VpcEndpoint
 // @Failure      400
 // @Router       /inventory/aws/ec2/vpc_endpoints [get]
@@ -120,6 +125,7 @@ func ListVpcEndpoints(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
 // @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
+// @Security     ApiKeyAuth
 // @Success      200  {object}   ec2.VpcEndpoint
 // @Failure      400
 // @Failure 	 404
@@ -189,6 +195,7 @@ func GetVpcEndpoint(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
 // @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/ec2/vpc_endpoints [get]
@@ -299,6 +306,7 @@ func DiffMultiVpcEndpoints(c *gin.Context, s3Client *awsS3.Client, s3Bucket stri
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param        vpc_endpoint_id path string true "The vpc_endpoint_id of the VpcEndpoint to retrieve"
+// @Security     ApiKeyAuth
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/ec2/vpc_endpoints/{vpc_endpoint_id} [get]

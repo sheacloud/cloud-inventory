@@ -15,5 +15,6 @@ aws_service "elasticloadbalancing" {
         use_post_processing = true
         excluded_fields = []
         convert_tags = false
+        display_fields = ["LoadBalancerName"]
     }
 }

@@ -16,5 +16,6 @@ aws_service "redshift" {
         excluded_fields = ["MasterUserPassword"]
         convert_tags = true
         tag_field_name = "Tags"
+        display_fields = ["ClusterIdentifier"]
     }
 }

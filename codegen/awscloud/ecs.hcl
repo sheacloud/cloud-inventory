@@ -15,6 +15,7 @@ aws_service "ecs" {
         use_post_processing = true
         excluded_fields = []
         convert_tags = false
+        display_fields = ["ClusterName"]
     }
 
     resource "services" {
@@ -28,6 +29,7 @@ aws_service "ecs" {
         use_post_processing = true
         excluded_fields = ["Events"]
         convert_tags = false
+        display_fields = ["ServiceName"]
     }
 
     resource "tasks" {

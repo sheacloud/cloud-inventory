@@ -16,6 +16,7 @@ aws_service "iam" {
         use_post_processing = true
         excluded_fields = []
         convert_tags = false
+        display_fields = ["GroupName"]
 
         child {
             object_name = "AttachedPolicy"
@@ -45,6 +46,7 @@ aws_service "iam" {
         use_post_processing = true
         excluded_fields = []
         convert_tags = false
+        display_fields = ["PolicyName"]
     }
 
     resource "roles" {
@@ -59,6 +61,7 @@ aws_service "iam" {
         excluded_fields = ["AssumeRolePolicyDocument"]
         convert_tags = true
         tag_field_name = "Tags"
+        display_fields = ["RoleName"]
 
         child {
             object_name = "AttachedPolicy"
@@ -84,6 +87,7 @@ aws_service "iam" {
         excluded_fields = []
         convert_tags = true
         tag_field_name = "Tags"
+        display_fields = ["UserName", "UserId"]
 
         child {
             object_name = "AccessKeyMetadata"
