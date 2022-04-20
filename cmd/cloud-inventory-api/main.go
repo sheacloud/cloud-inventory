@@ -4,10 +4,11 @@ import (
 	"context"
 
 	"github.com/aws/aws-sdk-go-v2/config"
-	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/gin-gonic/gin"
 	"github.com/sheacloud/cloud-inventory/docs"
 	"github.com/sheacloud/cloud-inventory/internal/api"
+	dynamoDAO "github.com/sheacloud/cloud-inventory/internal/db/dynamodb"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
@@ -38,6 +39,8 @@ func initOptions() {
 	viper.SetDefault("api_url", "localhost:3000")
 
 	viper.BindEnv("s3_bucket")
+
+	viper.BindEnv("mongo_uri")
 }
 
 func initLogging() {
@@ -60,16 +63,25 @@ func init() {
 	initLogging()
 	validateOptions()
 
+	docs.SwaggerInfo.Host = viper.GetString("api_url")
+
+	// client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(viper.GetString("mongo_uri")))
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// dao := mongoDao.NewMongoDAO(client.Database("cloud-inventory"))
+
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		panic(err)
 	}
 
-	docs.SwaggerInfo.Host = viper.GetString("api_url")
+	dynamoClient := dynamodb.NewFromConfig(cfg)
 
-	s3Client := s3.NewFromConfig(cfg)
+	dao := dynamoDAO.NewDynamoDBDAO(dynamoClient, 3)
 
-	router = api.GetRouter(s3Client, viper.GetString("s3_bucket"))
+	router = api.GetRouter(dao)
 }
 
 func main() {

@@ -16,16 +16,14 @@ type StructModel struct {
 
 // FieldModel represents a parsed source-code of a struct field
 type FieldModel struct {
-	Name                 string
-	Type                 string
-	Tags                 string
-	ReferencedStructs    []*StructModel // Parsed structs referenced by this field, could be multiple if it's a map
-	IsConvertedTimeField bool
-	NoParquetModel       bool
+	Name              string
+	Type              string
+	Tags              string
+	ReferencedStructs []*StructModel // Parsed structs referenced by this field, could be multiple if it's a map
 }
 
 // ParseStruct parses a struct and all its fields
-func ParseStruct(object *types.Named, excludedFields []string) (*StructModel, error) {
+func ParseStruct(object *types.Named, excludedFields []string, nameOverride *string) (*StructModel, error) {
 
 	// validate that the underlying type is a struct
 	underlyingObject := object.Underlying()
@@ -38,6 +36,9 @@ func ParseStruct(object *types.Named, excludedFields []string) (*StructModel, er
 		Name:   object.Obj().Name(),
 		Fields: []*FieldModel{},
 	}
+	if nameOverride != nil {
+		StructModel.Name = *nameOverride
+	}
 
 	for i := 0; i < underlyingStruct.NumFields(); i++ {
 		underlyingField := underlyingStruct.Field(i)
@@ -47,9 +48,6 @@ func ParseStruct(object *types.Named, excludedFields []string) (*StructModel, er
 		}
 		// skip fields that are in the excluded list
 		if stringInList(underlyingField.Name(), excludedFields) {
-			continue
-		}
-		if isUnmodelableField(underlyingField.Type().String()) {
 			continue
 		}
 
@@ -130,20 +128,6 @@ func (p *StructModel) GetRequiredImports() []string {
 	return imports
 }
 
-func (p *StructModel) AddConvertedTimeFields() {
-	fieldsToAdd := []*FieldModel{}
-	for _, field := range p.Fields {
-		if isTimeField(field.Type) {
-			fieldsToAdd = append(fieldsToAdd, &FieldModel{
-				Name:                 field.Name + "Milli",
-				Type:                 "int64",
-				IsConvertedTimeField: true,
-			})
-		}
-	}
-	p.Fields = append(p.Fields, fieldsToAdd...)
-}
-
 func (p *StructModel) ConvertTagFields() {
 	for _, field := range p.Fields {
 		if isTagField(field.Name) && strings.HasPrefix(field.Type, "[]") {
@@ -156,80 +140,28 @@ func (p *StructModel) ConvertTagFields() {
 func (p *StructModel) PopulateFieldTags(primaryObjectField string) {
 	for _, field := range p.Fields {
 
-		if field.NoParquetModel {
-			continue
-		}
-
-		// don't add tags for time fields
-		if isTimeField(field.Type) {
-			field.Tags = "`json:\"-\"`"
-			continue
-		}
-
 		tags := ""
 
-		// populate parquet tags
+		// populate bson tags
 
-		fieldSnakeCaseName := toSnakeCase(field.Name)
-		fieldSnakeCaseName = strings.TrimSuffix(fieldSnakeCaseName, "_milli")
-
-		parquetTags := "name=" + fieldSnakeCaseName
-
-		if strings.HasPrefix(field.Type, "[]") {
-			listType := field.Type[2:]
-
-			listTypeString := typeToParquetType(listType)
-			listConvertedTypeString := typeToParquetConvertedType(listType)
-			parquetTags += ",type=MAP,convertedtype=LIST"
-
-			if listTypeString != "" {
-				parquetTags += ",valuetype=" + listTypeString
-
-				if listConvertedTypeString != "" {
-					parquetTags += ",valueconvertedtype=" + listConvertedTypeString
-				}
-			}
-		} else if strings.HasPrefix(field.Type, "map") {
-			groups := mapRegex.FindStringSubmatch(field.Type)
-			if len(groups) != 3 {
-				fmt.Println(groups)
-				panic("map type not matched by regex: " + field.Type)
-			}
-			parquetTags += ",type=MAP"
-
-			keyTypeString := typeToParquetType(groups[1])
-			keyConvertedTypeString := typeToParquetConvertedType(groups[1])
-
-			valueTypeString := typeToParquetType(groups[2])
-			valueConvertedTypeString := typeToParquetConvertedType(groups[2])
-
-			if keyTypeString != "" {
-				parquetTags += ",keytype=" + keyTypeString
-			}
-			if valueTypeString != "" {
-				parquetTags += ",valuetype=" + valueTypeString
-			}
-			if keyConvertedTypeString != "" {
-				parquetTags += ",keyconvertedtype=" + keyConvertedTypeString
-			}
-			if valueConvertedTypeString != "" {
-				parquetTags += ",valueconvertedtype=" + valueConvertedTypeString
-			}
-		} else if field.IsConvertedTimeField {
-			parquetTags += ",type=INT64,convertedtype=TIMESTAMP_MILLIS"
+		var fieldSnakeCaseName string
+		if field.Name == "InventoryUUID" {
+			fieldSnakeCaseName = "_id"
 		} else {
-			typeString := typeToParquetType(field.Type)
-			convertedTypeString := typeToParquetConvertedType(field.Type)
-
-			if typeString != "" {
-				parquetTags += ",type=" + typeString
-			}
-			if convertedTypeString != "" {
-				parquetTags += ",convertedtype=" + convertedTypeString
-			}
+			fieldSnakeCaseName = ToSnakeCase(field.Name)
 		}
 
-		tags += "parquet:\"" + parquetTags + "\""
+		tags += "bson:\"" + fieldSnakeCaseName + ",omitempty\""
+
+		dynamodbTags := " dynamodbav:\"" + fieldSnakeCaseName
+		if field.Type == "time.Time" || field.Type == "*time.Time" {
+			dynamodbTags += ",unixtime"
+		}
+		if field.Type != "bool" && field.Type != "*bool" {
+			dynamodbTags += ",omitempty"
+		}
+		dynamodbTags += "\""
+		tags += dynamodbTags
 
 		// add primary key tag
 		if field.Name == primaryObjectField {
@@ -237,11 +169,13 @@ func (p *StructModel) PopulateFieldTags(primaryObjectField string) {
 		}
 
 		// add json tags
-		tags += " json:\"" + fieldSnakeCaseName + "\""
+		tags += " json:\"" + fieldSnakeCaseName + ",omitempty\""
 
 		// add diff tags
 		if field.Name == "ReportTime" {
 			tags += " diff:\"report_time,immutable\""
+		} else if field.Name == "InventoryUUID" {
+			tags += " diff:\"-\""
 		} else if field.Name == primaryObjectField {
 			tags += " diff:\"" + fieldSnakeCaseName + ",identifier\""
 		} else {
@@ -329,7 +263,7 @@ func parseReferencedStructs(t types.Type, excludedFields []string) ([]*StructMod
 			if isTimeField(v.Obj().Type().String()) {
 				return nil, nil
 			}
-			model, err := ParseStruct(v, excludedFields)
+			model, err := ParseStruct(v, excludedFields, nil)
 			if err != nil {
 				return nil, err
 			}

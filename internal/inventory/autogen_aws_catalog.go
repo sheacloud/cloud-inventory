@@ -4,27 +4,36 @@ package inventory
 import (
 	"context"
 
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud"
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/cloudwatchlogs"
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/dynamodb"
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/ec2"
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/ecs"
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/efs"
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/elasticache"
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/elasticloadbalancing"
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/elasticloadbalancingv2"
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/iam"
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/lambda"
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/rds"
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/redshift"
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/route53"
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/s3"
+	"github.com/sheacloud/cloud-inventory/internal/db"
+	"github.com/sheacloud/cloud-inventory/pkg/aws"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/apigateway"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/apigatewayv2"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/backup"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudtrail"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatchlogs"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/dynamodb"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/ec2"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/ecs"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/efs"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticache"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticloadbalancing"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticloadbalancingv2"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/iam"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/lambda"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/rds"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/redshift"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/route53"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/s3"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/sns"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/sqs"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/storagegateway"
 )
 
 type AwsCatalogResource struct {
 	ResourceName  string
 	ResourceModel interface{}
-	FetchFunction func(context.Context, *awscloud.AwsFetchInput) *awscloud.AwsFetchOutput
+	FetchFunction func(context.Context, db.DAO, *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error)
+	UniqueIdField string
 }
 
 type AwsCatalogService struct {
@@ -36,13 +45,68 @@ type AwsCatalogService struct {
 var (
 	AwsCatalog = []AwsCatalogService{
 		{
+			ServiceName:     "apigateway",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "rest_apis",
+					ResourceModel: &apigateway.RestApi{},
+					FetchFunction: IngestAwsApiGatewayRestApis,
+					UniqueIdField: "Id",
+				},
+			},
+		},
+		{
+			ServiceName:     "apigatewayv2",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "apis",
+					ResourceModel: &apigatewayv2.Api{},
+					FetchFunction: IngestAwsApiGatewayV2Apis,
+					UniqueIdField: "ApiId",
+				},
+			},
+		},
+		{
+			ServiceName:     "backup",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "vaults",
+					ResourceModel: &backup.BackupVault{},
+					FetchFunction: IngestAwsBackupBackupVaults,
+					UniqueIdField: "BackupVaultArn",
+				},
+				{
+					ResourceName:  "plans",
+					ResourceModel: &backup.BackupPlan{},
+					FetchFunction: IngestAwsBackupBackupPlans,
+					UniqueIdField: "BackupPlanArn",
+				},
+			},
+		},
+		{
+			ServiceName:     "cloudtrail",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "trails",
+					ResourceModel: &cloudtrail.Trail{},
+					FetchFunction: IngestAwsCloudTrailTrails,
+					UniqueIdField: "TrailARN",
+				},
+			},
+		},
+		{
 			ServiceName:     "cloudwatchlogs",
 			RegionOverrides: []string{},
 			Resources: []AwsCatalogResource{
 				{
 					ResourceName:  "log_groups",
 					ResourceModel: &cloudwatchlogs.LogGroup{},
-					FetchFunction: cloudwatchlogs.FetchLogGroup,
+					FetchFunction: IngestAwsCloudWatchLogsLogGroups,
+					UniqueIdField: "Arn",
 				},
 			},
 		},
@@ -52,8 +116,9 @@ var (
 			Resources: []AwsCatalogResource{
 				{
 					ResourceName:  "tables",
-					ResourceModel: &dynamodb.TableDescription{},
-					FetchFunction: dynamodb.FetchTableDescription,
+					ResourceModel: &dynamodb.Table{},
+					FetchFunction: IngestAwsDynamoDBTables,
+					UniqueIdField: "TableArn",
 				},
 			},
 		},
@@ -64,122 +129,140 @@ var (
 				{
 					ResourceName:  "addresses",
 					ResourceModel: &ec2.Address{},
-					FetchFunction: ec2.FetchAddress,
+					FetchFunction: IngestAwsEC2Addresses,
+					UniqueIdField: "AllocationId",
 				},
 				{
 					ResourceName:  "dhcp_options",
 					ResourceModel: &ec2.DhcpOptions{},
-					FetchFunction: ec2.FetchDhcpOptions,
+					FetchFunction: IngestAwsEC2DhcpOptions,
+					UniqueIdField: "DhcpOptionsId",
 				},
 				{
 					ResourceName:  "images",
 					ResourceModel: &ec2.Image{},
-					FetchFunction: ec2.FetchImage,
-				},
-				{
-					ResourceName:  "instance_types",
-					ResourceModel: &ec2.InstanceTypeInfo{},
-					FetchFunction: ec2.FetchInstanceTypeInfo,
+					FetchFunction: IngestAwsEC2Images,
+					UniqueIdField: "ImageId",
 				},
 				{
 					ResourceName:  "instances",
 					ResourceModel: &ec2.Instance{},
-					FetchFunction: ec2.FetchInstance,
+					FetchFunction: IngestAwsEC2Instances,
+					UniqueIdField: "InstanceId",
 				},
 				{
 					ResourceName:  "internet_gateways",
 					ResourceModel: &ec2.InternetGateway{},
-					FetchFunction: ec2.FetchInternetGateway,
+					FetchFunction: IngestAwsEC2InternetGateways,
+					UniqueIdField: "InternetGatewayId",
 				},
 				{
 					ResourceName:  "managed_prefix_lists",
 					ResourceModel: &ec2.ManagedPrefixList{},
-					FetchFunction: ec2.FetchManagedPrefixList,
+					FetchFunction: IngestAwsEC2ManagedPrefixLists,
+					UniqueIdField: "PrefixListArn",
 				},
 				{
 					ResourceName:  "nat_gateways",
 					ResourceModel: &ec2.NatGateway{},
-					FetchFunction: ec2.FetchNatGateway,
+					FetchFunction: IngestAwsEC2NatGateways,
+					UniqueIdField: "NatGatewayId",
 				},
 				{
 					ResourceName:  "network_acls",
 					ResourceModel: &ec2.NetworkAcl{},
-					FetchFunction: ec2.FetchNetworkAcl,
+					FetchFunction: IngestAwsEC2NetworkAcls,
+					UniqueIdField: "NetworkAclId",
 				},
 				{
 					ResourceName:  "network_interfaces",
 					ResourceModel: &ec2.NetworkInterface{},
-					FetchFunction: ec2.FetchNetworkInterface,
+					FetchFunction: IngestAwsEC2NetworkInterfaces,
+					UniqueIdField: "NetworkInterfaceId",
 				},
 				{
 					ResourceName:  "placement_groups",
 					ResourceModel: &ec2.PlacementGroup{},
-					FetchFunction: ec2.FetchPlacementGroup,
+					FetchFunction: IngestAwsEC2PlacementGroups,
+					UniqueIdField: "GroupId",
 				},
 				{
 					ResourceName:  "reserved_instances",
 					ResourceModel: &ec2.ReservedInstances{},
-					FetchFunction: ec2.FetchReservedInstances,
+					FetchFunction: IngestAwsEC2ReservedInstances,
+					UniqueIdField: "ReservedInstancesId",
 				},
 				{
 					ResourceName:  "route_tables",
 					ResourceModel: &ec2.RouteTable{},
-					FetchFunction: ec2.FetchRouteTable,
+					FetchFunction: IngestAwsEC2RouteTables,
+					UniqueIdField: "RouteTableId",
 				},
 				{
 					ResourceName:  "security_groups",
 					ResourceModel: &ec2.SecurityGroup{},
-					FetchFunction: ec2.FetchSecurityGroup,
+					FetchFunction: IngestAwsEC2SecurityGroups,
+					UniqueIdField: "GroupId",
 				},
 				{
 					ResourceName:  "subnets",
 					ResourceModel: &ec2.Subnet{},
-					FetchFunction: ec2.FetchSubnet,
+					FetchFunction: IngestAwsEC2Subnets,
+					UniqueIdField: "SubnetId",
 				},
 				{
 					ResourceName:  "transit_gateway_peering_attachments",
 					ResourceModel: &ec2.TransitGatewayPeeringAttachment{},
-					FetchFunction: ec2.FetchTransitGatewayPeeringAttachment,
+					FetchFunction: IngestAwsEC2TransitGatewayPeeringAttachments,
+					UniqueIdField: "TransitGatewayAttachmentId",
 				},
 				{
 					ResourceName:  "transit_gateway_route_tables",
 					ResourceModel: &ec2.TransitGatewayRouteTable{},
-					FetchFunction: ec2.FetchTransitGatewayRouteTable,
+					FetchFunction: IngestAwsEC2TransitGatewayRouteTables,
+					UniqueIdField: "TransitGatewayRouteTableId",
 				},
 				{
 					ResourceName:  "transit_gateway_vpc_attachments",
 					ResourceModel: &ec2.TransitGatewayVpcAttachment{},
-					FetchFunction: ec2.FetchTransitGatewayVpcAttachment,
+					FetchFunction: IngestAwsEC2TransitGatewayVpcAttachments,
+					UniqueIdField: "TransitGatewayAttachmentId",
 				},
 				{
 					ResourceName:  "transit_gateways",
 					ResourceModel: &ec2.TransitGateway{},
-					FetchFunction: ec2.FetchTransitGateway,
+					FetchFunction: IngestAwsEC2TransitGateways,
+					UniqueIdField: "TransitGatewayId",
 				},
 				{
 					ResourceName:  "volumes",
 					ResourceModel: &ec2.Volume{},
-					FetchFunction: ec2.FetchVolume,
+					FetchFunction: IngestAwsEC2Volumes,
+					UniqueIdField: "VolumeId",
 				},
 				{
 					ResourceName:  "vpc_endpoints",
 					ResourceModel: &ec2.VpcEndpoint{},
-					FetchFunction: ec2.FetchVpcEndpoint,
+					FetchFunction: IngestAwsEC2VpcEndpoints,
+					UniqueIdField: "VpcEndpointId",
 				},
 				{
 					ResourceName:  "vpc_peering_connections",
 					ResourceModel: &ec2.VpcPeeringConnection{},
-					FetchFunction: ec2.FetchVpcPeeringConnection,
+					FetchFunction: IngestAwsEC2VpcPeeringConnections,
+					UniqueIdField: "VpcPeeringConnectionId",
 				},
 				{
 					ResourceName:  "vpcs",
 					ResourceModel: &ec2.Vpc{},
-					FetchFunction: ec2.FetchVpc,
+					FetchFunction: IngestAwsEC2Vpcs,
+					UniqueIdField: "VpcId",
 				},
 				{
 					ResourceName:  "vpn_gateways",
 					ResourceModel: &ec2.VpnGateway{},
-					FetchFunction: ec2.FetchVpnGateway,
+					FetchFunction: IngestAwsEC2VpnGateways,
+					UniqueIdField: "VpnGatewayId",
 				},
 			},
 		},
@@ -190,17 +273,20 @@ var (
 				{
 					ResourceName:  "clusters",
 					ResourceModel: &ecs.Cluster{},
-					FetchFunction: ecs.FetchCluster,
+					FetchFunction: IngestAwsECSClusters,
+					UniqueIdField: "ClusterArn",
 				},
 				{
 					ResourceName:  "services",
 					ResourceModel: &ecs.Service{},
-					FetchFunction: ecs.FetchService,
+					FetchFunction: IngestAwsECSServices,
+					UniqueIdField: "ServiceArn",
 				},
 				{
 					ResourceName:  "tasks",
 					ResourceModel: &ecs.Task{},
-					FetchFunction: ecs.FetchTask,
+					FetchFunction: IngestAwsECSTasks,
+					UniqueIdField: "TaskArn",
 				},
 			},
 		},
@@ -210,8 +296,9 @@ var (
 			Resources: []AwsCatalogResource{
 				{
 					ResourceName:  "filesystems",
-					ResourceModel: &efs.FileSystemDescription{},
-					FetchFunction: efs.FetchFileSystemDescription,
+					ResourceModel: &efs.FileSystem{},
+					FetchFunction: IngestAwsEFSFileSystems,
+					UniqueIdField: "FileSystemId",
 				},
 			},
 		},
@@ -222,7 +309,8 @@ var (
 				{
 					ResourceName:  "cache_clusters",
 					ResourceModel: &elasticache.CacheCluster{},
-					FetchFunction: elasticache.FetchCacheCluster,
+					FetchFunction: IngestAwsElastiCacheCacheClusters,
+					UniqueIdField: "ARN",
 				},
 			},
 		},
@@ -232,8 +320,9 @@ var (
 			Resources: []AwsCatalogResource{
 				{
 					ResourceName:  "load_balancers",
-					ResourceModel: &elasticloadbalancing.LoadBalancerDescription{},
-					FetchFunction: elasticloadbalancing.FetchLoadBalancerDescription,
+					ResourceModel: &elasticloadbalancing.LoadBalancer{},
+					FetchFunction: IngestAwsElasticLoadBalancingLoadBalancers,
+					UniqueIdField: "LoadBalancerName",
 				},
 			},
 		},
@@ -244,12 +333,14 @@ var (
 				{
 					ResourceName:  "load_balancers",
 					ResourceModel: &elasticloadbalancingv2.LoadBalancer{},
-					FetchFunction: elasticloadbalancingv2.FetchLoadBalancer,
+					FetchFunction: IngestAwsElasticLoadBalancingV2LoadBalancers,
+					UniqueIdField: "LoadBalancerArn",
 				},
 				{
 					ResourceName:  "target_groups",
 					ResourceModel: &elasticloadbalancingv2.TargetGroup{},
-					FetchFunction: elasticloadbalancingv2.FetchTargetGroup,
+					FetchFunction: IngestAwsElasticLoadBalancingV2TargetGroups,
+					UniqueIdField: "TargetGroupArn",
 				},
 			},
 		},
@@ -260,22 +351,26 @@ var (
 				{
 					ResourceName:  "groups",
 					ResourceModel: &iam.Group{},
-					FetchFunction: iam.FetchGroup,
+					FetchFunction: IngestAwsIAMGroups,
+					UniqueIdField: "GroupId",
 				},
 				{
 					ResourceName:  "policies",
 					ResourceModel: &iam.Policy{},
-					FetchFunction: iam.FetchPolicy,
+					FetchFunction: IngestAwsIAMPolicies,
+					UniqueIdField: "PolicyId",
 				},
 				{
 					ResourceName:  "roles",
 					ResourceModel: &iam.Role{},
-					FetchFunction: iam.FetchRole,
+					FetchFunction: IngestAwsIAMRoles,
+					UniqueIdField: "RoleId",
 				},
 				{
 					ResourceName:  "users",
 					ResourceModel: &iam.User{},
-					FetchFunction: iam.FetchUser,
+					FetchFunction: IngestAwsIAMUsers,
+					UniqueIdField: "UserId",
 				},
 			},
 		},
@@ -285,8 +380,9 @@ var (
 			Resources: []AwsCatalogResource{
 				{
 					ResourceName:  "functions",
-					ResourceModel: &lambda.FunctionConfiguration{},
-					FetchFunction: lambda.FetchFunctionConfiguration,
+					ResourceModel: &lambda.Function{},
+					FetchFunction: IngestAwsLambdaFunctions,
+					UniqueIdField: "FunctionArn",
 				},
 			},
 		},
@@ -297,12 +393,14 @@ var (
 				{
 					ResourceName:  "db_clusters",
 					ResourceModel: &rds.DBCluster{},
-					FetchFunction: rds.FetchDBCluster,
+					FetchFunction: IngestAwsRDSDBClusters,
+					UniqueIdField: "DBClusterArn",
 				},
 				{
 					ResourceName:  "db_instances",
 					ResourceModel: &rds.DBInstance{},
-					FetchFunction: rds.FetchDBInstance,
+					FetchFunction: IngestAwsRDSDBInstances,
+					UniqueIdField: "DBInstanceArn",
 				},
 			},
 		},
@@ -313,7 +411,8 @@ var (
 				{
 					ResourceName:  "clusters",
 					ResourceModel: &redshift.Cluster{},
-					FetchFunction: redshift.FetchCluster,
+					FetchFunction: IngestAwsRedshiftClusters,
+					UniqueIdField: "ClusterIdentifier",
 				},
 			},
 		},
@@ -324,7 +423,8 @@ var (
 				{
 					ResourceName:  "hosted_zones",
 					ResourceModel: &route53.HostedZone{},
-					FetchFunction: route53.FetchHostedZone,
+					FetchFunction: IngestAwsRoute53HostedZones,
+					UniqueIdField: "Id",
 				},
 			},
 		},
@@ -335,7 +435,50 @@ var (
 				{
 					ResourceName:  "buckets",
 					ResourceModel: &s3.Bucket{},
-					FetchFunction: s3.FetchBucket,
+					FetchFunction: IngestAwsS3Buckets,
+					UniqueIdField: "Name",
+				},
+			},
+		},
+		{
+			ServiceName:     "sns",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "topics",
+					ResourceModel: &sns.Topic{},
+					FetchFunction: IngestAwsSNSTopics,
+					UniqueIdField: "TopicArn",
+				},
+				{
+					ResourceName:  "subscriptions",
+					ResourceModel: &sns.Subscription{},
+					FetchFunction: IngestAwsSNSSubscriptions,
+					UniqueIdField: "SubscriptionArn",
+				},
+			},
+		},
+		{
+			ServiceName:     "sqs",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "queues",
+					ResourceModel: &sqs.Queue{},
+					FetchFunction: IngestAwsSQSQueues,
+					UniqueIdField: "QueueArn",
+				},
+			},
+		},
+		{
+			ServiceName:     "storagegateway",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "gateways",
+					ResourceModel: &storagegateway.Gateway{},
+					FetchFunction: IngestAwsStorageGatewayGateways,
+					UniqueIdField: "GatewayARN",
 				},
 			},
 		},

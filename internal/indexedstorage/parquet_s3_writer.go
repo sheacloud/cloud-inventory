@@ -68,17 +68,29 @@ func (w *ParquetS3File) Write(ctx context.Context, obj interface{}) error {
 	return w.parquetWriter.Write(obj)
 }
 
+func (w *ParquetS3File) WriteList(ctx context.Context, objs []interface{}) error {
+	w.writeLock.Lock()
+	defer w.writeLock.Unlock()
+
+	for _, obj := range objs {
+		if err := w.parquetWriter.Write(obj); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func (w *ParquetS3File) Close() error {
 	if w.parquetWriter != nil {
 		err := w.parquetWriter.WriteStop()
 		if err != nil {
-			return err
+			return fmt.Errorf("error closing parquet writer: %w", err)
 		}
 	}
 	if w.s3File != nil {
 		err := w.s3File.Close()
 		if err != nil {
-			return err
+			return fmt.Errorf("error closing s3 file: %w", err)
 		}
 	}
 

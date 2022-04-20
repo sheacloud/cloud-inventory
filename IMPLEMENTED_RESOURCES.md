@@ -3,6 +3,19 @@
 
 # AWS
 
+## ApiGateway
+ - rest_apis
+
+## ApiGatewayV2
+ - apis
+
+## Backup
+ - vaults
+ - plans
+
+## CloudTrail
+ - trails
+
 ## CloudWatchLogs
  - log_groups
 
@@ -13,7 +26,6 @@
  - addresses
  - dhcp_options
  - images
- - instance_types
  - instances
  - internet_gateways
  - managed_prefix_lists
@@ -74,4 +86,14 @@
 
 ## S3
  - buckets
+
+## SNS
+ - topics
+ - subscriptions
+
+## SQS
+ - queues
+
+## StorageGateway
+ - gateways
 

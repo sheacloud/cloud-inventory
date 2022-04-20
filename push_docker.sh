@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 docker build -t cloud-inventory-fetcher -f Dockerfile --platform linux/amd64 .
 

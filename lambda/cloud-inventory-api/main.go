@@ -6,11 +6,12 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go-v2/config"
-	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/gin-gonic/gin"
 	"github.com/sheacloud/cloud-inventory/docs"
 	"github.com/sheacloud/cloud-inventory/internal/api"
+	dynamoDAO "github.com/sheacloud/cloud-inventory/internal/db/dynamodb"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
@@ -42,6 +43,8 @@ func initOptions() {
 	viper.SetDefault("api_url", "localhost:3000")
 
 	viper.BindEnv("s3_bucket")
+
+	viper.BindEnv("mongo_uri")
 }
 
 func initLogging() {
@@ -64,16 +67,18 @@ func init() {
 	initLogging()
 	validateOptions()
 
+	docs.SwaggerInfo.Host = viper.GetString("api_url")
+
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		panic(err)
 	}
 
-	docs.SwaggerInfo.Host = viper.GetString("api_url")
+	dynamoClient := dynamodb.NewFromConfig(cfg)
 
-	s3Client := s3.NewFromConfig(cfg)
+	dao := dynamoDAO.NewDynamoDBDAO(dynamoClient, 3)
 
-	router = api.GetRouter(s3Client, viper.GetString("s3_bucket"))
+	router = api.GetRouter(dao)
 
 	ginLambda = ginadapter.NewV2(router)
 }

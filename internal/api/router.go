@@ -1,10 +1,10 @@
 package api
 
 import (
-	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/sheacloud/cloud-inventory/internal/api/routes/awscloud"
+	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws"
+	"github.com/sheacloud/cloud-inventory/internal/db"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -21,14 +21,15 @@ import (
 
 // @securityDefinitions.apikey  ApiKeyAuth
 // @in                          header
-// @name                        X-API-Key
+// @name                        Authorization
 
 // @BasePath  /v1
-func GetRouter(s3Client *s3.Client, s3Bucket string) *gin.Engine {
+func GetRouter(dao db.DAO) *gin.Engine {
 	router := gin.Default()
 
 	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowOrigins = []string{"http://localhost:8080", "https://cloud-inventory.sheacloud.com"}
+	corsConfig.AllowOrigins = []string{"*", "https://cloud-inventory.sheacloud.com"}
+	corsConfig.AllowHeaders = []string{"*"}
 	router.Use(cors.New(corsConfig))
 
 	v1 := router.Group("/v1")
@@ -37,9 +38,9 @@ func GetRouter(s3Client *s3.Client, s3Bucket string) *gin.Engine {
 	awsDiffRouter := v1.Group("/diff/aws")
 	awsMetadataRouter := v1.Group("/metadata/aws")
 
-	awscloud.AddInventoryRoutes(awsInventoryRouter, s3Client, s3Bucket)
-	awscloud.AddDiffRoutes(awsDiffRouter, s3Client, s3Bucket)
-	awscloud.AddMetadataRoutes(awsMetadataRouter, s3Client, s3Bucket)
+	aws.AddInventoryRoutes(awsInventoryRouter, dao)
+	aws.AddDiffRoutes(awsDiffRouter, dao)
+	aws.AddMetadataRoutes(awsMetadataRouter, dao)
 
 	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

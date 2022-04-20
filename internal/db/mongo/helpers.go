@@ -1,0 +1,70 @@
+package mongo
+
+import (
+	"context"
+	"fmt"
+	"time"
+
+	"github.com/sheacloud/cloud-inventory/internal/db"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+)
+
+func DistinctReportTimes(ctx context.Context, coll *mongo.Collection, reportDate time.Time) ([]string, error) {
+	filter := bson.D{
+		{"$and",
+			bson.A{
+				bson.D{{"report_time", bson.D{{"$gte", reportDate}}}},
+				bson.D{{"report_time", bson.D{{"$lt", reportDate.AddDate(0, 0, 1)}}}},
+			},
+		},
+	}
+	results, err := coll.Distinct(ctx, "report_time", filter)
+	if err != nil {
+		return nil, err
+	}
+	reportTimes := make([]string, len(results))
+	for i, result := range results {
+		reportTime := result.(primitive.DateTime)
+		reportTimes[i] = reportTime.Time().Format(time.RFC3339)
+	}
+
+	return reportTimes, nil
+}
+
+func GetReportTime(ctx context.Context, coll *mongo.Collection, reportDate time.Time, timeSelection db.TimeSelection, timeReference time.Time) (*time.Time, error) {
+
+	var filter bson.D
+	switch timeSelection {
+	case db.TimeSelectionLatest:
+		filter = bson.D{
+			{"$and",
+				bson.A{
+					bson.D{{"report_time", bson.D{{"$gte", reportDate}}}},
+					bson.D{{"report_time", bson.D{{"$lt", reportDate.AddDate(0, 0, 1)}}}},
+				},
+			},
+		}
+	case db.TimeSelectionBefore:
+		filter = bson.D{{"report_time", bson.D{{"$lt", timeReference}}}}
+	case db.TimeSelectionAfter:
+		filter = bson.D{{"report_time", bson.D{{"$gt", timeReference}}}}
+	case db.TimeSelectionAt:
+		return &timeReference, nil
+	}
+
+	opts := options.FindOne().SetProjection(bson.D{{"report_time", 1}, {"_id", 0}}).SetSort(bson.D{{"report_time", -1}})
+
+	var result struct {
+		ReportTime *time.Time `bson:"report_time"`
+	}
+	err := coll.FindOne(ctx, filter, opts).Decode(&result)
+	if err != nil {
+		fmt.Println("failed to run query")
+		return nil, err
+	}
+
+	return result.ReportTime, nil
+}

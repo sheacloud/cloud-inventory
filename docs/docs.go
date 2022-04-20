@@ -30,6 +30,1031 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/diff/aws/apigateway/rest_apis": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of RestApis between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws apigateway"
+                ],
+                "summary": "Diff RestApis",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/apigateway/rest_apis/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of RestApi between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws apigateway"
+                ],
+                "summary": "Diff RestApi",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The id of the RestApi to retrieve",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/apigatewayv2/apis": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of Apis between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws apigatewayv2"
+                ],
+                "summary": "Diff Apis",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/apigatewayv2/apis/{api_id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of Api between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws apigatewayv2"
+                ],
+                "summary": "Diff Api",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The api_id of the Api to retrieve",
+                        "name": "api_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/backup/plans": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of BackupPlans between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws backup"
+                ],
+                "summary": "Diff BackupPlans",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/backup/plans/{backup_plan_arn}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of BackupPlan between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws backup"
+                ],
+                "summary": "Diff BackupPlan",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The backup_plan_arn of the BackupPlan to retrieve",
+                        "name": "backup_plan_arn",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/backup/vaults": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of BackupVaults between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws backup"
+                ],
+                "summary": "Diff BackupVaults",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/backup/vaults/{backup_vault_arn}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of BackupVault between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws backup"
+                ],
+                "summary": "Diff BackupVault",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The backup_vault_arn of the BackupVault to retrieve",
+                        "name": "backup_vault_arn",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/cloudtrail/trails": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of Trails between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws cloudtrail"
+                ],
+                "summary": "Diff Trails",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/cloudtrail/trails/{trail_arn}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of Trail between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws cloudtrail"
+                ],
+                "summary": "Diff Trail",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The trail_arn of the Trail to retrieve",
+                        "name": "trail_arn",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/diff/aws/cloudwatchlogs/log_groups": {
             "get": {
                 "security": [
@@ -242,14 +1267,14 @@ var doc = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get a diff of TableDescriptions between two points in time",
+                "description": "get a diff of Tables between two points in time",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "aws dynamodb"
                 ],
-                "summary": "Diff TableDescriptions",
+                "summary": "Diff Tables",
                 "parameters": [
                     {
                         "type": "string",
@@ -341,14 +1366,14 @@ var doc = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get a diff of TableDescription between two points in time",
+                "description": "get a diff of Table between two points in time",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "aws dynamodb"
                 ],
-                "summary": "Diff TableDescription",
+                "summary": "Diff Table",
                 "parameters": [
                     {
                         "type": "string",
@@ -418,7 +1443,7 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "The table_arn of the TableDescription to retrieve",
+                        "description": "The table_arn of the Table to retrieve",
                         "name": "table_arn",
                         "in": "path",
                         "required": true
@@ -1035,211 +2060,6 @@ var doc = `{
                         "type": "string",
                         "description": "The image_id of the Image to retrieve",
                         "name": "image_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/routes.Diff"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": ""
-                    }
-                }
-            }
-        },
-        "/diff/aws/ec2/instance_types": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "get a diff of InstanceTypes between two points in time",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "aws ec2"
-                ],
-                "summary": "Diff InstanceTypes",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "format": "date",
-                        "description": "Which date to pull data from. Current date by default",
-                        "name": "start_report_date",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "enum": [
-                            "latest",
-                            "before",
-                            "after",
-                            "at"
-                        ],
-                        "type": "string",
-                        "description": "How to select the time range to pull data from. 'latest' by default",
-                        "name": "start_time_selection",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
-                        "name": "start_time_selection_reference",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "format": "date",
-                        "description": "Which date to pull data from. Current date by default",
-                        "name": "end_report_date",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "enum": [
-                            "latest",
-                            "before",
-                            "after",
-                            "at"
-                        ],
-                        "type": "string",
-                        "description": "How to select the time range to pull data from. 'latest' by default",
-                        "name": "end_time_selection",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
-                        "name": "end_time_selection_reference",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "A specific account to pull data from. All accounts by default",
-                        "name": "account_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "A specific region to pull data from. All regions by default",
-                        "name": "region",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/routes.Diff"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": ""
-                    }
-                }
-            }
-        },
-        "/diff/aws/ec2/instance_types/{instance_type}": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "get a diff of InstanceTypeInfo between two points in time",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "aws ec2"
-                ],
-                "summary": "Diff InstanceTypeInfo",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "format": "date",
-                        "description": "Which date to pull data from. Current date by default",
-                        "name": "start_report_date",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "enum": [
-                            "latest",
-                            "before",
-                            "after",
-                            "at"
-                        ],
-                        "type": "string",
-                        "description": "How to select the time range to pull data from. 'latest' by default",
-                        "name": "start_time_selection",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
-                        "name": "start_time_selection_reference",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "format": "date",
-                        "description": "Which date to pull data from. Current date by default",
-                        "name": "end_report_date",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "enum": [
-                            "latest",
-                            "before",
-                            "after",
-                            "at"
-                        ],
-                        "type": "string",
-                        "description": "How to select the time range to pull data from. 'latest' by default",
-                        "name": "end_time_selection",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
-                        "name": "end_time_selection_reference",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "A specific account to pull data from. All accounts by default",
-                        "name": "account_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "A specific region to pull data from. All regions by default",
-                        "name": "region",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "The instance_type of the InstanceTypeInfo to retrieve",
-                        "name": "instance_type",
                         "in": "path",
                         "required": true
                     }
@@ -6081,14 +6901,14 @@ var doc = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get a diff of FileSystemDescription between two points in time",
+                "description": "get a diff of FileSystem between two points in time",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "aws efs"
                 ],
-                "summary": "Diff FileSystemDescription",
+                "summary": "Diff FileSystem",
                 "parameters": [
                     {
                         "type": "string",
@@ -6158,7 +6978,7 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "The file_system_id of the FileSystemDescription to retrieve",
+                        "description": "The file_system_id of the FileSystem to retrieve",
                         "name": "file_system_id",
                         "in": "path",
                         "required": true
@@ -6491,14 +7311,14 @@ var doc = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get a diff of LoadBalancerDescription between two points in time",
+                "description": "get a diff of LoadBalancer between two points in time",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "aws elasticloadbalancing"
                 ],
-                "summary": "Diff LoadBalancerDescription",
+                "summary": "Diff LoadBalancer",
                 "parameters": [
                     {
                         "type": "string",
@@ -6568,7 +7388,7 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "The load_balancer_name of the LoadBalancerDescription to retrieve",
+                        "description": "The load_balancer_name of the LoadBalancer to retrieve",
                         "name": "load_balancer_name",
                         "in": "path",
                         "required": true
@@ -7926,14 +8746,14 @@ var doc = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get a diff of FunctionConfiguration between two points in time",
+                "description": "get a diff of Function between two points in time",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "aws lambda"
                 ],
-                "summary": "Diff FunctionConfiguration",
+                "summary": "Diff Function",
                 "parameters": [
                     {
                         "type": "string",
@@ -8003,7 +8823,7 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "The function_arn of the FunctionConfiguration to retrieve",
+                        "description": "The function_arn of the Function to retrieve",
                         "name": "function_arn",
                         "in": "path",
                         "required": true
@@ -9050,6 +9870,1616 @@ var doc = `{
                 }
             }
         },
+        "/diff/aws/sns/subscriptions": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of Subscriptions between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws sns"
+                ],
+                "summary": "Diff Subscriptions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/sns/subscriptions/{subscription_arn}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of Subscription between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws sns"
+                ],
+                "summary": "Diff Subscription",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The subscription_arn of the Subscription to retrieve",
+                        "name": "subscription_arn",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/sns/topics": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of Topics between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws sns"
+                ],
+                "summary": "Diff Topics",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/sns/topics/{topic_arn}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of Topic between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws sns"
+                ],
+                "summary": "Diff Topic",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The topic_arn of the Topic to retrieve",
+                        "name": "topic_arn",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/sqs/queues": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of Queues between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws sqs"
+                ],
+                "summary": "Diff Queues",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/sqs/queues/{queue_arn}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of Queue between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws sqs"
+                ],
+                "summary": "Diff Queue",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The queue_arn of the Queue to retrieve",
+                        "name": "queue_arn",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/storagegateway/gateways": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of Gateways between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws storagegateway"
+                ],
+                "summary": "Diff Gateways",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/diff/aws/storagegateway/gateways/{gateway_arn}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a diff of Gateway between two points in time",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws storagegateway"
+                ],
+                "summary": "Diff Gateway",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "start_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "start_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "start_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "end_report_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "end_time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "end_time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The gateway_arn of the Gateway to retrieve",
+                        "name": "gateway_arn",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.Diff"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/inventory/aws/apigateway/rest_apis": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of rest_apis",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws apigateway"
+                ],
+                "summary": "List RestApis",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/apigateway.ListRestApisResponse"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/inventory/aws/apigateway/rest_apis/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get a specific RestApi by its Id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws apigateway"
+                ],
+                "summary": "Get a specific RestApi",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The id of the RestApi to retrieve",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/apigateway.RestApi"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "404": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/inventory/aws/apigatewayv2/apis": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of apis",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws apigatewayv2"
+                ],
+                "summary": "List Apis",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/apigatewayv2.ListApisResponse"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/inventory/aws/apigatewayv2/apis/{api_id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get a specific Api by its ApiId",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws apigatewayv2"
+                ],
+                "summary": "Get a specific Api",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The api_id of the Api to retrieve",
+                        "name": "api_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/apigatewayv2.Api"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "404": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/inventory/aws/backup/plans": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of plans",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws backup"
+                ],
+                "summary": "List BackupPlans",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/backup.ListBackupPlansResponse"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/inventory/aws/backup/plans/{backup_plan_arn}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get a specific BackupPlan by its BackupPlanArn",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws backup"
+                ],
+                "summary": "Get a specific BackupPlan",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The backup_plan_arn of the BackupPlan to retrieve",
+                        "name": "backup_plan_arn",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/backup.BackupPlan"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "404": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/inventory/aws/backup/vaults": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of vaults",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws backup"
+                ],
+                "summary": "List BackupVaults",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/backup.ListBackupVaultsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/inventory/aws/backup/vaults/{backup_vault_arn}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get a specific BackupVault by its BackupVaultArn",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws backup"
+                ],
+                "summary": "Get a specific BackupVault",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The backup_vault_arn of the BackupVault to retrieve",
+                        "name": "backup_vault_arn",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/backup.BackupVault"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "404": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/inventory/aws/cloudtrail/trails": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of trails",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws cloudtrail"
+                ],
+                "summary": "List Trails",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/cloudtrail.ListTrailsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/inventory/aws/cloudtrail/trails/{trail_arn}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get a specific Trail by its TrailARN",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws cloudtrail"
+                ],
+                "summary": "Get a specific Trail",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The trail_arn of the Trail to retrieve",
+                        "name": "trail_arn",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/cloudtrail.Trail"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "404": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/inventory/aws/cloudwatchlogs/log_groups": {
             "get": {
                 "security": [
@@ -9103,16 +11533,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/cloudwatchlogs.LogGroup"
-                            }
+                            "$ref": "#/definitions/cloudwatchlogs.ListLogGroupsResponse"
                         }
                     },
                     "400": {
@@ -9213,7 +11652,7 @@ var doc = `{
                 "tags": [
                     "aws dynamodb"
                 ],
-                "summary": "List TableDescriptions",
+                "summary": "List Tables",
                 "parameters": [
                     {
                         "type": "string",
@@ -9252,16 +11691,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/dynamodb.TableDescription"
-                            }
+                            "$ref": "#/definitions/dynamodb.ListTablesResponse"
                         }
                     },
                     "400": {
@@ -9277,14 +11725,14 @@ var doc = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Get a specific TableDescription by its TableArn",
+                "description": "Get a specific Table by its TableArn",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "aws dynamodb"
                 ],
-                "summary": "Get a specific TableDescription",
+                "summary": "Get a specific Table",
                 "parameters": [
                     {
                         "type": "string",
@@ -9295,7 +11743,7 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "The table_arn of the TableDescription to retrieve",
+                        "description": "The table_arn of the Table to retrieve",
                         "name": "table_arn",
                         "in": "path",
                         "required": true
@@ -9336,7 +11784,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dynamodb.TableDescription"
+                            "$ref": "#/definitions/dynamodb.Table"
                         }
                     },
                     "400": {
@@ -9401,16 +11849,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.Address"
-                            }
+                            "$ref": "#/definitions/ec2.ListAddressesResponse"
                         }
                     },
                     "400": {
@@ -9550,16 +12007,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.DhcpOptions"
-                            }
+                            "$ref": "#/definitions/ec2.ListDhcpOptionsResponse"
                         }
                     },
                     "400": {
@@ -9699,16 +12165,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.Image"
-                            }
+                            "$ref": "#/definitions/ec2.ListImagesResponse"
                         }
                     },
                     "400": {
@@ -9795,155 +12270,6 @@ var doc = `{
                 }
             }
         },
-        "/inventory/aws/ec2/instance_types": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "get a list of instance_types",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "aws ec2"
-                ],
-                "summary": "List InstanceTypes",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "format": "date",
-                        "description": "Which date to pull data from. Current date by default",
-                        "name": "report_date",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "A specific account to pull data from. All accounts by default",
-                        "name": "account_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "A specific region to pull data from. All regions by default",
-                        "name": "region",
-                        "in": "query"
-                    },
-                    {
-                        "enum": [
-                            "latest",
-                            "before",
-                            "after",
-                            "at"
-                        ],
-                        "type": "string",
-                        "description": "How to select the time range to pull data from. 'latest' by default",
-                        "name": "time_selection",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
-                        "name": "time_selection_reference",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.InstanceTypeInfo"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": ""
-                    }
-                }
-            }
-        },
-        "/inventory/aws/ec2/instance_types/{instance_type}": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Get a specific InstanceTypeInfo by its InstanceType",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "aws ec2"
-                ],
-                "summary": "Get a specific InstanceTypeInfo",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "format": "date",
-                        "description": "Which date to pull data from. Current date by default",
-                        "name": "report_date",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "The instance_type of the InstanceTypeInfo to retrieve",
-                        "name": "instance_type",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "A specific account to pull data from. All accounts by default",
-                        "name": "account_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "A specific region to pull data from. All regions by default",
-                        "name": "region",
-                        "in": "query"
-                    },
-                    {
-                        "enum": [
-                            "latest",
-                            "before",
-                            "after",
-                            "at"
-                        ],
-                        "type": "string",
-                        "description": "How to select the time range to pull data from. 'latest' by default",
-                        "name": "time_selection",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "format": "dateTime",
-                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
-                        "name": "time_selection_reference",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/ec2.InstanceTypeInfo"
-                        }
-                    },
-                    "400": {
-                        "description": ""
-                    },
-                    "404": {
-                        "description": ""
-                    }
-                }
-            }
-        },
         "/inventory/aws/ec2/instances": {
             "get": {
                 "security": [
@@ -9997,16 +12323,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.Instance"
-                            }
+                            "$ref": "#/definitions/ec2.ListInstancesResponse"
                         }
                     },
                     "400": {
@@ -10146,16 +12481,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.InternetGateway"
-                            }
+                            "$ref": "#/definitions/ec2.ListInternetGatewaysResponse"
                         }
                     },
                     "400": {
@@ -10295,16 +12639,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.ManagedPrefixList"
-                            }
+                            "$ref": "#/definitions/ec2.ListManagedPrefixListsResponse"
                         }
                     },
                     "400": {
@@ -10444,16 +12797,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.NatGateway"
-                            }
+                            "$ref": "#/definitions/ec2.ListNatGatewaysResponse"
                         }
                     },
                     "400": {
@@ -10593,16 +12955,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.NetworkAcl"
-                            }
+                            "$ref": "#/definitions/ec2.ListNetworkAclsResponse"
                         }
                     },
                     "400": {
@@ -10742,16 +13113,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.NetworkInterface"
-                            }
+                            "$ref": "#/definitions/ec2.ListNetworkInterfacesResponse"
                         }
                     },
                     "400": {
@@ -10891,16 +13271,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.PlacementGroup"
-                            }
+                            "$ref": "#/definitions/ec2.ListPlacementGroupsResponse"
                         }
                     },
                     "400": {
@@ -11040,16 +13429,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.ReservedInstances"
-                            }
+                            "$ref": "#/definitions/ec2.ListReservedInstancesResponse"
                         }
                     },
                     "400": {
@@ -11189,16 +13587,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.RouteTable"
-                            }
+                            "$ref": "#/definitions/ec2.ListRouteTablesResponse"
                         }
                     },
                     "400": {
@@ -11338,16 +13745,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.SecurityGroup"
-                            }
+                            "$ref": "#/definitions/ec2.ListSecurityGroupsResponse"
                         }
                     },
                     "400": {
@@ -11487,16 +13903,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.Subnet"
-                            }
+                            "$ref": "#/definitions/ec2.ListSubnetsResponse"
                         }
                     },
                     "400": {
@@ -11636,16 +14061,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.TransitGatewayPeeringAttachment"
-                            }
+                            "$ref": "#/definitions/ec2.ListTransitGatewayPeeringAttachmentsResponse"
                         }
                     },
                     "400": {
@@ -11785,16 +14219,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.TransitGatewayRouteTable"
-                            }
+                            "$ref": "#/definitions/ec2.ListTransitGatewayRouteTablesResponse"
                         }
                     },
                     "400": {
@@ -11934,16 +14377,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.TransitGatewayVpcAttachment"
-                            }
+                            "$ref": "#/definitions/ec2.ListTransitGatewayVpcAttachmentsResponse"
                         }
                     },
                     "400": {
@@ -12083,16 +14535,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.TransitGateway"
-                            }
+                            "$ref": "#/definitions/ec2.ListTransitGatewaysResponse"
                         }
                     },
                     "400": {
@@ -12232,16 +14693,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.Volume"
-                            }
+                            "$ref": "#/definitions/ec2.ListVolumesResponse"
                         }
                     },
                     "400": {
@@ -12381,16 +14851,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.VpcEndpoint"
-                            }
+                            "$ref": "#/definitions/ec2.ListVpcEndpointsResponse"
                         }
                     },
                     "400": {
@@ -12530,16 +15009,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.VpcPeeringConnection"
-                            }
+                            "$ref": "#/definitions/ec2.ListVpcPeeringConnectionsResponse"
                         }
                     },
                     "400": {
@@ -12679,16 +15167,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.Vpc"
-                            }
+                            "$ref": "#/definitions/ec2.ListVpcsResponse"
                         }
                     },
                     "400": {
@@ -12828,16 +15325,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ec2.VpnGateway"
-                            }
+                            "$ref": "#/definitions/ec2.ListVpnGatewaysResponse"
                         }
                     },
                     "400": {
@@ -12977,16 +15483,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ecs.Cluster"
-                            }
+                            "$ref": "#/definitions/ecs.ListClustersResponse"
                         }
                     },
                     "400": {
@@ -13126,16 +15641,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ecs.Service"
-                            }
+                            "$ref": "#/definitions/ecs.ListServicesResponse"
                         }
                     },
                     "400": {
@@ -13275,16 +15799,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ecs.Task"
-                            }
+                            "$ref": "#/definitions/ecs.ListTasksResponse"
                         }
                     },
                     "400": {
@@ -13424,16 +15957,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/efs.FileSystemDescription"
-                            }
+                            "$ref": "#/definitions/efs.ListFileSystemsResponse"
                         }
                     },
                     "400": {
@@ -13449,14 +15991,14 @@ var doc = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Get a specific FileSystemDescription by its FileSystemId",
+                "description": "Get a specific FileSystem by its FileSystemId",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "aws efs"
                 ],
-                "summary": "Get a specific FileSystemDescription",
+                "summary": "Get a specific FileSystem",
                 "parameters": [
                     {
                         "type": "string",
@@ -13467,7 +16009,7 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "The file_system_id of the FileSystemDescription to retrieve",
+                        "description": "The file_system_id of the FileSystem to retrieve",
                         "name": "file_system_id",
                         "in": "path",
                         "required": true
@@ -13508,7 +16050,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/efs.FileSystemDescription"
+                            "$ref": "#/definitions/efs.FileSystem"
                         }
                     },
                     "400": {
@@ -13573,16 +16115,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/elasticache.CacheCluster"
-                            }
+                            "$ref": "#/definitions/elasticache.ListCacheClustersResponse"
                         }
                     },
                     "400": {
@@ -13722,16 +16273,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/elasticloadbalancing.LoadBalancerDescription"
-                            }
+                            "$ref": "#/definitions/elasticloadbalancing.ListLoadBalancersResponse"
                         }
                     },
                     "400": {
@@ -13747,14 +16307,14 @@ var doc = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Get a specific LoadBalancerDescription by its LoadBalancerName",
+                "description": "Get a specific LoadBalancer by its LoadBalancerName",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "aws elasticloadbalancing"
                 ],
-                "summary": "Get a specific LoadBalancerDescription",
+                "summary": "Get a specific LoadBalancer",
                 "parameters": [
                     {
                         "type": "string",
@@ -13765,7 +16325,7 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "The load_balancer_name of the LoadBalancerDescription to retrieve",
+                        "description": "The load_balancer_name of the LoadBalancer to retrieve",
                         "name": "load_balancer_name",
                         "in": "path",
                         "required": true
@@ -13806,7 +16366,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/elasticloadbalancing.LoadBalancerDescription"
+                            "$ref": "#/definitions/elasticloadbalancing.LoadBalancer"
                         }
                     },
                     "400": {
@@ -13871,16 +16431,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/elasticloadbalancingv2.LoadBalancer"
-                            }
+                            "$ref": "#/definitions/elasticloadbalancingv2.ListLoadBalancersResponse"
                         }
                     },
                     "400": {
@@ -14020,16 +16589,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/elasticloadbalancingv2.TargetGroup"
-                            }
+                            "$ref": "#/definitions/elasticloadbalancingv2.ListTargetGroupsResponse"
                         }
                     },
                     "400": {
@@ -14169,16 +16747,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/iam.Group"
-                            }
+                            "$ref": "#/definitions/iam.ListGroupsResponse"
                         }
                     },
                     "400": {
@@ -14318,16 +16905,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/iam.Policy"
-                            }
+                            "$ref": "#/definitions/iam.ListPoliciesResponse"
                         }
                     },
                     "400": {
@@ -14467,16 +17063,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/iam.Role"
-                            }
+                            "$ref": "#/definitions/iam.ListRolesResponse"
                         }
                     },
                     "400": {
@@ -14616,16 +17221,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/iam.User"
-                            }
+                            "$ref": "#/definitions/iam.ListUsersResponse"
                         }
                     },
                     "400": {
@@ -14765,16 +17379,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/lambda.FunctionConfiguration"
-                            }
+                            "$ref": "#/definitions/lambda.ListFunctionsResponse"
                         }
                     },
                     "400": {
@@ -14790,14 +17413,14 @@ var doc = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Get a specific FunctionConfiguration by its FunctionArn",
+                "description": "Get a specific Function by its FunctionArn",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "aws lambda"
                 ],
-                "summary": "Get a specific FunctionConfiguration",
+                "summary": "Get a specific Function",
                 "parameters": [
                     {
                         "type": "string",
@@ -14808,7 +17431,7 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "The function_arn of the FunctionConfiguration to retrieve",
+                        "description": "The function_arn of the Function to retrieve",
                         "name": "function_arn",
                         "in": "path",
                         "required": true
@@ -14849,7 +17472,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/lambda.FunctionConfiguration"
+                            "$ref": "#/definitions/lambda.Function"
                         }
                     },
                     "400": {
@@ -14914,16 +17537,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/rds.DBCluster"
-                            }
+                            "$ref": "#/definitions/rds.ListDBClustersResponse"
                         }
                     },
                     "400": {
@@ -15063,16 +17695,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/rds.DBInstance"
-                            }
+                            "$ref": "#/definitions/rds.ListDBInstancesResponse"
                         }
                     },
                     "400": {
@@ -15212,16 +17853,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/redshift.Cluster"
-                            }
+                            "$ref": "#/definitions/redshift.ListClustersResponse"
                         }
                     },
                     "400": {
@@ -15361,16 +18011,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/route53.HostedZone"
-                            }
+                            "$ref": "#/definitions/route53.ListHostedZonesResponse"
                         }
                     },
                     "400": {
@@ -15510,16 +18169,25 @@ var doc = `{
                         "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
                         "name": "time_selection_reference",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/s3.Bucket"
-                            }
+                            "$ref": "#/definitions/s3.ListBucketsResponse"
                         }
                     },
                     "400": {
@@ -15606,6 +18274,638 @@ var doc = `{
                 }
             }
         },
+        "/inventory/aws/sns/subscriptions": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of subscriptions",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws sns"
+                ],
+                "summary": "List Subscriptions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/sns.ListSubscriptionsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/inventory/aws/sns/subscriptions/{subscription_arn}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get a specific Subscription by its SubscriptionArn",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws sns"
+                ],
+                "summary": "Get a specific Subscription",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The subscription_arn of the Subscription to retrieve",
+                        "name": "subscription_arn",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/sns.Subscription"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "404": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/inventory/aws/sns/topics": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of topics",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws sns"
+                ],
+                "summary": "List Topics",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/sns.ListTopicsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/inventory/aws/sns/topics/{topic_arn}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get a specific Topic by its TopicArn",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws sns"
+                ],
+                "summary": "Get a specific Topic",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The topic_arn of the Topic to retrieve",
+                        "name": "topic_arn",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/sns.Topic"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "404": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/inventory/aws/sqs/queues": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of queues",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws sqs"
+                ],
+                "summary": "List Queues",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/sqs.ListQueuesResponse"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/inventory/aws/sqs/queues/{queue_arn}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get a specific Queue by its QueueArn",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws sqs"
+                ],
+                "summary": "Get a specific Queue",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The queue_arn of the Queue to retrieve",
+                        "name": "queue_arn",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/sqs.Queue"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "404": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/inventory/aws/storagegateway/gateways": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of gateways",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws storagegateway"
+                ],
+                "summary": "List Gateways",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response.",
+                        "name": "pagination_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The maximum number of results to return. Default is 100",
+                        "name": "max_results",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/storagegateway.ListGatewaysResponse"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/inventory/aws/storagegateway/gateways/{gateway_arn}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get a specific Gateway by its GatewayARN",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws storagegateway"
+                ],
+                "summary": "Get a specific Gateway",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "The gateway_arn of the Gateway to retrieve",
+                        "name": "gateway_arn",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific account to pull data from. All accounts by default",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "A specific region to pull data from. All regions by default",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "latest",
+                            "before",
+                            "after",
+                            "at"
+                        ],
+                        "type": "string",
+                        "description": "How to select the time range to pull data from. 'latest' by default",
+                        "name": "time_selection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "dateTime",
+                        "description": "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'.",
+                        "name": "time_selection_reference",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/storagegateway.Gateway"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "404": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/metadata/aws": {
             "get": {
                 "security": [
@@ -15628,6 +18928,330 @@ var doc = `{
                             "type": "array",
                             "items": {
                                 "$ref": "#/definitions/routes.AwsMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/apigateway": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of ApiGateway metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws apigateway"
+                ],
+                "summary": "Get ApiGateway Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/apigateway/rest_apis": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of rest_apis metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws apigateway"
+                ],
+                "summary": "Get RestApis Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/apigatewayv2": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of ApiGatewayV2 metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws apigatewayv2"
+                ],
+                "summary": "Get ApiGatewayV2 Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/apigatewayv2/apis": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of apis metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws apigatewayv2"
+                ],
+                "summary": "Get Apis Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/backup": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of Backup metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws backup"
+                ],
+                "summary": "Get Backup Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/backup/plans": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of plans metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws backup"
+                ],
+                "summary": "Get BackupPlans Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/backup/vaults": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of vaults metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws backup"
+                ],
+                "summary": "Get BackupVaults Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/cloudtrail": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of CloudTrail metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws cloudtrail"
+                ],
+                "summary": "Get CloudTrail Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/cloudtrail/trails": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of trails metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws cloudtrail"
+                ],
+                "summary": "Get Trails Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
                             }
                         }
                     },
@@ -15753,7 +19377,7 @@ var doc = `{
                 "tags": [
                     "aws dynamodb"
                 ],
-                "summary": "Get TableDescriptions Metadata",
+                "summary": "Get Tables Metadata",
                 "parameters": [
                     {
                         "type": "string",
@@ -15905,46 +19529,6 @@ var doc = `{
                     "aws ec2"
                 ],
                 "summary": "Get Images Metadata",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "format": "date",
-                        "description": "Which date to pull data from. Current date by default",
-                        "name": "report_date",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/routes.AwsResourceMetadata"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": ""
-                    }
-                }
-            }
-        },
-        "/metadata/aws/ec2/instance_types": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "get a list of instance_types metadata",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "aws ec2"
-                ],
-                "summary": "Get InstanceTypes Metadata",
                 "parameters": [
                     {
                         "type": "string",
@@ -17830,12 +21414,1451 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/metadata/aws/sns": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of SNS metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws sns"
+                ],
+                "summary": "Get SNS Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/sns/subscriptions": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of subscriptions metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws sns"
+                ],
+                "summary": "Get Subscriptions Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/sns/topics": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of topics metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws sns"
+                ],
+                "summary": "Get Topics Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/sqs": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of SQS metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws sqs"
+                ],
+                "summary": "Get SQS Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/sqs/queues": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of queues metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws sqs"
+                ],
+                "summary": "Get Queues Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/storagegateway": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of StorageGateway metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws storagegateway"
+                ],
+                "summary": "Get StorageGateway Metadata",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsServiceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/metadata/aws/storagegateway/gateways": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a list of gateways metadata",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "aws storagegateway"
+                ],
+                "summary": "Get Gateways Metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Which date to pull data from. Current date by default",
+                        "name": "report_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/routes.AwsResourceMetadata"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "apigateway.AccessLogSettings": {
+            "type": "object",
+            "properties": {
+                "destination_arn": {
+                    "type": "string"
+                },
+                "format": {
+                    "type": "string"
+                }
+            }
+        },
+        "apigateway.CanarySettings": {
+            "type": "object",
+            "properties": {
+                "deployment_id": {
+                    "type": "string"
+                },
+                "percent_traffic": {
+                    "type": "number"
+                },
+                "stage_variable_overrides": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "use_stage_cache": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "apigateway.EndpointConfiguration": {
+            "type": "object",
+            "properties": {
+                "types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "vpc_endpoint_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "apigateway.Integration": {
+            "type": "object",
+            "properties": {
+                "cache_key_parameters": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "cache_namespace": {
+                    "type": "string"
+                },
+                "connection_id": {
+                    "type": "string"
+                },
+                "connection_type": {
+                    "type": "string"
+                },
+                "content_handling": {
+                    "type": "string"
+                },
+                "credentials": {
+                    "type": "string"
+                },
+                "http_method": {
+                    "type": "string"
+                },
+                "integration_responses": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/apigateway.IntegrationResponse"
+                    }
+                },
+                "passthrough_behavior": {
+                    "type": "string"
+                },
+                "request_parameters": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "request_templates": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "timeout_in_millis": {
+                    "type": "integer"
+                },
+                "tls_config": {
+                    "$ref": "#/definitions/apigateway.TlsConfig"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "uri": {
+                    "type": "string"
+                }
+            }
+        },
+        "apigateway.IntegrationResponse": {
+            "type": "object",
+            "properties": {
+                "content_handling": {
+                    "type": "string"
+                },
+                "response_parameters": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "response_templates": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "selection_pattern": {
+                    "type": "string"
+                },
+                "status_code": {
+                    "type": "string"
+                }
+            }
+        },
+        "apigateway.ListRestApisResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "rest_apis": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/apigateway.RestApi"
+                    }
+                }
+            }
+        },
+        "apigateway.Method": {
+            "type": "object",
+            "properties": {
+                "api_key_required": {
+                    "type": "boolean"
+                },
+                "authorization_scopes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "authorization_type": {
+                    "type": "string"
+                },
+                "authorizer_id": {
+                    "type": "string"
+                },
+                "http_method": {
+                    "type": "string"
+                },
+                "method_integration": {
+                    "$ref": "#/definitions/apigateway.Integration"
+                },
+                "method_responses": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/apigateway.MethodResponse"
+                    }
+                },
+                "operation_name": {
+                    "type": "string"
+                },
+                "request_models": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "request_parameters": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "boolean"
+                    }
+                },
+                "request_validator_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "apigateway.MethodResponse": {
+            "type": "object",
+            "properties": {
+                "response_models": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "response_parameters": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "boolean"
+                    }
+                },
+                "status_code": {
+                    "type": "string"
+                }
+            }
+        },
+        "apigateway.MethodSetting": {
+            "type": "object",
+            "properties": {
+                "cache_data_encrypted": {
+                    "type": "boolean"
+                },
+                "cache_ttl_in_seconds": {
+                    "type": "integer"
+                },
+                "caching_enabled": {
+                    "type": "boolean"
+                },
+                "data_trace_enabled": {
+                    "type": "boolean"
+                },
+                "logging_level": {
+                    "type": "string"
+                },
+                "metrics_enabled": {
+                    "type": "boolean"
+                },
+                "require_authorization_for_cache_control": {
+                    "type": "boolean"
+                },
+                "throttling_burst_limit": {
+                    "type": "integer"
+                },
+                "throttling_rate_limit": {
+                    "type": "number"
+                },
+                "unauthorized_cache_control_header_strategy": {
+                    "type": "string"
+                }
+            }
+        },
+        "apigateway.Resource": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "path_part": {
+                    "type": "string"
+                },
+                "resource_methods": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/apigateway.Method"
+                    }
+                }
+            }
+        },
+        "apigateway.RestApi": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "account_id": {
+                    "type": "string"
+                },
+                "api_key_source": {
+                    "type": "string"
+                },
+                "binary_media_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "created_date": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disable_execute_api_endpoint": {
+                    "type": "boolean"
+                },
+                "endpoint_configuration": {
+                    "$ref": "#/definitions/apigateway.EndpointConfiguration"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "minimum_compression_size": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "policy": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "report_time": {
+                    "type": "string"
+                },
+                "resources": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/apigateway.Resource"
+                    }
+                },
+                "stages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/apigateway.Stage"
+                    }
+                },
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "version": {
+                    "type": "string"
+                },
+                "warnings": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "apigateway.Stage": {
+            "type": "object",
+            "properties": {
+                "access_log_settings": {
+                    "$ref": "#/definitions/apigateway.AccessLogSettings"
+                },
+                "cache_cluster_enabled": {
+                    "type": "boolean"
+                },
+                "cache_cluster_size": {
+                    "type": "string"
+                },
+                "cache_cluster_status": {
+                    "type": "string"
+                },
+                "canary_settings": {
+                    "$ref": "#/definitions/apigateway.CanarySettings"
+                },
+                "client_certificate_id": {
+                    "type": "string"
+                },
+                "created_date": {
+                    "type": "string"
+                },
+                "deployment_id": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "documentation_version": {
+                    "type": "string"
+                },
+                "last_updated_date": {
+                    "type": "string"
+                },
+                "method_settings": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/apigateway.MethodSetting"
+                    }
+                },
+                "stage_name": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "tracing_enabled": {
+                    "type": "boolean"
+                },
+                "variables": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "web_acl_arn": {
+                    "type": "string"
+                }
+            }
+        },
+        "apigateway.TlsConfig": {
+            "type": "object",
+            "properties": {
+                "insecure_skip_verification": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "apigatewayv2.AccessLogSettings": {
+            "type": "object",
+            "properties": {
+                "destination_arn": {
+                    "type": "string"
+                },
+                "format": {
+                    "type": "string"
+                }
+            }
+        },
+        "apigatewayv2.Api": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "account_id": {
+                    "type": "string"
+                },
+                "api_endpoint": {
+                    "type": "string"
+                },
+                "api_gateway_managed": {
+                    "type": "boolean"
+                },
+                "api_id": {
+                    "type": "string"
+                },
+                "api_key_selection_expression": {
+                    "type": "string"
+                },
+                "authorizers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/apigatewayv2.Authorizer"
+                    }
+                },
+                "cors_configuration": {
+                    "$ref": "#/definitions/apigatewayv2.Cors"
+                },
+                "created_date": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disable_execute_api_endpoint": {
+                    "type": "boolean"
+                },
+                "disable_schema_validation": {
+                    "type": "boolean"
+                },
+                "import_info": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "integrations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/apigatewayv2.Integration"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "protocol_type": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "report_time": {
+                    "type": "string"
+                },
+                "route_selection_expression": {
+                    "type": "string"
+                },
+                "routes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/apigatewayv2.GetRouteOutput"
+                    }
+                },
+                "stages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/apigatewayv2.Stage"
+                    }
+                },
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "version": {
+                    "type": "string"
+                },
+                "warnings": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "apigatewayv2.Authorizer": {
+            "type": "object",
+            "properties": {
+                "authorizer_credentials_arn": {
+                    "type": "string"
+                },
+                "authorizer_id": {
+                    "type": "string"
+                },
+                "authorizer_payload_format_version": {
+                    "type": "string"
+                },
+                "authorizer_result_ttl_in_seconds": {
+                    "type": "integer"
+                },
+                "authorizer_type": {
+                    "type": "string"
+                },
+                "authorizer_uri": {
+                    "type": "string"
+                },
+                "enable_simple_responses": {
+                    "type": "boolean"
+                },
+                "identity_source": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "identity_validation_expression": {
+                    "type": "string"
+                },
+                "jwt_configuration": {
+                    "$ref": "#/definitions/apigatewayv2.JWTConfiguration"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "apigatewayv2.Cors": {
+            "type": "object",
+            "properties": {
+                "allow_credentials": {
+                    "type": "boolean"
+                },
+                "allow_headers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "allow_methods": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "allow_origins": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "expose_headers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "max_age": {
+                    "type": "integer"
+                }
+            }
+        },
+        "apigatewayv2.GetRouteOutput": {
+            "type": "object",
+            "properties": {
+                "api_gateway_managed": {
+                    "type": "boolean"
+                },
+                "api_key_required": {
+                    "type": "boolean"
+                },
+                "authorization_scopes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "authorization_type": {
+                    "type": "string"
+                },
+                "authorizer_id": {
+                    "type": "string"
+                },
+                "model_selection_expression": {
+                    "type": "string"
+                },
+                "operation_name": {
+                    "type": "string"
+                },
+                "request_models": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "request_parameters": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/apigatewayv2.ParameterConstraints"
+                    }
+                },
+                "route_id": {
+                    "type": "string"
+                },
+                "route_key": {
+                    "type": "string"
+                },
+                "route_response_selection_expression": {
+                    "type": "string"
+                },
+                "target": {
+                    "type": "string"
+                }
+            }
+        },
+        "apigatewayv2.Integration": {
+            "type": "object",
+            "properties": {
+                "api_gateway_managed": {
+                    "type": "boolean"
+                },
+                "connection_id": {
+                    "type": "string"
+                },
+                "connection_type": {
+                    "type": "string"
+                },
+                "content_handling_strategy": {
+                    "type": "string"
+                },
+                "credentials_arn": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "integration_id": {
+                    "type": "string"
+                },
+                "integration_method": {
+                    "type": "string"
+                },
+                "integration_response_selection_expression": {
+                    "type": "string"
+                },
+                "integration_subtype": {
+                    "type": "string"
+                },
+                "integration_type": {
+                    "type": "string"
+                },
+                "integration_uri": {
+                    "type": "string"
+                },
+                "passthrough_behavior": {
+                    "type": "string"
+                },
+                "payload_format_version": {
+                    "type": "string"
+                },
+                "request_parameters": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "request_templates": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "template_selection_expression": {
+                    "type": "string"
+                },
+                "timeout_in_millis": {
+                    "type": "integer"
+                },
+                "tls_config": {
+                    "$ref": "#/definitions/apigatewayv2.TlsConfig"
+                }
+            }
+        },
+        "apigatewayv2.JWTConfiguration": {
+            "type": "object",
+            "properties": {
+                "audience": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "issuer": {
+                    "type": "string"
+                }
+            }
+        },
+        "apigatewayv2.ListApisResponse": {
+            "type": "object",
+            "properties": {
+                "apis": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/apigatewayv2.Api"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "apigatewayv2.ParameterConstraints": {
+            "type": "object",
+            "properties": {
+                "required": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "apigatewayv2.RouteSettings": {
+            "type": "object",
+            "properties": {
+                "data_trace_enabled": {
+                    "type": "boolean"
+                },
+                "detailed_metrics_enabled": {
+                    "type": "boolean"
+                },
+                "logging_level": {
+                    "type": "string"
+                },
+                "throttling_burst_limit": {
+                    "type": "integer"
+                },
+                "throttling_rate_limit": {
+                    "type": "number"
+                }
+            }
+        },
+        "apigatewayv2.Stage": {
+            "type": "object",
+            "properties": {
+                "access_log_settings": {
+                    "$ref": "#/definitions/apigatewayv2.AccessLogSettings"
+                },
+                "api_gateway_managed": {
+                    "type": "boolean"
+                },
+                "auto_deploy": {
+                    "type": "boolean"
+                },
+                "client_certificate_id": {
+                    "type": "string"
+                },
+                "created_date": {
+                    "type": "string"
+                },
+                "default_route_settings": {
+                    "$ref": "#/definitions/apigatewayv2.RouteSettings"
+                },
+                "deployment_id": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "last_deployment_status_message": {
+                    "type": "string"
+                },
+                "last_updated_date": {
+                    "type": "string"
+                },
+                "route_settings": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/apigatewayv2.RouteSettings"
+                    }
+                },
+                "stage_name": {
+                    "type": "string"
+                },
+                "stage_variables": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "apigatewayv2.TlsConfig": {
+            "type": "object",
+            "properties": {
+                "server_name_to_verify": {
+                    "type": "string"
+                }
+            }
+        },
+        "backup.AdvancedBackupSetting": {
+            "type": "object",
+            "properties": {
+                "backup_options": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "resource_type": {
+                    "type": "string"
+                }
+            }
+        },
+        "backup.BackupPlan": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "account_id": {
+                    "type": "string"
+                },
+                "advanced_backup_settings": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/backup.AdvancedBackupSetting"
+                    }
+                },
+                "backup_plan_arn": {
+                    "type": "string"
+                },
+                "backup_plan_id": {
+                    "type": "string"
+                },
+                "backup_plan_name": {
+                    "type": "string"
+                },
+                "creation_date": {
+                    "type": "string"
+                },
+                "creator_request_id": {
+                    "type": "string"
+                },
+                "deletion_date": {
+                    "type": "string"
+                },
+                "last_execution_date": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "report_time": {
+                    "type": "string"
+                },
+                "selections": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/backup.BackupSelectionsListMember"
+                    }
+                },
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "version_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "backup.BackupSelectionsListMember": {
+            "type": "object",
+            "properties": {
+                "backup_plan_id": {
+                    "type": "string"
+                },
+                "creation_date": {
+                    "type": "string"
+                },
+                "creator_request_id": {
+                    "type": "string"
+                },
+                "iam_role_arn": {
+                    "type": "string"
+                },
+                "selection_id": {
+                    "type": "string"
+                },
+                "selection_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "backup.BackupVault": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "account_id": {
+                    "type": "string"
+                },
+                "backup_vault_arn": {
+                    "type": "string"
+                },
+                "backup_vault_name": {
+                    "type": "string"
+                },
+                "creation_date": {
+                    "type": "string"
+                },
+                "creator_request_id": {
+                    "type": "string"
+                },
+                "encryption_key_arn": {
+                    "type": "string"
+                },
+                "lock_date": {
+                    "type": "string"
+                },
+                "locked": {
+                    "type": "boolean"
+                },
+                "max_retention_days": {
+                    "type": "integer"
+                },
+                "min_retention_days": {
+                    "type": "integer"
+                },
+                "number_of_recovery_points": {
+                    "type": "integer"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "report_time": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "backup.ListBackupPlansResponse": {
+            "type": "object",
+            "properties": {
+                "backup_plans": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/backup.BackupPlan"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "backup.ListBackupVaultsResponse": {
+            "type": "object",
+            "properties": {
+                "backup_vaults": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/backup.BackupVault"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "cloudtrail.GetTrailStatusOutput": {
+            "type": "object",
+            "properties": {
+                "is_logging": {
+                    "type": "boolean"
+                },
+                "latest_cloud_watch_logs_delivery_error": {
+                    "type": "string"
+                },
+                "latest_cloud_watch_logs_delivery_time": {
+                    "type": "string"
+                },
+                "latest_delivery_attempt_succeeded": {
+                    "type": "string"
+                },
+                "latest_delivery_attempt_time": {
+                    "type": "string"
+                },
+                "latest_delivery_error": {
+                    "type": "string"
+                },
+                "latest_delivery_time": {
+                    "type": "string"
+                },
+                "latest_digest_delivery_error": {
+                    "type": "string"
+                },
+                "latest_digest_delivery_time": {
+                    "type": "string"
+                },
+                "latest_notification_attempt_succeeded": {
+                    "type": "string"
+                },
+                "latest_notification_attempt_time": {
+                    "type": "string"
+                },
+                "latest_notification_error": {
+                    "type": "string"
+                },
+                "latest_notification_time": {
+                    "type": "string"
+                },
+                "start_logging_time": {
+                    "type": "string"
+                },
+                "stop_logging_time": {
+                    "type": "string"
+                },
+                "time_logging_started": {
+                    "type": "string"
+                },
+                "time_logging_stopped": {
+                    "type": "string"
+                }
+            }
+        },
+        "cloudtrail.ListTrailsResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "trails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/cloudtrail.Trail"
+                    }
+                }
+            }
+        },
+        "cloudtrail.Trail": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "account_id": {
+                    "type": "string"
+                },
+                "cloud_watch_logs_log_group_arn": {
+                    "type": "string"
+                },
+                "cloud_watch_logs_role_arn": {
+                    "type": "string"
+                },
+                "has_custom_event_selectors": {
+                    "type": "boolean"
+                },
+                "has_insight_selectors": {
+                    "type": "boolean"
+                },
+                "home_region": {
+                    "type": "string"
+                },
+                "include_global_service_events": {
+                    "type": "boolean"
+                },
+                "is_multi_region_trail": {
+                    "type": "boolean"
+                },
+                "is_organization_trail": {
+                    "type": "boolean"
+                },
+                "kms_key_id": {
+                    "type": "string"
+                },
+                "log_file_validation_enabled": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "report_time": {
+                    "type": "string"
+                },
+                "s3_bucket_name": {
+                    "type": "string"
+                },
+                "s3_key_prefix": {
+                    "type": "string"
+                },
+                "sns_topic_arn": {
+                    "type": "string"
+                },
+                "sns_topic_name": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/cloudtrail.GetTrailStatusOutput"
+                },
+                "trail_arn": {
+                    "type": "string"
+                }
+            }
+        },
+        "cloudwatchlogs.ListLogGroupsResponse": {
+            "type": "object",
+            "properties": {
+                "log_groups": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/cloudwatchlogs.LogGroup"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
         "cloudwatchlogs.LogGroup": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -17858,7 +22881,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "retention_in_days": {
                     "type": "integer"
@@ -17875,7 +22898,7 @@ var doc = `{
                     "type": "string"
                 },
                 "archival_date_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "archival_reason": {
                     "type": "string"
@@ -17900,7 +22923,7 @@ var doc = `{
                     "type": "string"
                 },
                 "last_update_to_pay_per_request_date_time": {
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         },
@@ -17950,6 +22973,20 @@ var doc = `{
                 }
             }
         },
+        "dynamodb.ListTablesResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "tables": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dynamodb.Table"
+                    }
+                }
+            }
+        },
         "dynamodb.LocalSecondaryIndexDescription": {
             "type": "object",
             "properties": {
@@ -17994,10 +23031,10 @@ var doc = `{
             "type": "object",
             "properties": {
                 "last_decrease_date_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "last_increase_date_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "number_of_decreases_today": {
                     "type": "integer"
@@ -18037,7 +23074,7 @@ var doc = `{
                     "type": "string"
                 },
                 "replica_inaccessible_date_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "replica_status": {
                     "type": "string"
@@ -18068,7 +23105,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "restore_date_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "restore_in_progress": {
                     "type": "boolean"
@@ -18085,7 +23122,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "inaccessible_encryption_date_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "kms_master_key_arn": {
                     "type": "string"
@@ -18109,20 +23146,12 @@ var doc = `{
                 }
             }
         },
-        "dynamodb.TableClassSummary": {
+        "dynamodb.Table": {
             "type": "object",
             "properties": {
-                "last_update_date_time": {
-                    "type": "integer"
-                },
-                "table_class": {
+                "_id": {
                     "type": "string"
-                }
-            }
-        },
-        "dynamodb.TableDescription": {
-            "type": "object",
-            "properties": {
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -18139,7 +23168,7 @@ var doc = `{
                     "$ref": "#/definitions/dynamodb.BillingModeSummary"
                 },
                 "creation_date_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "global_secondary_indexes": {
                     "type": "array",
@@ -18184,7 +23213,7 @@ var doc = `{
                     }
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "restore_summary": {
                     "$ref": "#/definitions/dynamodb.RestoreSummary"
@@ -18221,9 +23250,23 @@ var doc = `{
                 }
             }
         },
+        "dynamodb.TableClassSummary": {
+            "type": "object",
+            "properties": {
+                "last_update_date_time": {
+                    "type": "string"
+                },
+                "table_class": {
+                    "type": "string"
+                }
+            }
+        },
         "ec2.Address": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -18270,7 +23313,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "tags": {
                     "type": "object",
@@ -18363,6 +23406,9 @@ var doc = `{
         "ec2.DhcpOptions": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -18382,27 +23428,13 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "tags": {
                     "type": "object",
                     "additionalProperties": {
                         "type": "string"
                     }
-                }
-            }
-        },
-        "ec2.DiskInfo": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "size_in_gb": {
-                    "type": "integer"
-                },
-                "type": {
-                    "type": "string"
                 }
             }
         },
@@ -18449,28 +23481,11 @@ var doc = `{
                 }
             }
         },
-        "ec2.EbsInfo": {
-            "type": "object",
-            "properties": {
-                "ebs_optimized_info": {
-                    "$ref": "#/definitions/ec2.EbsOptimizedInfo"
-                },
-                "ebs_optimized_support": {
-                    "type": "string"
-                },
-                "encryption_support": {
-                    "type": "string"
-                },
-                "nvme_support": {
-                    "type": "string"
-                }
-            }
-        },
         "ec2.EbsInstanceBlockDevice": {
             "type": "object",
             "properties": {
                 "attach_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "delete_on_termination": {
                     "type": "boolean"
@@ -18480,37 +23495,6 @@ var doc = `{
                 },
                 "volume_id": {
                     "type": "string"
-                }
-            }
-        },
-        "ec2.EbsOptimizedInfo": {
-            "type": "object",
-            "properties": {
-                "baseline_bandwidth_in_mbps": {
-                    "type": "integer"
-                },
-                "baseline_iops": {
-                    "type": "integer"
-                },
-                "baseline_throughput_in_m_bps": {
-                    "type": "number"
-                },
-                "maximum_bandwidth_in_mbps": {
-                    "type": "integer"
-                },
-                "maximum_iops": {
-                    "type": "integer"
-                },
-                "maximum_throughput_in_m_bps": {
-                    "type": "number"
-                }
-            }
-        },
-        "ec2.EfaInfo": {
-            "type": "object",
-            "properties": {
-                "maximum_efa_interfaces": {
-                    "type": "integer"
                 }
             }
         },
@@ -18544,7 +23528,7 @@ var doc = `{
                     "type": "string"
                 },
                 "elastic_inference_accelerator_association_time": {
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         },
@@ -18553,84 +23537,6 @@ var doc = `{
             "properties": {
                 "enabled": {
                     "type": "boolean"
-                }
-            }
-        },
-        "ec2.FpgaDeviceInfo": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "manufacturer": {
-                    "type": "string"
-                },
-                "memory_info": {
-                    "$ref": "#/definitions/ec2.FpgaDeviceMemoryInfo"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "ec2.FpgaDeviceMemoryInfo": {
-            "type": "object",
-            "properties": {
-                "size_in_mi_b": {
-                    "type": "integer"
-                }
-            }
-        },
-        "ec2.FpgaInfo": {
-            "type": "object",
-            "properties": {
-                "fpgas": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ec2.FpgaDeviceInfo"
-                    }
-                },
-                "total_fpga_memory_in_mi_b": {
-                    "type": "integer"
-                }
-            }
-        },
-        "ec2.GpuDeviceInfo": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "manufacturer": {
-                    "type": "string"
-                },
-                "memory_info": {
-                    "$ref": "#/definitions/ec2.GpuDeviceMemoryInfo"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "ec2.GpuDeviceMemoryInfo": {
-            "type": "object",
-            "properties": {
-                "size_in_mi_b": {
-                    "type": "integer"
-                }
-            }
-        },
-        "ec2.GpuInfo": {
-            "type": "object",
-            "properties": {
-                "gpus": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ec2.GpuDeviceInfo"
-                    }
-                },
-                "total_gpu_memory_in_mi_b": {
-                    "type": "integer"
                 }
             }
         },
@@ -18678,6 +23584,9 @@ var doc = `{
         "ec2.Image": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -18751,7 +23660,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "root_device_name": {
                     "type": "string"
@@ -18782,34 +23691,12 @@ var doc = `{
                 }
             }
         },
-        "ec2.InferenceAcceleratorInfo": {
-            "type": "object",
-            "properties": {
-                "accelerators": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ec2.InferenceDeviceInfo"
-                    }
-                }
-            }
-        },
-        "ec2.InferenceDeviceInfo": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "manufacturer": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
         "ec2.Instance": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -18892,7 +23779,7 @@ var doc = `{
                     "type": "string"
                 },
                 "launch_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "licenses": {
                     "type": "array",
@@ -18952,7 +23839,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "root_device_name": {
                     "type": "string"
@@ -18997,7 +23884,7 @@ var doc = `{
                     "type": "string"
                 },
                 "usage_operation_update_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "virtualization_type": {
                     "type": "string"
@@ -19160,7 +24047,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "attach_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "attachment_id": {
                     "type": "string"
@@ -19207,127 +24094,12 @@ var doc = `{
                 }
             }
         },
-        "ec2.InstanceStorageInfo": {
-            "type": "object",
-            "properties": {
-                "disks": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ec2.DiskInfo"
-                    }
-                },
-                "encryption_support": {
-                    "type": "string"
-                },
-                "nvme_support": {
-                    "type": "string"
-                },
-                "total_size_in_gb": {
-                    "type": "integer"
-                }
-            }
-        },
-        "ec2.InstanceTypeInfo": {
-            "type": "object",
-            "properties": {
-                "account_id": {
-                    "type": "string"
-                },
-                "auto_recovery_supported": {
-                    "type": "boolean"
-                },
-                "bare_metal": {
-                    "type": "boolean"
-                },
-                "burstable_performance_supported": {
-                    "type": "boolean"
-                },
-                "current_generation": {
-                    "type": "boolean"
-                },
-                "dedicated_hosts_supported": {
-                    "type": "boolean"
-                },
-                "ebs_info": {
-                    "$ref": "#/definitions/ec2.EbsInfo"
-                },
-                "fpga_info": {
-                    "$ref": "#/definitions/ec2.FpgaInfo"
-                },
-                "free_tier_eligible": {
-                    "type": "boolean"
-                },
-                "gpu_info": {
-                    "$ref": "#/definitions/ec2.GpuInfo"
-                },
-                "hibernation_supported": {
-                    "type": "boolean"
-                },
-                "hypervisor": {
-                    "type": "string"
-                },
-                "inference_accelerator_info": {
-                    "$ref": "#/definitions/ec2.InferenceAcceleratorInfo"
-                },
-                "instance_storage_info": {
-                    "$ref": "#/definitions/ec2.InstanceStorageInfo"
-                },
-                "instance_storage_supported": {
-                    "type": "boolean"
-                },
-                "instance_type": {
-                    "type": "string"
-                },
-                "memory_info": {
-                    "$ref": "#/definitions/ec2.MemoryInfo"
-                },
-                "network_info": {
-                    "$ref": "#/definitions/ec2.NetworkInfo"
-                },
-                "placement_group_info": {
-                    "$ref": "#/definitions/ec2.PlacementGroupInfo"
-                },
-                "processor_info": {
-                    "$ref": "#/definitions/ec2.ProcessorInfo"
-                },
-                "region": {
-                    "type": "string"
-                },
-                "report_time": {
-                    "type": "integer"
-                },
-                "supported_boot_modes": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "supported_root_device_types": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "supported_usage_classes": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "supported_virtualization_types": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "v_cpu_info": {
-                    "$ref": "#/definitions/ec2.VCpuInfo"
-                }
-            }
-        },
         "ec2.InternetGateway": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -19347,7 +24119,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "tags": {
                     "type": "object",
@@ -19471,9 +24243,334 @@ var doc = `{
                 }
             }
         },
+        "ec2.ListAddressesResponse": {
+            "type": "object",
+            "properties": {
+                "addresses": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.Address"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "ec2.ListDhcpOptionsResponse": {
+            "type": "object",
+            "properties": {
+                "dhcp_options": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.DhcpOptions"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "ec2.ListImagesResponse": {
+            "type": "object",
+            "properties": {
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.Image"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "ec2.ListInstancesResponse": {
+            "type": "object",
+            "properties": {
+                "instances": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.Instance"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "ec2.ListInternetGatewaysResponse": {
+            "type": "object",
+            "properties": {
+                "internet_gateways": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.InternetGateway"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "ec2.ListManagedPrefixListsResponse": {
+            "type": "object",
+            "properties": {
+                "managed_prefix_lists": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.ManagedPrefixList"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "ec2.ListNatGatewaysResponse": {
+            "type": "object",
+            "properties": {
+                "nat_gateways": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.NatGateway"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "ec2.ListNetworkAclsResponse": {
+            "type": "object",
+            "properties": {
+                "network_acls": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.NetworkAcl"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "ec2.ListNetworkInterfacesResponse": {
+            "type": "object",
+            "properties": {
+                "network_interfaces": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.NetworkInterface"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "ec2.ListPlacementGroupsResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "placement_groups": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.PlacementGroup"
+                    }
+                }
+            }
+        },
+        "ec2.ListReservedInstancesResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "reserved_instances": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.ReservedInstances"
+                    }
+                }
+            }
+        },
+        "ec2.ListRouteTablesResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "route_tables": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.RouteTable"
+                    }
+                }
+            }
+        },
+        "ec2.ListSecurityGroupsResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "security_groups": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.SecurityGroup"
+                    }
+                }
+            }
+        },
+        "ec2.ListSubnetsResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "subnets": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.Subnet"
+                    }
+                }
+            }
+        },
+        "ec2.ListTransitGatewayPeeringAttachmentsResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "transit_gateway_peering_attachments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.TransitGatewayPeeringAttachment"
+                    }
+                }
+            }
+        },
+        "ec2.ListTransitGatewayRouteTablesResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "transit_gateway_route_tables": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.TransitGatewayRouteTable"
+                    }
+                }
+            }
+        },
+        "ec2.ListTransitGatewayVpcAttachmentsResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "transit_gateway_vpc_attachments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.TransitGatewayVpcAttachment"
+                    }
+                }
+            }
+        },
+        "ec2.ListTransitGatewaysResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "transit_gateways": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.TransitGateway"
+                    }
+                }
+            }
+        },
+        "ec2.ListVolumesResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "volumes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.Volume"
+                    }
+                }
+            }
+        },
+        "ec2.ListVpcEndpointsResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "vpc_endpoints": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.VpcEndpoint"
+                    }
+                }
+            }
+        },
+        "ec2.ListVpcPeeringConnectionsResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "vpc_peering_connections": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.VpcPeeringConnection"
+                    }
+                }
+            }
+        },
+        "ec2.ListVpcsResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "vpcs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.Vpc"
+                    }
+                }
+            }
+        },
+        "ec2.ListVpnGatewaysResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "vpn_gateways": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ec2.VpnGateway"
+                    }
+                }
+            }
+        },
         "ec2.ManagedPrefixList": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -19499,7 +24596,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "state": {
                     "type": "string"
@@ -19518,14 +24615,6 @@ var doc = `{
                 }
             }
         },
-        "ec2.MemoryInfo": {
-            "type": "object",
-            "properties": {
-                "size_in_mi_b": {
-                    "type": "integer"
-                }
-            }
-        },
         "ec2.Monitoring": {
             "type": "object",
             "properties": {
@@ -19537,6 +24626,9 @@ var doc = `{
         "ec2.NatGateway": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -19544,10 +24636,10 @@ var doc = `{
                     "type": "string"
                 },
                 "create_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "delete_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "failure_code": {
                     "type": "string"
@@ -19571,7 +24663,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "state": {
                     "type": "string"
@@ -19610,6 +24702,9 @@ var doc = `{
         "ec2.NetworkAcl": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -19638,7 +24733,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "tags": {
                     "type": "object",
@@ -19694,67 +24789,12 @@ var doc = `{
                 }
             }
         },
-        "ec2.NetworkCardInfo": {
-            "type": "object",
-            "properties": {
-                "maximum_network_interfaces": {
-                    "type": "integer"
-                },
-                "network_card_index": {
-                    "type": "integer"
-                },
-                "network_performance": {
-                    "type": "string"
-                }
-            }
-        },
-        "ec2.NetworkInfo": {
-            "type": "object",
-            "properties": {
-                "default_network_card_index": {
-                    "type": "integer"
-                },
-                "efa_info": {
-                    "$ref": "#/definitions/ec2.EfaInfo"
-                },
-                "efa_supported": {
-                    "type": "boolean"
-                },
-                "ena_support": {
-                    "type": "string"
-                },
-                "encryption_in_transit_supported": {
-                    "type": "boolean"
-                },
-                "ipv4_addresses_per_interface": {
-                    "type": "integer"
-                },
-                "ipv6_addresses_per_interface": {
-                    "type": "integer"
-                },
-                "ipv6_supported": {
-                    "type": "boolean"
-                },
-                "maximum_network_cards": {
-                    "type": "integer"
-                },
-                "maximum_network_interfaces": {
-                    "type": "integer"
-                },
-                "network_cards": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ec2.NetworkCardInfo"
-                    }
-                },
-                "network_performance": {
-                    "type": "string"
-                }
-            }
-        },
         "ec2.NetworkInterface": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -19834,7 +24874,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "requester_id": {
                     "type": "string"
@@ -19892,7 +24932,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "attach_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "attachment_id": {
                     "type": "string"
@@ -19999,6 +25039,9 @@ var doc = `{
         "ec2.PlacementGroup": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -20015,7 +25058,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "state": {
                     "type": "string"
@@ -20026,17 +25069,6 @@ var doc = `{
                 "tags": {
                     "type": "object",
                     "additionalProperties": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "ec2.PlacementGroupInfo": {
-            "type": "object",
-            "properties": {
-                "supported_strategies": {
-                    "type": "array",
-                    "items": {
                         "type": "string"
                     }
                 }
@@ -20092,20 +25124,6 @@ var doc = `{
                 }
             }
         },
-        "ec2.ProcessorInfo": {
-            "type": "object",
-            "properties": {
-                "supported_architectures": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "sustained_clock_speed_in_ghz": {
-                    "type": "number"
-                }
-            }
-        },
         "ec2.ProductCode": {
             "type": "object",
             "properties": {
@@ -20129,13 +25147,13 @@ var doc = `{
             "type": "object",
             "properties": {
                 "provision_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "provisioned": {
                     "type": "string"
                 },
                 "request_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "requested": {
                     "type": "string"
@@ -20159,6 +25177,9 @@ var doc = `{
         "ec2.ReservedInstances": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -20172,7 +25193,7 @@ var doc = `{
                     "type": "integer"
                 },
                 "end": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "fixed_price": {
                     "type": "number"
@@ -20205,7 +25226,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "reserved_instances_id": {
                     "type": "string"
@@ -20214,7 +25235,7 @@ var doc = `{
                     "type": "string"
                 },
                 "start": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "state": {
                     "type": "string"
@@ -20286,6 +25307,9 @@ var doc = `{
         "ec2.RouteTable": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -20308,7 +25332,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "route_table_id": {
                     "type": "string"
@@ -20367,6 +25391,9 @@ var doc = `{
         "ec2.SecurityGroup": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -20398,7 +25425,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "tags": {
                     "type": "object",
@@ -20436,6 +25463,9 @@ var doc = `{
         "ec2.Subnet": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -20494,7 +25524,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "state": {
                     "type": "string"
@@ -20544,11 +25574,14 @@ var doc = `{
         "ec2.TransitGateway": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
                 "creation_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "description": {
                     "type": "string"
@@ -20563,7 +25596,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "state": {
                     "type": "string"
@@ -20623,6 +25656,9 @@ var doc = `{
         "ec2.TransitGatewayPeeringAttachment": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "accepter_tgw_info": {
                     "$ref": "#/definitions/ec2.PeeringTgwInfo"
                 },
@@ -20630,13 +25666,13 @@ var doc = `{
                     "type": "string"
                 },
                 "creation_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "region": {
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "requester_tgw_info": {
                     "$ref": "#/definitions/ec2.PeeringTgwInfo"
@@ -20661,11 +25697,14 @@ var doc = `{
         "ec2.TransitGatewayRouteTable": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
                 "creation_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "default_association_route_table": {
                     "type": "boolean"
@@ -20677,7 +25716,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "state": {
                     "type": "string"
@@ -20699,11 +25738,14 @@ var doc = `{
         "ec2.TransitGatewayVpcAttachment": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
                 "creation_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "options": {
                     "$ref": "#/definitions/ec2.TransitGatewayVpcAttachmentOptions"
@@ -20712,7 +25754,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "state": {
                     "type": "string"
@@ -20783,35 +25825,12 @@ var doc = `{
                 }
             }
         },
-        "ec2.VCpuInfo": {
-            "type": "object",
-            "properties": {
-                "default_cores": {
-                    "type": "integer"
-                },
-                "default_threads_per_core": {
-                    "type": "integer"
-                },
-                "default_v_cpus": {
-                    "type": "integer"
-                },
-                "valid_cores": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "valid_threads_per_core": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                }
-            }
-        },
         "ec2.Volume": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -20825,7 +25844,7 @@ var doc = `{
                     "type": "string"
                 },
                 "create_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "encrypted": {
                     "type": "boolean"
@@ -20849,7 +25868,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "size": {
                     "type": "integer"
@@ -20881,7 +25900,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "attach_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "delete_on_termination": {
                     "type": "boolean"
@@ -20903,6 +25922,9 @@ var doc = `{
         "ec2.Vpc": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -20937,7 +25959,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "state": {
                     "type": "string"
@@ -20992,11 +26014,14 @@ var doc = `{
         "ec2.VpcEndpoint": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
                 "creation_timestamp": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "dns_entries": {
                     "type": "array",
@@ -21032,7 +26057,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "requester_managed": {
                     "type": "boolean"
@@ -21095,6 +26120,9 @@ var doc = `{
         "ec2.VpcPeeringConnection": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "accepter_vpc_info": {
                     "$ref": "#/definitions/ec2.VpcPeeringConnectionVpcInfo"
                 },
@@ -21102,13 +26130,13 @@ var doc = `{
                     "type": "string"
                 },
                 "expiration_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "region": {
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "requester_vpc_info": {
                     "$ref": "#/definitions/ec2.VpcPeeringConnectionVpcInfo"
@@ -21187,6 +26215,9 @@ var doc = `{
         "ec2.VpnGateway": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -21200,7 +26231,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "state": {
                     "type": "string"
@@ -21299,6 +26330,9 @@ var doc = `{
         "ecs.Cluster": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -21345,7 +26379,7 @@ var doc = `{
                     "type": "integer"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "running_tasks_count": {
                     "type": "integer"
@@ -21511,7 +26545,7 @@ var doc = `{
                     }
                 },
                 "created_at": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "desired_count": {
                     "type": "integer"
@@ -21553,7 +26587,7 @@ var doc = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         },
@@ -21676,6 +26710,48 @@ var doc = `{
                 }
             }
         },
+        "ecs.ListClustersResponse": {
+            "type": "object",
+            "properties": {
+                "clusters": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ecs.Cluster"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "ecs.ListServicesResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "services": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ecs.Service"
+                    }
+                }
+            }
+        },
+        "ecs.ListTasksResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "tasks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ecs.Task"
+                    }
+                }
+            }
+        },
         "ecs.LoadBalancer": {
             "type": "object",
             "properties": {
@@ -21697,7 +26773,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "last_started_at": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "last_status": {
                     "type": "string"
@@ -21796,6 +26872,9 @@ var doc = `{
         "ecs.Service": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -21809,7 +26888,7 @@ var doc = `{
                     "type": "string"
                 },
                 "created_at": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "created_by": {
                     "type": "string"
@@ -21878,7 +26957,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "role_arn": {
                     "type": "string"
@@ -21952,6 +27031,9 @@ var doc = `{
         "ecs.Task": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -21980,7 +27062,7 @@ var doc = `{
                     "type": "string"
                 },
                 "connectivity_at": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "container_instance_arn": {
                     "type": "string"
@@ -21995,7 +27077,7 @@ var doc = `{
                     "type": "string"
                 },
                 "created_at": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "desired_status": {
                     "type": "string"
@@ -22007,7 +27089,7 @@ var doc = `{
                     "$ref": "#/definitions/ecs.EphemeralStorage"
                 },
                 "execution_stopped_at": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "group": {
                     "type": "string"
@@ -22040,19 +27122,19 @@ var doc = `{
                     "type": "string"
                 },
                 "pull_started_at": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "pull_stopped_at": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "region": {
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "started_at": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "started_by": {
                     "type": "string"
@@ -22061,13 +27143,13 @@ var doc = `{
                     "type": "string"
                 },
                 "stopped_at": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "stopped_reason": {
                     "type": "string"
                 },
                 "stopping_at": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "tags": {
                     "type": "object",
@@ -22134,7 +27216,7 @@ var doc = `{
                     "type": "integer"
                 },
                 "created_at": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "external_id": {
                     "type": "string"
@@ -22182,7 +27264,7 @@ var doc = `{
                     "type": "string"
                 },
                 "stability_status_at": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "started_by": {
                     "type": "string"
@@ -22203,13 +27285,16 @@ var doc = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         },
-        "efs.FileSystemDescription": {
+        "efs.FileSystem": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -22220,7 +27305,7 @@ var doc = `{
                     "type": "string"
                 },
                 "creation_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "creation_token": {
                     "type": "string"
@@ -22259,7 +27344,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "size_in_bytes": {
                     "$ref": "#/definitions/efs.FileSystemSize"
@@ -22279,7 +27364,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "timestamp": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "value": {
                     "type": "integer"
@@ -22292,9 +27377,26 @@ var doc = `{
                 }
             }
         },
+        "efs.ListFileSystemsResponse": {
+            "type": "object",
+            "properties": {
+                "file_systems": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/efs.FileSystem"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
         "elasticache.CacheCluster": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -22308,13 +27410,13 @@ var doc = `{
                     "type": "boolean"
                 },
                 "auth_token_last_modified_date": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "auto_minor_version_upgrade": {
                     "type": "boolean"
                 },
                 "cache_cluster_create_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "cache_cluster_id": {
                     "type": "string"
@@ -22389,7 +27491,7 @@ var doc = `{
                     "type": "boolean"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "security_groups": {
                     "type": "array",
@@ -22418,7 +27520,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "cache_node_create_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "cache_node_id": {
                     "type": "string"
@@ -22505,6 +27607,20 @@ var doc = `{
             "type": "object",
             "properties": {
                 "delivery_stream": {
+                    "type": "string"
+                }
+            }
+        },
+        "elasticache.ListCacheClustersResponse": {
+            "type": "object",
+            "properties": {
+                "cache_clusters": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/elasticache.CacheCluster"
+                    }
+                },
+                "pagination_token": {
                     "type": "string"
                 }
             }
@@ -22664,6 +27780,20 @@ var doc = `{
                 }
             }
         },
+        "elasticloadbalancing.ListLoadBalancersResponse": {
+            "type": "object",
+            "properties": {
+                "load_balancers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/elasticloadbalancing.LoadBalancer"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
         "elasticloadbalancing.Listener": {
             "type": "object",
             "properties": {
@@ -22698,9 +27828,12 @@ var doc = `{
                 }
             }
         },
-        "elasticloadbalancing.LoadBalancerDescription": {
+        "elasticloadbalancing.LoadBalancer": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -22723,7 +27856,7 @@ var doc = `{
                     "type": "string"
                 },
                 "created_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "dns_name": {
                     "type": "string"
@@ -22753,7 +27886,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "scheme": {
                     "type": "string"
@@ -22976,6 +28109,34 @@ var doc = `{
                 }
             }
         },
+        "elasticloadbalancingv2.ListLoadBalancersResponse": {
+            "type": "object",
+            "properties": {
+                "load_balancers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/elasticloadbalancingv2.LoadBalancer"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "elasticloadbalancingv2.ListTargetGroupsResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "target_groups": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/elasticloadbalancingv2.TargetGroup"
+                    }
+                }
+            }
+        },
         "elasticloadbalancingv2.Listener": {
             "type": "object",
             "properties": {
@@ -23017,6 +28178,9 @@ var doc = `{
         "elasticloadbalancingv2.LoadBalancer": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -23030,7 +28194,7 @@ var doc = `{
                     "type": "string"
                 },
                 "created_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "customer_owned_ipv4_pool": {
                     "type": "string"
@@ -23057,7 +28221,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "scheme": {
                     "type": "string"
@@ -23164,6 +28328,9 @@ var doc = `{
         "elasticloadbalancingv2.TargetGroup": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -23213,7 +28380,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "tags": {
                     "type": "object",
@@ -23301,7 +28468,7 @@ var doc = `{
                     "type": "string"
                 },
                 "create_date": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"
@@ -23333,6 +28500,9 @@ var doc = `{
         "iam.Group": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -23346,7 +28516,7 @@ var doc = `{
                     }
                 },
                 "create_date": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "group_id": {
                     "type": "string"
@@ -23367,7 +28537,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "user_ids": {
                     "type": "array",
@@ -23377,11 +28547,67 @@ var doc = `{
                 }
             }
         },
+        "iam.ListGroupsResponse": {
+            "type": "object",
+            "properties": {
+                "groups": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/iam.Group"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "iam.ListPoliciesResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "policies": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/iam.Policy"
+                    }
+                }
+            }
+        },
+        "iam.ListRolesResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/iam.Role"
+                    }
+                }
+            }
+        },
+        "iam.ListUsersResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/iam.User"
+                    }
+                }
+            }
+        },
         "iam.LoginProfile": {
             "type": "object",
             "properties": {
                 "create_date": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "password_reset_required": {
                     "type": "boolean"
@@ -23391,6 +28617,9 @@ var doc = `{
         "iam.Policy": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -23401,7 +28630,7 @@ var doc = `{
                     "type": "integer"
                 },
                 "create_date": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "default_version_id": {
                     "type": "string"
@@ -23428,7 +28657,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "tags": {
                     "type": "object",
@@ -23437,13 +28666,16 @@ var doc = `{
                     }
                 },
                 "update_date": {
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         },
         "iam.Role": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -23457,7 +28689,7 @@ var doc = `{
                     }
                 },
                 "create_date": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "description": {
                     "type": "string"
@@ -23481,7 +28713,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "role_id": {
                     "type": "string"
@@ -23504,7 +28736,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "last_used_date": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "region": {
                     "type": "string"
@@ -23514,6 +28746,9 @@ var doc = `{
         "iam.User": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "access_keys": {
                     "type": "array",
                     "items": {
@@ -23533,7 +28768,7 @@ var doc = `{
                     }
                 },
                 "create_date": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "group_ids": {
                     "type": "array",
@@ -23551,7 +28786,7 @@ var doc = `{
                     "$ref": "#/definitions/iam.LoginProfile"
                 },
                 "password_last_used": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "path": {
                     "type": "string"
@@ -23563,7 +28798,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "tags": {
                     "type": "object",
@@ -23598,9 +28833,12 @@ var doc = `{
                 }
             }
         },
-        "lambda.FunctionConfiguration": {
+        "lambda.Function": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -23674,7 +28912,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "revision_id": {
                     "type": "string"
@@ -23773,6 +29011,20 @@ var doc = `{
                 }
             }
         },
+        "lambda.ListFunctionsResponse": {
+            "type": "object",
+            "properties": {
+                "functions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/lambda.Function"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
         "lambda.TracingConfigResponse": {
             "type": "object",
             "properties": {
@@ -23832,6 +29084,9 @@ var doc = `{
         "rds.DBCluster": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -23860,7 +29115,7 @@ var doc = `{
                     "type": "boolean"
                 },
                 "automatic_restart_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "availability_zones": {
                     "type": "array",
@@ -23887,7 +29142,7 @@ var doc = `{
                     "type": "string"
                 },
                 "cluster_create_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "copy_tags_to_snapshot": {
                     "type": "boolean"
@@ -23944,10 +29199,10 @@ var doc = `{
                     }
                 },
                 "earliest_backtrack_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "earliest_restorable_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "enabled_cloudwatch_logs_exports": {
                     "type": "array",
@@ -23989,7 +29244,7 @@ var doc = `{
                     "type": "string"
                 },
                 "latest_restorable_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "master_username": {
                     "type": "string"
@@ -24046,7 +29301,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "scaling_configuration_info": {
                     "$ref": "#/definitions/rds.ScalingConfigurationInfo"
@@ -24119,6 +29374,9 @@ var doc = `{
         "rds.DBInstance": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -24150,7 +29408,7 @@ var doc = `{
                     "type": "boolean"
                 },
                 "automatic_restart_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "automation_mode": {
                     "type": "string"
@@ -24258,7 +29516,7 @@ var doc = `{
                     "type": "boolean"
                 },
                 "instance_create_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "iops": {
                     "type": "integer"
@@ -24267,7 +29525,7 @@ var doc = `{
                     "type": "string"
                 },
                 "latest_restorable_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "license_model": {
                     "type": "string"
@@ -24351,10 +29609,10 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "resume_full_automation_mode_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "secondary_availability_zone": {
                     "type": "string"
@@ -24509,6 +29767,34 @@ var doc = `{
                 }
             }
         },
+        "rds.ListDBClustersResponse": {
+            "type": "object",
+            "properties": {
+                "db_clusters": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/rds.DBCluster"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "rds.ListDBInstancesResponse": {
+            "type": "object",
+            "properties": {
+                "db_instances": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/rds.DBInstance"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
         "rds.OptionGroupMembership": {
             "type": "object",
             "properties": {
@@ -24600,7 +29886,7 @@ var doc = `{
                     }
                 },
                 "resume_full_automation_mode_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "storage_type": {
                     "type": "string"
@@ -24683,6 +29969,9 @@ var doc = `{
         "redshift.Cluster": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -24705,7 +29994,7 @@ var doc = `{
                     "type": "string"
                 },
                 "cluster_create_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "cluster_identifier": {
                     "type": "string"
@@ -24780,7 +30069,7 @@ var doc = `{
                     "type": "boolean"
                 },
                 "expected_next_snapshot_schedule_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "expected_next_snapshot_schedule_time_status": {
                     "type": "string"
@@ -24810,7 +30099,7 @@ var doc = `{
                     "type": "string"
                 },
                 "next_maintenance_window_start_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "node_type": {
                     "type": "string"
@@ -24837,7 +30126,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "reserved_node_exchange_status": {
                     "$ref": "#/definitions/redshift.ReservedNodeExchangeStatus"
@@ -24985,13 +30274,13 @@ var doc = `{
             "type": "object",
             "properties": {
                 "defer_maintenance_end_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "defer_maintenance_identifier": {
                     "type": "string"
                 },
                 "defer_maintenance_start_time": {
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         },
@@ -25033,6 +30322,20 @@ var doc = `{
                     "type": "string"
                 },
                 "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "redshift.ListClustersResponse": {
+            "type": "object",
+            "properties": {
+                "clusters": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/redshift.Cluster"
+                    }
+                },
+                "pagination_token": {
                     "type": "string"
                 }
             }
@@ -25093,7 +30396,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "request_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "reserved_node_exchange_request_id": {
                     "type": "string"
@@ -25186,6 +30489,9 @@ var doc = `{
         "route53.HostedZone": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -25208,7 +30514,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "resource_record_set_count": {
                     "type": "integer"
@@ -25245,6 +30551,20 @@ var doc = `{
                     "type": "string"
                 },
                 "service_principal": {
+                    "type": "string"
+                }
+            }
+        },
+        "route53.ListHostedZonesResponse": {
+            "type": "object",
+            "properties": {
+                "hosted_zones": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/route53.HostedZone"
+                    }
+                },
+                "pagination_token": {
                     "type": "string"
                 }
             }
@@ -25337,6 +30657,9 @@ var doc = `{
         "s3.Bucket": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "account_id": {
                     "type": "string"
                 },
@@ -25353,7 +30676,7 @@ var doc = `{
                     }
                 },
                 "creation_date": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "intelligent_tiering_configurations": {
                     "type": "array",
@@ -25395,7 +30718,7 @@ var doc = `{
                     "$ref": "#/definitions/s3.ReplicationConfiguration"
                 },
                 "report_time": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "server_side_encryption_configuration": {
                     "$ref": "#/definitions/s3.ServerSideEncryptionConfiguration"
@@ -25660,7 +30983,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "date": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "days": {
                     "type": "integer"
@@ -25702,6 +31025,20 @@ var doc = `{
                     "items": {
                         "$ref": "#/definitions/s3.Transition"
                     }
+                }
+            }
+        },
+        "s3.ListBucketsResponse": {
+            "type": "object",
+            "properties": {
+                "buckets": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/s3.Bucket"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
                 }
             }
         },
@@ -25919,7 +31256,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "date": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "days": {
                     "type": "integer"
@@ -25928,12 +31265,369 @@ var doc = `{
                     "type": "string"
                 }
             }
+        },
+        "sns.ListSubscriptionsResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "subscriptions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/sns.Subscription"
+                    }
+                }
+            }
+        },
+        "sns.ListTopicsResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "topics": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/sns.Topic"
+                    }
+                }
+            }
+        },
+        "sns.Subscription": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "account_id": {
+                    "type": "string"
+                },
+                "confirmation_was_authenticated": {
+                    "type": "boolean"
+                },
+                "delivery_policy": {
+                    "type": "string"
+                },
+                "effective_delivery_policy": {
+                    "type": "string"
+                },
+                "endpoint": {
+                    "type": "string"
+                },
+                "filter_policy": {
+                    "type": "string"
+                },
+                "owner": {
+                    "type": "string"
+                },
+                "pending_confirmation": {
+                    "type": "boolean"
+                },
+                "protocol": {
+                    "type": "string"
+                },
+                "raw_message_delivery": {
+                    "type": "boolean"
+                },
+                "redrive_policy": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "report_time": {
+                    "type": "string"
+                },
+                "subscription_arn": {
+                    "type": "string"
+                },
+                "subscription_role_arn": {
+                    "type": "string"
+                },
+                "topic_arn": {
+                    "type": "string"
+                }
+            }
+        },
+        "sns.Topic": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "account_id": {
+                    "type": "string"
+                },
+                "content_based_deduplication": {
+                    "type": "boolean"
+                },
+                "delivery_policy": {
+                    "type": "string"
+                },
+                "display_name": {
+                    "type": "string"
+                },
+                "effective_delivery_policy": {
+                    "type": "string"
+                },
+                "fifo_topic": {
+                    "type": "boolean"
+                },
+                "kms_master_key_id": {
+                    "type": "string"
+                },
+                "owner": {
+                    "type": "string"
+                },
+                "policy": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "report_time": {
+                    "type": "string"
+                },
+                "subscriptions_confirmed": {
+                    "type": "integer"
+                },
+                "subscriptions_deleted": {
+                    "type": "integer"
+                },
+                "subscriptions_pending": {
+                    "type": "integer"
+                },
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "topic_arn": {
+                    "type": "string"
+                }
+            }
+        },
+        "sqs.ListQueuesResponse": {
+            "type": "object",
+            "properties": {
+                "pagination_token": {
+                    "type": "string"
+                },
+                "queues": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/sqs.Queue"
+                    }
+                }
+            }
+        },
+        "sqs.Queue": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "account_id": {
+                    "type": "string"
+                },
+                "approximate_number_of_messages": {
+                    "type": "integer"
+                },
+                "approximate_number_of_messages_delayed": {
+                    "type": "integer"
+                },
+                "approximate_number_of_messages_not_visible": {
+                    "type": "integer"
+                },
+                "content_based_deduplication": {
+                    "type": "boolean"
+                },
+                "created_timestamp": {
+                    "type": "string"
+                },
+                "deduplication_scope": {
+                    "type": "string"
+                },
+                "delay_seconds": {
+                    "type": "integer"
+                },
+                "fifo_queue": {
+                    "type": "boolean"
+                },
+                "fifo_throughput_limit": {
+                    "type": "string"
+                },
+                "kms_data_key_reuse_period_seconds": {
+                    "type": "integer"
+                },
+                "kms_master_key_id": {
+                    "type": "string"
+                },
+                "last_modified_timestamp": {
+                    "type": "string"
+                },
+                "maximum_message_size": {
+                    "type": "integer"
+                },
+                "message_retention_period": {
+                    "type": "integer"
+                },
+                "policy": {
+                    "type": "string"
+                },
+                "queue_arn": {
+                    "type": "string"
+                },
+                "queue_url": {
+                    "type": "string"
+                },
+                "receive_message_wait_time_seconds": {
+                    "type": "integer"
+                },
+                "redrive_policy": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "report_time": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "visibility_timeout": {
+                    "type": "integer"
+                }
+            }
+        },
+        "storagegateway.Gateway": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "account_id": {
+                    "type": "string"
+                },
+                "cloud_watch_log_group_arn": {
+                    "type": "string"
+                },
+                "deprecation_date": {
+                    "type": "string"
+                },
+                "ec2_instance_id": {
+                    "type": "string"
+                },
+                "ec2_instance_region": {
+                    "type": "string"
+                },
+                "endpoint_type": {
+                    "type": "string"
+                },
+                "gateway_arn": {
+                    "type": "string"
+                },
+                "gateway_capacity": {
+                    "type": "string"
+                },
+                "gateway_id": {
+                    "type": "string"
+                },
+                "gateway_name": {
+                    "type": "string"
+                },
+                "gateway_network_interfaces": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/storagegateway.NetworkInterface"
+                    }
+                },
+                "gateway_state": {
+                    "type": "string"
+                },
+                "gateway_timezone": {
+                    "type": "string"
+                },
+                "gateway_type": {
+                    "type": "string"
+                },
+                "host_environment": {
+                    "type": "string"
+                },
+                "host_environment_id": {
+                    "type": "string"
+                },
+                "last_software_update": {
+                    "type": "string"
+                },
+                "next_update_availability_date": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "report_time": {
+                    "type": "string"
+                },
+                "software_updates_end_date": {
+                    "type": "string"
+                },
+                "supported_gateway_capacities": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "vpc_endpoint": {
+                    "type": "string"
+                }
+            }
+        },
+        "storagegateway.ListGatewaysResponse": {
+            "type": "object",
+            "properties": {
+                "gateways": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/storagegateway.Gateway"
+                    }
+                },
+                "pagination_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "storagegateway.NetworkInterface": {
+            "type": "object",
+            "properties": {
+                "ipv4_address": {
+                    "type": "string"
+                },
+                "ipv6_address": {
+                    "type": "string"
+                },
+                "mac_address": {
+                    "type": "string"
+                }
+            }
         }
     },
     "securityDefinitions": {
         "ApiKeyAuth": {
             "type": "apiKey",
-            "name": "X-API-Key",
+            "name": "Authorization",
             "in": "header"
         }
     }

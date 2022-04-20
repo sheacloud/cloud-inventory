@@ -1,4 +1,4 @@
-FROM --platform=${BUILDPLATFORM} golang:1.17-alpine as build
+FROM --platform=${BUILDPLATFORM} golang:1.17 as build
 
 COPY ./ /build
 
@@ -14,4 +14,4 @@ ENV PATH=/bin
 COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=build /bin/fetch-inventory /bin/fetch-inventory
 
-CMD ["/bin/fetch-inventory"]
+CMD ["/bin/fetch-inventory"]dock

@@ -1,0 +1,23 @@
+package inventory
+
+import (
+	"context"
+
+    "github.com/sheacloud/cloud-inventory/internal/db"
+	"github.com/sheacloud/cloud-inventory/pkg/aws"
+    "github.com/sheacloud/cloud-inventory/pkg/aws/{{.Name}}"
+)
+
+{{range $index, $element := .Resources}}func IngestAws{{$.ServiceCapName}}{{$element.ObjectPluralName}}(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+    resources, metadata := {{$.Name}}.Fetch{{$element.ObjectPluralName}}(ctx, input)
+    if resources != nil {
+        err := dao.AWS().{{$.ServiceCapName}}().Put{{$element.ObjectPluralName}}(ctx, resources)
+        if err != nil {
+            return nil, err
+        }
+    }
+
+    return metadata, nil
+}
+
+{{end}}

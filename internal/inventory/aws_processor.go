@@ -3,24 +3,25 @@ package inventory
 import (
 	"context"
 	"fmt"
-	"strings"
 	"sync"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/credentials/stscreds"
 	"github.com/aws/aws-sdk-go-v2/service/sts"
-	"github.com/sheacloud/cloud-inventory/internal/indexedstorage"
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud"
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud/interfaces"
+	"github.com/sheacloud/cloud-inventory/internal/db"
+	localAws "github.com/sheacloud/cloud-inventory/pkg/aws"
 	"github.com/sheacloud/cloud-inventory/pkg/meta"
 	"github.com/sirupsen/logrus"
 )
 
 type AwsFetchJob struct {
-	Input              *awscloud.AwsFetchInput
-	IndexFileWaitGroup *sync.WaitGroup
-	Function           func(context.Context, *awscloud.AwsFetchInput) *awscloud.AwsFetchOutput
+	Input     *localAws.AwsFetchInput
+	Service   string
+	Resource  string
+	DAO       db.DAO
+	WaitGroup *sync.WaitGroup
+	Function  func(context.Context, db.DAO, *localAws.AwsFetchInput) (*localAws.AwsFetchOutputMetadata, error)
 }
 
 func stringInList(s string, list []string) bool {
@@ -33,34 +34,36 @@ func stringInList(s string, list []string) bool {
 	return false
 }
 
-func ProcessAwsFetchJobs(ctx context.Context, jobs <-chan AwsFetchJob, results chan<- *awscloud.AwsFetchOutput, waitGroup *sync.WaitGroup) {
+func ProcessAwsFetchJobs(ctx context.Context, jobs <-chan AwsFetchJob, results chan<- *localAws.AwsFetchOutputMetadata, waitGroup *sync.WaitGroup) {
 	for job := range jobs {
-		output := job.Function(ctx, job.Input)
-		job.IndexFileWaitGroup.Done()
+		output, err := job.Function(ctx, job.DAO, job.Input)
+		if err != nil {
+			logrus.Errorf("Error processing job: %v", err)
+			job.WaitGroup.Done()
+			continue
+		}
 		results <- output
+
+		err = job.DAO.WriteInventoryResults(ctx, output.InventoryResults)
+		if err != nil {
+			logrus.Errorf("Error writing inventory results: %v", err)
+		}
+
+		job.WaitGroup.Done()
 	}
 
 	waitGroup.Done()
 }
 
-func FetchAwsInventory(ctx context.Context, accountIds []string, regions []string, baseAwsConfig aws.Config, useLocalCredentials bool, assumeRoleName string, reportTime time.Time, fileManager *indexedstorage.IndexedFileManager, numWorkers int) {
+func FetchAwsInventory(ctx context.Context, accountIds []string, regions []string, baseAwsConfig aws.Config, useLocalCredentials bool, assumeRoleName string, reportTime time.Time, dao db.DAO, numWorkers int) {
 	jobs := make(chan AwsFetchJob)
-	results := make(chan *awscloud.AwsFetchOutput)
+	results := make(chan *localAws.AwsFetchOutputMetadata)
 	workerWaitGroup := &sync.WaitGroup{}
 
 	// start the result processor
 	resultProcessorWaitGroup := &sync.WaitGroup{}
 	resultProcessorWaitGroup.Add(1)
 
-	reportDateString := reportTime.Format("2006-01-02")
-	reportTimeMilli := reportTime.UTC().UnixMilli()
-
-	resultFileIndices := []string{"meta", "inventory_results"}
-	resultIndexFile, err := fileManager.GetIndexedFile(resultFileIndices, reportDateString, reportTimeMilli, new(meta.InventoryResults))
-	if err != nil {
-		logrus.Errorf("error getting result index file: %v", err)
-		panic(err)
-	}
 	go func() {
 		for result := range results {
 			if len(result.FetchingErrors) != 0 {
@@ -68,17 +71,7 @@ func FetchAwsInventory(ctx context.Context, accountIds []string, regions []strin
 					logrus.Errorf("Fetching error: %v", err)
 				}
 			}
-
-			err = resultIndexFile.Write(ctx, result.InventoryResults)
-			if err != nil {
-				logrus.Errorf("error writing result to index file: %v", err)
-			}
-
-			logrus.Infof("Processed account %s:%s for resource %s. Fetched %d resources, failed to fetch %d resources", result.AccountId, result.Region, result.ResourceName, result.InventoryResults.FetchedResources, result.InventoryResults.FailedResources)
-		}
-		err := resultIndexFile.Close()
-		if err != nil {
-			logrus.Errorf("error closing result index file: %v", err)
+			logrus.Infof("Processed account %s:%s for %s:%s:%s. Fetched %d resources, failed to fetch %d resources", result.InventoryResults.AccountId, result.InventoryResults.Region, result.InventoryResults.Cloud, result.InventoryResults.Service, result.InventoryResults.Resource, result.InventoryResults.FetchedResources, result.InventoryResults.FailedResources)
 		}
 		resultProcessorWaitGroup.Done()
 	}()
@@ -89,24 +82,23 @@ func FetchAwsInventory(ctx context.Context, accountIds []string, regions []strin
 		go ProcessAwsFetchJobs(ctx, jobs, results, workerWaitGroup)
 	}
 
-	resourceWaitGroup := sync.WaitGroup{}               // waits for all resources to be fetched, and corresponding index files to be written
-	indexFileWaitGroups := map[string]*sync.WaitGroup{} // wait for all jobs for given index to be done
+	jobWaitGroup := &sync.WaitGroup{}
 
 	stsSvc := sts.NewFromConfig(baseAwsConfig)
 
 	// create all the AWS clients for eacha account/region
-	accountClients := map[string]map[string]interfaces.AwsClient{}
+	accountClients := map[string]map[string]localAws.AwsClientInterface{}
 
 	if !useLocalCredentials {
 		for _, accountId := range accountIds {
-			accountClients[accountId] = map[string]interfaces.AwsClient{}
+			accountClients[accountId] = map[string]localAws.AwsClientInterface{}
 			accountCfg := baseAwsConfig.Copy()
 			creds := stscreds.NewAssumeRoleProvider(stsSvc, fmt.Sprintf("arn:aws:iam::%s:role/%s", accountId, assumeRoleName))
 			accountCfg.Credentials = aws.NewCredentialsCache(creds)
 			for _, region := range regions {
 				regionCfg := accountCfg.Copy()
 				regionCfg.Region = region
-				accountClients[accountId][region] = awscloud.NewAwsClient(regionCfg)
+				accountClients[accountId][region] = localAws.NewAwsClient(regionCfg)
 			}
 		}
 	} else {
@@ -118,26 +110,16 @@ func FetchAwsInventory(ctx context.Context, accountIds []string, regions []strin
 		}
 		accountId := *stsOutput.Account
 		accountIds = []string{accountId}
-		accountClients[accountId] = map[string]interfaces.AwsClient{}
+		accountClients[accountId] = map[string]localAws.AwsClientInterface{}
 		for _, region := range regions {
 			regionCfg := baseAwsConfig.Copy()
 			regionCfg.Region = region
-			accountClients[accountId][region] = awscloud.NewAwsClient(regionCfg)
+			accountClients[accountId][region] = localAws.NewAwsClient(regionCfg)
 		}
 	}
 
 	for _, service := range AwsCatalog {
 		for _, resource := range service.Resources {
-			fileIndices := []string{"aws", service.ServiceName, resource.ResourceName}
-			fileIndex := strings.Join(fileIndices, "/")
-			indexFile, err := fileManager.GetIndexedFile(fileIndices, reportDateString, reportTimeMilli, resource.ResourceModel)
-			if err != nil {
-				panic(err)
-			}
-			indexFileWaitGroups[fileIndex] = &sync.WaitGroup{}
-
-			resourceWaitGroup.Add(1)
-
 			for _, accountId := range accountIds {
 				for _, region := range regions {
 					// skip if there are region overrides in place
@@ -146,38 +128,24 @@ func FetchAwsInventory(ctx context.Context, accountIds []string, regions []strin
 							continue
 						}
 					}
-					indexFileWaitGroups[fileIndex].Add(1)
-					input := &awscloud.AwsFetchInput{
+					input := &localAws.AwsFetchInput{
 						AccountId:       accountId,
 						Region:          region,
 						RegionalClients: accountClients[accountId],
 						ReportTime:      reportTime,
-						OutputFile:      indexFile,
 					}
+					jobWaitGroup.Add(1)
 					jobs <- AwsFetchJob{
-						Input:              input,
-						IndexFileWaitGroup: indexFileWaitGroups[fileIndex],
-						Function:           resource.FetchFunction,
+						Input:     input,
+						Service:   service.ServiceName,
+						Resource:  resource.ResourceName,
+						Function:  resource.FetchFunction,
+						DAO:       dao,
+						WaitGroup: jobWaitGroup,
 					}
 				}
 
 			}
-
-			go func() {
-				indexFileWaitGroups[fileIndex].Wait()
-				logrus.Infof("Writing manifest file for %s", fileIndex)
-				err := indexFile.UpdateManifest(ctx)
-				if err != nil {
-					panic(err)
-				}
-				logrus.Infof("Closing index file %s", fileIndex)
-				err = indexFile.Close()
-				if err != nil {
-					panic(err)
-				}
-				resourceWaitGroup.Done()
-			}()
-
 		}
 	}
 
@@ -186,8 +154,8 @@ func FetchAwsInventory(ctx context.Context, accountIds []string, regions []strin
 	logrus.Info("Waiting for all jobs to finish")
 
 	// wait for all jobs to finish, along with all index files being closed
-	resourceWaitGroup.Wait()
-	logrus.Info("All resources fetched")
+	jobWaitGroup.Wait()
+	logrus.Info("All jobs finished")
 
 	// wait for all workers to exit, meaning all results have been written to the results channel
 	workerWaitGroup.Wait()
@@ -198,4 +166,15 @@ func FetchAwsInventory(ctx context.Context, accountIds []string, regions []strin
 	// wait for the result processor to exit
 	resultProcessorWaitGroup.Wait()
 	logrus.Info("All results processed")
+
+	// write metadata to database
+	for _, service := range AwsCatalog {
+		for _, resource := range service.Resources {
+			dao.WriteIngestionTimestamp(ctx, &meta.IngestionTimestamp{
+				Key:        fmt.Sprintf("aws:%s:%s", service.ServiceName, resource.ResourceName),
+				ReportTime: reportTime,
+			})
+		}
+	}
+	logrus.Info("Wrote ingestion timestamps")
 }

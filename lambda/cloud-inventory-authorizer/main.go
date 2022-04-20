@@ -1,9 +1,18 @@
 package main
 
 import (
+	"bytes"
 	"context"
+	"crypto/rsa"
 	"crypto/sha256"
 	"encoding/base64"
+	"encoding/binary"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"math/big"
+	"net/http"
+	"strings"
 	"time"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -12,6 +21,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
+	"github.com/golang-jwt/jwt"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
@@ -24,6 +34,8 @@ var (
 		"error": logrus.ErrorLevel,
 		"fatal": logrus.FatalLevel,
 	}
+
+	jwks JWKS
 )
 
 func initOptions() {
@@ -37,6 +49,11 @@ func initOptions() {
 	viper.SetDefault("log_caller", false)
 
 	viper.BindEnv("api_keys_table")
+
+	viper.BindEnv("cognito_user_pool_id")
+
+	viper.BindEnv("cognito_user_pool_region")
+	viper.SetDefault("cognito_user_pool_region", "us-east-1")
 }
 
 func initLogging() {
@@ -52,26 +69,49 @@ func validateOptions() {
 	if viper.GetString("api_keys_table") == "" {
 		panic("api_keys_table is required")
 	}
+	if viper.GetString("cognito_user_pool_id") == "" {
+		panic("cognito_user_pool_id is required")
+	}
+}
+
+func downloadJWTKeys() {
+	resp, err := http.Get(fmt.Sprintf("https://cognito-idp.%s.amazonaws.com/%s/.well-known/jwks.json", viper.GetString("cognito_user_pool_region"), viper.GetString("cognito_user_pool_id")))
+	if err != nil {
+		panic(err)
+	}
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic(err)
+	}
+	err = json.Unmarshal(body, &jwks)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func init() {
 	initOptions()
 	initLogging()
 	validateOptions()
+	downloadJWTKeys()
 }
 
-func handleRequest(ctx context.Context, event events.APIGatewayCustomAuthorizerRequestTypeRequest) (events.APIGatewayV2CustomAuthorizerSimpleResponse, error) {
-	apiKey, ok := event.Headers["x-api-key"]
-	if !ok {
-		logrus.Info("missing auth header")
-		return events.APIGatewayV2CustomAuthorizerSimpleResponse{
-			IsAuthorized: false,
-			Context: map[string]interface{}{
-				"message": "X-API-Key header is missing",
-			},
-		}, nil
-	}
+type JWKS struct {
+	Keys []JWK `json:"keys"`
+}
 
+type JWK struct {
+	Alg string `json:"alg"`
+	E   string `json:"e"`
+	Kid string `json:"kid"`
+	Kty string `json:"kty"`
+	N   string `json:"n"`
+	Use string `json:"use"`
+}
+
+func handleApiKey(ctx context.Context, apiKey string) (events.APIGatewayV2CustomAuthorizerSimpleResponse, error) {
 	// convert token from base64 to bytes
 	apiKeyBytes, err := base64.StdEncoding.DecodeString(apiKey)
 	if err != nil {
@@ -148,6 +188,96 @@ func handleRequest(ctx context.Context, event events.APIGatewayCustomAuthorizerR
 			"user_id": userId,
 		},
 	}, nil
+}
+
+func handleAuthorizerToken(ctx context.Context, authorizerToken string) (events.APIGatewayV2CustomAuthorizerSimpleResponse, error) {
+
+	token, err := jwt.Parse(authorizerToken, func(token *jwt.Token) (interface{}, error) {
+		// return the public key for the jwt
+		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
+			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+		}
+		for _, key := range jwks.Keys {
+			if key.Kid == token.Header["kid"] {
+				nBytes, err := base64.RawURLEncoding.DecodeString(key.N)
+				if err != nil {
+					return nil, err
+				}
+				n := big.NewInt(0)
+				n.SetBytes(nBytes)
+
+				eBytes, err := base64.RawURLEncoding.DecodeString(key.E)
+				if err != nil {
+					return nil, err
+				}
+				var eBytesPadded []byte
+				if len(eBytes) < 8 {
+					eBytesPadded = make([]byte, 8-len(eBytes), 8)
+					eBytesPadded = append(eBytesPadded, eBytes...)
+				} else {
+					eBytesPadded = eBytes
+				}
+				eReader := bytes.NewReader(eBytesPadded)
+				var e uint64
+				err = binary.Read(eReader, binary.BigEndian, &e)
+				if err != nil {
+					return nil, err
+				}
+
+				rsaPublicKey := rsa.PublicKey{N: n, E: int(e)}
+				return &rsaPublicKey, nil
+			}
+		}
+
+		return nil, fmt.Errorf("Unable to find key for kid: %v", token.Header["kid"])
+	})
+	if err != nil {
+		logrus.Error("failed to parse token", err)
+		return events.APIGatewayV2CustomAuthorizerSimpleResponse{
+			IsAuthorized: false,
+			Context: map[string]interface{}{
+				"message": "Failed to parse token",
+			},
+		}, nil
+	}
+
+	if token.Valid {
+		logrus.WithFields(logrus.Fields{
+			"claims": token.Claims,
+		}).Info("valid token")
+		return events.APIGatewayV2CustomAuthorizerSimpleResponse{
+			IsAuthorized: true,
+			Context:      map[string]interface{}{},
+		}, nil
+	} else {
+		logrus.Error("invalid token")
+		return events.APIGatewayV2CustomAuthorizerSimpleResponse{
+			IsAuthorized: false,
+			Context: map[string]interface{}{
+				"message": "Invalid token",
+			},
+		}, nil
+	}
+}
+
+func handleRequest(ctx context.Context, event events.APIGatewayCustomAuthorizerRequestTypeRequest) (events.APIGatewayV2CustomAuthorizerSimpleResponse, error) {
+	authorizerToken, ok := event.Headers["authorization"]
+	if !ok {
+		return events.APIGatewayV2CustomAuthorizerSimpleResponse{
+			IsAuthorized: false,
+			Context: map[string]interface{}{
+				"message": "Authorization header not found",
+			},
+		}, nil
+	}
+
+	if strings.HasPrefix(authorizerToken, "Bearer ") {
+		// remove the bearer prefix
+		authorizerToken = strings.TrimPrefix(authorizerToken, "Bearer ")
+		return handleAuthorizerToken(ctx, authorizerToken)
+	} else {
+		return handleApiKey(ctx, authorizerToken)
+	}
 }
 
 func main() {

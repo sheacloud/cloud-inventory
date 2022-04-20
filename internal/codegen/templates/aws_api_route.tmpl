@@ -3,13 +3,18 @@ package {{.ServiceName}}
 
 import (
 	"time"
-	awsS3 "github.com/aws/aws-sdk-go-v2/service/s3"
+	"net/url"
 	"github.com/gin-gonic/gin"
-	"github.com/sheacloud/cloud-inventory/internal/indexedstorage"
+	"github.com/sheacloud/cloud-inventory/internal/db"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes"
-	"github.com/sheacloud/cloud-inventory/pkg/awscloud/services/{{.ServiceName}}"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/{{.ServiceName}}"
 	"github.com/r3labs/diff/v2"
 )
+
+type List{{.ResourceConfig.ObjectPluralName}}Response struct {
+	{{.ResourceConfig.ObjectPluralName}} []*{{.ServiceName}}.{{.ResourceConfig.ObjectSingularName}} `json:"{{toSnakeCase .ResourceConfig.ObjectPluralName}}"`
+	PaginationToken *string `json:"pagination_token,omitempty"`
+}
 
 // Get{{.ResourceConfig.ObjectPluralName}}Metadata godoc
 // @Summary      Get {{.ResourceConfig.ObjectPluralName}} Metadata
@@ -21,21 +26,18 @@ import (
 // @Success      200  {array}   routes.AwsResourceMetadata
 // @Failure      400
 // @Router       /metadata/aws/{{.ServiceName}}/{{.ResourceConfig.Name}} [get]
-func Get{{.ResourceConfig.ObjectPluralName}}Metadata(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
-	reportDate := c.Query("report_date")
-	if reportDate == "" {
-		reportDate = time.Now().UTC().Format("2006-01-02")
+func Get{{.ResourceConfig.ObjectPluralName}}Metadata(c *gin.Context, dao db.DAO) {
+	reportDateString := c.Query("report_date")
+	var reportDate time.Time
+	if reportDateString == "" {
+		reportDate = time.Now().UTC()
+	} else {
+		reportDate, _ = time.Parse("2006-01-02", reportDateString)
 	}
 
-	s3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "{{.ServiceName}}", "{{.ResourceConfig.Name}}"}, reportDate, indexedstorage.RequestTimeSelection{}, s3Client, new({{.ServiceName}}.{{.ResourceConfig.ObjectName}}))
+	reportTimes, err := dao.AWS().{{.ServiceCapName}}().Get{{.ResourceConfig.ObjectSingularName}}ReportTimes(c, reportDate)
 	if err != nil {
-		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
-		return
-	}
-
-	reportTimes, err := s3DirReader.GetAvailableDateTimes()
-	if err != nil {
-		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		c.AbortWithError(400, err)
 		return
 	}
 
@@ -59,11 +61,13 @@ func Get{{.ResourceConfig.ObjectPluralName}}Metadata(c *gin.Context, s3Client *a
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
 // @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
+// @Param        pagination_token query string false "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response."
+// @Param        max_results query int false "The maximum number of results to return. Default is 100"
 // @Security     ApiKeyAuth
-// @Success      200  {array}   {{.ServiceName}}.{{.ResourceConfig.ObjectName}}
+// @Success      200  {object}   List{{.ResourceConfig.ObjectPluralName}}Response
 // @Failure      400
 // @Router       /inventory/aws/{{.ServiceName}}/{{.ResourceConfig.Name}} [get]
-func List{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+func List{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, dao db.DAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -75,64 +79,41 @@ func List{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, s3Client *awsS3.Cl
 		return
 	}
 
-	s3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "{{.ServiceName}}", "{{.ResourceConfig.Name}}"}, *params.ReportDate, params.GetRequestTimeSelection(), s3Client, new({{.ServiceName}}.{{.ResourceConfig.ObjectName}}))
+	selectedTime, err := dao.AWS().{{.ServiceCapName}}().GetReferenced{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.ReportDateTime, *params.TimeSelection, params.TimeSelectionReference)
+	if err != nil {
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	results, err := dao.AWS().{{.ServiceCapName}}().List{{.ResourceConfig.ObjectPluralName}}(c, *selectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	err = s3DirReader.DetermineDataFiles()
-	if err != nil {
-		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
-	}
-
-	results := []interface{}{}
-	for s3DirReader.HasNextFile() {
-		resultInterface, err := s3DirReader.ReadNextFile()
-		if err != nil {
-			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
-			return
-		}
-		results = append(results, resultInterface...)
-	}
-
-	// Filter results
-	if params.AccountId != nil || params.Region != nil {
-		filteredResults := []interface{}{}
-		for _, result := range results {
-			obj := result.(*{{.ServiceName}}.{{.ResourceConfig.ObjectName}})
-			if params.AccountId != nil && obj.AccountId != *params.AccountId {
-				continue
-			}
-			if params.Region != nil && obj.Region != *params.Region {
-				continue
-			}
-			filteredResults = append(filteredResults, result)
-		}
-		results = filteredResults
-	}
-
-	c.IndentedJSON(200, results)
+	c.IndentedJSON(200, List{{.ResourceConfig.ObjectPluralName}}Response{
+		{{.ResourceConfig.ObjectPluralName}}: results,
+	})
 }
 
 
-// Get{{.ResourceConfig.ObjectName}} godoc
-// @Summary      Get a specific {{.ResourceConfig.ObjectName}}
-// @Description  Get a specific {{.ResourceConfig.ObjectName}} by its {{.ResourceConfig.ObjectUniqueId}}
+// Get{{.ResourceConfig.ObjectSingularName}} godoc
+// @Summary      Get a specific {{.ResourceConfig.ObjectSingularName}}
+// @Description  Get a specific {{.ResourceConfig.ObjectSingularName}} by its {{.ResourceConfig.ObjectUniqueId}}
 // @Tags         aws {{.ServiceName}}
 // @Produce      json
 // @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
-// @Param        {{.ResourceConfig.ObjectUniqueIdSnakeCase}} path string true "The {{.ResourceConfig.ObjectUniqueIdSnakeCase}} of the {{.ResourceConfig.ObjectName}} to retrieve"
+// @Param        {{.ResourceConfig.ObjectUniqueIdSnakeCase}} path string true "The {{.ResourceConfig.ObjectUniqueIdSnakeCase}} of the {{.ResourceConfig.ObjectSingularName}} to retrieve"
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
 // @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Security     ApiKeyAuth
-// @Success      200  {object}   {{.ServiceName}}.{{.ResourceConfig.ObjectName}}
+// @Success      200  {object}   {{.ServiceName}}.{{.ResourceConfig.ObjectSingularName}}
 // @Failure      400
 // @Failure 	 404
 // @Router       /inventory/aws/{{.ServiceName}}/{{.ResourceConfig.Name}}/{{"{"}}{{.ResourceConfig.ObjectUniqueIdSnakeCase}}{{"}"}} [get]
-func Get{{.ResourceConfig.ObjectName}}(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+func Get{{.ResourceConfig.ObjectSingularName}}(c *gin.Context, dao db.DAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -143,45 +124,25 @@ func Get{{.ResourceConfig.ObjectName}}(c *gin.Context, s3Client *awsS3.Client, s
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
-
-	id := c.Param("{{.ResourceConfig.ObjectUniqueIdSnakeCase}}")
-
-	s3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "{{.ServiceName}}", "{{.ResourceConfig.Name}}"}, *params.ReportDate, params.GetRequestTimeSelection(), s3Client, new({{.ServiceName}}.{{.ResourceConfig.ObjectName}}))
+	id, err := url.QueryUnescape(c.Param("{{.ResourceConfig.ObjectUniqueIdSnakeCase}}"))
 	if err != nil {
-		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	err = s3DirReader.DetermineDataFiles()
+	selectedTime, err := dao.AWS().{{.ServiceCapName}}().GetReferenced{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.ReportDateTime, *params.TimeSelection, params.TimeSelectionReference)
 	if err != nil {
-		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
+		return
 	}
 
-	results := []interface{}{}
-	for s3DirReader.HasNextFile() {
-		resultInterface, err := s3DirReader.ReadNextFile()
-		if err != nil {
-			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
-			return
-		}
-		results = append(results, resultInterface...)
+	result, err := dao.AWS().{{.ServiceCapName}}().Get{{.ResourceConfig.ObjectSingularName}}(c, *selectedTime, id)
+	if err != nil {
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
+		return
 	}
 
-	// Filter results
-	for _, result := range results {
-		obj := result.(*{{.ServiceName}}.{{.ResourceConfig.ObjectName}})
-		if params.AccountId != nil && obj.AccountId != *params.AccountId {
-			continue
-		}
-		if params.Region != nil && obj.Region != *params.Region {
-			continue
-		}
-		if obj.{{.ResourceConfig.ObjectUniqueId}} == id {
-			c.IndentedJSON(200, obj)
-			return
-		}
-	}
-	c.AbortWithStatusJSON(404, gin.H{"error": "No {{.ResourceConfig.ObjectName}} found with {{.ResourceConfig.ObjectUniqueIdSnakeCase}} " + id})
+	c.IndentedJSON(200, result)
 }
 
 
@@ -202,7 +163,7 @@ func Get{{.ResourceConfig.ObjectName}}(c *gin.Context, s3Client *awsS3.Client, s
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/{{.ServiceName}}/{{.ResourceConfig.Name}} [get]
-func DiffMulti{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+func DiffMulti{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, dao db.DAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -214,76 +175,28 @@ func DiffMulti{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, s3Client *aws
 		return
 	}
 
-	startS3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "{{.ServiceName}}", "{{.ResourceConfig.Name}}"}, *params.StartReportDate, params.GetRequestStartTimeSelection(), s3Client, new({{.ServiceName}}.{{.ResourceConfig.ObjectName}}))
+	startSelectedTime, err := dao.AWS().{{.ServiceCapName}}().GetReferenced{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.StartReportDateTime, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
-		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	
-	err = startS3DirReader.DetermineDataFiles()
-	if err != nil {
-		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
-	}
 
-	startResults := []interface{}{}
-	for startS3DirReader.HasNextFile() {
-		resultInterface, err := startS3DirReader.ReadNextFile()
-		if err != nil {
-			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
-			return
-		}
-		startResults = append(startResults, resultInterface...)
-	}
-	// Filter results
-	if params.AccountId != nil || params.Region != nil {
-		filteredResults := []interface{}{}
-		for _, result := range startResults {
-			obj := result.(*{{.ServiceName}}.{{.ResourceConfig.ObjectName}})
-			if params.AccountId != nil && obj.AccountId != *params.AccountId {
-				continue
-			}
-			if params.Region != nil && obj.Region != *params.Region {
-				continue
-			}
-			filteredResults = append(filteredResults, result)
-		}
-		startResults = filteredResults
-	}
-
-	endS3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "{{.ServiceName}}", "{{.ResourceConfig.Name}}"}, *params.EndReportDate, params.GetRequestEndTimeSelection(), s3Client, new({{.ServiceName}}.{{.ResourceConfig.ObjectName}}))
+	startResults, err := dao.AWS().{{.ServiceCapName}}().List{{.ResourceConfig.ObjectPluralName}}(c, *startSelectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	err = endS3DirReader.DetermineDataFiles()
+	endSelectedTime, err := dao.AWS().{{.ServiceCapName}}().GetReferenced{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.EndReportDateTime, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
-		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
+		return
 	}
 
-	endResults := []interface{}{}
-	for endS3DirReader.HasNextFile() {
-		resultInterface, err := endS3DirReader.ReadNextFile()
-		if err != nil {
-			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
-			return
-		}
-		endResults = append(endResults, resultInterface...)
-	}
-	// Filter results
-	if params.AccountId != nil || params.Region != nil {
-		filteredResults := []interface{}{}
-		for _, result := range endResults {
-			obj := result.(*{{.ServiceName}}.{{.ResourceConfig.ObjectName}})
-			if params.AccountId != nil && obj.AccountId != *params.AccountId {
-				continue
-			}
-			if params.Region != nil && obj.Region != *params.Region {
-				continue
-			}
-			filteredResults = append(filteredResults, result)
-		}
-		endResults = filteredResults
+	endResults, err := dao.AWS().{{.ServiceCapName}}().List{{.ResourceConfig.ObjectPluralName}}(c, *endSelectedTime, params.AccountId, params.Region, nil, nil)
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		return
 	}
 
 	changelog, err := diff.Diff(startResults, endResults)
@@ -291,14 +204,14 @@ func DiffMulti{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, s3Client *aws
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
-
+	
 	c.IndentedJSON(200, changelog)
 }
 
 
-// DiffSingle{{.ResourceConfig.ObjectName}} godoc
-// @Summary      Diff {{.ResourceConfig.ObjectName}}
-// @Description  get a diff of {{.ResourceConfig.ObjectName}} between two points in time
+// DiffSingle{{.ResourceConfig.ObjectSingularName}} godoc
+// @Summary      Diff {{.ResourceConfig.ObjectSingularName}}
+// @Description  get a diff of {{.ResourceConfig.ObjectSingularName}} between two points in time
 // @Tags         aws {{.ServiceName}}
 // @Produce      json
 // @Param        start_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
@@ -309,12 +222,12 @@ func DiffMulti{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, s3Client *aws
 // @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
-// @Param        {{.ResourceConfig.ObjectUniqueIdSnakeCase}} path string true "The {{.ResourceConfig.ObjectUniqueIdSnakeCase}} of the {{.ResourceConfig.ObjectName}} to retrieve"
+// @Param        {{.ResourceConfig.ObjectUniqueIdSnakeCase}} path string true "The {{.ResourceConfig.ObjectUniqueIdSnakeCase}} of the {{.ResourceConfig.ObjectSingularName}} to retrieve"
 // @Security     ApiKeyAuth
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/{{.ServiceName}}/{{.ResourceConfig.Name}}/{{"{"}}{{.ResourceConfig.ObjectUniqueIdSnakeCase}}{{"}"}} [get]
-func DiffSingle{{.ResourceConfig.ObjectName}}(c *gin.Context, s3Client *awsS3.Client, s3Bucket string) {
+func DiffSingle{{.ResourceConfig.ObjectSingularName}}(c *gin.Context, dao db.DAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -326,82 +239,38 @@ func DiffSingle{{.ResourceConfig.ObjectName}}(c *gin.Context, s3Client *awsS3.Cl
 		return
 	}
 
-	id := c.Param("{{.ResourceConfig.ObjectUniqueIdSnakeCase}}")
-
-	var startObject *{{.ServiceName}}.{{.ResourceConfig.ObjectName}}
-	startS3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "{{.ServiceName}}", "{{.ResourceConfig.Name}}"}, *params.StartReportDate, params.GetRequestStartTimeSelection(), s3Client, new({{.ServiceName}}.{{.ResourceConfig.ObjectName}}))
+	id, err := url.QueryUnescape(c.Param("{{.ResourceConfig.ObjectUniqueIdSnakeCase}}"))
 	if err != nil {
-		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	
-	err = startS3DirReader.DetermineDataFiles()
+
+	startSelectedTime, err := dao.AWS().{{.ServiceCapName}}().GetReferenced{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.StartReportDateTime, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
-		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
+		return
 	}
 
-	startResults := []interface{}{}
-	for startS3DirReader.HasNextFile() {
-		resultInterface, err := startS3DirReader.ReadNextFile()
-		if err != nil {
-			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
-			return
-		}
-		startResults = append(startResults, resultInterface...)
-	}
-	// Filter results
-	for _, result := range startResults {
-		obj := result.(*{{.ServiceName}}.{{.ResourceConfig.ObjectName}})
-		if params.AccountId != nil && obj.AccountId != *params.AccountId {
-			continue
-		}
-		if params.Region != nil && obj.Region != *params.Region {
-			continue
-		}
-		if obj.{{.ResourceConfig.ObjectUniqueId}} == id {
-			startObject = obj
-			break
-		}
-	}
-
-	var endObject *{{.ServiceName}}.{{.ResourceConfig.ObjectName}}
-	endS3DirReader, err := indexedstorage.NewParquetS3DirectoryReader(c.Request.Context(), s3Bucket, []string{"aws", "{{.ServiceName}}", "{{.ResourceConfig.Name}}"}, *params.EndReportDate, params.GetRequestEndTimeSelection(), s3Client, new({{.ServiceName}}.{{.ResourceConfig.ObjectName}}))
+	startObject, err := dao.AWS().{{.ServiceCapName}}().Get{{.ResourceConfig.ObjectSingularName}}(c, *startSelectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	err = endS3DirReader.DetermineDataFiles()
+	endSelectedTime, err := dao.AWS().{{.ServiceCapName}}().GetReferenced{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.EndReportDateTime, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
-		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
+		return
 	}
 
-	endResults := []interface{}{}
-	for endS3DirReader.HasNextFile() {
-		resultInterface, err := endS3DirReader.ReadNextFile()
-		if err != nil {
-			c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
-			return
-		}
-		endResults = append(endResults, resultInterface...)
-	}
-	// Filter results
-	for _, result := range endResults {
-		obj := result.(*{{.ServiceName}}.{{.ResourceConfig.ObjectName}})
-		if params.AccountId != nil && obj.AccountId != *params.AccountId {
-			continue
-		}
-		if params.Region != nil && obj.Region != *params.Region {
-			continue
-		}
-		if obj.{{.ResourceConfig.ObjectUniqueId}} == id {
-			endObject = obj
-			break
-		}
+	endObject, err := dao.AWS().{{.ServiceCapName}}().Get{{.ResourceConfig.ObjectSingularName}}(c, *endSelectedTime, id)
+	if err != nil {
+		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		return
 	}
 
 	if startObject == nil && endObject == nil {
-		c.AbortWithStatusJSON(404, gin.H{"error": "No {{.ResourceConfig.ObjectName}} found with {{.ResourceConfig.ObjectUniqueIdSnakeCase}} " + id})
+		c.AbortWithStatusJSON(404, gin.H{"error": "No {{.ResourceConfig.ObjectSingularName}} found with {{.ResourceConfig.ObjectUniqueIdSnakeCase}} " + id})
 		return
 	} else {
 		changelog, err := diff.Diff(startObject, endObject)
