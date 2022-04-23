@@ -48,6 +48,11 @@ type ScalingConfigurationInfo struct {
 	TimeoutAction         string `bson:"timeout_action,omitempty" ion:"timeout_action" dynamodbav:"timeout_action,omitempty" parquet:"name=timeout_action,type=BYTE_ARRAY,convertedtype=UTF8" json:"timeout_action,omitempty" diff:"timeout_action"`
 }
 
+type ServerlessV2ScalingConfigurationInfo struct {
+	MaxCapacity float64 `bson:"max_capacity,omitempty" ion:"max_capacity" dynamodbav:"max_capacity,omitempty" parquet:"name=max_capacity,type=DOUBLE" json:"max_capacity,omitempty" diff:"max_capacity"`
+	MinCapacity float64 `bson:"min_capacity,omitempty" ion:"min_capacity" dynamodbav:"min_capacity,omitempty" parquet:"name=min_capacity,type=DOUBLE" json:"min_capacity,omitempty" diff:"min_capacity"`
+}
+
 type Tag struct {
 	Key   string `bson:"key,omitempty" ion:"key" dynamodbav:"key,omitempty" parquet:"name=key,type=BYTE_ARRAY,convertedtype=UTF8" json:"key,omitempty" diff:"key"`
 	Value string `bson:"value,omitempty" ion:"value" dynamodbav:"value,omitempty" parquet:"name=value,type=BYTE_ARRAY,convertedtype=UTF8" json:"value,omitempty" diff:"value"`

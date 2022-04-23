@@ -49,7 +49,7 @@ func (dao *S3IonWriterDAO) WriteIngestionTimestamp(ctx context.Context, metadata
 	return nil
 }
 
-func (dao *S3IonWriterDAO) Close(ctx context.Context) error {
+func (dao *S3IonWriterDAO) Finish(ctx context.Context) error {
 	return dao.ionClient.CloseAll(ctx)
 }
 

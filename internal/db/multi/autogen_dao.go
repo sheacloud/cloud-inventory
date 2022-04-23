@@ -90,6 +90,56 @@ func (dao *MultiWriterDAO) WriteIngestionTimestamp(ctx context.Context, metadata
 	return nil
 }
 
+func (dao *MultiWriterDAO) FinishIndex(ctx context.Context, indices []string, reportDateUnixMilli int64) error {
+	var wg sync.WaitGroup
+
+	errors := []error{}
+	errorLock := sync.Mutex{}
+	for _, memberDao := range dao.daos {
+		wg.Add(1)
+		go func(memberDao db.WriterDAO) {
+			defer wg.Done()
+			err := memberDao.FinishIndex(ctx, indices, reportDateUnixMilli)
+			if err != nil {
+				errorLock.Lock()
+				errors = append(errors, err)
+				errorLock.Unlock()
+			}
+		}(memberDao)
+	}
+
+	wg.Wait()
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+	return nil
+}
+
+func (dao *MultiWriterDAO) Finish(ctx context.Context) error {
+	var wg sync.WaitGroup
+
+	errors := []error{}
+	errorLock := sync.Mutex{}
+	for _, memberDao := range dao.daos {
+		wg.Add(1)
+		go func(memberDao db.WriterDAO) {
+			defer wg.Done()
+			err := memberDao.Finish(ctx)
+			if err != nil {
+				errorLock.Lock()
+				errors = append(errors, err)
+				errorLock.Unlock()
+			}
+		}(memberDao)
+	}
+
+	wg.Wait()
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+	return nil
+}
+
 func (dao *MultiWriterDAO) PutAwsApiGatewayRestApis(ctx context.Context, resources []*apigateway.RestApi) error {
 	var wg sync.WaitGroup
 

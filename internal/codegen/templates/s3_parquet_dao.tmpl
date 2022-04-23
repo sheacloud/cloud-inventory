@@ -21,14 +21,40 @@ func NewS3ParquetWriterDAO(s3Client *awsS3.Client, bucket string, numProcessors 
 }
 
 func (dao *S3ParquetWriterDAO) WriteInventoryResults(ctx context.Context, metadata *meta.InventoryResults) error {
-    return nil
+    file, err := dao.parquetClient.GetResourceFile(ctx, []string{"meta", "inventory_results"}, metadata.ReportTime, metadata)
+	if err != nil {
+		return err
+	}
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	if err := file.Write(metadata); err != nil {
+		return fmt.Errorf("failed to write inventory results: %w", err)
+	}
+
+	return nil
 }
 
 func (dao *S3ParquetWriterDAO) WriteIngestionTimestamp(ctx context.Context, metadata *meta.IngestionTimestamp) error {
-    return nil
+    file, err := dao.parquetClient.GetResourceFile(ctx, []string{"meta", "ingestion_timestamps"}, metadata.ReportTime, metadata)
+	if err != nil {
+		return err
+	}
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	if err := file.Write(metadata); err != nil {
+		return fmt.Errorf("failed to write ingestion timestamp: %w", err)
+	}
+
+	return nil
 }
 
-func (dao *S3ParquetWriterDAO) Close(ctx context.Context) error {
+func (dao *S3ParquetWriterDAO) FinishIndex(ctx context.Context, indices []string, reportDateUnixMilli int64) error {
+    return dao.parquetClient.FinishIndex(ctx, indices, reportDateUnixMilli)
+}
+
+func (dao *S3ParquetWriterDAO) Finish(ctx context.Context) error {
     return dao.parquetClient.CloseAll(ctx)
 }
 
@@ -36,7 +62,7 @@ func (dao *S3ParquetWriterDAO) Close(ctx context.Context) error {
     if len(resources) == 0 {
         return nil
     }
-    file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "{{$serviceElement.Name}}", "{{$resourceElement.Name}}", resources[0].ReportTime, resources[0])
+    file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "{{$serviceElement.Name}}", "{{$resourceElement.Name}}"}, resources[0].ReportTime, resources[0])
     if err != nil {
         return err
     }

@@ -3,6 +3,7 @@ package mongo
 
 import (
     "context"
+    "github.com/google/uuid"
     "go.mongodb.org/mongo-driver/mongo"
     "go.mongodb.org/mongo-driver/bson"
     "github.com/sheacloud/cloud-inventory/pkg/meta"
@@ -36,6 +37,9 @@ func NewMongoReaderDAO(db *mongo.Database, maxRetries int) *MongoReaderDAO {
 }
 
 func (dao *MongoWriterDAO) WriteInventoryResults(ctx context.Context, metadata *meta.InventoryResults) error {
+    if metadata.InventoryUUID == "" {
+		metadata.InventoryUUID = uuid.New().String()
+	}
     _, err := dao.db.Collection("inventory_results").InsertOne(ctx, metadata)
     return err
 }
@@ -43,6 +47,14 @@ func (dao *MongoWriterDAO) WriteInventoryResults(ctx context.Context, metadata *
 func (dao *MongoWriterDAO) WriteIngestionTimestamp(ctx context.Context, metadata *meta.IngestionTimestamp) error {
     _, err := dao.db.Collection("ingestion_timestamps").InsertOne(ctx, metadata)
     return err
+}
+
+func (dao *MongoWriterDAO) FinishIndex(ctx context.Context, indices []string, reportDateUnixMilli int64) error {
+    return nil
+}
+
+func (dao *MongoWriterDAO) Finish(ctx context.Context) error {
+    return nil
 }
 
 {{range $serviceIndex, $serviceElement := .Services}}{{range $resourceIndex, $resourceElement := $serviceElement.Resources}}func (dao *MongoWriterDAO) PutAws{{$serviceElement.ServiceCapName}}{{$resourceElement.ObjectPluralName}}(ctx context.Context, resources []*{{$serviceElement.Name}}.{{$resourceElement.ObjectSingularName}}) error {
@@ -73,7 +85,7 @@ func (dao *MongoReaderDAO) ListAws{{$serviceElement.ServiceCapName}}{{$resourceE
 	}
 
 	var results []*{{$serviceElement.Name}}.{{$resourceElement.ObjectSingularName}}
-	cursor, err := dao.db.Collection("aws_{{$serviceElement.Name}}_{{toSnakeCase $resourceElement.ObjectPluralName}}").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.{{$serviceElement.Name}}.{{$resourceElement.Name}}").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -93,16 +105,16 @@ func (dao *MongoReaderDAO) GetAws{{$serviceElement.ServiceCapName}}{{$resourceEl
     }
 
 	var result *{{$serviceElement.Name}}.{{$resourceElement.ObjectSingularName}}
-	err := dao.db.Collection("aws_{{$serviceElement.Name}}_{{toSnakeCase $resourceElement.ObjectPluralName}}").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.{{$serviceElement.Name}}.{{$resourceElement.Name}}").FindOne(ctx, filter).Decode(&result)
 
     return result, err
 }
 
 func (dao *MongoReaderDAO) GetAws{{$serviceElement.ServiceCapName}}{{$resourceElement.ObjectSingularName}}ReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-    return DistinctReportTimes(ctx, dao.db.Collection("aws_{{$serviceElement.Name}}_{{toSnakeCase $resourceElement.ObjectPluralName}}"), reportDateUnixMilli)
+    return DistinctReportTimes(ctx, dao.db.Collection("aws.{{$serviceElement.Name}}.{{$resourceElement.Name}}"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAws{{$serviceElement.ServiceCapName}}{{$resourceElement.ObjectSingularName}}ReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-    return GetReportTime(ctx, dao.db.Collection("aws_{{$serviceElement.Name}}_{{toSnakeCase $resourceElement.ObjectPluralName}}"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+    return GetReportTime(ctx, dao.db.Collection("aws.{{$serviceElement.Name}}.{{$resourceElement.Name}}"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 {{end}}{{end}}

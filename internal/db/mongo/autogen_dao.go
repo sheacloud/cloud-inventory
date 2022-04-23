@@ -3,6 +3,7 @@ package mongo
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"github.com/sheacloud/cloud-inventory/internal/db"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/apigateway"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/apigatewayv2"
@@ -55,6 +56,9 @@ func NewMongoReaderDAO(db *mongo.Database, maxRetries int) *MongoReaderDAO {
 }
 
 func (dao *MongoWriterDAO) WriteInventoryResults(ctx context.Context, metadata *meta.InventoryResults) error {
+	if metadata.InventoryUUID == "" {
+		metadata.InventoryUUID = uuid.New().String()
+	}
 	_, err := dao.db.Collection("inventory_results").InsertOne(ctx, metadata)
 	return err
 }
@@ -62,6 +66,14 @@ func (dao *MongoWriterDAO) WriteInventoryResults(ctx context.Context, metadata *
 func (dao *MongoWriterDAO) WriteIngestionTimestamp(ctx context.Context, metadata *meta.IngestionTimestamp) error {
 	_, err := dao.db.Collection("ingestion_timestamps").InsertOne(ctx, metadata)
 	return err
+}
+
+func (dao *MongoWriterDAO) FinishIndex(ctx context.Context, indices []string, reportDateUnixMilli int64) error {
+	return nil
+}
+
+func (dao *MongoWriterDAO) Finish(ctx context.Context) error {
+	return nil
 }
 
 func (dao *MongoWriterDAO) PutAwsApiGatewayRestApis(ctx context.Context, resources []*apigateway.RestApi) error {
@@ -701,7 +713,7 @@ func (dao *MongoReaderDAO) ListAwsApiGatewayRestApis(ctx context.Context, report
 	}
 
 	var results []*apigateway.RestApi
-	cursor, err := dao.db.Collection("aws_apigateway_rest_apis").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.apigateway.rest_apis").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -721,17 +733,17 @@ func (dao *MongoReaderDAO) GetAwsApiGatewayRestApi(ctx context.Context, reportTi
 	}
 
 	var result *apigateway.RestApi
-	err := dao.db.Collection("aws_apigateway_rest_apis").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.apigateway.rest_apis").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsApiGatewayRestApiReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_apigateway_rest_apis"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.apigateway.rest_apis"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsApiGatewayRestApiReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_apigateway_rest_apis"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.apigateway.rest_apis"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsApiGatewayV2Apis(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*apigatewayv2.Api, error) {
@@ -746,7 +758,7 @@ func (dao *MongoReaderDAO) ListAwsApiGatewayV2Apis(ctx context.Context, reportTi
 	}
 
 	var results []*apigatewayv2.Api
-	cursor, err := dao.db.Collection("aws_apigatewayv2_apis").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.apigatewayv2.apis").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -766,17 +778,17 @@ func (dao *MongoReaderDAO) GetAwsApiGatewayV2Api(ctx context.Context, reportTime
 	}
 
 	var result *apigatewayv2.Api
-	err := dao.db.Collection("aws_apigatewayv2_apis").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.apigatewayv2.apis").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsApiGatewayV2ApiReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_apigatewayv2_apis"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.apigatewayv2.apis"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsApiGatewayV2ApiReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_apigatewayv2_apis"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.apigatewayv2.apis"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsBackupBackupVaults(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*backup.BackupVault, error) {
@@ -791,7 +803,7 @@ func (dao *MongoReaderDAO) ListAwsBackupBackupVaults(ctx context.Context, report
 	}
 
 	var results []*backup.BackupVault
-	cursor, err := dao.db.Collection("aws_backup_backup_vaults").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.backup.vaults").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -811,17 +823,17 @@ func (dao *MongoReaderDAO) GetAwsBackupBackupVault(ctx context.Context, reportTi
 	}
 
 	var result *backup.BackupVault
-	err := dao.db.Collection("aws_backup_backup_vaults").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.backup.vaults").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsBackupBackupVaultReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_backup_backup_vaults"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.backup.vaults"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsBackupBackupVaultReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_backup_backup_vaults"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.backup.vaults"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsBackupBackupPlans(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*backup.BackupPlan, error) {
@@ -836,7 +848,7 @@ func (dao *MongoReaderDAO) ListAwsBackupBackupPlans(ctx context.Context, reportT
 	}
 
 	var results []*backup.BackupPlan
-	cursor, err := dao.db.Collection("aws_backup_backup_plans").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.backup.plans").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -856,17 +868,17 @@ func (dao *MongoReaderDAO) GetAwsBackupBackupPlan(ctx context.Context, reportTim
 	}
 
 	var result *backup.BackupPlan
-	err := dao.db.Collection("aws_backup_backup_plans").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.backup.plans").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsBackupBackupPlanReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_backup_backup_plans"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.backup.plans"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsBackupBackupPlanReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_backup_backup_plans"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.backup.plans"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsCloudTrailTrails(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*cloudtrail.Trail, error) {
@@ -881,7 +893,7 @@ func (dao *MongoReaderDAO) ListAwsCloudTrailTrails(ctx context.Context, reportTi
 	}
 
 	var results []*cloudtrail.Trail
-	cursor, err := dao.db.Collection("aws_cloudtrail_trails").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.cloudtrail.trails").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -901,17 +913,17 @@ func (dao *MongoReaderDAO) GetAwsCloudTrailTrail(ctx context.Context, reportTime
 	}
 
 	var result *cloudtrail.Trail
-	err := dao.db.Collection("aws_cloudtrail_trails").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.cloudtrail.trails").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsCloudTrailTrailReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_cloudtrail_trails"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.cloudtrail.trails"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsCloudTrailTrailReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_cloudtrail_trails"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.cloudtrail.trails"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsCloudWatchLogsLogGroups(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*cloudwatchlogs.LogGroup, error) {
@@ -926,7 +938,7 @@ func (dao *MongoReaderDAO) ListAwsCloudWatchLogsLogGroups(ctx context.Context, r
 	}
 
 	var results []*cloudwatchlogs.LogGroup
-	cursor, err := dao.db.Collection("aws_cloudwatchlogs_log_groups").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.cloudwatchlogs.log_groups").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -946,17 +958,17 @@ func (dao *MongoReaderDAO) GetAwsCloudWatchLogsLogGroup(ctx context.Context, rep
 	}
 
 	var result *cloudwatchlogs.LogGroup
-	err := dao.db.Collection("aws_cloudwatchlogs_log_groups").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.cloudwatchlogs.log_groups").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsCloudWatchLogsLogGroupReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_cloudwatchlogs_log_groups"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.cloudwatchlogs.log_groups"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsCloudWatchLogsLogGroupReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_cloudwatchlogs_log_groups"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.cloudwatchlogs.log_groups"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsDynamoDBTables(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*dynamodb.Table, error) {
@@ -971,7 +983,7 @@ func (dao *MongoReaderDAO) ListAwsDynamoDBTables(ctx context.Context, reportTime
 	}
 
 	var results []*dynamodb.Table
-	cursor, err := dao.db.Collection("aws_dynamodb_tables").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.dynamodb.tables").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -991,17 +1003,17 @@ func (dao *MongoReaderDAO) GetAwsDynamoDBTable(ctx context.Context, reportTimeUn
 	}
 
 	var result *dynamodb.Table
-	err := dao.db.Collection("aws_dynamodb_tables").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.dynamodb.tables").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsDynamoDBTableReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_dynamodb_tables"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.dynamodb.tables"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsDynamoDBTableReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_dynamodb_tables"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.dynamodb.tables"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2Addresses(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.Address, error) {
@@ -1016,7 +1028,7 @@ func (dao *MongoReaderDAO) ListAwsEC2Addresses(ctx context.Context, reportTimeUn
 	}
 
 	var results []*ec2.Address
-	cursor, err := dao.db.Collection("aws_ec2_addresses").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.addresses").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1036,17 +1048,17 @@ func (dao *MongoReaderDAO) GetAwsEC2Address(ctx context.Context, reportTimeUnixM
 	}
 
 	var result *ec2.Address
-	err := dao.db.Collection("aws_ec2_addresses").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.addresses").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2AddressReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_addresses"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.addresses"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2AddressReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_addresses"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.addresses"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2DhcpOptions(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.DhcpOptions, error) {
@@ -1061,7 +1073,7 @@ func (dao *MongoReaderDAO) ListAwsEC2DhcpOptions(ctx context.Context, reportTime
 	}
 
 	var results []*ec2.DhcpOptions
-	cursor, err := dao.db.Collection("aws_ec2_dhcp_options").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.dhcp_options").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1081,17 +1093,17 @@ func (dao *MongoReaderDAO) GetAwsEC2DhcpOptions(ctx context.Context, reportTimeU
 	}
 
 	var result *ec2.DhcpOptions
-	err := dao.db.Collection("aws_ec2_dhcp_options").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.dhcp_options").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2DhcpOptionsReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_dhcp_options"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.dhcp_options"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2DhcpOptionsReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_dhcp_options"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.dhcp_options"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2Images(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.Image, error) {
@@ -1106,7 +1118,7 @@ func (dao *MongoReaderDAO) ListAwsEC2Images(ctx context.Context, reportTimeUnixM
 	}
 
 	var results []*ec2.Image
-	cursor, err := dao.db.Collection("aws_ec2_images").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.images").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1126,17 +1138,17 @@ func (dao *MongoReaderDAO) GetAwsEC2Image(ctx context.Context, reportTimeUnixMil
 	}
 
 	var result *ec2.Image
-	err := dao.db.Collection("aws_ec2_images").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.images").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2ImageReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_images"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.images"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2ImageReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_images"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.images"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2Instances(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.Instance, error) {
@@ -1151,7 +1163,7 @@ func (dao *MongoReaderDAO) ListAwsEC2Instances(ctx context.Context, reportTimeUn
 	}
 
 	var results []*ec2.Instance
-	cursor, err := dao.db.Collection("aws_ec2_instances").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.instances").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1171,17 +1183,17 @@ func (dao *MongoReaderDAO) GetAwsEC2Instance(ctx context.Context, reportTimeUnix
 	}
 
 	var result *ec2.Instance
-	err := dao.db.Collection("aws_ec2_instances").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.instances").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2InstanceReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_instances"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.instances"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2InstanceReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_instances"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.instances"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2InternetGateways(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.InternetGateway, error) {
@@ -1196,7 +1208,7 @@ func (dao *MongoReaderDAO) ListAwsEC2InternetGateways(ctx context.Context, repor
 	}
 
 	var results []*ec2.InternetGateway
-	cursor, err := dao.db.Collection("aws_ec2_internet_gateways").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.internet_gateways").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1216,17 +1228,17 @@ func (dao *MongoReaderDAO) GetAwsEC2InternetGateway(ctx context.Context, reportT
 	}
 
 	var result *ec2.InternetGateway
-	err := dao.db.Collection("aws_ec2_internet_gateways").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.internet_gateways").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2InternetGatewayReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_internet_gateways"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.internet_gateways"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2InternetGatewayReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_internet_gateways"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.internet_gateways"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2ManagedPrefixLists(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.ManagedPrefixList, error) {
@@ -1241,7 +1253,7 @@ func (dao *MongoReaderDAO) ListAwsEC2ManagedPrefixLists(ctx context.Context, rep
 	}
 
 	var results []*ec2.ManagedPrefixList
-	cursor, err := dao.db.Collection("aws_ec2_managed_prefix_lists").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.managed_prefix_lists").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1261,17 +1273,17 @@ func (dao *MongoReaderDAO) GetAwsEC2ManagedPrefixList(ctx context.Context, repor
 	}
 
 	var result *ec2.ManagedPrefixList
-	err := dao.db.Collection("aws_ec2_managed_prefix_lists").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.managed_prefix_lists").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2ManagedPrefixListReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_managed_prefix_lists"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.managed_prefix_lists"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2ManagedPrefixListReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_managed_prefix_lists"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.managed_prefix_lists"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2NatGateways(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.NatGateway, error) {
@@ -1286,7 +1298,7 @@ func (dao *MongoReaderDAO) ListAwsEC2NatGateways(ctx context.Context, reportTime
 	}
 
 	var results []*ec2.NatGateway
-	cursor, err := dao.db.Collection("aws_ec2_nat_gateways").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.nat_gateways").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1306,17 +1318,17 @@ func (dao *MongoReaderDAO) GetAwsEC2NatGateway(ctx context.Context, reportTimeUn
 	}
 
 	var result *ec2.NatGateway
-	err := dao.db.Collection("aws_ec2_nat_gateways").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.nat_gateways").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2NatGatewayReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_nat_gateways"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.nat_gateways"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2NatGatewayReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_nat_gateways"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.nat_gateways"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2NetworkAcls(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.NetworkAcl, error) {
@@ -1331,7 +1343,7 @@ func (dao *MongoReaderDAO) ListAwsEC2NetworkAcls(ctx context.Context, reportTime
 	}
 
 	var results []*ec2.NetworkAcl
-	cursor, err := dao.db.Collection("aws_ec2_network_acls").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.network_acls").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1351,17 +1363,17 @@ func (dao *MongoReaderDAO) GetAwsEC2NetworkAcl(ctx context.Context, reportTimeUn
 	}
 
 	var result *ec2.NetworkAcl
-	err := dao.db.Collection("aws_ec2_network_acls").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.network_acls").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2NetworkAclReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_network_acls"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.network_acls"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2NetworkAclReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_network_acls"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.network_acls"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2NetworkInterfaces(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.NetworkInterface, error) {
@@ -1376,7 +1388,7 @@ func (dao *MongoReaderDAO) ListAwsEC2NetworkInterfaces(ctx context.Context, repo
 	}
 
 	var results []*ec2.NetworkInterface
-	cursor, err := dao.db.Collection("aws_ec2_network_interfaces").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.network_interfaces").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1396,17 +1408,17 @@ func (dao *MongoReaderDAO) GetAwsEC2NetworkInterface(ctx context.Context, report
 	}
 
 	var result *ec2.NetworkInterface
-	err := dao.db.Collection("aws_ec2_network_interfaces").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.network_interfaces").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2NetworkInterfaceReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_network_interfaces"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.network_interfaces"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2NetworkInterfaceReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_network_interfaces"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.network_interfaces"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2PlacementGroups(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.PlacementGroup, error) {
@@ -1421,7 +1433,7 @@ func (dao *MongoReaderDAO) ListAwsEC2PlacementGroups(ctx context.Context, report
 	}
 
 	var results []*ec2.PlacementGroup
-	cursor, err := dao.db.Collection("aws_ec2_placement_groups").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.placement_groups").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1441,17 +1453,17 @@ func (dao *MongoReaderDAO) GetAwsEC2PlacementGroup(ctx context.Context, reportTi
 	}
 
 	var result *ec2.PlacementGroup
-	err := dao.db.Collection("aws_ec2_placement_groups").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.placement_groups").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2PlacementGroupReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_placement_groups"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.placement_groups"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2PlacementGroupReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_placement_groups"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.placement_groups"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2ReservedInstances(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.ReservedInstances, error) {
@@ -1466,7 +1478,7 @@ func (dao *MongoReaderDAO) ListAwsEC2ReservedInstances(ctx context.Context, repo
 	}
 
 	var results []*ec2.ReservedInstances
-	cursor, err := dao.db.Collection("aws_ec2_reserved_instances").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.reserved_instances").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1486,17 +1498,17 @@ func (dao *MongoReaderDAO) GetAwsEC2ReservedInstances(ctx context.Context, repor
 	}
 
 	var result *ec2.ReservedInstances
-	err := dao.db.Collection("aws_ec2_reserved_instances").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.reserved_instances").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2ReservedInstancesReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_reserved_instances"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.reserved_instances"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2ReservedInstancesReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_reserved_instances"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.reserved_instances"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2RouteTables(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.RouteTable, error) {
@@ -1511,7 +1523,7 @@ func (dao *MongoReaderDAO) ListAwsEC2RouteTables(ctx context.Context, reportTime
 	}
 
 	var results []*ec2.RouteTable
-	cursor, err := dao.db.Collection("aws_ec2_route_tables").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.route_tables").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1531,17 +1543,17 @@ func (dao *MongoReaderDAO) GetAwsEC2RouteTable(ctx context.Context, reportTimeUn
 	}
 
 	var result *ec2.RouteTable
-	err := dao.db.Collection("aws_ec2_route_tables").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.route_tables").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2RouteTableReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_route_tables"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.route_tables"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2RouteTableReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_route_tables"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.route_tables"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2SecurityGroups(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.SecurityGroup, error) {
@@ -1556,7 +1568,7 @@ func (dao *MongoReaderDAO) ListAwsEC2SecurityGroups(ctx context.Context, reportT
 	}
 
 	var results []*ec2.SecurityGroup
-	cursor, err := dao.db.Collection("aws_ec2_security_groups").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.security_groups").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1576,17 +1588,17 @@ func (dao *MongoReaderDAO) GetAwsEC2SecurityGroup(ctx context.Context, reportTim
 	}
 
 	var result *ec2.SecurityGroup
-	err := dao.db.Collection("aws_ec2_security_groups").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.security_groups").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2SecurityGroupReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_security_groups"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.security_groups"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2SecurityGroupReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_security_groups"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.security_groups"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2Subnets(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.Subnet, error) {
@@ -1601,7 +1613,7 @@ func (dao *MongoReaderDAO) ListAwsEC2Subnets(ctx context.Context, reportTimeUnix
 	}
 
 	var results []*ec2.Subnet
-	cursor, err := dao.db.Collection("aws_ec2_subnets").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.subnets").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1621,17 +1633,17 @@ func (dao *MongoReaderDAO) GetAwsEC2Subnet(ctx context.Context, reportTimeUnixMi
 	}
 
 	var result *ec2.Subnet
-	err := dao.db.Collection("aws_ec2_subnets").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.subnets").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2SubnetReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_subnets"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.subnets"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2SubnetReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_subnets"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.subnets"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2TransitGatewayPeeringAttachments(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.TransitGatewayPeeringAttachment, error) {
@@ -1646,7 +1658,7 @@ func (dao *MongoReaderDAO) ListAwsEC2TransitGatewayPeeringAttachments(ctx contex
 	}
 
 	var results []*ec2.TransitGatewayPeeringAttachment
-	cursor, err := dao.db.Collection("aws_ec2_transit_gateway_peering_attachments").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.transit_gateway_peering_attachments").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1666,17 +1678,17 @@ func (dao *MongoReaderDAO) GetAwsEC2TransitGatewayPeeringAttachment(ctx context.
 	}
 
 	var result *ec2.TransitGatewayPeeringAttachment
-	err := dao.db.Collection("aws_ec2_transit_gateway_peering_attachments").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.transit_gateway_peering_attachments").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2TransitGatewayPeeringAttachmentReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_transit_gateway_peering_attachments"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.transit_gateway_peering_attachments"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2TransitGatewayPeeringAttachmentReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_transit_gateway_peering_attachments"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.transit_gateway_peering_attachments"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2TransitGatewayRouteTables(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.TransitGatewayRouteTable, error) {
@@ -1691,7 +1703,7 @@ func (dao *MongoReaderDAO) ListAwsEC2TransitGatewayRouteTables(ctx context.Conte
 	}
 
 	var results []*ec2.TransitGatewayRouteTable
-	cursor, err := dao.db.Collection("aws_ec2_transit_gateway_route_tables").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.transit_gateway_route_tables").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1711,17 +1723,17 @@ func (dao *MongoReaderDAO) GetAwsEC2TransitGatewayRouteTable(ctx context.Context
 	}
 
 	var result *ec2.TransitGatewayRouteTable
-	err := dao.db.Collection("aws_ec2_transit_gateway_route_tables").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.transit_gateway_route_tables").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2TransitGatewayRouteTableReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_transit_gateway_route_tables"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.transit_gateway_route_tables"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2TransitGatewayRouteTableReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_transit_gateway_route_tables"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.transit_gateway_route_tables"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2TransitGatewayVpcAttachments(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.TransitGatewayVpcAttachment, error) {
@@ -1736,7 +1748,7 @@ func (dao *MongoReaderDAO) ListAwsEC2TransitGatewayVpcAttachments(ctx context.Co
 	}
 
 	var results []*ec2.TransitGatewayVpcAttachment
-	cursor, err := dao.db.Collection("aws_ec2_transit_gateway_vpc_attachments").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.transit_gateway_vpc_attachments").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1756,17 +1768,17 @@ func (dao *MongoReaderDAO) GetAwsEC2TransitGatewayVpcAttachment(ctx context.Cont
 	}
 
 	var result *ec2.TransitGatewayVpcAttachment
-	err := dao.db.Collection("aws_ec2_transit_gateway_vpc_attachments").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.transit_gateway_vpc_attachments").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2TransitGatewayVpcAttachmentReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_transit_gateway_vpc_attachments"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.transit_gateway_vpc_attachments"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2TransitGatewayVpcAttachmentReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_transit_gateway_vpc_attachments"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.transit_gateway_vpc_attachments"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2TransitGateways(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.TransitGateway, error) {
@@ -1781,7 +1793,7 @@ func (dao *MongoReaderDAO) ListAwsEC2TransitGateways(ctx context.Context, report
 	}
 
 	var results []*ec2.TransitGateway
-	cursor, err := dao.db.Collection("aws_ec2_transit_gateways").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.transit_gateways").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1801,17 +1813,17 @@ func (dao *MongoReaderDAO) GetAwsEC2TransitGateway(ctx context.Context, reportTi
 	}
 
 	var result *ec2.TransitGateway
-	err := dao.db.Collection("aws_ec2_transit_gateways").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.transit_gateways").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2TransitGatewayReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_transit_gateways"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.transit_gateways"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2TransitGatewayReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_transit_gateways"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.transit_gateways"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2Volumes(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.Volume, error) {
@@ -1826,7 +1838,7 @@ func (dao *MongoReaderDAO) ListAwsEC2Volumes(ctx context.Context, reportTimeUnix
 	}
 
 	var results []*ec2.Volume
-	cursor, err := dao.db.Collection("aws_ec2_volumes").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.volumes").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1846,17 +1858,17 @@ func (dao *MongoReaderDAO) GetAwsEC2Volume(ctx context.Context, reportTimeUnixMi
 	}
 
 	var result *ec2.Volume
-	err := dao.db.Collection("aws_ec2_volumes").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.volumes").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2VolumeReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_volumes"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.volumes"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2VolumeReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_volumes"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.volumes"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2VpcEndpoints(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.VpcEndpoint, error) {
@@ -1871,7 +1883,7 @@ func (dao *MongoReaderDAO) ListAwsEC2VpcEndpoints(ctx context.Context, reportTim
 	}
 
 	var results []*ec2.VpcEndpoint
-	cursor, err := dao.db.Collection("aws_ec2_vpc_endpoints").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.vpc_endpoints").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1891,17 +1903,17 @@ func (dao *MongoReaderDAO) GetAwsEC2VpcEndpoint(ctx context.Context, reportTimeU
 	}
 
 	var result *ec2.VpcEndpoint
-	err := dao.db.Collection("aws_ec2_vpc_endpoints").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.vpc_endpoints").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2VpcEndpointReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_vpc_endpoints"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.vpc_endpoints"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2VpcEndpointReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_vpc_endpoints"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.vpc_endpoints"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2VpcPeeringConnections(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.VpcPeeringConnection, error) {
@@ -1916,7 +1928,7 @@ func (dao *MongoReaderDAO) ListAwsEC2VpcPeeringConnections(ctx context.Context, 
 	}
 
 	var results []*ec2.VpcPeeringConnection
-	cursor, err := dao.db.Collection("aws_ec2_vpc_peering_connections").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.vpc_peering_connections").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1936,17 +1948,17 @@ func (dao *MongoReaderDAO) GetAwsEC2VpcPeeringConnection(ctx context.Context, re
 	}
 
 	var result *ec2.VpcPeeringConnection
-	err := dao.db.Collection("aws_ec2_vpc_peering_connections").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.vpc_peering_connections").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2VpcPeeringConnectionReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_vpc_peering_connections"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.vpc_peering_connections"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2VpcPeeringConnectionReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_vpc_peering_connections"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.vpc_peering_connections"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2Vpcs(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.Vpc, error) {
@@ -1961,7 +1973,7 @@ func (dao *MongoReaderDAO) ListAwsEC2Vpcs(ctx context.Context, reportTimeUnixMil
 	}
 
 	var results []*ec2.Vpc
-	cursor, err := dao.db.Collection("aws_ec2_vpcs").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.vpcs").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -1981,17 +1993,17 @@ func (dao *MongoReaderDAO) GetAwsEC2Vpc(ctx context.Context, reportTimeUnixMilli
 	}
 
 	var result *ec2.Vpc
-	err := dao.db.Collection("aws_ec2_vpcs").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.vpcs").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2VpcReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_vpcs"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.vpcs"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2VpcReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_vpcs"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.vpcs"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEC2VpnGateways(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ec2.VpnGateway, error) {
@@ -2006,7 +2018,7 @@ func (dao *MongoReaderDAO) ListAwsEC2VpnGateways(ctx context.Context, reportTime
 	}
 
 	var results []*ec2.VpnGateway
-	cursor, err := dao.db.Collection("aws_ec2_vpn_gateways").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ec2.vpn_gateways").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2026,17 +2038,17 @@ func (dao *MongoReaderDAO) GetAwsEC2VpnGateway(ctx context.Context, reportTimeUn
 	}
 
 	var result *ec2.VpnGateway
-	err := dao.db.Collection("aws_ec2_vpn_gateways").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ec2.vpn_gateways").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEC2VpnGatewayReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ec2_vpn_gateways"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ec2.vpn_gateways"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEC2VpnGatewayReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ec2_vpn_gateways"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ec2.vpn_gateways"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsECSClusters(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ecs.Cluster, error) {
@@ -2051,7 +2063,7 @@ func (dao *MongoReaderDAO) ListAwsECSClusters(ctx context.Context, reportTimeUni
 	}
 
 	var results []*ecs.Cluster
-	cursor, err := dao.db.Collection("aws_ecs_clusters").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ecs.clusters").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2071,17 +2083,17 @@ func (dao *MongoReaderDAO) GetAwsECSCluster(ctx context.Context, reportTimeUnixM
 	}
 
 	var result *ecs.Cluster
-	err := dao.db.Collection("aws_ecs_clusters").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ecs.clusters").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsECSClusterReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ecs_clusters"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ecs.clusters"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsECSClusterReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ecs_clusters"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ecs.clusters"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsECSServices(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ecs.Service, error) {
@@ -2096,7 +2108,7 @@ func (dao *MongoReaderDAO) ListAwsECSServices(ctx context.Context, reportTimeUni
 	}
 
 	var results []*ecs.Service
-	cursor, err := dao.db.Collection("aws_ecs_services").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ecs.services").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2116,17 +2128,17 @@ func (dao *MongoReaderDAO) GetAwsECSService(ctx context.Context, reportTimeUnixM
 	}
 
 	var result *ecs.Service
-	err := dao.db.Collection("aws_ecs_services").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ecs.services").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsECSServiceReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ecs_services"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ecs.services"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsECSServiceReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ecs_services"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ecs.services"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsECSTasks(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ecs.Task, error) {
@@ -2141,7 +2153,7 @@ func (dao *MongoReaderDAO) ListAwsECSTasks(ctx context.Context, reportTimeUnixMi
 	}
 
 	var results []*ecs.Task
-	cursor, err := dao.db.Collection("aws_ecs_tasks").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.ecs.tasks").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2161,17 +2173,17 @@ func (dao *MongoReaderDAO) GetAwsECSTask(ctx context.Context, reportTimeUnixMill
 	}
 
 	var result *ecs.Task
-	err := dao.db.Collection("aws_ecs_tasks").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.ecs.tasks").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsECSTaskReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_ecs_tasks"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.ecs.tasks"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsECSTaskReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_ecs_tasks"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.ecs.tasks"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsEFSFileSystems(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*efs.FileSystem, error) {
@@ -2186,7 +2198,7 @@ func (dao *MongoReaderDAO) ListAwsEFSFileSystems(ctx context.Context, reportTime
 	}
 
 	var results []*efs.FileSystem
-	cursor, err := dao.db.Collection("aws_efs_file_systems").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.efs.filesystems").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2206,17 +2218,17 @@ func (dao *MongoReaderDAO) GetAwsEFSFileSystem(ctx context.Context, reportTimeUn
 	}
 
 	var result *efs.FileSystem
-	err := dao.db.Collection("aws_efs_file_systems").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.efs.filesystems").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEFSFileSystemReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_efs_file_systems"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.efs.filesystems"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEFSFileSystemReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_efs_file_systems"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.efs.filesystems"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsElastiCacheCacheClusters(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*elasticache.CacheCluster, error) {
@@ -2231,7 +2243,7 @@ func (dao *MongoReaderDAO) ListAwsElastiCacheCacheClusters(ctx context.Context, 
 	}
 
 	var results []*elasticache.CacheCluster
-	cursor, err := dao.db.Collection("aws_elasticache_cache_clusters").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.elasticache.cache_clusters").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2251,17 +2263,17 @@ func (dao *MongoReaderDAO) GetAwsElastiCacheCacheCluster(ctx context.Context, re
 	}
 
 	var result *elasticache.CacheCluster
-	err := dao.db.Collection("aws_elasticache_cache_clusters").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.elasticache.cache_clusters").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsElastiCacheCacheClusterReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_elasticache_cache_clusters"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.elasticache.cache_clusters"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsElastiCacheCacheClusterReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_elasticache_cache_clusters"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.elasticache.cache_clusters"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsElasticLoadBalancingLoadBalancers(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*elasticloadbalancing.LoadBalancer, error) {
@@ -2276,7 +2288,7 @@ func (dao *MongoReaderDAO) ListAwsElasticLoadBalancingLoadBalancers(ctx context.
 	}
 
 	var results []*elasticloadbalancing.LoadBalancer
-	cursor, err := dao.db.Collection("aws_elasticloadbalancing_load_balancers").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.elasticloadbalancing.load_balancers").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2296,17 +2308,17 @@ func (dao *MongoReaderDAO) GetAwsElasticLoadBalancingLoadBalancer(ctx context.Co
 	}
 
 	var result *elasticloadbalancing.LoadBalancer
-	err := dao.db.Collection("aws_elasticloadbalancing_load_balancers").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.elasticloadbalancing.load_balancers").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsElasticLoadBalancingLoadBalancerReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_elasticloadbalancing_load_balancers"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.elasticloadbalancing.load_balancers"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsElasticLoadBalancingLoadBalancerReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_elasticloadbalancing_load_balancers"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.elasticloadbalancing.load_balancers"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsElasticLoadBalancingV2LoadBalancers(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*elasticloadbalancingv2.LoadBalancer, error) {
@@ -2321,7 +2333,7 @@ func (dao *MongoReaderDAO) ListAwsElasticLoadBalancingV2LoadBalancers(ctx contex
 	}
 
 	var results []*elasticloadbalancingv2.LoadBalancer
-	cursor, err := dao.db.Collection("aws_elasticloadbalancingv2_load_balancers").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.elasticloadbalancingv2.load_balancers").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2341,17 +2353,17 @@ func (dao *MongoReaderDAO) GetAwsElasticLoadBalancingV2LoadBalancer(ctx context.
 	}
 
 	var result *elasticloadbalancingv2.LoadBalancer
-	err := dao.db.Collection("aws_elasticloadbalancingv2_load_balancers").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.elasticloadbalancingv2.load_balancers").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsElasticLoadBalancingV2LoadBalancerReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_elasticloadbalancingv2_load_balancers"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.elasticloadbalancingv2.load_balancers"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsElasticLoadBalancingV2LoadBalancerReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_elasticloadbalancingv2_load_balancers"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.elasticloadbalancingv2.load_balancers"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsElasticLoadBalancingV2TargetGroups(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*elasticloadbalancingv2.TargetGroup, error) {
@@ -2366,7 +2378,7 @@ func (dao *MongoReaderDAO) ListAwsElasticLoadBalancingV2TargetGroups(ctx context
 	}
 
 	var results []*elasticloadbalancingv2.TargetGroup
-	cursor, err := dao.db.Collection("aws_elasticloadbalancingv2_target_groups").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.elasticloadbalancingv2.target_groups").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2386,17 +2398,17 @@ func (dao *MongoReaderDAO) GetAwsElasticLoadBalancingV2TargetGroup(ctx context.C
 	}
 
 	var result *elasticloadbalancingv2.TargetGroup
-	err := dao.db.Collection("aws_elasticloadbalancingv2_target_groups").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.elasticloadbalancingv2.target_groups").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsElasticLoadBalancingV2TargetGroupReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_elasticloadbalancingv2_target_groups"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.elasticloadbalancingv2.target_groups"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsElasticLoadBalancingV2TargetGroupReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_elasticloadbalancingv2_target_groups"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.elasticloadbalancingv2.target_groups"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsIAMGroups(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*iam.Group, error) {
@@ -2411,7 +2423,7 @@ func (dao *MongoReaderDAO) ListAwsIAMGroups(ctx context.Context, reportTimeUnixM
 	}
 
 	var results []*iam.Group
-	cursor, err := dao.db.Collection("aws_iam_groups").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.iam.groups").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2431,17 +2443,17 @@ func (dao *MongoReaderDAO) GetAwsIAMGroup(ctx context.Context, reportTimeUnixMil
 	}
 
 	var result *iam.Group
-	err := dao.db.Collection("aws_iam_groups").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.iam.groups").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsIAMGroupReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_iam_groups"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.iam.groups"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsIAMGroupReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_iam_groups"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.iam.groups"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsIAMPolicies(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*iam.Policy, error) {
@@ -2456,7 +2468,7 @@ func (dao *MongoReaderDAO) ListAwsIAMPolicies(ctx context.Context, reportTimeUni
 	}
 
 	var results []*iam.Policy
-	cursor, err := dao.db.Collection("aws_iam_policies").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.iam.policies").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2476,17 +2488,17 @@ func (dao *MongoReaderDAO) GetAwsIAMPolicy(ctx context.Context, reportTimeUnixMi
 	}
 
 	var result *iam.Policy
-	err := dao.db.Collection("aws_iam_policies").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.iam.policies").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsIAMPolicyReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_iam_policies"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.iam.policies"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsIAMPolicyReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_iam_policies"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.iam.policies"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsIAMRoles(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*iam.Role, error) {
@@ -2501,7 +2513,7 @@ func (dao *MongoReaderDAO) ListAwsIAMRoles(ctx context.Context, reportTimeUnixMi
 	}
 
 	var results []*iam.Role
-	cursor, err := dao.db.Collection("aws_iam_roles").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.iam.roles").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2521,17 +2533,17 @@ func (dao *MongoReaderDAO) GetAwsIAMRole(ctx context.Context, reportTimeUnixMill
 	}
 
 	var result *iam.Role
-	err := dao.db.Collection("aws_iam_roles").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.iam.roles").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsIAMRoleReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_iam_roles"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.iam.roles"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsIAMRoleReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_iam_roles"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.iam.roles"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsIAMUsers(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*iam.User, error) {
@@ -2546,7 +2558,7 @@ func (dao *MongoReaderDAO) ListAwsIAMUsers(ctx context.Context, reportTimeUnixMi
 	}
 
 	var results []*iam.User
-	cursor, err := dao.db.Collection("aws_iam_users").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.iam.users").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2566,17 +2578,17 @@ func (dao *MongoReaderDAO) GetAwsIAMUser(ctx context.Context, reportTimeUnixMill
 	}
 
 	var result *iam.User
-	err := dao.db.Collection("aws_iam_users").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.iam.users").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsIAMUserReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_iam_users"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.iam.users"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsIAMUserReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_iam_users"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.iam.users"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsLambdaFunctions(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*lambda.Function, error) {
@@ -2591,7 +2603,7 @@ func (dao *MongoReaderDAO) ListAwsLambdaFunctions(ctx context.Context, reportTim
 	}
 
 	var results []*lambda.Function
-	cursor, err := dao.db.Collection("aws_lambda_functions").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.lambda.functions").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2611,17 +2623,17 @@ func (dao *MongoReaderDAO) GetAwsLambdaFunction(ctx context.Context, reportTimeU
 	}
 
 	var result *lambda.Function
-	err := dao.db.Collection("aws_lambda_functions").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.lambda.functions").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsLambdaFunctionReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_lambda_functions"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.lambda.functions"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsLambdaFunctionReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_lambda_functions"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.lambda.functions"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsRDSDBClusters(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*rds.DBCluster, error) {
@@ -2636,7 +2648,7 @@ func (dao *MongoReaderDAO) ListAwsRDSDBClusters(ctx context.Context, reportTimeU
 	}
 
 	var results []*rds.DBCluster
-	cursor, err := dao.db.Collection("aws_rds_db_clusters").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.rds.db_clusters").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2656,17 +2668,17 @@ func (dao *MongoReaderDAO) GetAwsRDSDBCluster(ctx context.Context, reportTimeUni
 	}
 
 	var result *rds.DBCluster
-	err := dao.db.Collection("aws_rds_db_clusters").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.rds.db_clusters").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsRDSDBClusterReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_rds_db_clusters"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.rds.db_clusters"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsRDSDBClusterReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_rds_db_clusters"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.rds.db_clusters"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsRDSDBInstances(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*rds.DBInstance, error) {
@@ -2681,7 +2693,7 @@ func (dao *MongoReaderDAO) ListAwsRDSDBInstances(ctx context.Context, reportTime
 	}
 
 	var results []*rds.DBInstance
-	cursor, err := dao.db.Collection("aws_rds_db_instances").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.rds.db_instances").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2701,17 +2713,17 @@ func (dao *MongoReaderDAO) GetAwsRDSDBInstance(ctx context.Context, reportTimeUn
 	}
 
 	var result *rds.DBInstance
-	err := dao.db.Collection("aws_rds_db_instances").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.rds.db_instances").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsRDSDBInstanceReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_rds_db_instances"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.rds.db_instances"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsRDSDBInstanceReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_rds_db_instances"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.rds.db_instances"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsRedshiftClusters(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*redshift.Cluster, error) {
@@ -2726,7 +2738,7 @@ func (dao *MongoReaderDAO) ListAwsRedshiftClusters(ctx context.Context, reportTi
 	}
 
 	var results []*redshift.Cluster
-	cursor, err := dao.db.Collection("aws_redshift_clusters").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.redshift.clusters").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2746,17 +2758,17 @@ func (dao *MongoReaderDAO) GetAwsRedshiftCluster(ctx context.Context, reportTime
 	}
 
 	var result *redshift.Cluster
-	err := dao.db.Collection("aws_redshift_clusters").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.redshift.clusters").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsRedshiftClusterReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_redshift_clusters"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.redshift.clusters"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsRedshiftClusterReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_redshift_clusters"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.redshift.clusters"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsRoute53HostedZones(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*route53.HostedZone, error) {
@@ -2771,7 +2783,7 @@ func (dao *MongoReaderDAO) ListAwsRoute53HostedZones(ctx context.Context, report
 	}
 
 	var results []*route53.HostedZone
-	cursor, err := dao.db.Collection("aws_route53_hosted_zones").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.route53.hosted_zones").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2791,17 +2803,17 @@ func (dao *MongoReaderDAO) GetAwsRoute53HostedZone(ctx context.Context, reportTi
 	}
 
 	var result *route53.HostedZone
-	err := dao.db.Collection("aws_route53_hosted_zones").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.route53.hosted_zones").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsRoute53HostedZoneReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_route53_hosted_zones"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.route53.hosted_zones"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsRoute53HostedZoneReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_route53_hosted_zones"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.route53.hosted_zones"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsS3Buckets(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*s3.Bucket, error) {
@@ -2816,7 +2828,7 @@ func (dao *MongoReaderDAO) ListAwsS3Buckets(ctx context.Context, reportTimeUnixM
 	}
 
 	var results []*s3.Bucket
-	cursor, err := dao.db.Collection("aws_s3_buckets").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.s3.buckets").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2836,17 +2848,17 @@ func (dao *MongoReaderDAO) GetAwsS3Bucket(ctx context.Context, reportTimeUnixMil
 	}
 
 	var result *s3.Bucket
-	err := dao.db.Collection("aws_s3_buckets").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.s3.buckets").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsS3BucketReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_s3_buckets"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.s3.buckets"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsS3BucketReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_s3_buckets"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.s3.buckets"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsSNSTopics(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*sns.Topic, error) {
@@ -2861,7 +2873,7 @@ func (dao *MongoReaderDAO) ListAwsSNSTopics(ctx context.Context, reportTimeUnixM
 	}
 
 	var results []*sns.Topic
-	cursor, err := dao.db.Collection("aws_sns_topics").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.sns.topics").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2881,17 +2893,17 @@ func (dao *MongoReaderDAO) GetAwsSNSTopic(ctx context.Context, reportTimeUnixMil
 	}
 
 	var result *sns.Topic
-	err := dao.db.Collection("aws_sns_topics").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.sns.topics").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsSNSTopicReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_sns_topics"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.sns.topics"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsSNSTopicReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_sns_topics"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.sns.topics"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsSNSSubscriptions(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*sns.Subscription, error) {
@@ -2906,7 +2918,7 @@ func (dao *MongoReaderDAO) ListAwsSNSSubscriptions(ctx context.Context, reportTi
 	}
 
 	var results []*sns.Subscription
-	cursor, err := dao.db.Collection("aws_sns_subscriptions").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.sns.subscriptions").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2926,17 +2938,17 @@ func (dao *MongoReaderDAO) GetAwsSNSSubscription(ctx context.Context, reportTime
 	}
 
 	var result *sns.Subscription
-	err := dao.db.Collection("aws_sns_subscriptions").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.sns.subscriptions").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsSNSSubscriptionReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_sns_subscriptions"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.sns.subscriptions"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsSNSSubscriptionReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_sns_subscriptions"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.sns.subscriptions"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsSQSQueues(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*sqs.Queue, error) {
@@ -2951,7 +2963,7 @@ func (dao *MongoReaderDAO) ListAwsSQSQueues(ctx context.Context, reportTimeUnixM
 	}
 
 	var results []*sqs.Queue
-	cursor, err := dao.db.Collection("aws_sqs_queues").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.sqs.queues").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2971,17 +2983,17 @@ func (dao *MongoReaderDAO) GetAwsSQSQueue(ctx context.Context, reportTimeUnixMil
 	}
 
 	var result *sqs.Queue
-	err := dao.db.Collection("aws_sqs_queues").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.sqs.queues").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsSQSQueueReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_sqs_queues"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.sqs.queues"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsSQSQueueReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_sqs_queues"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.sqs.queues"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsStorageGatewayGateways(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*storagegateway.Gateway, error) {
@@ -2996,7 +3008,7 @@ func (dao *MongoReaderDAO) ListAwsStorageGatewayGateways(ctx context.Context, re
 	}
 
 	var results []*storagegateway.Gateway
-	cursor, err := dao.db.Collection("aws_storagegateway_gateways").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.storagegateway.gateways").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -3016,15 +3028,15 @@ func (dao *MongoReaderDAO) GetAwsStorageGatewayGateway(ctx context.Context, repo
 	}
 
 	var result *storagegateway.Gateway
-	err := dao.db.Collection("aws_storagegateway_gateways").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.storagegateway.gateways").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsStorageGatewayGatewayReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws_storagegateway_gateways"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.storagegateway.gateways"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsStorageGatewayGatewayReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws_storagegateway_gateways"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.storagegateway.gateways"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }

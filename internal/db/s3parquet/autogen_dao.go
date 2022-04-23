@@ -40,14 +40,40 @@ func NewS3ParquetWriterDAO(s3Client *awsS3.Client, bucket string, numProcessors 
 }
 
 func (dao *S3ParquetWriterDAO) WriteInventoryResults(ctx context.Context, metadata *meta.InventoryResults) error {
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"meta", "inventory_results"}, metadata.ReportTime, metadata)
+	if err != nil {
+		return err
+	}
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	if err := file.Write(metadata); err != nil {
+		return fmt.Errorf("failed to write inventory results: %w", err)
+	}
+
 	return nil
 }
 
 func (dao *S3ParquetWriterDAO) WriteIngestionTimestamp(ctx context.Context, metadata *meta.IngestionTimestamp) error {
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"meta", "ingestion_timestamps"}, metadata.ReportTime, metadata)
+	if err != nil {
+		return err
+	}
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	if err := file.Write(metadata); err != nil {
+		return fmt.Errorf("failed to write ingestion timestamp: %w", err)
+	}
+
 	return nil
 }
 
-func (dao *S3ParquetWriterDAO) Close(ctx context.Context) error {
+func (dao *S3ParquetWriterDAO) FinishIndex(ctx context.Context, indices []string, reportDateUnixMilli int64) error {
+	return dao.parquetClient.FinishIndex(ctx, indices, reportDateUnixMilli)
+}
+
+func (dao *S3ParquetWriterDAO) Finish(ctx context.Context) error {
 	return dao.parquetClient.CloseAll(ctx)
 }
 
@@ -55,7 +81,7 @@ func (dao *S3ParquetWriterDAO) PutAwsApiGatewayRestApis(ctx context.Context, res
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "apigateway", "rest_apis", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "apigateway", "rest_apis"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -74,7 +100,7 @@ func (dao *S3ParquetWriterDAO) PutAwsApiGatewayV2Apis(ctx context.Context, resou
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "apigatewayv2", "apis", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "apigatewayv2", "apis"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -93,7 +119,7 @@ func (dao *S3ParquetWriterDAO) PutAwsBackupBackupVaults(ctx context.Context, res
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "backup", "vaults", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "backup", "vaults"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -112,7 +138,7 @@ func (dao *S3ParquetWriterDAO) PutAwsBackupBackupPlans(ctx context.Context, reso
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "backup", "plans", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "backup", "plans"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -131,7 +157,7 @@ func (dao *S3ParquetWriterDAO) PutAwsCloudTrailTrails(ctx context.Context, resou
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "cloudtrail", "trails", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "cloudtrail", "trails"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -150,7 +176,7 @@ func (dao *S3ParquetWriterDAO) PutAwsCloudWatchLogsLogGroups(ctx context.Context
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "cloudwatchlogs", "log_groups", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "cloudwatchlogs", "log_groups"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -169,7 +195,7 @@ func (dao *S3ParquetWriterDAO) PutAwsDynamoDBTables(ctx context.Context, resourc
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "dynamodb", "tables", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "dynamodb", "tables"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -188,7 +214,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2Addresses(ctx context.Context, resources
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "addresses", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "addresses"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -207,7 +233,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2DhcpOptions(ctx context.Context, resourc
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "dhcp_options", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "dhcp_options"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -226,7 +252,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2Images(ctx context.Context, resources []
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "images", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "images"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -245,7 +271,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2Instances(ctx context.Context, resources
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "instances", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "instances"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -264,7 +290,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2InternetGateways(ctx context.Context, re
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "internet_gateways", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "internet_gateways"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -283,7 +309,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2ManagedPrefixLists(ctx context.Context, 
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "managed_prefix_lists", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "managed_prefix_lists"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -302,7 +328,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2NatGateways(ctx context.Context, resourc
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "nat_gateways", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "nat_gateways"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -321,7 +347,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2NetworkAcls(ctx context.Context, resourc
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "network_acls", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "network_acls"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -340,7 +366,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2NetworkInterfaces(ctx context.Context, r
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "network_interfaces", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "network_interfaces"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -359,7 +385,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2PlacementGroups(ctx context.Context, res
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "placement_groups", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "placement_groups"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -378,7 +404,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2ReservedInstances(ctx context.Context, r
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "reserved_instances", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "reserved_instances"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -397,7 +423,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2RouteTables(ctx context.Context, resourc
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "route_tables", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "route_tables"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -416,7 +442,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2SecurityGroups(ctx context.Context, reso
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "security_groups", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "security_groups"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -435,7 +461,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2Subnets(ctx context.Context, resources [
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "subnets", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "subnets"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -454,7 +480,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2TransitGatewayPeeringAttachments(ctx con
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "transit_gateway_peering_attachments", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "transit_gateway_peering_attachments"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -473,7 +499,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2TransitGatewayRouteTables(ctx context.Co
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "transit_gateway_route_tables", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "transit_gateway_route_tables"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -492,7 +518,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2TransitGatewayVpcAttachments(ctx context
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "transit_gateway_vpc_attachments", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "transit_gateway_vpc_attachments"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -511,7 +537,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2TransitGateways(ctx context.Context, res
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "transit_gateways", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "transit_gateways"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -530,7 +556,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2Volumes(ctx context.Context, resources [
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "volumes", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "volumes"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -549,7 +575,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2VpcEndpoints(ctx context.Context, resour
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "vpc_endpoints", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "vpc_endpoints"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -568,7 +594,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2VpcPeeringConnections(ctx context.Contex
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "vpc_peering_connections", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "vpc_peering_connections"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -587,7 +613,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2Vpcs(ctx context.Context, resources []*e
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "vpcs", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "vpcs"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -606,7 +632,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2VpnGateways(ctx context.Context, resourc
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ec2", "vpn_gateways", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ec2", "vpn_gateways"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -625,7 +651,7 @@ func (dao *S3ParquetWriterDAO) PutAwsECSClusters(ctx context.Context, resources 
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ecs", "clusters", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ecs", "clusters"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -644,7 +670,7 @@ func (dao *S3ParquetWriterDAO) PutAwsECSServices(ctx context.Context, resources 
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ecs", "services", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ecs", "services"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -663,7 +689,7 @@ func (dao *S3ParquetWriterDAO) PutAwsECSTasks(ctx context.Context, resources []*
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "ecs", "tasks", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ecs", "tasks"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -682,7 +708,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEFSFileSystems(ctx context.Context, resourc
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "efs", "filesystems", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "efs", "filesystems"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -701,7 +727,7 @@ func (dao *S3ParquetWriterDAO) PutAwsElastiCacheCacheClusters(ctx context.Contex
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "elasticache", "cache_clusters", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "elasticache", "cache_clusters"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -720,7 +746,7 @@ func (dao *S3ParquetWriterDAO) PutAwsElasticLoadBalancingLoadBalancers(ctx conte
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "elasticloadbalancing", "load_balancers", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "elasticloadbalancing", "load_balancers"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -739,7 +765,7 @@ func (dao *S3ParquetWriterDAO) PutAwsElasticLoadBalancingV2LoadBalancers(ctx con
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "elasticloadbalancingv2", "load_balancers", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "elasticloadbalancingv2", "load_balancers"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -758,7 +784,7 @@ func (dao *S3ParquetWriterDAO) PutAwsElasticLoadBalancingV2TargetGroups(ctx cont
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "elasticloadbalancingv2", "target_groups", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "elasticloadbalancingv2", "target_groups"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -777,7 +803,7 @@ func (dao *S3ParquetWriterDAO) PutAwsIAMGroups(ctx context.Context, resources []
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "iam", "groups", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "iam", "groups"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -796,7 +822,7 @@ func (dao *S3ParquetWriterDAO) PutAwsIAMPolicies(ctx context.Context, resources 
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "iam", "policies", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "iam", "policies"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -815,7 +841,7 @@ func (dao *S3ParquetWriterDAO) PutAwsIAMRoles(ctx context.Context, resources []*
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "iam", "roles", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "iam", "roles"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -834,7 +860,7 @@ func (dao *S3ParquetWriterDAO) PutAwsIAMUsers(ctx context.Context, resources []*
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "iam", "users", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "iam", "users"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -853,7 +879,7 @@ func (dao *S3ParquetWriterDAO) PutAwsLambdaFunctions(ctx context.Context, resour
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "lambda", "functions", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "lambda", "functions"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -872,7 +898,7 @@ func (dao *S3ParquetWriterDAO) PutAwsRDSDBClusters(ctx context.Context, resource
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "rds", "db_clusters", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "rds", "db_clusters"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -891,7 +917,7 @@ func (dao *S3ParquetWriterDAO) PutAwsRDSDBInstances(ctx context.Context, resourc
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "rds", "db_instances", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "rds", "db_instances"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -910,7 +936,7 @@ func (dao *S3ParquetWriterDAO) PutAwsRedshiftClusters(ctx context.Context, resou
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "redshift", "clusters", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "redshift", "clusters"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -929,7 +955,7 @@ func (dao *S3ParquetWriterDAO) PutAwsRoute53HostedZones(ctx context.Context, res
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "route53", "hosted_zones", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "route53", "hosted_zones"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -948,7 +974,7 @@ func (dao *S3ParquetWriterDAO) PutAwsS3Buckets(ctx context.Context, resources []
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "s3", "buckets", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "s3", "buckets"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -967,7 +993,7 @@ func (dao *S3ParquetWriterDAO) PutAwsSNSTopics(ctx context.Context, resources []
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "sns", "topics", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "sns", "topics"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -986,7 +1012,7 @@ func (dao *S3ParquetWriterDAO) PutAwsSNSSubscriptions(ctx context.Context, resou
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "sns", "subscriptions", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "sns", "subscriptions"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -1005,7 +1031,7 @@ func (dao *S3ParquetWriterDAO) PutAwsSQSQueues(ctx context.Context, resources []
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "sqs", "queues", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "sqs", "queues"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -1024,7 +1050,7 @@ func (dao *S3ParquetWriterDAO) PutAwsStorageGatewayGateways(ctx context.Context,
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, "aws", "storagegateway", "gateways", resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "storagegateway", "gateways"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}

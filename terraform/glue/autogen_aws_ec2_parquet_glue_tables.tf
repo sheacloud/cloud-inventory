@@ -623,8 +623,14 @@ resource "aws_glue_catalog_table" "aws_ec2_instances" {
       parameters = {}
     }
     columns {
+      name       = "maintenance_options"
+      type       = "struct<auto_recovery:string>"
+      comment    = ""
+      parameters = {}
+    }
+    columns {
       name       = "metadata_options"
-      type       = "struct<http_endpoint:string,http_protocol_ipv6:string,http_put_response_hop_limit:int,http_tokens:string,state:string>"
+      type       = "struct<http_endpoint:string,http_protocol_ipv6:string,http_put_response_hop_limit:int,http_tokens:string,instance_metadata_tags:string,state:string>"
       comment    = ""
       parameters = {}
     }
@@ -1492,6 +1498,12 @@ resource "aws_glue_catalog_table" "aws_ec2_placement_groups" {
       }
     }
 
+    columns {
+      name       = "group_arn"
+      type       = "string"
+      comment    = ""
+      parameters = {}
+    }
     columns {
       name       = "group_id"
       type       = "string"

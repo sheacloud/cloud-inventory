@@ -12,11 +12,12 @@ import (
 )
 
 func DistinctReportTimes(ctx context.Context, coll *mongo.Collection, reportDateUnixMilli int64) ([]int64, error) {
-	reportDate := time.UnixMilli(reportDateUnixMilli)
+	reportDate := time.UnixMilli(reportDateUnixMilli).UTC()
+	reportDate = time.Date(reportDate.Year(), reportDate.Month(), reportDate.Day(), 0, 0, 0, 0, time.UTC)
 	filter := bson.D{
 		{"$and",
 			bson.A{
-				bson.D{{"report_time", bson.D{{"$gte", reportDateUnixMilli}}}},
+				bson.D{{"report_time", bson.D{{"$gte", reportDate.UnixMilli()}}}},
 				bson.D{{"report_time", bson.D{{"$lt", reportDate.AddDate(0, 0, 1).UnixMilli()}}}},
 			},
 		},
@@ -34,7 +35,8 @@ func DistinctReportTimes(ctx context.Context, coll *mongo.Collection, reportDate
 }
 
 func GetReportTime(ctx context.Context, coll *mongo.Collection, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	reportDate := time.UnixMilli(reportDateUnixMilli)
+	reportDate := time.UnixMilli(reportDateUnixMilli).UTC()
+	reportDate = time.Date(reportDate.Year(), reportDate.Month(), reportDate.Day(), 0, 0, 0, 0, time.UTC)
 	var filter bson.D
 	switch timeSelection {
 	case db.TimeSelectionLatest:
@@ -61,7 +63,7 @@ func GetReportTime(ctx context.Context, coll *mongo.Collection, reportDateUnixMi
 	}
 	err := coll.FindOne(ctx, filter, opts).Decode(&result)
 	if err != nil {
-		fmt.Println("failed to run query")
+		fmt.Println("failed to run query", err)
 		return nil, err
 	}
 

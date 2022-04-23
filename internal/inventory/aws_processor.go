@@ -119,6 +119,19 @@ func FetchAwsInventory(ctx context.Context, accountIds []string, regions []strin
 
 	for _, service := range AwsCatalog {
 		for _, resource := range service.Resources {
+			resourceWaitGroup := &sync.WaitGroup{}
+
+			resourceWaitGroup.Add(1) // make sure the goroutine closing indexes doesn't finish early
+			jobWaitGroup.Add(1)
+			go func(waitGroup *sync.WaitGroup, service string, resource string) {
+				waitGroup.Wait()
+				err := dao.FinishIndex(ctx, []string{"aws", service, resource}, reportTime)
+				if err != nil {
+					logrus.Errorf("error finishing index: %v", err)
+				}
+				jobWaitGroup.Done()
+			}(resourceWaitGroup, service.ServiceName, resource.ResourceName)
+
 			for _, accountId := range accountIds {
 				for _, region := range regions {
 					// skip if there are region overrides in place
@@ -133,18 +146,18 @@ func FetchAwsInventory(ctx context.Context, accountIds []string, regions []strin
 						RegionalClients: accountClients[accountId],
 						ReportTime:      reportTime,
 					}
-					jobWaitGroup.Add(1)
+					resourceWaitGroup.Add(1)
 					jobs <- AwsFetchJob{
 						Input:     input,
 						Service:   service.ServiceName,
 						Resource:  resource.ResourceName,
 						Function:  resource.FetchFunction,
 						DAO:       dao,
-						WaitGroup: jobWaitGroup,
+						WaitGroup: resourceWaitGroup,
 					}
 				}
-
 			}
+			resourceWaitGroup.Done() // enable goroutine closing indexes to finish
 		}
 	}
 

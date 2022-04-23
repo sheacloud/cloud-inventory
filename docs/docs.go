@@ -23787,6 +23787,9 @@ var doc = `{
                         "$ref": "#/definitions/ec2.LicenseConfiguration"
                     }
                 },
+                "maintenance_options": {
+                    "$ref": "#/definitions/ec2.InstanceMaintenanceOptions"
+                },
                 "metadata_options": {
                     "$ref": "#/definitions/ec2.InstanceMetadataOptionsResponse"
                 },
@@ -23929,6 +23932,14 @@ var doc = `{
                 }
             }
         },
+        "ec2.InstanceMaintenanceOptions": {
+            "type": "object",
+            "properties": {
+                "auto_recovery": {
+                    "type": "string"
+                }
+            }
+        },
         "ec2.InstanceMetadataOptionsResponse": {
             "type": "object",
             "properties": {
@@ -23942,6 +23953,9 @@ var doc = `{
                     "type": "integer"
                 },
                 "http_tokens": {
+                    "type": "string"
+                },
+                "instance_metadata_tags": {
                     "type": "string"
                 },
                 "state": {
@@ -25043,6 +25057,9 @@ var doc = `{
                     "type": "string"
                 },
                 "account_id": {
+                    "type": "string"
+                },
+                "group_arn": {
                     "type": "string"
                 },
                 "group_id": {
@@ -28822,6 +28839,14 @@ var doc = `{
                 }
             }
         },
+        "lambda.EphemeralStorage": {
+            "type": "object",
+            "properties": {
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
         "lambda.FileSystemConfig": {
             "type": "object",
             "properties": {
@@ -28859,6 +28884,9 @@ var doc = `{
                 },
                 "description": {
                     "type": "string"
+                },
+                "ephemeral_storage": {
+                    "$ref": "#/definitions/lambda.EphemeralStorage"
                 },
                 "file_system_configs": {
                     "type": "array",
@@ -29305,6 +29333,9 @@ var doc = `{
                 },
                 "scaling_configuration_info": {
                     "$ref": "#/definitions/rds.ScalingConfigurationInfo"
+                },
+                "serverless_v2_scaling_configuration": {
+                    "$ref": "#/definitions/rds.ServerlessV2ScalingConfigurationInfo"
                 },
                 "status": {
                     "type": "string"
@@ -29924,6 +29955,17 @@ var doc = `{
                 },
                 "timeout_action": {
                     "type": "string"
+                }
+            }
+        },
+        "rds.ServerlessV2ScalingConfigurationInfo": {
+            "type": "object",
+            "properties": {
+                "max_capacity": {
+                    "type": "number"
+                },
+                "min_capacity": {
+                    "type": "number"
                 }
             }
         },
@@ -31073,6 +31115,9 @@ var doc = `{
         "s3.NoncurrentVersionExpiration": {
             "type": "object",
             "properties": {
+                "newer_noncurrent_versions": {
+                    "type": "integer"
+                },
                 "noncurrent_days": {
                     "type": "integer"
                 }
@@ -31081,6 +31126,9 @@ var doc = `{
         "s3.NoncurrentVersionTransition": {
             "type": "object",
             "properties": {
+                "newer_noncurrent_versions": {
+                    "type": "integer"
+                },
                 "noncurrent_days": {
                     "type": "integer"
                 },

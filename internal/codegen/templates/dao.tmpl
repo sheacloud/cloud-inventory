@@ -11,6 +11,8 @@ import (
 type WriterDAO interface {
     WriteInventoryResults(ctx context.Context, metadata *meta.InventoryResults) error
     WriteIngestionTimestamp(ctx context.Context, metadata *meta.IngestionTimestamp) error
+    FinishIndex(ctx context.Context, indices []string, reportDateUnixMilli int64) error
+    Finish(ctx context.Context) error
 {{range $serviceIndex, $serviceElement := .Services}}{{range $resourceIndex, $resourceElement := $serviceElement.Resources}}    PutAws{{$serviceElement.ServiceCapName}}{{$resourceElement.ObjectPluralName}}(ctx context.Context, resources []*{{$serviceElement.Name}}.{{$resourceElement.ObjectSingularName}}) error
 {{end}}{{end}}
 }

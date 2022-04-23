@@ -398,6 +398,12 @@ resource "aws_glue_catalog_table" "aws_rds_db_clusters" {
       parameters = {}
     }
     columns {
+      name       = "serverless_v2_scaling_configuration"
+      type       = "struct<max_capacity:double,min_capacity:double>"
+      comment    = ""
+      parameters = {}
+    }
+    columns {
       name       = "status"
       type       = "string"
       comment    = ""

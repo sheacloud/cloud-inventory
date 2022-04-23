@@ -5,6 +5,10 @@ type DeadLetterConfig struct {
 	TargetArn string `bson:"target_arn,omitempty" ion:"target_arn" dynamodbav:"target_arn,omitempty" parquet:"name=target_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"target_arn,omitempty" diff:"target_arn"`
 }
 
+type EphemeralStorage struct {
+	Size int32 `bson:"size,omitempty" ion:"size" dynamodbav:"size,omitempty" parquet:"name=size,type=INT32" json:"size,omitempty" diff:"size"`
+}
+
 type FileSystemConfig struct {
 	Arn            string `bson:"arn,omitempty" ion:"arn" dynamodbav:"arn,omitempty" parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"arn,omitempty" diff:"arn"`
 	LocalMountPath string `bson:"local_mount_path,omitempty" ion:"local_mount_path" dynamodbav:"local_mount_path,omitempty" parquet:"name=local_mount_path,type=BYTE_ARRAY,convertedtype=UTF8" json:"local_mount_path,omitempty" diff:"local_mount_path"`

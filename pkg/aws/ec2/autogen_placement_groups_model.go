@@ -2,6 +2,7 @@
 package ec2
 
 type PlacementGroup struct {
+	GroupArn       string            `bson:"group_arn,omitempty" ion:"group_arn" dynamodbav:"group_arn,omitempty" parquet:"name=group_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"group_arn,omitempty" diff:"group_arn"`
 	GroupId        string            `bson:"group_id,omitempty" ion:"group_id" dynamodbav:"group_id,omitempty" parquet:"name=group_id,type=BYTE_ARRAY,convertedtype=UTF8" inventory_primary_key:"true" json:"group_id,omitempty" diff:"group_id,identifier"`
 	GroupName      string            `bson:"group_name,omitempty" ion:"group_name" dynamodbav:"group_name,omitempty" parquet:"name=group_name,type=BYTE_ARRAY,convertedtype=UTF8" json:"group_name,omitempty" diff:"group_name"`
 	PartitionCount int32             `bson:"partition_count,omitempty" ion:"partition_count" dynamodbav:"partition_count,omitempty" parquet:"name=partition_count,type=INT32" json:"partition_count,omitempty" diff:"partition_count"`

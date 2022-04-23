@@ -67,6 +67,14 @@ func (dao *DynamoDBWriterDAO) WriteIngestionTimestamp(ctx context.Context, metad
 	return WriteItem(ctx, dao.client, dao.maxRetries, "cloud-inventory-ingestion-timestamps", metadata)
 }
 
+func (dao *DynamoDBWriterDAO) FinishIndex(ctx context.Context, indices []string, reportDateUnixMilli int64) error {
+	return nil
+}
+
+func (dao *DynamoDBWriterDAO) Finish(ctx context.Context) error {
+	return nil
+}
+
 func (dao *DynamoDBWriterDAO) PutAwsApiGatewayRestApis(ctx context.Context, resources []*apigateway.RestApi) error {
 	items := make([]map[string]types.AttributeValue, len(resources))
 	for i, resource := range resources {

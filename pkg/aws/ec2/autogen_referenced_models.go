@@ -102,11 +102,16 @@ type LicenseConfiguration struct {
 	LicenseConfigurationArn string `bson:"license_configuration_arn,omitempty" ion:"license_configuration_arn" dynamodbav:"license_configuration_arn,omitempty" parquet:"name=license_configuration_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"license_configuration_arn,omitempty" diff:"license_configuration_arn"`
 }
 
+type InstanceMaintenanceOptions struct {
+	AutoRecovery string `bson:"auto_recovery,omitempty" ion:"auto_recovery" dynamodbav:"auto_recovery,omitempty" parquet:"name=auto_recovery,type=BYTE_ARRAY,convertedtype=UTF8" json:"auto_recovery,omitempty" diff:"auto_recovery"`
+}
+
 type InstanceMetadataOptionsResponse struct {
 	HttpEndpoint            string `bson:"http_endpoint,omitempty" ion:"http_endpoint" dynamodbav:"http_endpoint,omitempty" parquet:"name=http_endpoint,type=BYTE_ARRAY,convertedtype=UTF8" json:"http_endpoint,omitempty" diff:"http_endpoint"`
 	HttpProtocolIpv6        string `bson:"http_protocol_ipv6,omitempty" ion:"http_protocol_ipv6" dynamodbav:"http_protocol_ipv6,omitempty" parquet:"name=http_protocol_ipv6,type=BYTE_ARRAY,convertedtype=UTF8" json:"http_protocol_ipv6,omitempty" diff:"http_protocol_ipv6"`
 	HttpPutResponseHopLimit int32  `bson:"http_put_response_hop_limit,omitempty" ion:"http_put_response_hop_limit" dynamodbav:"http_put_response_hop_limit,omitempty" parquet:"name=http_put_response_hop_limit,type=INT32" json:"http_put_response_hop_limit,omitempty" diff:"http_put_response_hop_limit"`
 	HttpTokens              string `bson:"http_tokens,omitempty" ion:"http_tokens" dynamodbav:"http_tokens,omitempty" parquet:"name=http_tokens,type=BYTE_ARRAY,convertedtype=UTF8" json:"http_tokens,omitempty" diff:"http_tokens"`
+	InstanceMetadataTags    string `bson:"instance_metadata_tags,omitempty" ion:"instance_metadata_tags" dynamodbav:"instance_metadata_tags,omitempty" parquet:"name=instance_metadata_tags,type=BYTE_ARRAY,convertedtype=UTF8" json:"instance_metadata_tags,omitempty" diff:"instance_metadata_tags"`
 	State                   string `bson:"state,omitempty" ion:"state" dynamodbav:"state,omitempty" parquet:"name=state,type=BYTE_ARRAY,convertedtype=UTF8" json:"state,omitempty" diff:"state"`
 }
 

@@ -5,14 +5,15 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/cloudtrail"
 	"github.com/google/uuid"
 	"github.com/jinzhu/copier"
-	"github.com/sheacloud/cloud-inventory/pkg/aws"
+	localAws "github.com/sheacloud/cloud-inventory/pkg/aws"
 	"github.com/sheacloud/cloud-inventory/pkg/meta"
 )
 
-func FetchTrails(ctx context.Context, params *aws.AwsFetchInput) ([]*Trail, *aws.AwsFetchOutputMetadata) {
+func FetchTrails(ctx context.Context, params *localAws.AwsFetchInput) ([]*Trail, *localAws.AwsFetchOutputMetadata) {
 	fetchingErrors := []error{}
 	var fetchedResources int
 	var failedResources int
@@ -29,32 +30,25 @@ func FetchTrails(ctx context.Context, params *aws.AwsFetchInput) ([]*Trail, *aws
 	awsClient := params.RegionalClients[params.Region]
 	client := awsClient.CloudTrail()
 
-	result, err := client.ListTrails(ctx, &cloudtrail.ListTrailsInput{})
+	result, err := client.DescribeTrails(ctx, &cloudtrail.DescribeTrailsInput{
+		IncludeShadowTrails: aws.Bool(false),
+	})
 	if err != nil {
-		fetchingErrors = append(fetchingErrors, fmt.Errorf("error calling ListTrails in %s/%s: %w", params.AccountId, params.Region, err))
+		fetchingErrors = append(fetchingErrors, fmt.Errorf("error calling DescribeTrails in %s/%s: %w", params.AccountId, params.Region, err))
 		inventoryResults.FetchedResources = 0
 		inventoryResults.FailedResources = 0
 		inventoryResults.HadErrors = true
-		return nil, &aws.AwsFetchOutputMetadata{
+		return nil, &localAws.AwsFetchOutputMetadata{
 			FetchingErrors:   fetchingErrors,
 			InventoryResults: inventoryResults,
 		}
 	}
 
-	results := []*cloudtrail.ListTrailsOutput{result}
+	results := []*cloudtrail.DescribeTrailsOutput{result}
 	for _, output := range results {
-		for _, object := range output.Trails {
-			trailResponse, err := client.GetTrail(ctx, &cloudtrail.GetTrailInput{
-				Name: object.Name,
-			})
-			if err != nil {
-				fetchingErrors = append(fetchingErrors, fmt.Errorf("error calling GetTrail in %s/%s: %w", params.AccountId, params.Region, err))
-				failedResources++
-				continue
-			}
-
+		for _, object := range output.TrailList {
 			model := new(Trail)
-			copier.CopyWithOption(&model, &trailResponse.Trail, aws.CopyOption)
+			copier.CopyWithOption(&model, &object, localAws.CopyOption)
 
 			statusResponse, err := client.GetTrailStatus(ctx, &cloudtrail.GetTrailStatusInput{
 				Name: object.Name,
@@ -65,7 +59,7 @@ func FetchTrails(ctx context.Context, params *aws.AwsFetchInput) ([]*Trail, *aws
 				continue
 			}
 			model.Status = new(GetTrailStatusOutput)
-			copier.CopyWithOption(&model.Status, &statusResponse, aws.CopyOption)
+			copier.CopyWithOption(&model.Status, &statusResponse, localAws.CopyOption)
 
 			model.AccountId = params.AccountId
 			model.Region = params.Region
@@ -75,14 +69,13 @@ func FetchTrails(ctx context.Context, params *aws.AwsFetchInput) ([]*Trail, *aws
 			resources = append(resources, model)
 			fetchedResources++
 		}
-
 	}
 
 	inventoryResults.FetchedResources = fetchedResources
 	inventoryResults.FailedResources = failedResources
 	inventoryResults.HadErrors = len(fetchingErrors) > 0
 
-	return resources, &aws.AwsFetchOutputMetadata{
+	return resources, &localAws.AwsFetchOutputMetadata{
 		FetchingErrors:   fetchingErrors,
 		InventoryResults: inventoryResults,
 	}

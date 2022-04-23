@@ -30,6 +30,8 @@ import (
 type WriterDAO interface {
 	WriteInventoryResults(ctx context.Context, metadata *meta.InventoryResults) error
 	WriteIngestionTimestamp(ctx context.Context, metadata *meta.IngestionTimestamp) error
+	FinishIndex(ctx context.Context, indices []string, reportDateUnixMilli int64) error
+	Finish(ctx context.Context) error
 	PutAwsApiGatewayRestApis(ctx context.Context, resources []*apigateway.RestApi) error
 	PutAwsApiGatewayV2Apis(ctx context.Context, resources []*apigatewayv2.Api) error
 	PutAwsBackupBackupVaults(ctx context.Context, resources []*backup.BackupVault) error

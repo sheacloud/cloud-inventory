@@ -56,6 +56,12 @@ resource "aws_glue_catalog_table" "aws_lambda_functions" {
       parameters = {}
     }
     columns {
+      name       = "ephemeral_storage"
+      type       = "struct<size:int>"
+      comment    = ""
+      parameters = {}
+    }
+    columns {
       name       = "file_system_configs"
       type       = "array<struct<arn:string,local_mount_path:string>>"
       comment    = ""

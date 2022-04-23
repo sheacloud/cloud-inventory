@@ -152,10 +152,10 @@ func BatchWriteItems(ctx context.Context, client *dynamodb.Client, maxRetries in
 }
 
 func DistinctReportTimes(ctx context.Context, client *dynamodb.Client, reportDateUnixMilli int64, cloud, service, resource string) ([]int64, error) {
-	reportDate := time.UnixMilli(reportDateUnixMilli)
+	reportDate := time.UnixMilli(reportDateUnixMilli).UTC()
 	reportDate = time.Date(reportDate.Year(), reportDate.Month(), reportDate.Day(), 0, 0, 0, 0, time.UTC)
-	lowerTime := expression.Value(reportDate.UTC().Unix())
-	upperTime := expression.Value(reportDate.UTC().AddDate(0, 0, 1).Unix())
+	lowerTime := expression.Value(reportDate.UTC().UnixMilli())
+	upperTime := expression.Value(reportDate.UTC().AddDate(0, 0, 1).UnixMilli())
 	keyCondition := expression.Key("ingestion_key").Equal(expression.Value(cloud + ":" + service + ":" + resource))
 	keyCondition = keyCondition.And(expression.Key("report_time").Between(lowerTime, upperTime))
 	expr, err := expression.NewBuilder().WithKeyCondition(keyCondition).Build()
@@ -204,7 +204,8 @@ func GetReportTime(ctx context.Context, client *dynamodb.Client, reportDateUnixM
 	if timeSelection == db.TimeSelectionAt {
 		return &timeReferenceUnixMilli, nil
 	}
-	reportDate := time.UnixMilli(reportDateUnixMilli)
+	reportDate := time.UnixMilli(reportDateUnixMilli).UTC()
+	reportDate = time.Date(reportDate.Year(), reportDate.Month(), reportDate.Day(), 0, 0, 0, 0, time.UTC)
 
 	keyCondition := expression.Key("ingestion_key").Equal(expression.Value(cloud + ":" + service + ":" + resource))
 

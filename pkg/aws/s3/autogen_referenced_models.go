@@ -194,12 +194,14 @@ type LifecycleExpiration struct {
 }
 
 type NoncurrentVersionExpiration struct {
-	NoncurrentDays int32 `bson:"noncurrent_days,omitempty" ion:"noncurrent_days" dynamodbav:"noncurrent_days,omitempty" parquet:"name=noncurrent_days,type=INT32" json:"noncurrent_days,omitempty" diff:"noncurrent_days"`
+	NewerNoncurrentVersions int32 `bson:"newer_noncurrent_versions,omitempty" ion:"newer_noncurrent_versions" dynamodbav:"newer_noncurrent_versions,omitempty" parquet:"name=newer_noncurrent_versions,type=INT32" json:"newer_noncurrent_versions,omitempty" diff:"newer_noncurrent_versions"`
+	NoncurrentDays          int32 `bson:"noncurrent_days,omitempty" ion:"noncurrent_days" dynamodbav:"noncurrent_days,omitempty" parquet:"name=noncurrent_days,type=INT32" json:"noncurrent_days,omitempty" diff:"noncurrent_days"`
 }
 
 type NoncurrentVersionTransition struct {
-	NoncurrentDays int32  `bson:"noncurrent_days,omitempty" ion:"noncurrent_days" dynamodbav:"noncurrent_days,omitempty" parquet:"name=noncurrent_days,type=INT32" json:"noncurrent_days,omitempty" diff:"noncurrent_days"`
-	StorageClass   string `bson:"storage_class,omitempty" ion:"storage_class" dynamodbav:"storage_class,omitempty" parquet:"name=storage_class,type=BYTE_ARRAY,convertedtype=UTF8" json:"storage_class,omitempty" diff:"storage_class"`
+	NewerNoncurrentVersions int32  `bson:"newer_noncurrent_versions,omitempty" ion:"newer_noncurrent_versions" dynamodbav:"newer_noncurrent_versions,omitempty" parquet:"name=newer_noncurrent_versions,type=INT32" json:"newer_noncurrent_versions,omitempty" diff:"newer_noncurrent_versions"`
+	NoncurrentDays          int32  `bson:"noncurrent_days,omitempty" ion:"noncurrent_days" dynamodbav:"noncurrent_days,omitempty" parquet:"name=noncurrent_days,type=INT32" json:"noncurrent_days,omitempty" diff:"noncurrent_days"`
+	StorageClass            string `bson:"storage_class,omitempty" ion:"storage_class" dynamodbav:"storage_class,omitempty" parquet:"name=storage_class,type=BYTE_ARRAY,convertedtype=UTF8" json:"storage_class,omitempty" diff:"storage_class"`
 }
 
 type Transition struct {

@@ -129,7 +129,7 @@ resource "aws_glue_catalog_table" "aws_s3_buckets" {
     }
     columns {
       name       = "lifecycle_rules"
-      type       = "array<struct<status:string,abort_incomplete_multipart_upload:struct<days_after_initiation:int>,expiration:struct<date:timestamp,days:int,expired_object_delete_marker:boolean>,id:string,noncurrent_version_expiration:struct<noncurrent_days:int>,noncurrent_version_transitions:array<struct<noncurrent_days:int,storage_class:string>>,prefix:string,transitions:array<struct<date:timestamp,days:int,storage_class:string>>>>"
+      type       = "array<struct<status:string,abort_incomplete_multipart_upload:struct<days_after_initiation:int>,expiration:struct<date:timestamp,days:int,expired_object_delete_marker:boolean>,id:string,noncurrent_version_expiration:struct<newer_noncurrent_versions:int,noncurrent_days:int>,noncurrent_version_transitions:array<struct<newer_noncurrent_versions:int,noncurrent_days:int,storage_class:string>>,prefix:string,transitions:array<struct<date:timestamp,days:int,storage_class:string>>>>"
       comment    = ""
       parameters = {}
     }

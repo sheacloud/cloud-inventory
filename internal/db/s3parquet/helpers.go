@@ -3,10 +3,12 @@ package s3parquet
 import (
 	"context"
 	"fmt"
+	"strings"
 	"sync"
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/sirupsen/logrus"
 	"github.com/xitongsys/parquet-go-source/s3v2"
 	"github.com/xitongsys/parquet-go/source"
 	"github.com/xitongsys/parquet-go/writer"
@@ -61,9 +63,10 @@ func (f *S3ParquetFile) Close(ctx context.Context) error {
 	return err
 }
 
-func (c *S3ParquetClient) GetResourceFile(ctx context.Context, cloud, service, resource string, reportDateUnixMilli int64, sampleObj interface{}) (*S3ParquetFile, error) {
+func (c *S3ParquetClient) GetResourceFile(ctx context.Context, indices []string, reportDateUnixMilli int64, sampleObj interface{}) (*S3ParquetFile, error) {
 	reportDate := time.UnixMilli(reportDateUnixMilli)
-	filePath := fmt.Sprintf("%s/%s/%s/%s/report_date=%s/", c.PathPrefix, cloud, service, resource, reportDate.Format("2006-01-02"))
+	indicesPath := strings.Join(indices, "/")
+	filePath := fmt.Sprintf("%s/%s/report_date=%s/", c.PathPrefix, indicesPath, reportDate.Format("2006-01-02"))
 	c.FilesLock.Lock()
 	file, ok := c.Files[filePath]
 	if !ok {
@@ -93,13 +96,15 @@ func (c *S3ParquetClient) GetResourceFile(ctx context.Context, cloud, service, r
 	return file, nil
 }
 
-func (c *S3ParquetClient) CloseResource(ctx context.Context, cloud, service, resource string, reportDate time.Time) error {
-	filePath := fmt.Sprintf("%s/%s/%s/%s/report_date=%s/", c.PathPrefix, cloud, service, resource, reportDate.Format("2006-01-02"))
+func (c *S3ParquetClient) FinishIndex(ctx context.Context, indices []string, reportDateUnixMilli int64) error {
+	reportDate := time.UnixMilli(reportDateUnixMilli)
+	indicesPath := strings.Join(indices, "/")
+	filePath := fmt.Sprintf("%s/%s/report_date=%s/", c.PathPrefix, indicesPath, reportDate.Format("2006-01-02"))
 	c.FilesLock.Lock()
 	file, ok := c.Files[filePath]
 	if !ok {
 		c.FilesLock.Unlock()
-		return fmt.Errorf("failed to close S3 parquet file: file not found")
+		return nil
 	}
 
 	delete(c.Files, filePath)
@@ -115,6 +120,9 @@ func (c *S3ParquetClient) CloseResource(ctx context.Context, cloud, service, res
 
 func (c *S3ParquetClient) CloseAll(ctx context.Context) error {
 	for _, file := range c.Files {
+		logrus.WithFields(logrus.Fields{
+			"file": file.FileKey,
+		}).Info("Closing file")
 		err := file.Close(ctx)
 		if err != nil {
 			return err
