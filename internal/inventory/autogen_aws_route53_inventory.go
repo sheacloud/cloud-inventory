@@ -8,10 +8,10 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/aws/route53"
 )
 
-func IngestAwsRoute53HostedZones(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsRoute53HostedZones(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := route53.FetchHostedZones(ctx, input)
 	if resources != nil {
-		err := dao.AWS().Route53().PutHostedZones(ctx, resources)
+		err := dao.PutAwsRoute53HostedZones(ctx, resources)
 		if err != nil {
 			return nil, err
 		}

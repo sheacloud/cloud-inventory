@@ -26,7 +26,7 @@ type ListGatewaysResponse struct {
 // @Success      200  {array}   routes.AwsResourceMetadata
 // @Failure      400
 // @Router       /metadata/aws/storagegateway/gateways [get]
-func GetGatewaysMetadata(c *gin.Context, dao db.DAO) {
+func GetGatewaysMetadata(c *gin.Context, dao db.ReaderDAO) {
 	reportDateString := c.Query("report_date")
 	var reportDate time.Time
 	if reportDateString == "" {
@@ -35,7 +35,7 @@ func GetGatewaysMetadata(c *gin.Context, dao db.DAO) {
 		reportDate, _ = time.Parse("2006-01-02", reportDateString)
 	}
 
-	reportTimes, err := dao.AWS().StorageGateway().GetGatewayReportTimes(c, reportDate)
+	reportTimes, err := dao.GetAwsStorageGatewayGatewayReportTimes(c, reportDate.UnixMilli())
 	if err != nil {
 		c.AbortWithError(400, err)
 		return
@@ -66,7 +66,7 @@ func GetGatewaysMetadata(c *gin.Context, dao db.DAO) {
 // @Success      200  {object}   ListGatewaysResponse
 // @Failure      400
 // @Router       /inventory/aws/storagegateway/gateways [get]
-func ListGateways(c *gin.Context, dao db.DAO) {
+func ListGateways(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -78,13 +78,13 @@ func ListGateways(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	selectedTime, err := dao.AWS().StorageGateway().GetReferencedGatewayReportTime(c, params.ReportDateTime, *params.TimeSelection, params.TimeSelectionReference)
+	selectedTime, err := dao.GetReferencedAwsStorageGatewayGatewayReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	results, err := dao.AWS().StorageGateway().ListGateways(c, *selectedTime, params.AccountId, params.Region, nil, nil)
+	results, err := dao.ListAwsStorageGatewayGateways(c, *selectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
@@ -111,7 +111,7 @@ func ListGateways(c *gin.Context, dao db.DAO) {
 // @Failure      400
 // @Failure 	 404
 // @Router       /inventory/aws/storagegateway/gateways/{gateway_arn} [get]
-func GetGateway(c *gin.Context, dao db.DAO) {
+func GetGateway(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -128,13 +128,13 @@ func GetGateway(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	selectedTime, err := dao.AWS().StorageGateway().GetReferencedGatewayReportTime(c, params.ReportDateTime, *params.TimeSelection, params.TimeSelectionReference)
+	selectedTime, err := dao.GetReferencedAwsStorageGatewayGatewayReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	result, err := dao.AWS().StorageGateway().GetGateway(c, *selectedTime, id)
+	result, err := dao.GetAwsStorageGatewayGateway(c, *selectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
@@ -160,7 +160,7 @@ func GetGateway(c *gin.Context, dao db.DAO) {
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/storagegateway/gateways [get]
-func DiffMultiGateways(c *gin.Context, dao db.DAO) {
+func DiffMultiGateways(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -172,25 +172,25 @@ func DiffMultiGateways(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	startSelectedTime, err := dao.AWS().StorageGateway().GetReferencedGatewayReportTime(c, params.StartReportDateTime, *params.StartTimeSelection, params.StartTimeSelectionReference)
+	startSelectedTime, err := dao.GetReferencedAwsStorageGatewayGatewayReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	startResults, err := dao.AWS().StorageGateway().ListGateways(c, *startSelectedTime, params.AccountId, params.Region, nil, nil)
+	startResults, err := dao.ListAwsStorageGatewayGateways(c, *startSelectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	endSelectedTime, err := dao.AWS().StorageGateway().GetReferencedGatewayReportTime(c, params.EndReportDateTime, *params.EndTimeSelection, params.EndTimeSelectionReference)
+	endSelectedTime, err := dao.GetReferencedAwsStorageGatewayGatewayReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	endResults, err := dao.AWS().StorageGateway().ListGateways(c, *endSelectedTime, params.AccountId, params.Region, nil, nil)
+	endResults, err := dao.ListAwsStorageGatewayGateways(c, *endSelectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
@@ -223,7 +223,7 @@ func DiffMultiGateways(c *gin.Context, dao db.DAO) {
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/storagegateway/gateways/{gateway_arn} [get]
-func DiffSingleGateway(c *gin.Context, dao db.DAO) {
+func DiffSingleGateway(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -241,25 +241,25 @@ func DiffSingleGateway(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	startSelectedTime, err := dao.AWS().StorageGateway().GetReferencedGatewayReportTime(c, params.StartReportDateTime, *params.StartTimeSelection, params.StartTimeSelectionReference)
+	startSelectedTime, err := dao.GetReferencedAwsStorageGatewayGatewayReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	startObject, err := dao.AWS().StorageGateway().GetGateway(c, *startSelectedTime, id)
+	startObject, err := dao.GetAwsStorageGatewayGateway(c, *startSelectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	endSelectedTime, err := dao.AWS().StorageGateway().GetReferencedGatewayReportTime(c, params.EndReportDateTime, *params.EndTimeSelection, params.EndTimeSelectionReference)
+	endSelectedTime, err := dao.GetReferencedAwsStorageGatewayGatewayReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	endObject, err := dao.AWS().StorageGateway().GetGateway(c, *endSelectedTime, id)
+	endObject, err := dao.GetAwsStorageGatewayGateway(c, *endSelectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return

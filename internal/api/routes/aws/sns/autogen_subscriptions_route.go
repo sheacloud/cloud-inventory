@@ -26,7 +26,7 @@ type ListSubscriptionsResponse struct {
 // @Success      200  {array}   routes.AwsResourceMetadata
 // @Failure      400
 // @Router       /metadata/aws/sns/subscriptions [get]
-func GetSubscriptionsMetadata(c *gin.Context, dao db.DAO) {
+func GetSubscriptionsMetadata(c *gin.Context, dao db.ReaderDAO) {
 	reportDateString := c.Query("report_date")
 	var reportDate time.Time
 	if reportDateString == "" {
@@ -35,7 +35,7 @@ func GetSubscriptionsMetadata(c *gin.Context, dao db.DAO) {
 		reportDate, _ = time.Parse("2006-01-02", reportDateString)
 	}
 
-	reportTimes, err := dao.AWS().SNS().GetSubscriptionReportTimes(c, reportDate)
+	reportTimes, err := dao.GetAwsSNSSubscriptionReportTimes(c, reportDate.UnixMilli())
 	if err != nil {
 		c.AbortWithError(400, err)
 		return
@@ -67,7 +67,7 @@ func GetSubscriptionsMetadata(c *gin.Context, dao db.DAO) {
 // @Success      200  {object}   ListSubscriptionsResponse
 // @Failure      400
 // @Router       /inventory/aws/sns/subscriptions [get]
-func ListSubscriptions(c *gin.Context, dao db.DAO) {
+func ListSubscriptions(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -79,13 +79,13 @@ func ListSubscriptions(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	selectedTime, err := dao.AWS().SNS().GetReferencedSubscriptionReportTime(c, params.ReportDateTime, *params.TimeSelection, params.TimeSelectionReference)
+	selectedTime, err := dao.GetReferencedAwsSNSSubscriptionReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	results, err := dao.AWS().SNS().ListSubscriptions(c, *selectedTime, params.AccountId, params.Region, nil, nil)
+	results, err := dao.ListAwsSNSSubscriptions(c, *selectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
@@ -112,7 +112,7 @@ func ListSubscriptions(c *gin.Context, dao db.DAO) {
 // @Failure      400
 // @Failure 	 404
 // @Router       /inventory/aws/sns/subscriptions/{subscription_arn} [get]
-func GetSubscription(c *gin.Context, dao db.DAO) {
+func GetSubscription(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -129,13 +129,13 @@ func GetSubscription(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	selectedTime, err := dao.AWS().SNS().GetReferencedSubscriptionReportTime(c, params.ReportDateTime, *params.TimeSelection, params.TimeSelectionReference)
+	selectedTime, err := dao.GetReferencedAwsSNSSubscriptionReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	result, err := dao.AWS().SNS().GetSubscription(c, *selectedTime, id)
+	result, err := dao.GetAwsSNSSubscription(c, *selectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
@@ -161,7 +161,7 @@ func GetSubscription(c *gin.Context, dao db.DAO) {
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/sns/subscriptions [get]
-func DiffMultiSubscriptions(c *gin.Context, dao db.DAO) {
+func DiffMultiSubscriptions(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -173,25 +173,25 @@ func DiffMultiSubscriptions(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	startSelectedTime, err := dao.AWS().SNS().GetReferencedSubscriptionReportTime(c, params.StartReportDateTime, *params.StartTimeSelection, params.StartTimeSelectionReference)
+	startSelectedTime, err := dao.GetReferencedAwsSNSSubscriptionReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	startResults, err := dao.AWS().SNS().ListSubscriptions(c, *startSelectedTime, params.AccountId, params.Region, nil, nil)
+	startResults, err := dao.ListAwsSNSSubscriptions(c, *startSelectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	endSelectedTime, err := dao.AWS().SNS().GetReferencedSubscriptionReportTime(c, params.EndReportDateTime, *params.EndTimeSelection, params.EndTimeSelectionReference)
+	endSelectedTime, err := dao.GetReferencedAwsSNSSubscriptionReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	endResults, err := dao.AWS().SNS().ListSubscriptions(c, *endSelectedTime, params.AccountId, params.Region, nil, nil)
+	endResults, err := dao.ListAwsSNSSubscriptions(c, *endSelectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
@@ -224,7 +224,7 @@ func DiffMultiSubscriptions(c *gin.Context, dao db.DAO) {
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/sns/subscriptions/{subscription_arn} [get]
-func DiffSingleSubscription(c *gin.Context, dao db.DAO) {
+func DiffSingleSubscription(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -242,25 +242,25 @@ func DiffSingleSubscription(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	startSelectedTime, err := dao.AWS().SNS().GetReferencedSubscriptionReportTime(c, params.StartReportDateTime, *params.StartTimeSelection, params.StartTimeSelectionReference)
+	startSelectedTime, err := dao.GetReferencedAwsSNSSubscriptionReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	startObject, err := dao.AWS().SNS().GetSubscription(c, *startSelectedTime, id)
+	startObject, err := dao.GetAwsSNSSubscription(c, *startSelectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	endSelectedTime, err := dao.AWS().SNS().GetReferencedSubscriptionReportTime(c, params.EndReportDateTime, *params.EndTimeSelection, params.EndTimeSelectionReference)
+	endSelectedTime, err := dao.GetReferencedAwsSNSSubscriptionReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	endObject, err := dao.AWS().SNS().GetSubscription(c, *endSelectedTime, id)
+	endObject, err := dao.GetAwsSNSSubscription(c, *endSelectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return

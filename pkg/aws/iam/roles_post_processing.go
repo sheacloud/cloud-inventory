@@ -27,7 +27,7 @@ func PostProcessRole(ctx context.Context, params *localAws.AwsFetchInput, model 
 
 		for _, policy := range output.AttachedPolicies {
 			policyModel := new(AttachedPolicy)
-			copier.Copy(policyModel, policy)
+			copier.CopyWithOption(policyModel, policy, localAws.CopyOption)
 			model.AttachedPolicies = append(model.AttachedPolicies, policyModel)
 		}
 	}

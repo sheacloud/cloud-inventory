@@ -42,7 +42,7 @@ func FetchInternetGateways(ctx context.Context, params *aws.AwsFetchInput) ([]*I
 		for _, object := range output.InternetGateways {
 
 			model := new(InternetGateway)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

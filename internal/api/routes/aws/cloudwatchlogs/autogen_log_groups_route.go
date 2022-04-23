@@ -26,7 +26,7 @@ type ListLogGroupsResponse struct {
 // @Success      200  {array}   routes.AwsResourceMetadata
 // @Failure      400
 // @Router       /metadata/aws/cloudwatchlogs/log_groups [get]
-func GetLogGroupsMetadata(c *gin.Context, dao db.DAO) {
+func GetLogGroupsMetadata(c *gin.Context, dao db.ReaderDAO) {
 	reportDateString := c.Query("report_date")
 	var reportDate time.Time
 	if reportDateString == "" {
@@ -35,7 +35,7 @@ func GetLogGroupsMetadata(c *gin.Context, dao db.DAO) {
 		reportDate, _ = time.Parse("2006-01-02", reportDateString)
 	}
 
-	reportTimes, err := dao.AWS().CloudWatchLogs().GetLogGroupReportTimes(c, reportDate)
+	reportTimes, err := dao.GetAwsCloudWatchLogsLogGroupReportTimes(c, reportDate.UnixMilli())
 	if err != nil {
 		c.AbortWithError(400, err)
 		return
@@ -66,7 +66,7 @@ func GetLogGroupsMetadata(c *gin.Context, dao db.DAO) {
 // @Success      200  {object}   ListLogGroupsResponse
 // @Failure      400
 // @Router       /inventory/aws/cloudwatchlogs/log_groups [get]
-func ListLogGroups(c *gin.Context, dao db.DAO) {
+func ListLogGroups(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -78,13 +78,13 @@ func ListLogGroups(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	selectedTime, err := dao.AWS().CloudWatchLogs().GetReferencedLogGroupReportTime(c, params.ReportDateTime, *params.TimeSelection, params.TimeSelectionReference)
+	selectedTime, err := dao.GetReferencedAwsCloudWatchLogsLogGroupReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	results, err := dao.AWS().CloudWatchLogs().ListLogGroups(c, *selectedTime, params.AccountId, params.Region, nil, nil)
+	results, err := dao.ListAwsCloudWatchLogsLogGroups(c, *selectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
@@ -111,7 +111,7 @@ func ListLogGroups(c *gin.Context, dao db.DAO) {
 // @Failure      400
 // @Failure 	 404
 // @Router       /inventory/aws/cloudwatchlogs/log_groups/{arn} [get]
-func GetLogGroup(c *gin.Context, dao db.DAO) {
+func GetLogGroup(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -128,13 +128,13 @@ func GetLogGroup(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	selectedTime, err := dao.AWS().CloudWatchLogs().GetReferencedLogGroupReportTime(c, params.ReportDateTime, *params.TimeSelection, params.TimeSelectionReference)
+	selectedTime, err := dao.GetReferencedAwsCloudWatchLogsLogGroupReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	result, err := dao.AWS().CloudWatchLogs().GetLogGroup(c, *selectedTime, id)
+	result, err := dao.GetAwsCloudWatchLogsLogGroup(c, *selectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
@@ -160,7 +160,7 @@ func GetLogGroup(c *gin.Context, dao db.DAO) {
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/cloudwatchlogs/log_groups [get]
-func DiffMultiLogGroups(c *gin.Context, dao db.DAO) {
+func DiffMultiLogGroups(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -172,25 +172,25 @@ func DiffMultiLogGroups(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	startSelectedTime, err := dao.AWS().CloudWatchLogs().GetReferencedLogGroupReportTime(c, params.StartReportDateTime, *params.StartTimeSelection, params.StartTimeSelectionReference)
+	startSelectedTime, err := dao.GetReferencedAwsCloudWatchLogsLogGroupReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	startResults, err := dao.AWS().CloudWatchLogs().ListLogGroups(c, *startSelectedTime, params.AccountId, params.Region, nil, nil)
+	startResults, err := dao.ListAwsCloudWatchLogsLogGroups(c, *startSelectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	endSelectedTime, err := dao.AWS().CloudWatchLogs().GetReferencedLogGroupReportTime(c, params.EndReportDateTime, *params.EndTimeSelection, params.EndTimeSelectionReference)
+	endSelectedTime, err := dao.GetReferencedAwsCloudWatchLogsLogGroupReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	endResults, err := dao.AWS().CloudWatchLogs().ListLogGroups(c, *endSelectedTime, params.AccountId, params.Region, nil, nil)
+	endResults, err := dao.ListAwsCloudWatchLogsLogGroups(c, *endSelectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
@@ -223,7 +223,7 @@ func DiffMultiLogGroups(c *gin.Context, dao db.DAO) {
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/cloudwatchlogs/log_groups/{arn} [get]
-func DiffSingleLogGroup(c *gin.Context, dao db.DAO) {
+func DiffSingleLogGroup(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -241,25 +241,25 @@ func DiffSingleLogGroup(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	startSelectedTime, err := dao.AWS().CloudWatchLogs().GetReferencedLogGroupReportTime(c, params.StartReportDateTime, *params.StartTimeSelection, params.StartTimeSelectionReference)
+	startSelectedTime, err := dao.GetReferencedAwsCloudWatchLogsLogGroupReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	startObject, err := dao.AWS().CloudWatchLogs().GetLogGroup(c, *startSelectedTime, id)
+	startObject, err := dao.GetAwsCloudWatchLogsLogGroup(c, *startSelectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	endSelectedTime, err := dao.AWS().CloudWatchLogs().GetReferencedLogGroupReportTime(c, params.EndReportDateTime, *params.EndTimeSelection, params.EndTimeSelectionReference)
+	endSelectedTime, err := dao.GetReferencedAwsCloudWatchLogsLogGroupReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	endObject, err := dao.AWS().CloudWatchLogs().GetLogGroup(c, *endSelectedTime, id)
+	endObject, err := dao.GetAwsCloudWatchLogsLogGroup(c, *endSelectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return

@@ -55,7 +55,7 @@ func FetchClusters(ctx context.Context, params *localAws.AwsFetchInput) ([]*Clus
 		for _, cluster := range result.Clusters {
 
 			model := new(Cluster)
-			copier.Copy(&model, &cluster)
+			copier.CopyWithOption(&model, &cluster, localAws.CopyOption)
 
 			model.Tags = ConvertTags(cluster.Tags)
 			model.AccountId = params.AccountId

@@ -8,10 +8,10 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatchlogs"
 )
 
-func IngestAwsCloudWatchLogsLogGroups(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsCloudWatchLogsLogGroups(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := cloudwatchlogs.FetchLogGroups(ctx, input)
 	if resources != nil {
-		err := dao.AWS().CloudWatchLogs().PutLogGroups(ctx, resources)
+		err := dao.PutAwsCloudWatchLogsLogGroups(ctx, resources)
 		if err != nil {
 			return nil, err
 		}

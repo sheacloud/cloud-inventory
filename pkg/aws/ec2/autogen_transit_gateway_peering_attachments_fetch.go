@@ -42,7 +42,7 @@ func FetchTransitGatewayPeeringAttachments(ctx context.Context, params *aws.AwsF
 		for _, object := range output.TransitGatewayPeeringAttachments {
 
 			model := new(TransitGatewayPeeringAttachment)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

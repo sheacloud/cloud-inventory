@@ -42,7 +42,7 @@ func FetchUsers(ctx context.Context, params *aws.AwsFetchInput) ([]*User, *aws.A
 		for _, object := range output.Users {
 
 			model := new(User)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

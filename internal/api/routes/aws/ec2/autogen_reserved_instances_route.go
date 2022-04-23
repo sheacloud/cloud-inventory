@@ -26,7 +26,7 @@ type ListReservedInstancesResponse struct {
 // @Success      200  {array}   routes.AwsResourceMetadata
 // @Failure      400
 // @Router       /metadata/aws/ec2/reserved_instances [get]
-func GetReservedInstancesMetadata(c *gin.Context, dao db.DAO) {
+func GetReservedInstancesMetadata(c *gin.Context, dao db.ReaderDAO) {
 	reportDateString := c.Query("report_date")
 	var reportDate time.Time
 	if reportDateString == "" {
@@ -35,7 +35,7 @@ func GetReservedInstancesMetadata(c *gin.Context, dao db.DAO) {
 		reportDate, _ = time.Parse("2006-01-02", reportDateString)
 	}
 
-	reportTimes, err := dao.AWS().EC2().GetReservedInstancesReportTimes(c, reportDate)
+	reportTimes, err := dao.GetAwsEC2ReservedInstancesReportTimes(c, reportDate.UnixMilli())
 	if err != nil {
 		c.AbortWithError(400, err)
 		return
@@ -66,7 +66,7 @@ func GetReservedInstancesMetadata(c *gin.Context, dao db.DAO) {
 // @Success      200  {object}   ListReservedInstancesResponse
 // @Failure      400
 // @Router       /inventory/aws/ec2/reserved_instances [get]
-func ListReservedInstances(c *gin.Context, dao db.DAO) {
+func ListReservedInstances(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -78,13 +78,13 @@ func ListReservedInstances(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	selectedTime, err := dao.AWS().EC2().GetReferencedReservedInstancesReportTime(c, params.ReportDateTime, *params.TimeSelection, params.TimeSelectionReference)
+	selectedTime, err := dao.GetReferencedAwsEC2ReservedInstancesReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	results, err := dao.AWS().EC2().ListReservedInstances(c, *selectedTime, params.AccountId, params.Region, nil, nil)
+	results, err := dao.ListAwsEC2ReservedInstances(c, *selectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
@@ -111,7 +111,7 @@ func ListReservedInstances(c *gin.Context, dao db.DAO) {
 // @Failure      400
 // @Failure 	 404
 // @Router       /inventory/aws/ec2/reserved_instances/{reserved_instances_id} [get]
-func GetReservedInstances(c *gin.Context, dao db.DAO) {
+func GetReservedInstances(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -128,13 +128,13 @@ func GetReservedInstances(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	selectedTime, err := dao.AWS().EC2().GetReferencedReservedInstancesReportTime(c, params.ReportDateTime, *params.TimeSelection, params.TimeSelectionReference)
+	selectedTime, err := dao.GetReferencedAwsEC2ReservedInstancesReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	result, err := dao.AWS().EC2().GetReservedInstances(c, *selectedTime, id)
+	result, err := dao.GetAwsEC2ReservedInstances(c, *selectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
@@ -160,7 +160,7 @@ func GetReservedInstances(c *gin.Context, dao db.DAO) {
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/ec2/reserved_instances [get]
-func DiffMultiReservedInstances(c *gin.Context, dao db.DAO) {
+func DiffMultiReservedInstances(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -172,25 +172,25 @@ func DiffMultiReservedInstances(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	startSelectedTime, err := dao.AWS().EC2().GetReferencedReservedInstancesReportTime(c, params.StartReportDateTime, *params.StartTimeSelection, params.StartTimeSelectionReference)
+	startSelectedTime, err := dao.GetReferencedAwsEC2ReservedInstancesReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	startResults, err := dao.AWS().EC2().ListReservedInstances(c, *startSelectedTime, params.AccountId, params.Region, nil, nil)
+	startResults, err := dao.ListAwsEC2ReservedInstances(c, *startSelectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	endSelectedTime, err := dao.AWS().EC2().GetReferencedReservedInstancesReportTime(c, params.EndReportDateTime, *params.EndTimeSelection, params.EndTimeSelectionReference)
+	endSelectedTime, err := dao.GetReferencedAwsEC2ReservedInstancesReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	endResults, err := dao.AWS().EC2().ListReservedInstances(c, *endSelectedTime, params.AccountId, params.Region, nil, nil)
+	endResults, err := dao.ListAwsEC2ReservedInstances(c, *endSelectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
@@ -223,7 +223,7 @@ func DiffMultiReservedInstances(c *gin.Context, dao db.DAO) {
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/ec2/reserved_instances/{reserved_instances_id} [get]
-func DiffSingleReservedInstances(c *gin.Context, dao db.DAO) {
+func DiffSingleReservedInstances(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -241,25 +241,25 @@ func DiffSingleReservedInstances(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	startSelectedTime, err := dao.AWS().EC2().GetReferencedReservedInstancesReportTime(c, params.StartReportDateTime, *params.StartTimeSelection, params.StartTimeSelectionReference)
+	startSelectedTime, err := dao.GetReferencedAwsEC2ReservedInstancesReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	startObject, err := dao.AWS().EC2().GetReservedInstances(c, *startSelectedTime, id)
+	startObject, err := dao.GetAwsEC2ReservedInstances(c, *startSelectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	endSelectedTime, err := dao.AWS().EC2().GetReferencedReservedInstancesReportTime(c, params.EndReportDateTime, *params.EndTimeSelection, params.EndTimeSelectionReference)
+	endSelectedTime, err := dao.GetReferencedAwsEC2ReservedInstancesReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	endObject, err := dao.AWS().EC2().GetReservedInstances(c, *endSelectedTime, id)
+	endObject, err := dao.GetAwsEC2ReservedInstances(c, *endSelectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return

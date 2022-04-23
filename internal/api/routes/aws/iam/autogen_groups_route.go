@@ -26,7 +26,7 @@ type ListGroupsResponse struct {
 // @Success      200  {array}   routes.AwsResourceMetadata
 // @Failure      400
 // @Router       /metadata/aws/iam/groups [get]
-func GetGroupsMetadata(c *gin.Context, dao db.DAO) {
+func GetGroupsMetadata(c *gin.Context, dao db.ReaderDAO) {
 	reportDateString := c.Query("report_date")
 	var reportDate time.Time
 	if reportDateString == "" {
@@ -35,7 +35,7 @@ func GetGroupsMetadata(c *gin.Context, dao db.DAO) {
 		reportDate, _ = time.Parse("2006-01-02", reportDateString)
 	}
 
-	reportTimes, err := dao.AWS().IAM().GetGroupReportTimes(c, reportDate)
+	reportTimes, err := dao.GetAwsIAMGroupReportTimes(c, reportDate.UnixMilli())
 	if err != nil {
 		c.AbortWithError(400, err)
 		return
@@ -66,7 +66,7 @@ func GetGroupsMetadata(c *gin.Context, dao db.DAO) {
 // @Success      200  {object}   ListGroupsResponse
 // @Failure      400
 // @Router       /inventory/aws/iam/groups [get]
-func ListGroups(c *gin.Context, dao db.DAO) {
+func ListGroups(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -78,13 +78,13 @@ func ListGroups(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	selectedTime, err := dao.AWS().IAM().GetReferencedGroupReportTime(c, params.ReportDateTime, *params.TimeSelection, params.TimeSelectionReference)
+	selectedTime, err := dao.GetReferencedAwsIAMGroupReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	results, err := dao.AWS().IAM().ListGroups(c, *selectedTime, params.AccountId, params.Region, nil, nil)
+	results, err := dao.ListAwsIAMGroups(c, *selectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
@@ -111,7 +111,7 @@ func ListGroups(c *gin.Context, dao db.DAO) {
 // @Failure      400
 // @Failure 	 404
 // @Router       /inventory/aws/iam/groups/{group_id} [get]
-func GetGroup(c *gin.Context, dao db.DAO) {
+func GetGroup(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -128,13 +128,13 @@ func GetGroup(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	selectedTime, err := dao.AWS().IAM().GetReferencedGroupReportTime(c, params.ReportDateTime, *params.TimeSelection, params.TimeSelectionReference)
+	selectedTime, err := dao.GetReferencedAwsIAMGroupReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	result, err := dao.AWS().IAM().GetGroup(c, *selectedTime, id)
+	result, err := dao.GetAwsIAMGroup(c, *selectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
@@ -160,7 +160,7 @@ func GetGroup(c *gin.Context, dao db.DAO) {
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/iam/groups [get]
-func DiffMultiGroups(c *gin.Context, dao db.DAO) {
+func DiffMultiGroups(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -172,25 +172,25 @@ func DiffMultiGroups(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	startSelectedTime, err := dao.AWS().IAM().GetReferencedGroupReportTime(c, params.StartReportDateTime, *params.StartTimeSelection, params.StartTimeSelectionReference)
+	startSelectedTime, err := dao.GetReferencedAwsIAMGroupReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	startResults, err := dao.AWS().IAM().ListGroups(c, *startSelectedTime, params.AccountId, params.Region, nil, nil)
+	startResults, err := dao.ListAwsIAMGroups(c, *startSelectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	endSelectedTime, err := dao.AWS().IAM().GetReferencedGroupReportTime(c, params.EndReportDateTime, *params.EndTimeSelection, params.EndTimeSelectionReference)
+	endSelectedTime, err := dao.GetReferencedAwsIAMGroupReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	endResults, err := dao.AWS().IAM().ListGroups(c, *endSelectedTime, params.AccountId, params.Region, nil, nil)
+	endResults, err := dao.ListAwsIAMGroups(c, *endSelectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
@@ -223,7 +223,7 @@ func DiffMultiGroups(c *gin.Context, dao db.DAO) {
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/iam/groups/{group_id} [get]
-func DiffSingleGroup(c *gin.Context, dao db.DAO) {
+func DiffSingleGroup(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -241,25 +241,25 @@ func DiffSingleGroup(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	startSelectedTime, err := dao.AWS().IAM().GetReferencedGroupReportTime(c, params.StartReportDateTime, *params.StartTimeSelection, params.StartTimeSelectionReference)
+	startSelectedTime, err := dao.GetReferencedAwsIAMGroupReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	startObject, err := dao.AWS().IAM().GetGroup(c, *startSelectedTime, id)
+	startObject, err := dao.GetAwsIAMGroup(c, *startSelectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	endSelectedTime, err := dao.AWS().IAM().GetReferencedGroupReportTime(c, params.EndReportDateTime, *params.EndTimeSelection, params.EndTimeSelectionReference)
+	endSelectedTime, err := dao.GetReferencedAwsIAMGroupReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	endObject, err := dao.AWS().IAM().GetGroup(c, *endSelectedTime, id)
+	endObject, err := dao.GetAwsIAMGroup(c, *endSelectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return

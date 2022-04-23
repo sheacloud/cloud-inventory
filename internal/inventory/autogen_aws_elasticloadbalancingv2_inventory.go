@@ -8,10 +8,10 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticloadbalancingv2"
 )
 
-func IngestAwsElasticLoadBalancingV2LoadBalancers(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsElasticLoadBalancingV2LoadBalancers(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := elasticloadbalancingv2.FetchLoadBalancers(ctx, input)
 	if resources != nil {
-		err := dao.AWS().ElasticLoadBalancingV2().PutLoadBalancers(ctx, resources)
+		err := dao.PutAwsElasticLoadBalancingV2LoadBalancers(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -20,10 +20,10 @@ func IngestAwsElasticLoadBalancingV2LoadBalancers(ctx context.Context, dao db.DA
 	return metadata, nil
 }
 
-func IngestAwsElasticLoadBalancingV2TargetGroups(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsElasticLoadBalancingV2TargetGroups(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := elasticloadbalancingv2.FetchTargetGroups(ctx, input)
 	if resources != nil {
-		err := dao.AWS().ElasticLoadBalancingV2().PutTargetGroups(ctx, resources)
+		err := dao.PutAwsElasticLoadBalancingV2TargetGroups(ctx, resources)
 		if err != nil {
 			return nil, err
 		}

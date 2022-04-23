@@ -42,7 +42,7 @@ func FetchSubscriptions(ctx context.Context, params *aws.AwsFetchInput) ([]*Subs
 		for _, object := range output.Subscriptions {
 
 			model := new(Subscription)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.AccountId = params.AccountId
 			model.Region = params.Region

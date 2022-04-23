@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"sync"
-	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/credentials/stscreds"
@@ -19,9 +18,9 @@ type AwsFetchJob struct {
 	Input     *localAws.AwsFetchInput
 	Service   string
 	Resource  string
-	DAO       db.DAO
+	DAO       db.WriterDAO
 	WaitGroup *sync.WaitGroup
-	Function  func(context.Context, db.DAO, *localAws.AwsFetchInput) (*localAws.AwsFetchOutputMetadata, error)
+	Function  func(context.Context, db.WriterDAO, *localAws.AwsFetchInput) (*localAws.AwsFetchOutputMetadata, error)
 }
 
 func stringInList(s string, list []string) bool {
@@ -55,7 +54,7 @@ func ProcessAwsFetchJobs(ctx context.Context, jobs <-chan AwsFetchJob, results c
 	waitGroup.Done()
 }
 
-func FetchAwsInventory(ctx context.Context, accountIds []string, regions []string, baseAwsConfig aws.Config, useLocalCredentials bool, assumeRoleName string, reportTime time.Time, dao db.DAO, numWorkers int) {
+func FetchAwsInventory(ctx context.Context, accountIds []string, regions []string, baseAwsConfig aws.Config, useLocalCredentials bool, assumeRoleName string, reportTime int64, dao db.WriterDAO, numWorkers int) {
 	jobs := make(chan AwsFetchJob)
 	results := make(chan *localAws.AwsFetchOutputMetadata)
 	workerWaitGroup := &sync.WaitGroup{}

@@ -58,7 +58,7 @@ func FetchTables(ctx context.Context, params *localAws.AwsFetchInput) ([]*Table,
 			}
 
 			model := new(Table)
-			copier.Copy(&model, result.Table)
+			copier.CopyWithOption(&model, &result.Table, localAws.CopyOption)
 
 			model.Tags = ConvertTags(tagsResult.Tags)
 			model.AccountId = params.AccountId

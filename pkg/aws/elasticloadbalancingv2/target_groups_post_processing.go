@@ -35,7 +35,7 @@ func PostProcessTargetGroup(ctx context.Context, params *localAws.AwsFetchInput,
 	}
 	for _, target := range targetResult.TargetHealthDescriptions {
 		targetModel := new(TargetHealthDescription)
-		copier.Copy(targetModel, target)
+		copier.CopyWithOption(targetModel, &target, localAws.CopyOption)
 		model.Targets = append(model.Targets, targetModel)
 	}
 	return nil

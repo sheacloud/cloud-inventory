@@ -8,10 +8,10 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/aws/efs"
 )
 
-func IngestAwsEFSFileSystems(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEFSFileSystems(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := efs.FetchFileSystems(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EFS().PutFileSystems(ctx, resources)
+		err := dao.PutAwsEFSFileSystems(ctx, resources)
 		if err != nil {
 			return nil, err
 		}

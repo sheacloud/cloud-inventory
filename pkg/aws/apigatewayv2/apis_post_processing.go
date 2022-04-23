@@ -23,7 +23,7 @@ func PostProcessApi(ctx context.Context, params *localAws.AwsFetchInput, model *
 	model.Routes = []*GetRouteOutput{}
 	for _, route := range resourcesResponse.Items {
 		resourceModel := new(GetRouteOutput)
-		err = copier.Copy(&resourceModel, &route)
+		err = copier.CopyWithOption(&resourceModel, &route, localAws.CopyOption)
 		if err != nil {
 			return fmt.Errorf("error copying route %s in %s/%s: %w", *route.RouteId, params.AccountId, params.Region, err)
 		}
@@ -39,7 +39,7 @@ func PostProcessApi(ctx context.Context, params *localAws.AwsFetchInput, model *
 	model.Stages = []*Stage{}
 	for _, stage := range stagesResposne.Items {
 		stageModel := new(Stage)
-		err = copier.Copy(&stageModel, &stage)
+		err = copier.CopyWithOption(&stageModel, &stage, localAws.CopyOption)
 		if err != nil {
 			return fmt.Errorf("error copying stage %s in %s/%s: %w", *stage.StageName, params.AccountId, params.Region, err)
 		}
@@ -55,7 +55,7 @@ func PostProcessApi(ctx context.Context, params *localAws.AwsFetchInput, model *
 	model.Integrations = []*Integration{}
 	for _, integration := range integrationsResponse.Items {
 		integrationModel := new(Integration)
-		err = copier.Copy(&integrationModel, &integration)
+		err = copier.CopyWithOption(&integrationModel, &integration, localAws.CopyOption)
 		if err != nil {
 			return fmt.Errorf("error copying stage %s in %s/%s: %w", *integration.IntegrationId, params.AccountId, params.Region, err)
 		}
@@ -71,7 +71,7 @@ func PostProcessApi(ctx context.Context, params *localAws.AwsFetchInput, model *
 	model.Authorizers = []*Authorizer{}
 	for _, authorizer := range authorizersResponse.Items {
 		authorizerModel := new(Authorizer)
-		err = copier.Copy(&authorizerModel, &authorizer)
+		err = copier.CopyWithOption(&authorizerModel, &authorizer, localAws.CopyOption)
 		if err != nil {
 			return fmt.Errorf("error copying authorizer %s in %s/%s: %w", *authorizer.AuthorizerId, params.AccountId, params.Region, err)
 		}

@@ -28,7 +28,7 @@ func PostProcessUser(ctx context.Context, params *localAws.AwsFetchInput, model 
 
 		for _, policy := range output.AttachedPolicies {
 			policyModel := new(AttachedPolicy)
-			copier.Copy(policyModel, policy)
+			copier.CopyWithOption(policyModel, policy, localAws.CopyOption)
 			model.AttachedPolicies = append(model.AttachedPolicies, policyModel)
 		}
 	}
@@ -77,7 +77,7 @@ func PostProcessUser(ctx context.Context, params *localAws.AwsFetchInput, model 
 
 		for _, key := range output.AccessKeyMetadata {
 			accessKeyModel := new(AccessKeyMetadata)
-			copier.Copy(accessKeyModel, &key)
+			copier.CopyWithOption(accessKeyModel, &key, localAws.CopyOption)
 
 			model.AccessKeys = append(model.AccessKeys, accessKeyModel)
 		}
@@ -96,7 +96,7 @@ func PostProcessUser(ctx context.Context, params *localAws.AwsFetchInput, model 
 		return fmt.Errorf("error calling GetLoginProfile: %w", err)
 	} else {
 		loginProfileModel := new(LoginProfile)
-		copier.Copy(loginProfileModel, profileResult.LoginProfile)
+		copier.CopyWithOption(loginProfileModel, profileResult.LoginProfile, localAws.CopyOption)
 
 		model.LoginProfile = loginProfileModel
 	}

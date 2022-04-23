@@ -42,7 +42,7 @@ func FetchNetworkInterfaces(ctx context.Context, params *aws.AwsFetchInput) ([]*
 		for _, object := range output.NetworkInterfaces {
 
 			model := new(NetworkInterface)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.TagSet)
 			model.AccountId = params.AccountId

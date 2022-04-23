@@ -42,7 +42,7 @@ func FetchVpcPeeringConnections(ctx context.Context, params *aws.AwsFetchInput) 
 		for _, object := range output.VpcPeeringConnections {
 
 			model := new(VpcPeeringConnection)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

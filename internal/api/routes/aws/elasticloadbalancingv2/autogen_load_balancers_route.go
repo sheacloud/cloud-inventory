@@ -26,7 +26,7 @@ type ListLoadBalancersResponse struct {
 // @Success      200  {array}   routes.AwsResourceMetadata
 // @Failure      400
 // @Router       /metadata/aws/elasticloadbalancingv2/load_balancers [get]
-func GetLoadBalancersMetadata(c *gin.Context, dao db.DAO) {
+func GetLoadBalancersMetadata(c *gin.Context, dao db.ReaderDAO) {
 	reportDateString := c.Query("report_date")
 	var reportDate time.Time
 	if reportDateString == "" {
@@ -35,7 +35,7 @@ func GetLoadBalancersMetadata(c *gin.Context, dao db.DAO) {
 		reportDate, _ = time.Parse("2006-01-02", reportDateString)
 	}
 
-	reportTimes, err := dao.AWS().ElasticLoadBalancingV2().GetLoadBalancerReportTimes(c, reportDate)
+	reportTimes, err := dao.GetAwsElasticLoadBalancingV2LoadBalancerReportTimes(c, reportDate.UnixMilli())
 	if err != nil {
 		c.AbortWithError(400, err)
 		return
@@ -66,7 +66,7 @@ func GetLoadBalancersMetadata(c *gin.Context, dao db.DAO) {
 // @Success      200  {object}   ListLoadBalancersResponse
 // @Failure      400
 // @Router       /inventory/aws/elasticloadbalancingv2/load_balancers [get]
-func ListLoadBalancers(c *gin.Context, dao db.DAO) {
+func ListLoadBalancers(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -78,13 +78,13 @@ func ListLoadBalancers(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	selectedTime, err := dao.AWS().ElasticLoadBalancingV2().GetReferencedLoadBalancerReportTime(c, params.ReportDateTime, *params.TimeSelection, params.TimeSelectionReference)
+	selectedTime, err := dao.GetReferencedAwsElasticLoadBalancingV2LoadBalancerReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	results, err := dao.AWS().ElasticLoadBalancingV2().ListLoadBalancers(c, *selectedTime, params.AccountId, params.Region, nil, nil)
+	results, err := dao.ListAwsElasticLoadBalancingV2LoadBalancers(c, *selectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
@@ -111,7 +111,7 @@ func ListLoadBalancers(c *gin.Context, dao db.DAO) {
 // @Failure      400
 // @Failure 	 404
 // @Router       /inventory/aws/elasticloadbalancingv2/load_balancers/{load_balancer_arn} [get]
-func GetLoadBalancer(c *gin.Context, dao db.DAO) {
+func GetLoadBalancer(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -128,13 +128,13 @@ func GetLoadBalancer(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	selectedTime, err := dao.AWS().ElasticLoadBalancingV2().GetReferencedLoadBalancerReportTime(c, params.ReportDateTime, *params.TimeSelection, params.TimeSelectionReference)
+	selectedTime, err := dao.GetReferencedAwsElasticLoadBalancingV2LoadBalancerReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	result, err := dao.AWS().ElasticLoadBalancingV2().GetLoadBalancer(c, *selectedTime, id)
+	result, err := dao.GetAwsElasticLoadBalancingV2LoadBalancer(c, *selectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
@@ -160,7 +160,7 @@ func GetLoadBalancer(c *gin.Context, dao db.DAO) {
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/elasticloadbalancingv2/load_balancers [get]
-func DiffMultiLoadBalancers(c *gin.Context, dao db.DAO) {
+func DiffMultiLoadBalancers(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -172,25 +172,25 @@ func DiffMultiLoadBalancers(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	startSelectedTime, err := dao.AWS().ElasticLoadBalancingV2().GetReferencedLoadBalancerReportTime(c, params.StartReportDateTime, *params.StartTimeSelection, params.StartTimeSelectionReference)
+	startSelectedTime, err := dao.GetReferencedAwsElasticLoadBalancingV2LoadBalancerReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	startResults, err := dao.AWS().ElasticLoadBalancingV2().ListLoadBalancers(c, *startSelectedTime, params.AccountId, params.Region, nil, nil)
+	startResults, err := dao.ListAwsElasticLoadBalancingV2LoadBalancers(c, *startSelectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	endSelectedTime, err := dao.AWS().ElasticLoadBalancingV2().GetReferencedLoadBalancerReportTime(c, params.EndReportDateTime, *params.EndTimeSelection, params.EndTimeSelectionReference)
+	endSelectedTime, err := dao.GetReferencedAwsElasticLoadBalancingV2LoadBalancerReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	endResults, err := dao.AWS().ElasticLoadBalancingV2().ListLoadBalancers(c, *endSelectedTime, params.AccountId, params.Region, nil, nil)
+	endResults, err := dao.ListAwsElasticLoadBalancingV2LoadBalancers(c, *endSelectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
@@ -223,7 +223,7 @@ func DiffMultiLoadBalancers(c *gin.Context, dao db.DAO) {
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/elasticloadbalancingv2/load_balancers/{load_balancer_arn} [get]
-func DiffSingleLoadBalancer(c *gin.Context, dao db.DAO) {
+func DiffSingleLoadBalancer(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -241,25 +241,25 @@ func DiffSingleLoadBalancer(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	startSelectedTime, err := dao.AWS().ElasticLoadBalancingV2().GetReferencedLoadBalancerReportTime(c, params.StartReportDateTime, *params.StartTimeSelection, params.StartTimeSelectionReference)
+	startSelectedTime, err := dao.GetReferencedAwsElasticLoadBalancingV2LoadBalancerReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	startObject, err := dao.AWS().ElasticLoadBalancingV2().GetLoadBalancer(c, *startSelectedTime, id)
+	startObject, err := dao.GetAwsElasticLoadBalancingV2LoadBalancer(c, *startSelectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	endSelectedTime, err := dao.AWS().ElasticLoadBalancingV2().GetReferencedLoadBalancerReportTime(c, params.EndReportDateTime, *params.EndTimeSelection, params.EndTimeSelectionReference)
+	endSelectedTime, err := dao.GetReferencedAwsElasticLoadBalancingV2LoadBalancerReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	endObject, err := dao.AWS().ElasticLoadBalancingV2().GetLoadBalancer(c, *endSelectedTime, id)
+	endObject, err := dao.GetAwsElasticLoadBalancingV2LoadBalancer(c, *endSelectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return

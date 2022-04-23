@@ -82,7 +82,7 @@ func FetchTasks(ctx context.Context, params *localAws.AwsFetchInput) ([]*Task, *
 				}
 				for _, task := range result.Tasks {
 					model := new(Task)
-					copier.Copy(&model, &task)
+					copier.CopyWithOption(&model, &task, localAws.CopyOption)
 
 					model.Tags = ConvertTags(task.Tags)
 					model.AccountId = params.AccountId

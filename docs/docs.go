@@ -21967,7 +21967,7 @@ var doc = `{
                     }
                 },
                 "created_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "description": {
                     "type": "string"
@@ -21994,7 +21994,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "resources": {
                     "type": "array",
@@ -22047,7 +22047,7 @@ var doc = `{
                     "type": "string"
                 },
                 "created_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "deployment_id": {
                     "type": "string"
@@ -22059,7 +22059,7 @@ var doc = `{
                     "type": "string"
                 },
                 "last_updated_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "method_settings": {
                     "type": "object",
@@ -22140,7 +22140,7 @@ var doc = `{
                     "$ref": "#/definitions/apigatewayv2.Cors"
                 },
                 "created_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "description": {
                     "type": "string"
@@ -22173,7 +22173,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "route_selection_expression": {
                     "type": "string"
@@ -22476,7 +22476,7 @@ var doc = `{
                     "type": "string"
                 },
                 "created_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "default_route_settings": {
                     "$ref": "#/definitions/apigatewayv2.RouteSettings"
@@ -22491,7 +22491,7 @@ var doc = `{
                     "type": "string"
                 },
                 "last_updated_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "route_settings": {
                     "type": "object",
@@ -22563,22 +22563,22 @@ var doc = `{
                     "type": "string"
                 },
                 "creation_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "creator_request_id": {
                     "type": "string"
                 },
                 "deletion_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "last_execution_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "region": {
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "selections": {
                     "type": "array",
@@ -22604,7 +22604,7 @@ var doc = `{
                     "type": "string"
                 },
                 "creation_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "creator_request_id": {
                     "type": "string"
@@ -22636,7 +22636,7 @@ var doc = `{
                     "type": "string"
                 },
                 "creation_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "creator_request_id": {
                     "type": "string"
@@ -22645,7 +22645,7 @@ var doc = `{
                     "type": "string"
                 },
                 "lock_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "locked": {
                     "type": "boolean"
@@ -22663,7 +22663,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "tags": {
                     "type": "object",
@@ -22711,7 +22711,7 @@ var doc = `{
                     "type": "string"
                 },
                 "latest_cloud_watch_logs_delivery_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "latest_delivery_attempt_succeeded": {
                     "type": "string"
@@ -22723,13 +22723,13 @@ var doc = `{
                     "type": "string"
                 },
                 "latest_delivery_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "latest_digest_delivery_error": {
                     "type": "string"
                 },
                 "latest_digest_delivery_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "latest_notification_attempt_succeeded": {
                     "type": "string"
@@ -22741,13 +22741,13 @@ var doc = `{
                     "type": "string"
                 },
                 "latest_notification_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "start_logging_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "stop_logging_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "time_logging_started": {
                     "type": "string"
@@ -22817,7 +22817,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "s3_bucket_name": {
                     "type": "string"
@@ -22881,7 +22881,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "retention_in_days": {
                     "type": "integer"
@@ -22898,7 +22898,7 @@ var doc = `{
                     "type": "string"
                 },
                 "archival_date_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "archival_reason": {
                     "type": "string"
@@ -22923,7 +22923,7 @@ var doc = `{
                     "type": "string"
                 },
                 "last_update_to_pay_per_request_date_time": {
-                    "type": "string"
+                    "type": "integer"
                 }
             }
         },
@@ -23031,10 +23031,10 @@ var doc = `{
             "type": "object",
             "properties": {
                 "last_decrease_date_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "last_increase_date_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "number_of_decreases_today": {
                     "type": "integer"
@@ -23074,7 +23074,7 @@ var doc = `{
                     "type": "string"
                 },
                 "replica_inaccessible_date_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "replica_status": {
                     "type": "string"
@@ -23105,7 +23105,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "restore_date_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "restore_in_progress": {
                     "type": "boolean"
@@ -23122,7 +23122,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "inaccessible_encryption_date_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "kms_master_key_arn": {
                     "type": "string"
@@ -23168,7 +23168,7 @@ var doc = `{
                     "$ref": "#/definitions/dynamodb.BillingModeSummary"
                 },
                 "creation_date_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "global_secondary_indexes": {
                     "type": "array",
@@ -23213,7 +23213,7 @@ var doc = `{
                     }
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "restore_summary": {
                     "$ref": "#/definitions/dynamodb.RestoreSummary"
@@ -23254,7 +23254,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "last_update_date_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "table_class": {
                     "type": "string"
@@ -23313,7 +23313,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "tags": {
                     "type": "object",
@@ -23428,7 +23428,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "tags": {
                     "type": "object",
@@ -23485,7 +23485,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "attach_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "delete_on_termination": {
                     "type": "boolean"
@@ -23528,7 +23528,7 @@ var doc = `{
                     "type": "string"
                 },
                 "elastic_inference_accelerator_association_time": {
-                    "type": "string"
+                    "type": "integer"
                 }
             }
         },
@@ -23660,7 +23660,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "root_device_name": {
                     "type": "string"
@@ -23779,7 +23779,7 @@ var doc = `{
                     "type": "string"
                 },
                 "launch_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "licenses": {
                     "type": "array",
@@ -23839,7 +23839,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "root_device_name": {
                     "type": "string"
@@ -23884,7 +23884,7 @@ var doc = `{
                     "type": "string"
                 },
                 "usage_operation_update_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "virtualization_type": {
                     "type": "string"
@@ -24047,7 +24047,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "attach_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "attachment_id": {
                     "type": "string"
@@ -24119,7 +24119,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "tags": {
                     "type": "object",
@@ -24596,7 +24596,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "state": {
                     "type": "string"
@@ -24636,10 +24636,10 @@ var doc = `{
                     "type": "string"
                 },
                 "create_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "delete_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "failure_code": {
                     "type": "string"
@@ -24663,7 +24663,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "state": {
                     "type": "string"
@@ -24733,7 +24733,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "tags": {
                     "type": "object",
@@ -24874,7 +24874,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "requester_id": {
                     "type": "string"
@@ -24932,7 +24932,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "attach_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "attachment_id": {
                     "type": "string"
@@ -25058,7 +25058,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "state": {
                     "type": "string"
@@ -25147,13 +25147,13 @@ var doc = `{
             "type": "object",
             "properties": {
                 "provision_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "provisioned": {
                     "type": "string"
                 },
                 "request_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "requested": {
                     "type": "string"
@@ -25193,7 +25193,7 @@ var doc = `{
                     "type": "integer"
                 },
                 "end": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "fixed_price": {
                     "type": "number"
@@ -25226,7 +25226,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "reserved_instances_id": {
                     "type": "string"
@@ -25235,7 +25235,7 @@ var doc = `{
                     "type": "string"
                 },
                 "start": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "state": {
                     "type": "string"
@@ -25332,7 +25332,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "route_table_id": {
                     "type": "string"
@@ -25425,7 +25425,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "tags": {
                     "type": "object",
@@ -25524,7 +25524,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "state": {
                     "type": "string"
@@ -25581,7 +25581,7 @@ var doc = `{
                     "type": "string"
                 },
                 "creation_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "description": {
                     "type": "string"
@@ -25596,7 +25596,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "state": {
                     "type": "string"
@@ -25666,13 +25666,13 @@ var doc = `{
                     "type": "string"
                 },
                 "creation_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "region": {
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "requester_tgw_info": {
                     "$ref": "#/definitions/ec2.PeeringTgwInfo"
@@ -25704,7 +25704,7 @@ var doc = `{
                     "type": "string"
                 },
                 "creation_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "default_association_route_table": {
                     "type": "boolean"
@@ -25716,7 +25716,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "state": {
                     "type": "string"
@@ -25745,7 +25745,7 @@ var doc = `{
                     "type": "string"
                 },
                 "creation_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "options": {
                     "$ref": "#/definitions/ec2.TransitGatewayVpcAttachmentOptions"
@@ -25754,7 +25754,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "state": {
                     "type": "string"
@@ -25844,7 +25844,7 @@ var doc = `{
                     "type": "string"
                 },
                 "create_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "encrypted": {
                     "type": "boolean"
@@ -25868,7 +25868,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "size": {
                     "type": "integer"
@@ -25900,7 +25900,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "attach_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "delete_on_termination": {
                     "type": "boolean"
@@ -25959,7 +25959,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "state": {
                     "type": "string"
@@ -26021,7 +26021,7 @@ var doc = `{
                     "type": "string"
                 },
                 "creation_timestamp": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "dns_entries": {
                     "type": "array",
@@ -26057,7 +26057,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "requester_managed": {
                     "type": "boolean"
@@ -26130,13 +26130,13 @@ var doc = `{
                     "type": "string"
                 },
                 "expiration_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "region": {
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "requester_vpc_info": {
                     "$ref": "#/definitions/ec2.VpcPeeringConnectionVpcInfo"
@@ -26231,7 +26231,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "state": {
                     "type": "string"
@@ -26379,7 +26379,7 @@ var doc = `{
                     "type": "integer"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "running_tasks_count": {
                     "type": "integer"
@@ -26545,7 +26545,7 @@ var doc = `{
                     }
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "desired_count": {
                     "type": "integer"
@@ -26587,7 +26587,7 @@ var doc = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "integer"
                 }
             }
         },
@@ -26773,7 +26773,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "last_started_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "last_status": {
                     "type": "string"
@@ -26888,7 +26888,7 @@ var doc = `{
                     "type": "string"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "created_by": {
                     "type": "string"
@@ -26957,7 +26957,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "role_arn": {
                     "type": "string"
@@ -27062,7 +27062,7 @@ var doc = `{
                     "type": "string"
                 },
                 "connectivity_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "container_instance_arn": {
                     "type": "string"
@@ -27077,7 +27077,7 @@ var doc = `{
                     "type": "string"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "desired_status": {
                     "type": "string"
@@ -27089,7 +27089,7 @@ var doc = `{
                     "$ref": "#/definitions/ecs.EphemeralStorage"
                 },
                 "execution_stopped_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "group": {
                     "type": "string"
@@ -27122,19 +27122,19 @@ var doc = `{
                     "type": "string"
                 },
                 "pull_started_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "pull_stopped_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "region": {
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "started_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "started_by": {
                     "type": "string"
@@ -27143,13 +27143,13 @@ var doc = `{
                     "type": "string"
                 },
                 "stopped_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "stopped_reason": {
                     "type": "string"
                 },
                 "stopping_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "tags": {
                     "type": "object",
@@ -27216,7 +27216,7 @@ var doc = `{
                     "type": "integer"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "external_id": {
                     "type": "string"
@@ -27264,7 +27264,7 @@ var doc = `{
                     "type": "string"
                 },
                 "stability_status_at": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "started_by": {
                     "type": "string"
@@ -27285,7 +27285,7 @@ var doc = `{
                     "type": "string"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "integer"
                 }
             }
         },
@@ -27305,7 +27305,7 @@ var doc = `{
                     "type": "string"
                 },
                 "creation_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "creation_token": {
                     "type": "string"
@@ -27344,7 +27344,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "size_in_bytes": {
                     "$ref": "#/definitions/efs.FileSystemSize"
@@ -27364,7 +27364,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "timestamp": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "value": {
                     "type": "integer"
@@ -27410,13 +27410,13 @@ var doc = `{
                     "type": "boolean"
                 },
                 "auth_token_last_modified_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "auto_minor_version_upgrade": {
                     "type": "boolean"
                 },
                 "cache_cluster_create_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "cache_cluster_id": {
                     "type": "string"
@@ -27491,7 +27491,7 @@ var doc = `{
                     "type": "boolean"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "security_groups": {
                     "type": "array",
@@ -27520,7 +27520,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "cache_node_create_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "cache_node_id": {
                     "type": "string"
@@ -27856,7 +27856,7 @@ var doc = `{
                     "type": "string"
                 },
                 "created_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "dns_name": {
                     "type": "string"
@@ -27886,7 +27886,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "scheme": {
                     "type": "string"
@@ -28194,7 +28194,7 @@ var doc = `{
                     "type": "string"
                 },
                 "created_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "customer_owned_ipv4_pool": {
                     "type": "string"
@@ -28221,7 +28221,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "scheme": {
                     "type": "string"
@@ -28380,7 +28380,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "tags": {
                     "type": "object",
@@ -28468,7 +28468,7 @@ var doc = `{
                     "type": "string"
                 },
                 "create_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "status": {
                     "type": "string"
@@ -28516,7 +28516,7 @@ var doc = `{
                     }
                 },
                 "create_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "group_id": {
                     "type": "string"
@@ -28537,7 +28537,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "user_ids": {
                     "type": "array",
@@ -28607,7 +28607,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "create_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "password_reset_required": {
                     "type": "boolean"
@@ -28630,7 +28630,7 @@ var doc = `{
                     "type": "integer"
                 },
                 "create_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "default_version_id": {
                     "type": "string"
@@ -28657,7 +28657,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "tags": {
                     "type": "object",
@@ -28666,7 +28666,7 @@ var doc = `{
                     }
                 },
                 "update_date": {
-                    "type": "string"
+                    "type": "integer"
                 }
             }
         },
@@ -28689,7 +28689,7 @@ var doc = `{
                     }
                 },
                 "create_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "description": {
                     "type": "string"
@@ -28713,7 +28713,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "role_id": {
                     "type": "string"
@@ -28736,7 +28736,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "last_used_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "region": {
                     "type": "string"
@@ -28768,7 +28768,7 @@ var doc = `{
                     }
                 },
                 "create_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "group_ids": {
                     "type": "array",
@@ -28786,7 +28786,7 @@ var doc = `{
                     "$ref": "#/definitions/iam.LoginProfile"
                 },
                 "password_last_used": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "path": {
                     "type": "string"
@@ -28798,7 +28798,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "tags": {
                     "type": "object",
@@ -28912,7 +28912,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "revision_id": {
                     "type": "string"
@@ -29115,7 +29115,7 @@ var doc = `{
                     "type": "boolean"
                 },
                 "automatic_restart_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "availability_zones": {
                     "type": "array",
@@ -29142,7 +29142,7 @@ var doc = `{
                     "type": "string"
                 },
                 "cluster_create_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "copy_tags_to_snapshot": {
                     "type": "boolean"
@@ -29199,10 +29199,10 @@ var doc = `{
                     }
                 },
                 "earliest_backtrack_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "earliest_restorable_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "enabled_cloudwatch_logs_exports": {
                     "type": "array",
@@ -29244,7 +29244,7 @@ var doc = `{
                     "type": "string"
                 },
                 "latest_restorable_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "master_username": {
                     "type": "string"
@@ -29301,7 +29301,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "scaling_configuration_info": {
                     "$ref": "#/definitions/rds.ScalingConfigurationInfo"
@@ -29408,7 +29408,7 @@ var doc = `{
                     "type": "boolean"
                 },
                 "automatic_restart_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "automation_mode": {
                     "type": "string"
@@ -29516,7 +29516,7 @@ var doc = `{
                     "type": "boolean"
                 },
                 "instance_create_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "iops": {
                     "type": "integer"
@@ -29525,7 +29525,7 @@ var doc = `{
                     "type": "string"
                 },
                 "latest_restorable_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "license_model": {
                     "type": "string"
@@ -29609,10 +29609,10 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "resume_full_automation_mode_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "secondary_availability_zone": {
                     "type": "string"
@@ -29886,7 +29886,7 @@ var doc = `{
                     }
                 },
                 "resume_full_automation_mode_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "storage_type": {
                     "type": "string"
@@ -29994,7 +29994,7 @@ var doc = `{
                     "type": "string"
                 },
                 "cluster_create_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "cluster_identifier": {
                     "type": "string"
@@ -30069,7 +30069,7 @@ var doc = `{
                     "type": "boolean"
                 },
                 "expected_next_snapshot_schedule_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "expected_next_snapshot_schedule_time_status": {
                     "type": "string"
@@ -30099,7 +30099,7 @@ var doc = `{
                     "type": "string"
                 },
                 "next_maintenance_window_start_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "node_type": {
                     "type": "string"
@@ -30126,7 +30126,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "reserved_node_exchange_status": {
                     "$ref": "#/definitions/redshift.ReservedNodeExchangeStatus"
@@ -30274,13 +30274,13 @@ var doc = `{
             "type": "object",
             "properties": {
                 "defer_maintenance_end_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "defer_maintenance_identifier": {
                     "type": "string"
                 },
                 "defer_maintenance_start_time": {
-                    "type": "string"
+                    "type": "integer"
                 }
             }
         },
@@ -30396,7 +30396,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "request_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "reserved_node_exchange_request_id": {
                     "type": "string"
@@ -30514,7 +30514,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "resource_record_set_count": {
                     "type": "integer"
@@ -30597,7 +30597,7 @@ var doc = `{
                 "datetimes": {
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "type": "integer"
                     }
                 },
                 "display_fields": {
@@ -30676,7 +30676,7 @@ var doc = `{
                     }
                 },
                 "creation_date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "intelligent_tiering_configurations": {
                     "type": "array",
@@ -30718,7 +30718,7 @@ var doc = `{
                     "$ref": "#/definitions/s3.ReplicationConfiguration"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "server_side_encryption_configuration": {
                     "$ref": "#/definitions/s3.ServerSideEncryptionConfiguration"
@@ -30983,7 +30983,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "days": {
                     "type": "integer"
@@ -31256,7 +31256,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "date": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "days": {
                     "type": "integer"
@@ -31337,7 +31337,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "subscription_arn": {
                     "type": "string"
@@ -31387,7 +31387,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "subscriptions_confirmed": {
                     "type": "integer"
@@ -31493,7 +31493,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "tags": {
                     "type": "object",
@@ -31573,7 +31573,7 @@ var doc = `{
                     "type": "string"
                 },
                 "report_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "software_updates_end_date": {
                     "type": "string"

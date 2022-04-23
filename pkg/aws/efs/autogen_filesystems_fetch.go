@@ -42,7 +42,7 @@ func FetchFileSystems(ctx context.Context, params *aws.AwsFetchInput) ([]*FileSy
 		for _, object := range output.FileSystems {
 
 			model := new(FileSystem)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

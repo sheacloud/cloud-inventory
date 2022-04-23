@@ -8,10 +8,10 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/aws/sns"
 )
 
-func IngestAwsSNSTopics(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsSNSTopics(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := sns.FetchTopics(ctx, input)
 	if resources != nil {
-		err := dao.AWS().SNS().PutTopics(ctx, resources)
+		err := dao.PutAwsSNSTopics(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -20,10 +20,10 @@ func IngestAwsSNSTopics(ctx context.Context, dao db.DAO, input *aws.AwsFetchInpu
 	return metadata, nil
 }
 
-func IngestAwsSNSSubscriptions(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsSNSSubscriptions(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := sns.FetchSubscriptions(ctx, input)
 	if resources != nil {
-		err := dao.AWS().SNS().PutSubscriptions(ctx, resources)
+		err := dao.PutAwsSNSSubscriptions(ctx, resources)
 		if err != nil {
 			return nil, err
 		}

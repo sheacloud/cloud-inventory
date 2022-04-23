@@ -26,7 +26,7 @@ type List{{.ResourceConfig.ObjectPluralName}}Response struct {
 // @Success      200  {array}   routes.AwsResourceMetadata
 // @Failure      400
 // @Router       /metadata/aws/{{.ServiceName}}/{{.ResourceConfig.Name}} [get]
-func Get{{.ResourceConfig.ObjectPluralName}}Metadata(c *gin.Context, dao db.DAO) {
+func Get{{.ResourceConfig.ObjectPluralName}}Metadata(c *gin.Context, dao db.ReaderDAO) {
 	reportDateString := c.Query("report_date")
 	var reportDate time.Time
 	if reportDateString == "" {
@@ -35,7 +35,7 @@ func Get{{.ResourceConfig.ObjectPluralName}}Metadata(c *gin.Context, dao db.DAO)
 		reportDate, _ = time.Parse("2006-01-02", reportDateString)
 	}
 
-	reportTimes, err := dao.AWS().{{.ServiceCapName}}().Get{{.ResourceConfig.ObjectSingularName}}ReportTimes(c, reportDate)
+	reportTimes, err := dao.GetAws{{$.ServiceCapName}}{{.ResourceConfig.ObjectSingularName}}ReportTimes(c, reportDate.UnixMilli())
 	if err != nil {
 		c.AbortWithError(400, err)
 		return
@@ -67,7 +67,7 @@ func Get{{.ResourceConfig.ObjectPluralName}}Metadata(c *gin.Context, dao db.DAO)
 // @Success      200  {object}   List{{.ResourceConfig.ObjectPluralName}}Response
 // @Failure      400
 // @Router       /inventory/aws/{{.ServiceName}}/{{.ResourceConfig.Name}} [get]
-func List{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, dao db.DAO) {
+func List{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -79,13 +79,13 @@ func List{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	selectedTime, err := dao.AWS().{{.ServiceCapName}}().GetReferenced{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.ReportDateTime, *params.TimeSelection, params.TimeSelectionReference)
+	selectedTime, err := dao.GetReferencedAws{{$.ServiceCapName}}{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	results, err := dao.AWS().{{.ServiceCapName}}().List{{.ResourceConfig.ObjectPluralName}}(c, *selectedTime, params.AccountId, params.Region, nil, nil)
+	results, err := dao.ListAws{{$.ServiceCapName}}{{.ResourceConfig.ObjectPluralName}}(c, *selectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
@@ -113,7 +113,7 @@ func List{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, dao db.DAO) {
 // @Failure      400
 // @Failure 	 404
 // @Router       /inventory/aws/{{.ServiceName}}/{{.ResourceConfig.Name}}/{{"{"}}{{.ResourceConfig.ObjectUniqueIdSnakeCase}}{{"}"}} [get]
-func Get{{.ResourceConfig.ObjectSingularName}}(c *gin.Context, dao db.DAO) {
+func Get{{.ResourceConfig.ObjectSingularName}}(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -130,13 +130,13 @@ func Get{{.ResourceConfig.ObjectSingularName}}(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	selectedTime, err := dao.AWS().{{.ServiceCapName}}().GetReferenced{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.ReportDateTime, *params.TimeSelection, params.TimeSelectionReference)
+	selectedTime, err := dao.GetReferencedAws{{$.ServiceCapName}}{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	result, err := dao.AWS().{{.ServiceCapName}}().Get{{.ResourceConfig.ObjectSingularName}}(c, *selectedTime, id)
+	result, err := dao.GetAws{{$.ServiceCapName}}{{.ResourceConfig.ObjectSingularName}}(c, *selectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
@@ -163,7 +163,7 @@ func Get{{.ResourceConfig.ObjectSingularName}}(c *gin.Context, dao db.DAO) {
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/{{.ServiceName}}/{{.ResourceConfig.Name}} [get]
-func DiffMulti{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, dao db.DAO) {
+func DiffMulti{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -175,25 +175,25 @@ func DiffMulti{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, dao db.DAO) {
 		return
 	}
 
-	startSelectedTime, err := dao.AWS().{{.ServiceCapName}}().GetReferenced{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.StartReportDateTime, *params.StartTimeSelection, params.StartTimeSelectionReference)
+	startSelectedTime, err := dao.GetReferencedAws{{$.ServiceCapName}}{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	startResults, err := dao.AWS().{{.ServiceCapName}}().List{{.ResourceConfig.ObjectPluralName}}(c, *startSelectedTime, params.AccountId, params.Region, nil, nil)
+	startResults, err := dao.ListAws{{$.ServiceCapName}}{{.ResourceConfig.ObjectPluralName}}(c, *startSelectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	endSelectedTime, err := dao.AWS().{{.ServiceCapName}}().GetReferenced{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.EndReportDateTime, *params.EndTimeSelection, params.EndTimeSelectionReference)
+	endSelectedTime, err := dao.GetReferencedAws{{$.ServiceCapName}}{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	endResults, err := dao.AWS().{{.ServiceCapName}}().List{{.ResourceConfig.ObjectPluralName}}(c, *endSelectedTime, params.AccountId, params.Region, nil, nil)
+	endResults, err := dao.ListAws{{$.ServiceCapName}}{{.ResourceConfig.ObjectPluralName}}(c, *endSelectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
@@ -227,7 +227,7 @@ func DiffMulti{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, dao db.DAO) {
 // @Success      200  {array}   routes.Diff
 // @Failure      400
 // @Router       /diff/aws/{{.ServiceName}}/{{.ResourceConfig.Name}}/{{"{"}}{{.ResourceConfig.ObjectUniqueIdSnakeCase}}{{"}"}} [get]
-func DiffSingle{{.ResourceConfig.ObjectSingularName}}(c *gin.Context, dao db.DAO) {
+func DiffSingle{{.ResourceConfig.ObjectSingularName}}(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -245,25 +245,25 @@ func DiffSingle{{.ResourceConfig.ObjectSingularName}}(c *gin.Context, dao db.DAO
 		return
 	}
 
-	startSelectedTime, err := dao.AWS().{{.ServiceCapName}}().GetReferenced{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.StartReportDateTime, *params.StartTimeSelection, params.StartTimeSelectionReference)
+	startSelectedTime, err := dao.GetReferencedAws{{$.ServiceCapName}}{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	startObject, err := dao.AWS().{{.ServiceCapName}}().Get{{.ResourceConfig.ObjectSingularName}}(c, *startSelectedTime, id)
+	startObject, err := dao.GetAws{{$.ServiceCapName}}{{.ResourceConfig.ObjectSingularName}}(c, *startSelectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	endSelectedTime, err := dao.AWS().{{.ServiceCapName}}().GetReferenced{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.EndReportDateTime, *params.EndTimeSelection, params.EndTimeSelectionReference)
+	endSelectedTime, err := dao.GetReferencedAws{{$.ServiceCapName}}{{.ResourceConfig.ObjectSingularName}}ReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	endObject, err := dao.AWS().{{.ServiceCapName}}().Get{{.ResourceConfig.ObjectSingularName}}(c, *endSelectedTime, id)
+	endObject, err := dao.GetAws{{$.ServiceCapName}}{{.ResourceConfig.ObjectSingularName}}(c, *endSelectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return

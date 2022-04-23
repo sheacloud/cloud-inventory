@@ -8,10 +8,10 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/aws/redshift"
 )
 
-func IngestAwsRedshiftClusters(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsRedshiftClusters(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := redshift.FetchClusters(ctx, input)
 	if resources != nil {
-		err := dao.AWS().Redshift().PutClusters(ctx, resources)
+		err := dao.PutAwsRedshiftClusters(ctx, resources)
 		if err != nil {
 			return nil, err
 		}

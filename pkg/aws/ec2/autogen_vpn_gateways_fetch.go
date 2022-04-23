@@ -52,7 +52,7 @@ func FetchVpnGateways(ctx context.Context, params *aws.AwsFetchInput) ([]*VpnGat
 		for _, object := range output.VpnGateways {
 
 			model := new(VpnGateway)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

@@ -27,7 +27,7 @@ func PostProcessHostedZone(ctx context.Context, params *localAws.AwsFetchInput, 
 
 	for i, vpc := range result.VPCs {
 		vpcModel := new(VPC)
-		copier.Copy(vpcModel, &vpc)
+		copier.CopyWithOption(vpcModel, &vpc, localAws.CopyOption)
 		model.VpcAssociations[i] = vpcModel
 	}
 

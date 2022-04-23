@@ -79,7 +79,7 @@ func init() {
 
 	dynamoClient := dynamodb.NewFromConfig(cfg)
 
-	dao := dynamoDAO.NewDynamoDBDAO(dynamoClient, 3)
+	dao := dynamoDAO.NewDynamoDBReaderDAO(dynamoClient, 3)
 
 	router = api.GetRouter(dao)
 }

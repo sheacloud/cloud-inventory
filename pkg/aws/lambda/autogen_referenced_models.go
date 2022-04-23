@@ -2,43 +2,43 @@
 package lambda
 
 type DeadLetterConfig struct {
-	TargetArn string `bson:"target_arn,omitempty" dynamodbav:"target_arn,omitempty" json:"target_arn,omitempty" diff:"target_arn"`
+	TargetArn string `bson:"target_arn,omitempty" ion:"target_arn" dynamodbav:"target_arn,omitempty" parquet:"name=target_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"target_arn,omitempty" diff:"target_arn"`
 }
 
 type FileSystemConfig struct {
-	Arn            string `bson:"arn,omitempty" dynamodbav:"arn,omitempty" json:"arn,omitempty" diff:"arn"`
-	LocalMountPath string `bson:"local_mount_path,omitempty" dynamodbav:"local_mount_path,omitempty" json:"local_mount_path,omitempty" diff:"local_mount_path"`
+	Arn            string `bson:"arn,omitempty" ion:"arn" dynamodbav:"arn,omitempty" parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"arn,omitempty" diff:"arn"`
+	LocalMountPath string `bson:"local_mount_path,omitempty" ion:"local_mount_path" dynamodbav:"local_mount_path,omitempty" parquet:"name=local_mount_path,type=BYTE_ARRAY,convertedtype=UTF8" json:"local_mount_path,omitempty" diff:"local_mount_path"`
 }
 
 type ImageConfigResponse struct {
-	Error       *ImageConfigError `bson:"error,omitempty" dynamodbav:"error,omitempty" json:"error,omitempty" diff:"error"`
-	ImageConfig *ImageConfig      `bson:"image_config,omitempty" dynamodbav:"image_config,omitempty" json:"image_config,omitempty" diff:"image_config"`
+	Error       *ImageConfigError `bson:"error,omitempty" ion:"error" dynamodbav:"error,omitempty" parquet:"name=error" json:"error,omitempty" diff:"error"`
+	ImageConfig *ImageConfig      `bson:"image_config,omitempty" ion:"image_config" dynamodbav:"image_config,omitempty" parquet:"name=image_config" json:"image_config,omitempty" diff:"image_config"`
 }
 
 type ImageConfigError struct {
-	ErrorCode string `bson:"error_code,omitempty" dynamodbav:"error_code,omitempty" json:"error_code,omitempty" diff:"error_code"`
-	Message   string `bson:"message,omitempty" dynamodbav:"message,omitempty" json:"message,omitempty" diff:"message"`
+	ErrorCode string `bson:"error_code,omitempty" ion:"error_code" dynamodbav:"error_code,omitempty" parquet:"name=error_code,type=BYTE_ARRAY,convertedtype=UTF8" json:"error_code,omitempty" diff:"error_code"`
+	Message   string `bson:"message,omitempty" ion:"message" dynamodbav:"message,omitempty" parquet:"name=message,type=BYTE_ARRAY,convertedtype=UTF8" json:"message,omitempty" diff:"message"`
 }
 
 type ImageConfig struct {
-	Command          []string `bson:"command,omitempty" dynamodbav:"command,omitempty" json:"command,omitempty" diff:"command"`
-	EntryPoint       []string `bson:"entry_point,omitempty" dynamodbav:"entry_point,omitempty" json:"entry_point,omitempty" diff:"entry_point"`
-	WorkingDirectory string   `bson:"working_directory,omitempty" dynamodbav:"working_directory,omitempty" json:"working_directory,omitempty" diff:"working_directory"`
+	Command          []string `bson:"command,omitempty" ion:"command" dynamodbav:"command,omitempty" parquet:"name=command,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"command,omitempty" diff:"command"`
+	EntryPoint       []string `bson:"entry_point,omitempty" ion:"entry_point" dynamodbav:"entry_point,omitempty" parquet:"name=entry_point,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"entry_point,omitempty" diff:"entry_point"`
+	WorkingDirectory string   `bson:"working_directory,omitempty" ion:"working_directory" dynamodbav:"working_directory,omitempty" parquet:"name=working_directory,type=BYTE_ARRAY,convertedtype=UTF8" json:"working_directory,omitempty" diff:"working_directory"`
 }
 
 type Layer struct {
-	Arn                      string `bson:"arn,omitempty" dynamodbav:"arn,omitempty" json:"arn,omitempty" diff:"arn"`
-	CodeSize                 int64  `bson:"code_size,omitempty" dynamodbav:"code_size,omitempty" json:"code_size,omitempty" diff:"code_size"`
-	SigningJobArn            string `bson:"signing_job_arn,omitempty" dynamodbav:"signing_job_arn,omitempty" json:"signing_job_arn,omitempty" diff:"signing_job_arn"`
-	SigningProfileVersionArn string `bson:"signing_profile_version_arn,omitempty" dynamodbav:"signing_profile_version_arn,omitempty" json:"signing_profile_version_arn,omitempty" diff:"signing_profile_version_arn"`
+	Arn                      string `bson:"arn,omitempty" ion:"arn" dynamodbav:"arn,omitempty" parquet:"name=arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"arn,omitempty" diff:"arn"`
+	CodeSize                 int64  `bson:"code_size,omitempty" ion:"code_size" dynamodbav:"code_size,omitempty" parquet:"name=code_size,type=INT64" json:"code_size,omitempty" diff:"code_size"`
+	SigningJobArn            string `bson:"signing_job_arn,omitempty" ion:"signing_job_arn" dynamodbav:"signing_job_arn,omitempty" parquet:"name=signing_job_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"signing_job_arn,omitempty" diff:"signing_job_arn"`
+	SigningProfileVersionArn string `bson:"signing_profile_version_arn,omitempty" ion:"signing_profile_version_arn" dynamodbav:"signing_profile_version_arn,omitempty" parquet:"name=signing_profile_version_arn,type=BYTE_ARRAY,convertedtype=UTF8" json:"signing_profile_version_arn,omitempty" diff:"signing_profile_version_arn"`
 }
 
 type TracingConfigResponse struct {
-	Mode string `bson:"mode,omitempty" dynamodbav:"mode,omitempty" json:"mode,omitempty" diff:"mode"`
+	Mode string `bson:"mode,omitempty" ion:"mode" dynamodbav:"mode,omitempty" parquet:"name=mode,type=BYTE_ARRAY,convertedtype=UTF8" json:"mode,omitempty" diff:"mode"`
 }
 
 type VpcConfigResponse struct {
-	SecurityGroupIds []string `bson:"security_group_ids,omitempty" dynamodbav:"security_group_ids,omitempty" json:"security_group_ids,omitempty" diff:"security_group_ids"`
-	SubnetIds        []string `bson:"subnet_ids,omitempty" dynamodbav:"subnet_ids,omitempty" json:"subnet_ids,omitempty" diff:"subnet_ids"`
-	VpcId            string   `bson:"vpc_id,omitempty" dynamodbav:"vpc_id,omitempty" json:"vpc_id,omitempty" diff:"vpc_id"`
+	SecurityGroupIds []string `bson:"security_group_ids,omitempty" ion:"security_group_ids" dynamodbav:"security_group_ids,omitempty" parquet:"name=security_group_ids,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"security_group_ids,omitempty" diff:"security_group_ids"`
+	SubnetIds        []string `bson:"subnet_ids,omitempty" ion:"subnet_ids" dynamodbav:"subnet_ids,omitempty" parquet:"name=subnet_ids,type=MAP,convertedtype=LIST,valuetype=BYTE_ARRAY,valueconvertedtype=UTF8" json:"subnet_ids,omitempty" diff:"subnet_ids"`
+	VpcId            string   `bson:"vpc_id,omitempty" ion:"vpc_id" dynamodbav:"vpc_id,omitempty" parquet:"name=vpc_id,type=BYTE_ARRAY,convertedtype=UTF8" json:"vpc_id,omitempty" diff:"vpc_id"`
 }

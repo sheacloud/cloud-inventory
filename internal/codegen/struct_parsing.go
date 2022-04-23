@@ -19,6 +19,7 @@ type FieldModel struct {
 	Name              string
 	Type              string
 	Tags              string
+	IsTimeField       bool
 	ReferencedStructs []*StructModel // Parsed structs referenced by this field, could be multiple if it's a map
 }
 
@@ -75,13 +76,21 @@ func ParseStructField(field *types.Var, excludedFields []string) (*FieldModel, e
 
 	fieldName := field.Name()
 
-	fieldTypeName, err := getTypeName(fieldType)
-	if err != nil {
-		return nil, err
-	}
-	// in the case that the field type can't be determined, like if it's an interface, do nothing
-	if fieldTypeName == "" {
-		return nil, nil
+	var fieldTypeName string
+	var err error
+	timeField := false
+	if isTimeField(fieldType.String()) {
+		fieldTypeName = "int64"
+		timeField = true
+	} else {
+		fieldTypeName, err = getTypeName(fieldType)
+		if err != nil {
+			return nil, err
+		}
+		// in the case that the field type can't be determined, like if it's an interface, do nothing
+		if fieldTypeName == "" {
+			return nil, nil
+		}
 	}
 
 	fieldTypeModels, err := parseReferencedStructs(fieldType, excludedFields)
@@ -93,6 +102,7 @@ func ParseStructField(field *types.Var, excludedFields []string) (*FieldModel, e
 		Name:              fieldName,
 		Type:              fieldTypeName,
 		ReferencedStructs: fieldTypeModels,
+		IsTimeField:       timeField,
 	}, nil
 
 }
@@ -137,6 +147,71 @@ func (p *StructModel) ConvertTagFields() {
 	}
 }
 
+func getParquetTags(field *FieldModel) string {
+	fieldSnakeCaseName := ToSnakeCase(field.Name)
+
+	tags := ""
+
+	parquetTags := "name=" + fieldSnakeCaseName
+	if strings.HasPrefix(field.Type, "[]") {
+		listType := field.Type[2:]
+
+		listTypeString := typeToParquetType(listType)
+		listConvertedTypeString := typeToParquetConvertedType(listType)
+		parquetTags += ",type=MAP,convertedtype=LIST"
+
+		if listTypeString != "" {
+			parquetTags += ",valuetype=" + listTypeString
+
+			if listConvertedTypeString != "" {
+				parquetTags += ",valueconvertedtype=" + listConvertedTypeString
+			}
+		}
+	} else if strings.HasPrefix(field.Type, "map") {
+		groups := mapRegex.FindStringSubmatch(field.Type)
+		if len(groups) != 3 {
+			fmt.Println(groups)
+			panic("map type not matched by regex: " + field.Type)
+		}
+		parquetTags += ",type=MAP"
+
+		keyTypeString := typeToParquetType(groups[1])
+		keyConvertedTypeString := typeToParquetConvertedType(groups[1])
+
+		valueTypeString := typeToParquetType(groups[2])
+		valueConvertedTypeString := typeToParquetConvertedType(groups[2])
+
+		if keyTypeString != "" {
+			parquetTags += ",keytype=" + keyTypeString
+		}
+		if valueTypeString != "" {
+			parquetTags += ",valuetype=" + valueTypeString
+		}
+		if keyConvertedTypeString != "" {
+			parquetTags += ",keyconvertedtype=" + keyConvertedTypeString
+		}
+		if valueConvertedTypeString != "" {
+			parquetTags += ",valueconvertedtype=" + valueConvertedTypeString
+		}
+	} else if field.IsTimeField {
+		parquetTags += ",type=INT64,convertedtype=TIMESTAMP_MILLIS"
+	} else {
+		typeString := typeToParquetType(field.Type)
+		convertedTypeString := typeToParquetConvertedType(field.Type)
+
+		if typeString != "" {
+			parquetTags += ",type=" + typeString
+		}
+		if convertedTypeString != "" {
+			parquetTags += ",convertedtype=" + convertedTypeString
+		}
+	}
+
+	tags += "parquet:\"" + parquetTags + "\""
+
+	return tags
+}
+
 func (p *StructModel) PopulateFieldTags(primaryObjectField string) {
 	for _, field := range p.Fields {
 
@@ -151,8 +226,13 @@ func (p *StructModel) PopulateFieldTags(primaryObjectField string) {
 			fieldSnakeCaseName = ToSnakeCase(field.Name)
 		}
 
+		// add mongodb tags
 		tags += "bson:\"" + fieldSnakeCaseName + ",omitempty\""
 
+		// add ion tags
+		tags += " ion:\"" + fieldSnakeCaseName + "\""
+
+		// add dynamodb tags
 		dynamodbTags := " dynamodbav:\"" + fieldSnakeCaseName
 		if field.Type == "time.Time" || field.Type == "*time.Time" {
 			dynamodbTags += ",unixtime"
@@ -162,6 +242,10 @@ func (p *StructModel) PopulateFieldTags(primaryObjectField string) {
 		}
 		dynamodbTags += "\""
 		tags += dynamodbTags
+
+		// add parquet tags
+		parquetTags := getParquetTags(field)
+		tags += " " + parquetTags
 
 		// add primary key tag
 		if field.Name == primaryObjectField {
@@ -205,12 +289,8 @@ func getTypeName(t types.Type) (string, error) {
 		default:
 			return getTypeName(k)
 		case *types.Struct:
-			if isTimeField(v.Obj().Type().String()) {
-				return "*" + v.Obj().Type().String(), nil
-			} else {
-				// always use pointers to structs since they may be optional in some cases
-				return "*" + v.Obj().Name(), nil
-			}
+			// always use pointers to structs since they may be optional in some cases
+			return "*" + v.Obj().Name(), nil
 		}
 	case *types.Array:
 		return fmt.Sprintf("[%v]", v.Len()), nil

@@ -52,7 +52,7 @@ func FetchPlacementGroups(ctx context.Context, params *aws.AwsFetchInput) ([]*Pl
 		for _, object := range output.PlacementGroups {
 
 			model := new(PlacementGroup)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

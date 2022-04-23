@@ -24,7 +24,7 @@ var (
 	}
 )
 
-type BaseConfig struct {
+type BaseDynamoConfig struct {
 	Resources []DynamoDBTable `hcl:"resource,block"`
 }
 
@@ -53,7 +53,7 @@ type GlobalSecondaryIndex struct {
 func GenerateDynamoDBTerraform() {
 	for _, service := range inventory.AwsCatalog {
 		hclFile := hclwrite.NewEmptyFile()
-		serviceConfig := BaseConfig{
+		serviceConfig := BaseDynamoConfig{
 			Resources: []DynamoDBTable{},
 		}
 		for _, resource := range service.Resources {
@@ -96,11 +96,108 @@ func GenerateDynamoDBTerraform() {
 			serviceConfig.Resources = append(serviceConfig.Resources, table)
 			gohcl.EncodeIntoBody(&serviceConfig, hclFile.Body())
 
-			filename := fmt.Sprintf("./terraform/autogen_aws_%s_dynamodb_tables.tf", service.ServiceName)
+			filename := fmt.Sprintf("./terraform/dynamodb/autogen_aws_%s_dynamodb_tables.tf", service.ServiceName)
 			err := os.WriteFile(filename, hclFile.Bytes(), 0755)
 			if err != nil {
 				panic(err)
 			}
 		}
+	}
+}
+
+type BaseGlueConfig struct {
+	Resources []GlueCatalogTable `hcl:"resource,block"`
+}
+
+type GlueCatalogTable struct {
+	ResourceLabel     string            `hcl:"resource_label,label"`
+	NameLabel         string            `hcl:"name_label,label"`
+	Name              string            `hcl:"name"`
+	DatabaseName      string            `hcl:"database_name"`
+	TableType         string            `hcl:"table_type"`
+	Parameters        map[string]string `hcl:"parameters"`
+	StorageDescriptor StorageDescriptor `hcl:"storage_descriptor,block"`
+	PartitionKeys     []PartitionKeys   `hcl:"partition_keys,block"`
+}
+
+type StorageDescriptor struct {
+	Location     string    `hcl:"location"`
+	InputFormat  string    `hcl:"input_format"`
+	OutputFormat string    `hcl:"output_format"`
+	SerDeInfo    SerDeInfo `hcl:"ser_de_info,block"`
+	Columns      []Columns `hcl:"columns,block"`
+}
+
+type SerDeInfo struct {
+	Name                 string            `hcl:"name"`
+	SerializationLibrary string            `hcl:"serialization_library"`
+	Parameters           map[string]string `hcl:"parameters"`
+}
+
+type Columns struct {
+	Name       string            `hcl:"name"`
+	Type       string            `hcl:"type"`
+	Comment    string            `hcl:"comment"`
+	Parameters map[string]string `hcl:"parameters"`
+}
+
+type PartitionKeys struct {
+	Name string `hcl:"name"`
+	Type string `hcl:"type"`
+}
+
+func GetFieldTypeString(fieldType reflect.Type) string {
+
+	if fieldType.Kind() == reflect.Ptr {
+		fieldType = fieldType.Elem()
+	}
+
+	if fieldType.Kind() == reflect.Struct {
+		//for each field of the struct, call GetFieldTypeString
+		parquetString := "struct<"
+		for i := 0; i < fieldType.NumField(); i++ {
+			subfieldType := fieldType.Field(i)
+
+			tag := subfieldType.Tag
+
+			parquetFieldName, err := GetParquetNameTag(tag)
+			if err != nil {
+				continue
+			}
+
+			var typeString string
+			if ParquetFieldIsTimestamp(tag) {
+				typeString = "timestamp"
+			} else {
+				typeString = GetFieldTypeString(subfieldType.Type)
+			}
+
+			parquetString += fmt.Sprintf("%s:%s", parquetFieldName, typeString)
+			if i != fieldType.NumField()-1 {
+				parquetString += ","
+			}
+		}
+		parquetString += ">"
+
+		return parquetString
+	} else if fieldType.Kind() == reflect.Array || fieldType.Kind() == reflect.Slice {
+		parquetString := "array<"
+		arrayType := fieldType.Elem()
+		parquetString += GetFieldTypeString(arrayType)
+		parquetString += ">"
+		return parquetString
+	} else if fieldType.Kind() == reflect.Map {
+		parquetString := "map<"
+		keyType := fieldType.Key()
+		elemType := fieldType.Elem()
+		keyString := GetFieldTypeString(keyType)
+		elemString := GetFieldTypeString(elemType)
+		parquetString += keyString
+		parquetString += ","
+		parquetString += elemString
+		parquetString += ">"
+		return parquetString
+	} else {
+		return FieldKindToType[fieldType.Kind()]
 	}
 }

@@ -52,7 +52,7 @@ func FetchBuckets(ctx context.Context, params *aws.AwsFetchInput) ([]*Bucket, *a
 		for _, object := range output.Buckets {
 
 			model := new(Bucket)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.AccountId = params.AccountId
 			model.Region = params.Region

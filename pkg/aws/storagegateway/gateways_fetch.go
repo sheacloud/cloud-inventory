@@ -51,7 +51,7 @@ func FetchGateways(ctx context.Context, params *localAws.AwsFetchInput) ([]*Gate
 				continue
 			}
 			model := new(Gateway)
-			copier.Copy(&model, &result)
+			copier.CopyWithOption(&model, &result, localAws.CopyOption)
 
 			model.Tags = ConvertTags(result.Tags)
 			model.AccountId = params.AccountId

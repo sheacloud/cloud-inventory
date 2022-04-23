@@ -24,7 +24,7 @@ import (
 // @name                        Authorization
 
 // @BasePath  /v1
-func GetRouter(dao db.DAO) *gin.Engine {
+func GetRouter(dao db.ReaderDAO) *gin.Engine {
 	router := gin.Default()
 
 	corsConfig := cors.DefaultConfig()

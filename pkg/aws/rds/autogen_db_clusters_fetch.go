@@ -42,7 +42,7 @@ func FetchDBClusters(ctx context.Context, params *aws.AwsFetchInput) ([]*DBClust
 		for _, object := range output.DBClusters {
 
 			model := new(DBCluster)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.TagList)
 			model.AccountId = params.AccountId

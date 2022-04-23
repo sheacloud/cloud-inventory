@@ -12,7 +12,7 @@ type AwsMetadata struct {
 }
 
 type AwsResourceMetadata struct {
-	DateTimes     []string `json:"datetimes"`
+	DateTimes     []int64  `json:"datetimes"`
 	IdField       string   `json:"id_field"`
 	DisplayFields []string `json:"display_fields"`
 }

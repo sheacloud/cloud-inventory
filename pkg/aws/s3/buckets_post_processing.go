@@ -46,7 +46,7 @@ func PostProcessBucket(ctx context.Context, params *localAws.AwsFetchInput, mode
 		return fmt.Errorf("error calling GetBucketReplication: %w", err)
 	} else {
 		replicationModel := new(ReplicationConfiguration)
-		copier.Copy(replicationModel, replicationOutput.ReplicationConfiguration)
+		copier.CopyWithOption(replicationModel, replicationOutput.ReplicationConfiguration, localAws.CopyOption)
 		model.ReplicationConfiguration = replicationModel
 	}
 
@@ -59,7 +59,7 @@ func PostProcessBucket(ctx context.Context, params *localAws.AwsFetchInput, mode
 	}
 	for _, grant := range aclOutput.Grants {
 		grantModel := new(Grant)
-		copier.Copy(grantModel, grant)
+		copier.CopyWithOption(grantModel, grant, localAws.CopyOption)
 		model.AclGrants = append(model.AclGrants, grantModel)
 	}
 
@@ -74,7 +74,7 @@ func PostProcessBucket(ctx context.Context, params *localAws.AwsFetchInput, mode
 	} else {
 		for _, rule := range corsOutput.CORSRules {
 			ruleModel := new(CORSRule)
-			copier.Copy(ruleModel, rule)
+			copier.CopyWithOption(ruleModel, rule, localAws.CopyOption)
 			model.CorsRules = append(model.CorsRules, ruleModel)
 		}
 	}
@@ -89,7 +89,7 @@ func PostProcessBucket(ctx context.Context, params *localAws.AwsFetchInput, mode
 		return fmt.Errorf("error calling GetBucketEncryption: %s", err)
 	} else {
 		encryptionModel := new(ServerSideEncryptionConfiguration)
-		copier.Copy(encryptionModel, encryptionOutput.ServerSideEncryptionConfiguration)
+		copier.CopyWithOption(encryptionModel, encryptionOutput.ServerSideEncryptionConfiguration, localAws.CopyOption)
 		model.ServerSideEncryptionConfiguration = encryptionModel
 	}
 
@@ -102,7 +102,7 @@ func PostProcessBucket(ctx context.Context, params *localAws.AwsFetchInput, mode
 	}
 	for _, tieringConfig := range tieringOutput.IntelligentTieringConfigurationList {
 		tieringModel := new(IntelligentTieringConfiguration)
-		copier.Copy(tieringModel, tieringConfig)
+		copier.CopyWithOption(tieringModel, tieringConfig, localAws.CopyOption)
 		model.IntelligentTieringConfigurations = append(model.IntelligentTieringConfigurations, tieringModel)
 	}
 
@@ -115,7 +115,7 @@ func PostProcessBucket(ctx context.Context, params *localAws.AwsFetchInput, mode
 	}
 	for _, inventoryConfig := range inventoryOutput.InventoryConfigurationList {
 		inventoryModel := new(InventoryConfiguration)
-		copier.Copy(inventoryModel, inventoryConfig)
+		copier.CopyWithOption(inventoryModel, inventoryConfig, localAws.CopyOption)
 		model.InventoryConfigurations = append(model.InventoryConfigurations, inventoryModel)
 	}
 
@@ -130,7 +130,7 @@ func PostProcessBucket(ctx context.Context, params *localAws.AwsFetchInput, mode
 	} else {
 		for _, rule := range lifecycleOutput.Rules {
 			ruleModel := new(LifecycleRule)
-			copier.Copy(ruleModel, rule)
+			copier.CopyWithOption(ruleModel, rule, localAws.CopyOption)
 			model.LifecycleRules = append(model.LifecycleRules, ruleModel)
 		}
 	}
@@ -143,7 +143,7 @@ func PostProcessBucket(ctx context.Context, params *localAws.AwsFetchInput, mode
 		return fmt.Errorf("error calling GetBucketLogging: %w", err)
 	}
 	loggingModel := new(LoggingEnabled)
-	copier.Copy(loggingModel, loggingOutput.LoggingEnabled)
+	copier.CopyWithOption(loggingModel, loggingOutput.LoggingEnabled, localAws.CopyOption)
 	model.Logging = loggingModel
 
 	// bucket policy

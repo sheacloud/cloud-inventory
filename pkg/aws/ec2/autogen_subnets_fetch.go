@@ -42,7 +42,7 @@ func FetchSubnets(ctx context.Context, params *aws.AwsFetchInput) ([]*Subnet, *a
 		for _, object := range output.Subnets {
 
 			model := new(Subnet)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

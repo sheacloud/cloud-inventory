@@ -42,7 +42,7 @@ func FetchInstances(ctx context.Context, params *aws.AwsFetchInput) ([]*Instance
 			for _, object := range reservation.Instances {
 
 				model := new(Instance)
-				copier.Copy(&model, &object)
+				copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 				model.Tags = ConvertTags(object.Tags)
 				model.AccountId = params.AccountId

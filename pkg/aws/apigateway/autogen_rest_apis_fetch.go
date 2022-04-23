@@ -42,7 +42,7 @@ func FetchRestApis(ctx context.Context, params *aws.AwsFetchInput) ([]*RestApi, 
 		for _, object := range output.Items {
 
 			model := new(RestApi)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.AccountId = params.AccountId
 			model.Region = params.Region

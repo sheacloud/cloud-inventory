@@ -3,6 +3,7 @@ package dynamodb
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -15,9 +16,9 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func GetItem(ctx context.Context, client *dynamodb.Client, tableName string, reportTime time.Time, id string, idAttributeName string) (map[string]types.AttributeValue, error) {
+func GetItem(ctx context.Context, client *dynamodb.Client, tableName string, reportTimeUnixMilli int64, id string, idAttributeName string) (map[string]types.AttributeValue, error) {
 	keyCondition := expression.Key(idAttributeName).Equal(expression.Value(id))
-	keyCondition = keyCondition.And(expression.Key("report_time").Equal(expression.Value(reportTime.UTC().Unix())))
+	keyCondition = keyCondition.And(expression.Key("report_time").Equal(expression.Value(reportTimeUnixMilli)))
 	expr, err := expression.NewBuilder().WithKeyCondition(keyCondition).Build()
 	if err != nil {
 		return nil, err
@@ -47,8 +48,8 @@ func GetItem(ctx context.Context, client *dynamodb.Client, tableName string, rep
 	return resp.Items[0], nil
 }
 
-func ListItems(ctx context.Context, client *dynamodb.Client, tableName string, reportTime time.Time, idAttributeName string, lastKey *string) ([]map[string]types.AttributeValue, *string, error) {
-	keyCondition := expression.Key("report_time").Equal(expression.Value(reportTime.UTC().Unix()))
+func ListItems(ctx context.Context, client *dynamodb.Client, tableName string, reportTimeUnixMilli int64, idAttributeName string, lastKey *string) ([]map[string]types.AttributeValue, *string, error) {
+	keyCondition := expression.Key("report_time").Equal(expression.Value(reportTimeUnixMilli))
 	expr, err := expression.NewBuilder().WithKeyCondition(keyCondition).Build()
 	if err != nil {
 		return nil, nil, err
@@ -56,9 +57,10 @@ func ListItems(ctx context.Context, client *dynamodb.Client, tableName string, r
 
 	var lastEvaluatedKey map[string]types.AttributeValue
 	if lastKey != nil {
-		reportTimeAV, _ := attributevalue.UnixTime(reportTime).MarshalDynamoDBAttributeValue()
 		lastEvaluatedKey = map[string]types.AttributeValue{
-			"report_time": reportTimeAV,
+			"report_time": &types.AttributeValueMemberN{
+				Value: strconv.FormatInt(reportTimeUnixMilli, 10),
+			},
 			idAttributeName: &types.AttributeValueMemberS{
 				Value: *lastKey,
 			},
@@ -149,7 +151,8 @@ func BatchWriteItems(ctx context.Context, client *dynamodb.Client, maxRetries in
 	return nil
 }
 
-func DistinctReportTimes(ctx context.Context, client *dynamodb.Client, reportDate time.Time, cloud, service, resource string) ([]string, error) {
+func DistinctReportTimes(ctx context.Context, client *dynamodb.Client, reportDateUnixMilli int64, cloud, service, resource string) ([]int64, error) {
+	reportDate := time.UnixMilli(reportDateUnixMilli)
 	reportDate = time.Date(reportDate.Year(), reportDate.Month(), reportDate.Day(), 0, 0, 0, 0, time.UTC)
 	lowerTime := expression.Value(reportDate.UTC().Unix())
 	upperTime := expression.Value(reportDate.UTC().AddDate(0, 0, 1).Unix())
@@ -160,7 +163,7 @@ func DistinctReportTimes(ctx context.Context, client *dynamodb.Client, reportDat
 		return nil, err
 	}
 
-	reportTimes := []string{}
+	reportTimes := []int64{}
 	var lastEvaluatedKey map[string]types.AttributeValue
 
 	for {
@@ -184,7 +187,7 @@ func DistinctReportTimes(ctx context.Context, client *dynamodb.Client, reportDat
 			return nil, err
 		}
 		for _, ingestion := range ingestions {
-			reportTimes = append(reportTimes, ingestion.ReportTime.Format(time.RFC3339))
+			reportTimes = append(reportTimes, ingestion.ReportTime)
 		}
 
 		if resp.LastEvaluatedKey != nil {
@@ -197,21 +200,21 @@ func DistinctReportTimes(ctx context.Context, client *dynamodb.Client, reportDat
 	return reportTimes, nil
 }
 
-func GetReportTime(ctx context.Context, client *dynamodb.Client, reportDate time.Time, timeSelection db.TimeSelection, timeReference time.Time, cloud, service, resource string) (*time.Time, error) {
+func GetReportTime(ctx context.Context, client *dynamodb.Client, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64, cloud, service, resource string) (*int64, error) {
 	if timeSelection == db.TimeSelectionAt {
-		return &timeReference, nil
+		return &timeReferenceUnixMilli, nil
 	}
+	reportDate := time.UnixMilli(reportDateUnixMilli)
 
-	timeReferenceInt := timeReference.UTC().Unix()
 	keyCondition := expression.Key("ingestion_key").Equal(expression.Value(cloud + ":" + service + ":" + resource))
 
 	switch timeSelection {
 	case db.TimeSelectionLatest:
-		keyCondition = keyCondition.And(expression.Key("report_time").LessThan(expression.Value(reportDate.AddDate(0, 0, 1).UTC().Unix())))
+		keyCondition = keyCondition.And(expression.Key("report_time").LessThan(expression.Value(reportDate.AddDate(0, 0, 1).UTC().UnixMilli())))
 	case db.TimeSelectionBefore:
-		keyCondition = keyCondition.And(expression.Key("report_time").LessThan(expression.Value(timeReferenceInt)))
+		keyCondition = keyCondition.And(expression.Key("report_time").LessThan(expression.Value(timeReferenceUnixMilli)))
 	case db.TimeSelectionAfter:
-		keyCondition = keyCondition.And(expression.Key("report_time").GreaterThan(expression.Value(timeReferenceInt)))
+		keyCondition = keyCondition.And(expression.Key("report_time").GreaterThan(expression.Value(timeReferenceUnixMilli)))
 	}
 
 	expr, err := expression.NewBuilder().WithKeyCondition(keyCondition).Build()

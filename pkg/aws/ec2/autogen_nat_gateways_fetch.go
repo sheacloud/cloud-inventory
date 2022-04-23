@@ -42,7 +42,7 @@ func FetchNatGateways(ctx context.Context, params *aws.AwsFetchInput) ([]*NatGat
 		for _, object := range output.NatGateways {
 
 			model := new(NatGateway)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

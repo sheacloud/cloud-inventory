@@ -42,7 +42,7 @@ func FetchTargetGroups(ctx context.Context, params *aws.AwsFetchInput) ([]*Targe
 		for _, object := range output.TargetGroups {
 
 			model := new(TargetGroup)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.AccountId = params.AccountId
 			model.Region = params.Region

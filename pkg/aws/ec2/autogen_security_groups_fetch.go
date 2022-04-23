@@ -42,7 +42,7 @@ func FetchSecurityGroups(ctx context.Context, params *aws.AwsFetchInput) ([]*Sec
 		for _, object := range output.SecurityGroups {
 
 			model := new(SecurityGroup)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

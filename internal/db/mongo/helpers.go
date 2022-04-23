@@ -7,17 +7,17 @@ import (
 
 	"github.com/sheacloud/cloud-inventory/internal/db"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func DistinctReportTimes(ctx context.Context, coll *mongo.Collection, reportDate time.Time) ([]string, error) {
+func DistinctReportTimes(ctx context.Context, coll *mongo.Collection, reportDateUnixMilli int64) ([]int64, error) {
+	reportDate := time.UnixMilli(reportDateUnixMilli)
 	filter := bson.D{
 		{"$and",
 			bson.A{
-				bson.D{{"report_time", bson.D{{"$gte", reportDate}}}},
-				bson.D{{"report_time", bson.D{{"$lt", reportDate.AddDate(0, 0, 1)}}}},
+				bson.D{{"report_time", bson.D{{"$gte", reportDateUnixMilli}}}},
+				bson.D{{"report_time", bson.D{{"$lt", reportDate.AddDate(0, 0, 1).UnixMilli()}}}},
 			},
 		},
 	}
@@ -25,40 +25,39 @@ func DistinctReportTimes(ctx context.Context, coll *mongo.Collection, reportDate
 	if err != nil {
 		return nil, err
 	}
-	reportTimes := make([]string, len(results))
+	reportTimes := make([]int64, len(results))
 	for i, result := range results {
-		reportTime := result.(primitive.DateTime)
-		reportTimes[i] = reportTime.Time().Format(time.RFC3339)
+		reportTimes[i] = result.(int64)
 	}
 
 	return reportTimes, nil
 }
 
-func GetReportTime(ctx context.Context, coll *mongo.Collection, reportDate time.Time, timeSelection db.TimeSelection, timeReference time.Time) (*time.Time, error) {
-
+func GetReportTime(ctx context.Context, coll *mongo.Collection, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	reportDate := time.UnixMilli(reportDateUnixMilli)
 	var filter bson.D
 	switch timeSelection {
 	case db.TimeSelectionLatest:
 		filter = bson.D{
 			{"$and",
 				bson.A{
-					bson.D{{"report_time", bson.D{{"$gte", reportDate}}}},
-					bson.D{{"report_time", bson.D{{"$lt", reportDate.AddDate(0, 0, 1)}}}},
+					bson.D{{"report_time", bson.D{{"$gte", reportDateUnixMilli}}}},
+					bson.D{{"report_time", bson.D{{"$lt", reportDate.AddDate(0, 0, 1).UnixMilli()}}}},
 				},
 			},
 		}
 	case db.TimeSelectionBefore:
-		filter = bson.D{{"report_time", bson.D{{"$lt", timeReference}}}}
+		filter = bson.D{{"report_time", bson.D{{"$lt", timeReferenceUnixMilli}}}}
 	case db.TimeSelectionAfter:
-		filter = bson.D{{"report_time", bson.D{{"$gt", timeReference}}}}
+		filter = bson.D{{"report_time", bson.D{{"$gt", timeReferenceUnixMilli}}}}
 	case db.TimeSelectionAt:
-		return &timeReference, nil
+		return &timeReferenceUnixMilli, nil
 	}
 
 	opts := options.FindOne().SetProjection(bson.D{{"report_time", 1}, {"_id", 0}}).SetSort(bson.D{{"report_time", -1}})
 
 	var result struct {
-		ReportTime *time.Time `bson:"report_time"`
+		ReportTime int64 `bson:"report_time"`
 	}
 	err := coll.FindOne(ctx, filter, opts).Decode(&result)
 	if err != nil {
@@ -66,5 +65,5 @@ func GetReportTime(ctx context.Context, coll *mongo.Collection, reportDate time.
 		return nil, err
 	}
 
-	return result.ReportTime, nil
+	return &result.ReportTime, nil
 }

@@ -42,7 +42,7 @@ func FetchLogGroups(ctx context.Context, params *aws.AwsFetchInput) ([]*LogGroup
 		for _, object := range output.LogGroups {
 
 			model := new(LogGroup)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.AccountId = params.AccountId
 			model.Region = params.Region

@@ -1,8 +1,6 @@
 package aws
 
 import (
-	"time"
-
 	"github.com/sheacloud/cloud-inventory/pkg/meta"
 )
 
@@ -10,7 +8,7 @@ type AwsFetchInput struct {
 	AccountId       string
 	Region          string
 	RegionalClients map[string]AwsClientInterface
-	ReportTime      time.Time
+	ReportTime      int64
 }
 
 type AwsFetchOutputMetadata struct {

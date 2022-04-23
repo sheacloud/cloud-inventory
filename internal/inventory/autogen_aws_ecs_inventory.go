@@ -8,10 +8,10 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/aws/ecs"
 )
 
-func IngestAwsECSClusters(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsECSClusters(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ecs.FetchClusters(ctx, input)
 	if resources != nil {
-		err := dao.AWS().ECS().PutClusters(ctx, resources)
+		err := dao.PutAwsECSClusters(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -20,10 +20,10 @@ func IngestAwsECSClusters(ctx context.Context, dao db.DAO, input *aws.AwsFetchIn
 	return metadata, nil
 }
 
-func IngestAwsECSServices(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsECSServices(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ecs.FetchServices(ctx, input)
 	if resources != nil {
-		err := dao.AWS().ECS().PutServices(ctx, resources)
+		err := dao.PutAwsECSServices(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -32,10 +32,10 @@ func IngestAwsECSServices(ctx context.Context, dao db.DAO, input *aws.AwsFetchIn
 	return metadata, nil
 }
 
-func IngestAwsECSTasks(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsECSTasks(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ecs.FetchTasks(ctx, input)
 	if resources != nil {
-		err := dao.AWS().ECS().PutTasks(ctx, resources)
+		err := dao.PutAwsECSTasks(ctx, resources)
 		if err != nil {
 			return nil, err
 		}

@@ -12,7 +12,7 @@ import (
 type AwsCatalogResource struct {
 	ResourceName  string
 	ResourceModel interface{}
-	FetchFunction func(context.Context, db.DAO, *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error)
+	FetchFunction func(context.Context, db.WriterDAO, *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error)
 	UniqueIdField string
 }
 

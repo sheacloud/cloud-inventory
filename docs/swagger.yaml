@@ -195,7 +195,7 @@ definitions:
           type: string
         type: array
       created_date:
-        type: string
+        type: integer
       description:
         type: string
       disable_execute_api_endpoint:
@@ -213,7 +213,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       resources:
         items:
           $ref: '#/definitions/apigateway.Resource'
@@ -248,7 +248,7 @@ definitions:
       client_certificate_id:
         type: string
       created_date:
-        type: string
+        type: integer
       deployment_id:
         type: string
       description:
@@ -256,7 +256,7 @@ definitions:
       documentation_version:
         type: string
       last_updated_date:
-        type: string
+        type: integer
       method_settings:
         additionalProperties:
           $ref: '#/definitions/apigateway.MethodSetting'
@@ -309,7 +309,7 @@ definitions:
       cors_configuration:
         $ref: '#/definitions/apigatewayv2.Cors'
       created_date:
-        type: string
+        type: integer
       description:
         type: string
       disable_execute_api_endpoint:
@@ -331,7 +331,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       route_selection_expression:
         type: string
       routes:
@@ -530,7 +530,7 @@ definitions:
       client_certificate_id:
         type: string
       created_date:
-        type: string
+        type: integer
       default_route_settings:
         $ref: '#/definitions/apigatewayv2.RouteSettings'
       deployment_id:
@@ -540,7 +540,7 @@ definitions:
       last_deployment_status_message:
         type: string
       last_updated_date:
-        type: string
+        type: integer
       route_settings:
         additionalProperties:
           $ref: '#/definitions/apigatewayv2.RouteSettings'
@@ -587,17 +587,17 @@ definitions:
       backup_plan_name:
         type: string
       creation_date:
-        type: string
+        type: integer
       creator_request_id:
         type: string
       deletion_date:
-        type: string
+        type: integer
       last_execution_date:
-        type: string
+        type: integer
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       selections:
         items:
           $ref: '#/definitions/backup.BackupSelectionsListMember'
@@ -614,7 +614,7 @@ definitions:
       backup_plan_id:
         type: string
       creation_date:
-        type: string
+        type: integer
       creator_request_id:
         type: string
       iam_role_arn:
@@ -635,13 +635,13 @@ definitions:
       backup_vault_name:
         type: string
       creation_date:
-        type: string
+        type: integer
       creator_request_id:
         type: string
       encryption_key_arn:
         type: string
       lock_date:
-        type: string
+        type: integer
       locked:
         type: boolean
       max_retention_days:
@@ -653,7 +653,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       tags:
         additionalProperties:
           type: string
@@ -684,7 +684,7 @@ definitions:
       latest_cloud_watch_logs_delivery_error:
         type: string
       latest_cloud_watch_logs_delivery_time:
-        type: string
+        type: integer
       latest_delivery_attempt_succeeded:
         type: string
       latest_delivery_attempt_time:
@@ -692,11 +692,11 @@ definitions:
       latest_delivery_error:
         type: string
       latest_delivery_time:
-        type: string
+        type: integer
       latest_digest_delivery_error:
         type: string
       latest_digest_delivery_time:
-        type: string
+        type: integer
       latest_notification_attempt_succeeded:
         type: string
       latest_notification_attempt_time:
@@ -704,11 +704,11 @@ definitions:
       latest_notification_error:
         type: string
       latest_notification_time:
-        type: string
+        type: integer
       start_logging_time:
-        type: string
+        type: integer
       stop_logging_time:
-        type: string
+        type: integer
       time_logging_started:
         type: string
       time_logging_stopped:
@@ -754,7 +754,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       s3_bucket_name:
         type: string
       s3_key_prefix:
@@ -796,7 +796,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       retention_in_days:
         type: integer
       stored_bytes:
@@ -807,7 +807,7 @@ definitions:
       archival_backup_arn:
         type: string
       archival_date_time:
-        type: string
+        type: integer
       archival_reason:
         type: string
     type: object
@@ -823,7 +823,7 @@ definitions:
       billing_mode:
         type: string
       last_update_to_pay_per_request_date_time:
-        type: string
+        type: integer
     type: object
   dynamodb.GlobalSecondaryIndexDescription:
     properties:
@@ -893,9 +893,9 @@ definitions:
   dynamodb.ProvisionedThroughputDescription:
     properties:
       last_decrease_date_time:
-        type: string
+        type: integer
       last_increase_date_time:
-        type: string
+        type: integer
       number_of_decreases_today:
         type: integer
       read_capacity_units:
@@ -921,7 +921,7 @@ definitions:
       region_name:
         type: string
       replica_inaccessible_date_time:
-        type: string
+        type: integer
       replica_status:
         type: string
       replica_status_description:
@@ -941,7 +941,7 @@ definitions:
   dynamodb.RestoreSummary:
     properties:
       restore_date_time:
-        type: string
+        type: integer
       restore_in_progress:
         type: boolean
       source_backup_arn:
@@ -952,7 +952,7 @@ definitions:
   dynamodb.SSEDescription:
     properties:
       inaccessible_encryption_date_time:
-        type: string
+        type: integer
       kms_master_key_arn:
         type: string
       sse_type:
@@ -982,7 +982,7 @@ definitions:
       billing_mode_summary:
         $ref: '#/definitions/dynamodb.BillingModeSummary'
       creation_date_time:
-        type: string
+        type: integer
       global_secondary_indexes:
         items:
           $ref: '#/definitions/dynamodb.GlobalSecondaryIndexDescription'
@@ -1012,7 +1012,7 @@ definitions:
           $ref: '#/definitions/dynamodb.ReplicaDescription'
         type: array
       report_time:
-        type: string
+        type: integer
       restore_summary:
         $ref: '#/definitions/dynamodb.RestoreSummary'
       sse_description:
@@ -1039,7 +1039,7 @@ definitions:
   dynamodb.TableClassSummary:
     properties:
       last_update_date_time:
-        type: string
+        type: integer
       table_class:
         type: string
     type: object
@@ -1078,7 +1078,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       tags:
         additionalProperties:
           type: string
@@ -1152,7 +1152,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       tags:
         additionalProperties:
           type: string
@@ -1189,7 +1189,7 @@ definitions:
   ec2.EbsInstanceBlockDevice:
     properties:
       attach_time:
-        type: string
+        type: integer
       delete_on_termination:
         type: boolean
       status:
@@ -1217,7 +1217,7 @@ definitions:
       elastic_inference_accelerator_association_state:
         type: string
       elastic_inference_accelerator_association_time:
-        type: string
+        type: integer
     type: object
   ec2.EnclaveOptions:
     properties:
@@ -1303,7 +1303,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       root_device_name:
         type: string
       root_device_type:
@@ -1382,7 +1382,7 @@ definitions:
       key_name:
         type: string
       launch_time:
-        type: string
+        type: integer
       licenses:
         items:
           $ref: '#/definitions/ec2.LicenseConfiguration'
@@ -1422,7 +1422,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       root_device_name:
         type: string
       root_device_type:
@@ -1452,7 +1452,7 @@ definitions:
       usage_operation:
         type: string
       usage_operation_update_time:
-        type: string
+        type: integer
       virtualization_type:
         type: string
       vpc_id:
@@ -1558,7 +1558,7 @@ definitions:
   ec2.InstanceNetworkInterfaceAttachment:
     properties:
       attach_time:
-        type: string
+        type: integer
       attachment_id:
         type: string
       delete_on_termination:
@@ -1605,7 +1605,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       tags:
         additionalProperties:
           type: string
@@ -1912,7 +1912,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       state:
         type: string
       state_message:
@@ -1938,9 +1938,9 @@ definitions:
       connectivity_type:
         type: string
       create_time:
-        type: string
+        type: integer
       delete_time:
-        type: string
+        type: integer
       failure_code:
         type: string
       failure_message:
@@ -1956,7 +1956,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       state:
         type: string
       subnet_id:
@@ -2002,7 +2002,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       tags:
         additionalProperties:
           type: string
@@ -2095,7 +2095,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       requester_id:
         type: string
       requester_managed:
@@ -2133,7 +2133,7 @@ definitions:
   ec2.NetworkInterfaceAttachment:
     properties:
       attach_time:
-        type: string
+        type: integer
       attachment_id:
         type: string
       delete_on_termination:
@@ -2215,7 +2215,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       state:
         type: string
       strategy:
@@ -2272,11 +2272,11 @@ definitions:
   ec2.ProvisionedBandwidth:
     properties:
       provision_time:
-        type: string
+        type: integer
       provisioned:
         type: string
       request_time:
-        type: string
+        type: integer
       requested:
         type: string
       status:
@@ -2302,7 +2302,7 @@ definitions:
       duration:
         type: integer
       end:
-        type: string
+        type: integer
       fixed_price:
         type: number
       instance_count:
@@ -2324,13 +2324,13 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       reserved_instances_id:
         type: string
       scope:
         type: string
       start:
-        type: string
+        type: integer
       state:
         type: string
       tags:
@@ -2394,7 +2394,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       route_table_id:
         type: string
       routes:
@@ -2455,7 +2455,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       tags:
         additionalProperties:
           type: string
@@ -2520,7 +2520,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       state:
         type: string
       subnet_arn:
@@ -2557,7 +2557,7 @@ definitions:
       account_id:
         type: string
       creation_time:
-        type: string
+        type: integer
       description:
         type: string
       options:
@@ -2567,7 +2567,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       state:
         type: string
       tags:
@@ -2613,11 +2613,11 @@ definitions:
       account_id:
         type: string
       creation_time:
-        type: string
+        type: integer
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       requester_tgw_info:
         $ref: '#/definitions/ec2.PeeringTgwInfo'
       state:
@@ -2638,7 +2638,7 @@ definitions:
       account_id:
         type: string
       creation_time:
-        type: string
+        type: integer
       default_association_route_table:
         type: boolean
       default_propagation_route_table:
@@ -2646,7 +2646,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       state:
         type: string
       tags:
@@ -2665,13 +2665,13 @@ definitions:
       account_id:
         type: string
       creation_time:
-        type: string
+        type: integer
       options:
         $ref: '#/definitions/ec2.TransitGatewayVpcAttachmentOptions'
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       state:
         type: string
       subnet_ids:
@@ -2730,7 +2730,7 @@ definitions:
       availability_zone:
         type: string
       create_time:
-        type: string
+        type: integer
       encrypted:
         type: boolean
       fast_restored:
@@ -2746,7 +2746,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       size:
         type: integer
       snapshot_id:
@@ -2767,7 +2767,7 @@ definitions:
   ec2.VolumeAttachment:
     properties:
       attach_time:
-        type: string
+        type: integer
       delete_on_termination:
         type: boolean
       device:
@@ -2806,7 +2806,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       state:
         type: string
       tags:
@@ -2846,7 +2846,7 @@ definitions:
       account_id:
         type: string
       creation_timestamp:
-        type: string
+        type: integer
       dns_entries:
         items:
           $ref: '#/definitions/ec2.DnsEntry'
@@ -2870,7 +2870,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       requester_managed:
         type: boolean
       route_table_ids:
@@ -2918,11 +2918,11 @@ definitions:
       account_id:
         type: string
       expiration_time:
-        type: string
+        type: integer
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       requester_vpc_info:
         $ref: '#/definitions/ec2.VpcPeeringConnectionVpcInfo'
       status:
@@ -2984,7 +2984,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       state:
         type: string
       tags:
@@ -3081,7 +3081,7 @@ definitions:
       registered_container_instances_count:
         type: integer
       report_time:
-        type: string
+        type: integer
       running_tasks_count:
         type: integer
       settings:
@@ -3190,7 +3190,7 @@ definitions:
           $ref: '#/definitions/ecs.CapacityProviderStrategyItem'
         type: array
       created_at:
-        type: string
+        type: integer
       desired_count:
         type: integer
       failed_tasks:
@@ -3218,7 +3218,7 @@ definitions:
       task_definition:
         type: string
       updated_at:
-        type: string
+        type: integer
     type: object
   ecs.DeploymentCircuitBreaker:
     properties:
@@ -3337,7 +3337,7 @@ definitions:
   ecs.ManagedAgent:
     properties:
       last_started_at:
-        type: string
+        type: integer
       last_status:
         type: string
       name:
@@ -3411,7 +3411,7 @@ definitions:
       cluster_arn:
         type: string
       created_at:
-        type: string
+        type: integer
       created_by:
         type: string
       deployment_configuration:
@@ -3457,7 +3457,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       role_arn:
         type: string
       running_count:
@@ -3526,7 +3526,7 @@ definitions:
       connectivity:
         type: string
       connectivity_at:
-        type: string
+        type: integer
       container_instance_arn:
         type: string
       containers:
@@ -3536,7 +3536,7 @@ definitions:
       cpu:
         type: string
       created_at:
-        type: string
+        type: integer
       desired_status:
         type: string
       enable_execute_command:
@@ -3544,7 +3544,7 @@ definitions:
       ephemeral_storage:
         $ref: '#/definitions/ecs.EphemeralStorage'
       execution_stopped_at:
-        type: string
+        type: integer
       group:
         type: string
       health_status:
@@ -3566,25 +3566,25 @@ definitions:
       platform_version:
         type: string
       pull_started_at:
-        type: string
+        type: integer
       pull_stopped_at:
-        type: string
+        type: integer
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       started_at:
-        type: string
+        type: integer
       started_by:
         type: string
       stop_code:
         type: string
       stopped_at:
-        type: string
+        type: integer
       stopped_reason:
         type: string
       stopping_at:
-        type: string
+        type: integer
       tags:
         additionalProperties:
           type: string
@@ -3628,7 +3628,7 @@ definitions:
       computed_desired_count:
         type: integer
       created_at:
-        type: string
+        type: integer
       external_id:
         type: string
       id:
@@ -3660,7 +3660,7 @@ definitions:
       stability_status:
         type: string
       stability_status_at:
-        type: string
+        type: integer
       started_by:
         type: string
       status:
@@ -3674,7 +3674,7 @@ definitions:
       task_set_arn:
         type: string
       updated_at:
-        type: string
+        type: integer
     type: object
   efs.FileSystem:
     properties:
@@ -3687,7 +3687,7 @@ definitions:
       availability_zone_name:
         type: string
       creation_time:
-        type: string
+        type: integer
       creation_token:
         type: string
       encrypted:
@@ -3713,7 +3713,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       size_in_bytes:
         $ref: '#/definitions/efs.FileSystemSize'
       tags:
@@ -3726,7 +3726,7 @@ definitions:
   efs.FileSystemSize:
     properties:
       timestamp:
-        type: string
+        type: integer
       value:
         type: integer
       value_in_ia:
@@ -3756,11 +3756,11 @@ definitions:
       auth_token_enabled:
         type: boolean
       auth_token_last_modified_date:
-        type: string
+        type: integer
       auto_minor_version_upgrade:
         type: boolean
       cache_cluster_create_time:
-        type: string
+        type: integer
       cache_cluster_id:
         type: string
       cache_cluster_status:
@@ -3810,7 +3810,7 @@ definitions:
       replication_group_log_delivery_enabled:
         type: boolean
       report_time:
-        type: string
+        type: integer
       security_groups:
         items:
           $ref: '#/definitions/elasticache.SecurityGroupMembership'
@@ -3829,7 +3829,7 @@ definitions:
   elasticache.CacheNode:
     properties:
       cache_node_create_time:
-        type: string
+        type: integer
       cache_node_id:
         type: string
       cache_node_status:
@@ -4046,7 +4046,7 @@ definitions:
       canonical_hosted_zone_name_id:
         type: string
       created_time:
-        type: string
+        type: integer
       dns_name:
         type: string
       health_check:
@@ -4066,7 +4066,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       scheme:
         type: string
       security_groups:
@@ -4267,7 +4267,7 @@ definitions:
       canonical_hosted_zone_id:
         type: string
       created_time:
-        type: string
+        type: integer
       customer_owned_ipv4_pool:
         type: string
       dns_name:
@@ -4285,7 +4285,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       scheme:
         type: string
       security_groups:
@@ -4389,7 +4389,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       tags:
         additionalProperties:
           type: string
@@ -4446,7 +4446,7 @@ definitions:
       access_key_id:
         type: string
       create_date:
-        type: string
+        type: integer
       status:
         type: string
     type: object
@@ -4477,7 +4477,7 @@ definitions:
           $ref: '#/definitions/iam.AttachedPolicy'
         type: array
       create_date:
-        type: string
+        type: integer
       group_id:
         type: string
       group_name:
@@ -4491,7 +4491,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       user_ids:
         items:
           type: string
@@ -4536,7 +4536,7 @@ definitions:
   iam.LoginProfile:
     properties:
       create_date:
-        type: string
+        type: integer
       password_reset_required:
         type: boolean
     type: object
@@ -4551,7 +4551,7 @@ definitions:
       attachment_count:
         type: integer
       create_date:
-        type: string
+        type: integer
       default_version_id:
         type: string
       description:
@@ -4569,13 +4569,13 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       tags:
         additionalProperties:
           type: string
         type: object
       update_date:
-        type: string
+        type: integer
     type: object
   iam.Role:
     properties:
@@ -4590,7 +4590,7 @@ definitions:
           $ref: '#/definitions/iam.AttachedPolicy'
         type: array
       create_date:
-        type: string
+        type: integer
       description:
         type: string
       inline_policies:
@@ -4606,7 +4606,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       role_id:
         type: string
       role_last_used:
@@ -4621,7 +4621,7 @@ definitions:
   iam.RoleLastUsed:
     properties:
       last_used_date:
-        type: string
+        type: integer
       region:
         type: string
     type: object
@@ -4642,7 +4642,7 @@ definitions:
           $ref: '#/definitions/iam.AttachedPolicy'
         type: array
       create_date:
-        type: string
+        type: integer
       group_ids:
         items:
           type: string
@@ -4654,7 +4654,7 @@ definitions:
       login_profile:
         $ref: '#/definitions/iam.LoginProfile'
       password_last_used:
-        type: string
+        type: integer
       path:
         type: string
       permissions_boundary:
@@ -4662,7 +4662,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       tags:
         additionalProperties:
           type: string
@@ -4737,7 +4737,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       revision_id:
         type: string
       role:
@@ -4869,7 +4869,7 @@ definitions:
       auto_minor_version_upgrade:
         type: boolean
       automatic_restart_time:
-        type: string
+        type: integer
       availability_zones:
         items:
           type: string
@@ -4887,7 +4887,7 @@ definitions:
       clone_group_id:
         type: string
       cluster_create_time:
-        type: string
+        type: integer
       copy_tags_to_snapshot:
         type: boolean
       cross_account_clone:
@@ -4925,9 +4925,9 @@ definitions:
           $ref: '#/definitions/rds.DomainMembership'
         type: array
       earliest_backtrack_time:
-        type: string
+        type: integer
       earliest_restorable_time:
-        type: string
+        type: integer
       enabled_cloudwatch_logs_exports:
         items:
           type: string
@@ -4955,7 +4955,7 @@ definitions:
       kms_key_id:
         type: string
       latest_restorable_time:
-        type: string
+        type: integer
       master_username:
         type: string
       monitoring_interval:
@@ -4993,7 +4993,7 @@ definitions:
       replication_source_identifier:
         type: string
       report_time:
-        type: string
+        type: integer
       scaling_configuration_info:
         $ref: '#/definitions/rds.ScalingConfigurationInfo'
       status:
@@ -5063,7 +5063,7 @@ definitions:
       auto_minor_version_upgrade:
         type: boolean
       automatic_restart_time:
-        type: string
+        type: integer
       automation_mode:
         type: string
       availability_zone:
@@ -5135,13 +5135,13 @@ definitions:
       iam_database_authentication_enabled:
         type: boolean
       instance_create_time:
-        type: string
+        type: integer
       iops:
         type: integer
       kms_key_id:
         type: string
       latest_restorable_time:
-        type: string
+        type: integer
       license_model:
         type: string
       listener_endpoint:
@@ -5197,9 +5197,9 @@ definitions:
       replica_mode:
         type: string
       report_time:
-        type: string
+        type: integer
       resume_full_automation_mode_time:
-        type: string
+        type: integer
       secondary_availability_zone:
         type: string
       status_infos:
@@ -5377,7 +5377,7 @@ definitions:
           $ref: '#/definitions/rds.ProcessorFeature'
         type: array
       resume_full_automation_mode_time:
-        type: string
+        type: integer
       storage_type:
         type: string
     type: object
@@ -5447,7 +5447,7 @@ definitions:
       cluster_availability_status:
         type: string
       cluster_create_time:
-        type: string
+        type: integer
       cluster_identifier:
         type: string
       cluster_namespace_arn:
@@ -5497,7 +5497,7 @@ definitions:
       enhanced_vpc_routing:
         type: boolean
       expected_next_snapshot_schedule_time:
-        type: string
+        type: integer
       expected_next_snapshot_schedule_time_status:
         type: string
       hsm_status:
@@ -5517,7 +5517,7 @@ definitions:
       modify_status:
         type: string
       next_maintenance_window_start_time:
-        type: string
+        type: integer
       node_type:
         type: string
       number_of_nodes:
@@ -5535,7 +5535,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       reserved_node_exchange_status:
         $ref: '#/definitions/redshift.ReservedNodeExchangeStatus'
       resize_info:
@@ -5631,11 +5631,11 @@ definitions:
   redshift.DeferredMaintenanceWindow:
     properties:
       defer_maintenance_end_time:
-        type: string
+        type: integer
       defer_maintenance_identifier:
         type: string
       defer_maintenance_start_time:
-        type: string
+        type: integer
     type: object
   redshift.ElasticIpStatus:
     properties:
@@ -5710,7 +5710,7 @@ definitions:
   redshift.ReservedNodeExchangeStatus:
     properties:
       request_time:
-        type: string
+        type: integer
       reserved_node_exchange_request_id:
         type: string
       source_reserved_node_count:
@@ -5787,7 +5787,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       resource_record_set_count:
         type: integer
       tags:
@@ -5840,7 +5840,7 @@ definitions:
     properties:
       datetimes:
         items:
-          type: string
+          type: integer
         type: array
       display_fields:
         items:
@@ -5892,7 +5892,7 @@ definitions:
           $ref: '#/definitions/s3.CORSRule'
         type: array
       creation_date:
-        type: string
+        type: integer
       intelligent_tiering_configurations:
         items:
           $ref: '#/definitions/s3.IntelligentTieringConfiguration'
@@ -5920,7 +5920,7 @@ definitions:
       replication_configuration:
         $ref: '#/definitions/s3.ReplicationConfiguration'
       report_time:
-        type: string
+        type: integer
       server_side_encryption_configuration:
         $ref: '#/definitions/s3.ServerSideEncryptionConfiguration'
       tags:
@@ -6091,7 +6091,7 @@ definitions:
   s3.LifecycleExpiration:
     properties:
       date:
-        type: string
+        type: integer
       days:
         type: integer
       expired_object_delete_marker:
@@ -6266,7 +6266,7 @@ definitions:
   s3.Transition:
     properties:
       date:
-        type: string
+        type: integer
       days:
         type: integer
       storage_class:
@@ -6319,7 +6319,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       subscription_arn:
         type: string
       subscription_role_arn:
@@ -6352,7 +6352,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       subscriptions_confirmed:
         type: integer
       subscriptions_deleted:
@@ -6422,7 +6422,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       tags:
         additionalProperties:
           type: string
@@ -6475,7 +6475,7 @@ definitions:
       region:
         type: string
       report_time:
-        type: string
+        type: integer
       software_updates_end_date:
         type: string
       supported_gateway_capacities:

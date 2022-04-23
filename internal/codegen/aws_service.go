@@ -63,20 +63,24 @@ type ChildConfig struct {
 var (
 	defaultAwsResourceFields = []*FieldModel{
 		{
-			Name: "AccountId",
-			Type: "string",
+			Name:        "AccountId",
+			Type:        "string",
+			IsTimeField: false,
 		},
 		{
-			Name: "Region",
-			Type: "string",
+			Name:        "Region",
+			Type:        "string",
+			IsTimeField: false,
 		},
 		{
-			Name: "ReportTime",
-			Type: "time.Time",
+			Name:        "ReportTime",
+			Type:        "int64",
+			IsTimeField: true,
 		},
 		{
-			Name: "InventoryUUID",
-			Type: "string",
+			Name:        "InventoryUUID",
+			Type:        "string",
+			IsTimeField: false,
 		},
 	}
 )
@@ -88,6 +92,9 @@ func GenerateAwsServiceCode(template *AwsTemplate) error {
 	interfacesDirectory := "./pkg/aws/interfaces/"
 	mongoDaoBaseDirectory := "./internal/db/mongo/"
 	dynamodbDaoBaseDirectory := "./internal/db/dynamodb/"
+	s3ionDaoBaseDirectory := "./internal/db/s3ion/"
+	s3parquetDaoBaseDirectory := "./internal/db/s3parquet/"
+	multiDaoBaseDirectory := "./internal/db/multi/"
 	inventoryBaseDirectory := "./internal/inventory/"
 
 	for _, service := range template.Services {
@@ -285,26 +292,6 @@ func GenerateAwsServiceCode(template *AwsTemplate) error {
 		outputFile.WriteString(metadataRouteFileCode)
 		outputFile.Close()
 
-		// generate the mongo dao code
-		outputPath = mongoDaoBaseDirectory + "autogen_aws_" + service.Name + "_dao.go"
-		outputFile, err = os.Create(outputPath)
-		if err != nil {
-			panic(err)
-		}
-		mongoDaoFileCode := serviceTemplate.GetMongoAwsServiceDaoFileCode()
-		outputFile.WriteString(mongoDaoFileCode)
-		outputFile.Close()
-
-		// generate the dynamodb dao code
-		outputPath = dynamodbDaoBaseDirectory + "autogen_aws_" + service.Name + "_dao.go"
-		outputFile, err = os.Create(outputPath)
-		if err != nil {
-			panic(err)
-		}
-		dynamodbDaoFileCode := serviceTemplate.GetDynamoDBAwsServiceDaoFileCode()
-		outputFile.WriteString(dynamodbDaoFileCode)
-		outputFile.Close()
-
 		// generate the inventory code
 		outputPath = inventoryBaseDirectory + "autogen_aws_" + service.Name + "_inventory.go"
 		outputFile, err = os.Create(outputPath)
@@ -363,12 +350,12 @@ func GenerateAwsServiceCode(template *AwsTemplate) error {
 	outputFile.Close()
 
 	// generate aws dao code
-	outputPath = "./internal/db/autogen_aws_dao.go"
+	outputPath = "./internal/db/autogen_dao.go"
 	outputFile, err = os.Create(outputPath)
 	if err != nil {
 		panic(err)
 	}
-	awsDaoCode := template.GetAwsDAOFileCode()
+	awsDaoCode := template.GetDAOFileCode()
 	outputFile.WriteString(awsDaoCode)
 	outputFile.Close()
 
@@ -390,6 +377,36 @@ func GenerateAwsServiceCode(template *AwsTemplate) error {
 	}
 	dynamodbDaoCode := template.GetDynamoDBDAOFileCode()
 	outputFile.WriteString(dynamodbDaoCode)
+	outputFile.Close()
+
+	// generate s3 ion dao code
+	outputPath = s3ionDaoBaseDirectory + "autogen_dao.go"
+	outputFile, err = os.Create(outputPath)
+	if err != nil {
+		panic(err)
+	}
+	s3IonDaoCode := template.GetS3IonDAOFileCode()
+	outputFile.WriteString(s3IonDaoCode)
+	outputFile.Close()
+
+	// generate s3 parquet dao code
+	outputPath = s3parquetDaoBaseDirectory + "autogen_dao.go"
+	outputFile, err = os.Create(outputPath)
+	if err != nil {
+		panic(err)
+	}
+	s3ParquetDaoCode := template.GetS3ParquetDAOFileCode()
+	outputFile.WriteString(s3ParquetDaoCode)
+	outputFile.Close()
+
+	// generate multi dao code
+	outputPath = multiDaoBaseDirectory + "autogen_dao.go"
+	outputFile, err = os.Create(outputPath)
+	if err != nil {
+		panic(err)
+	}
+	multiDaoCode := template.GetMultiDAOFileCode()
+	outputFile.WriteString(multiDaoCode)
 	outputFile.Close()
 
 	return nil

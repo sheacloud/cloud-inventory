@@ -33,7 +33,7 @@ func PostProcessBackupPlan(ctx context.Context, params *localAws.AwsFetchInput, 
 	model.Selections = []*BackupSelectionsListMember{}
 	for _, selection := range selectionsOutput.BackupSelectionsList {
 		selectionModel := new(BackupSelectionsListMember)
-		copier.Copy(&selectionModel, selection)
+		copier.CopyWithOption(&selectionModel, &selection, localAws.CopyOption)
 
 		model.Selections = append(model.Selections, selectionModel)
 	}

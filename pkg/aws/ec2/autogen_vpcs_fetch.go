@@ -42,7 +42,7 @@ func FetchVpcs(ctx context.Context, params *aws.AwsFetchInput) ([]*Vpc, *aws.Aws
 		for _, object := range output.Vpcs {
 
 			model := new(Vpc)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

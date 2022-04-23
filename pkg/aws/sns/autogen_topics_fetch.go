@@ -42,7 +42,7 @@ func FetchTopics(ctx context.Context, params *aws.AwsFetchInput) ([]*Topic, *aws
 		for _, object := range output.Topics {
 
 			model := new(Topic)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.AccountId = params.AccountId
 			model.Region = params.Region

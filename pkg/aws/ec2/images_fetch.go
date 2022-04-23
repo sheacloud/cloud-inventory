@@ -53,7 +53,7 @@ func FetchImages(ctx context.Context, params *aws.AwsFetchInput) ([]*Image, *aws
 		for _, object := range output.Images {
 
 			model := new(Image)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

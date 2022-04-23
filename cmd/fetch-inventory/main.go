@@ -7,7 +7,13 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
+
+	// "github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"github.com/sheacloud/cloud-inventory/internal/db"
 	dynamoDAO "github.com/sheacloud/cloud-inventory/internal/db/dynamodb"
+	"github.com/sheacloud/cloud-inventory/internal/db/multi"
+	s3ParquetDao "github.com/sheacloud/cloud-inventory/internal/db/s3parquet"
 	"github.com/sheacloud/cloud-inventory/internal/inventory"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -85,10 +91,8 @@ func main() {
 		panic(err)
 	}
 
-	// s3Client := s3.NewFromConfig(cfg)
+	s3Client := s3.NewFromConfig(cfg)
 	dynamoClient := dynamodb.NewFromConfig(cfg)
-
-	// fileManager := indexedstorage.NewIndexedFileManager(viper.GetString("s3_bucket"), "inventory/", "parquet", s3Client)
 
 	accountIDs := strings.Split(viper.GetString("aws_account_ids"), ",")
 	regions := strings.Split(viper.GetString("aws_regions"), ",")
@@ -99,7 +103,11 @@ func main() {
 	// }
 
 	// dao := mongoDAO.NewMongoDAO(client.Database("cloud-inventory"))
-	dao := dynamoDAO.NewDynamoDBDAO(dynamoClient, 3)
 
-	inventory.FetchAwsInventory(context.TODO(), accountIDs, regions, cfg, viper.GetBool("aws_use_local_credentials"), viper.GetString("aws_assume_role_name"), time.Now().UTC(), dao, viper.GetInt("aws_processor_routines"))
+	dynamoDao := dynamoDAO.NewDynamoDBWriterDAO(dynamoClient, 3)
+	s3Dao := s3ParquetDao.NewS3ParquetWriterDAO(s3Client, viper.GetString("s3_bucket"), 32)
+	multiDao := multi.NewMultiWriterDAO([]db.WriterDAO{dynamoDao, s3Dao})
+
+	inventory.FetchAwsInventory(context.TODO(), accountIDs, regions, cfg, viper.GetBool("aws_use_local_credentials"), viper.GetString("aws_assume_role_name"), time.Now().UTC().UnixMilli(), multiDao, viper.GetInt("aws_processor_routines"))
+	s3Dao.Close(context.TODO())
 }

@@ -59,7 +59,7 @@ func Fetch{{.ResourceConfig.ObjectPluralName}}(ctx context.Context, params *aws.
 		for _, object := range output.{{.ResourceConfig.ObjectResponseField}} {
 
 			model := new({{.ResourceConfig.ObjectSingularName}})
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			{{if .ShouldConvertTags}}model.Tags = ConvertTags(object.{{.TagListFieldName}}){{end}}
 			model.AccountId = params.AccountId

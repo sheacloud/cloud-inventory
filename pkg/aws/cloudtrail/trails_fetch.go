@@ -54,7 +54,7 @@ func FetchTrails(ctx context.Context, params *aws.AwsFetchInput) ([]*Trail, *aws
 			}
 
 			model := new(Trail)
-			copier.Copy(&model, &trailResponse.Trail)
+			copier.CopyWithOption(&model, &trailResponse.Trail, aws.CopyOption)
 
 			statusResponse, err := client.GetTrailStatus(ctx, &cloudtrail.GetTrailStatusInput{
 				Name: object.Name,
@@ -65,7 +65,7 @@ func FetchTrails(ctx context.Context, params *aws.AwsFetchInput) ([]*Trail, *aws
 				continue
 			}
 			model.Status = new(GetTrailStatusOutput)
-			copier.Copy(&model.Status, &statusResponse)
+			copier.CopyWithOption(&model.Status, &statusResponse, aws.CopyOption)
 
 			model.AccountId = params.AccountId
 			model.Region = params.Region

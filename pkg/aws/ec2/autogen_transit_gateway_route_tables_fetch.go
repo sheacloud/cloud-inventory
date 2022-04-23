@@ -42,7 +42,7 @@ func FetchTransitGatewayRouteTables(ctx context.Context, params *aws.AwsFetchInp
 		for _, object := range output.TransitGatewayRouteTables {
 
 			model := new(TransitGatewayRouteTable)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

@@ -13,6 +13,7 @@ var (
 
 	matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
 	matchAllCap   = regexp.MustCompile("([a-z0-9])([A-Z])")
+	mapRegex      = regexp.MustCompile(`map\[(.*)\](.*)`)
 )
 
 func Deduplicate(s []string) []string {
@@ -61,4 +62,34 @@ func isTimeField(s string) bool {
 
 func isTagField(s string) bool {
 	return s == "Tags" || s == "TagSet" || s == "TagList"
+}
+
+func typeToParquetType(s string) string {
+	switch s {
+	case "string":
+		return "BYTE_ARRAY"
+	case "int32":
+		return "INT32"
+	case "int":
+		return "INT32"
+	case "bool":
+		return "BOOLEAN"
+	case "int64":
+		return "INT64"
+	case "float32":
+		return "FLOAT"
+	case "float64":
+		return "DOUBLE"
+	default:
+		return ""
+	}
+}
+
+func typeToParquetConvertedType(s string) string {
+	switch s {
+	case "string":
+		return "UTF8"
+	default:
+		return ""
+	}
 }

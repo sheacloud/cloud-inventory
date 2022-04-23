@@ -65,7 +65,7 @@ func GetAwsMetadata(c *gin.Context) {
 	})
 }
 
-func AddMetadataRoutes(r *gin.RouterGroup, dao db.DAO) {
+func AddMetadataRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 
 	r.GET("/", GetAwsMetadata)
 
@@ -301,7 +301,7 @@ func AddMetadataRoutes(r *gin.RouterGroup, dao db.DAO) {
 
 }
 
-func AddInventoryRoutes(r *gin.RouterGroup, dao db.DAO) {
+func AddInventoryRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 
 	r.GET("/apigateway/rest_apis", func(c *gin.Context) {
 		apigateway.ListRestApis(c, dao)
@@ -669,7 +669,7 @@ func AddInventoryRoutes(r *gin.RouterGroup, dao db.DAO) {
 
 }
 
-func AddDiffRoutes(r *gin.RouterGroup, dao db.DAO) {
+func AddDiffRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 
 	r.GET("/apigateway/rest_apis", func(c *gin.Context) {
 		apigateway.DiffMultiRestApis(c, dao)

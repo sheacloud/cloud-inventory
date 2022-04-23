@@ -68,25 +68,29 @@ var (
 	awsServiceMetadataRouteTemplateString string
 	awsServiceMetadataRouteTemplate       = template.Must(template.New("awsServiceMetadataRoute").Funcs(funcMap).Parse(awsServiceMetadataRouteTemplateString))
 
-	//go:embed templates/aws_dao.tmpl
-	awsDaoTemplateString string
-	awsDaoTemplate       = template.Must(template.New("awsDao").Funcs(funcMap).Parse(awsDaoTemplateString))
+	//go:embed templates/dao.tmpl
+	daoTemplateString string
+	daoTemplate       = template.Must(template.New("awsDao").Funcs(funcMap).Parse(daoTemplateString))
 
 	//go:embed templates/mongo_dao.tmpl
 	mongoDaoTemplateString string
 	mongoDaoTemplate       = template.Must(template.New("mongoDao").Funcs(funcMap).Parse(mongoDaoTemplateString))
 
-	//go:embed templates/mongo_aws_service_dao.tmpl
-	mongoAwsServiceDaoTemplateString string
-	mongoAwsServiceDaoTemplate       = template.Must(template.New("mongoAwsServiceDao").Funcs(funcMap).Parse(mongoAwsServiceDaoTemplateString))
-
 	//go:embed templates/dynamodb_dao.tmpl
 	dynamodbDaoTemplateString string
 	dynamodbDaoTemplate       = template.Must(template.New("dynamodbDao").Funcs(funcMap).Parse(dynamodbDaoTemplateString))
 
-	//go:embed templates/dynamodb_aws_service_dao.tmpl
-	dynamodbAwsServiceDaoTemplateString string
-	dynamodbAwsServiceDaoTemplate       = template.Must(template.New("dynamodbAwsServiceDao").Funcs(funcMap).Parse(dynamodbAwsServiceDaoTemplateString))
+	//go:embed templates/s3_ion_dao.tmpl
+	s3IonDaoTemplateString string
+	s3IonDaoTemplate       = template.Must(template.New("s3IonDao").Funcs(funcMap).Parse(s3IonDaoTemplateString))
+
+	//go:embed templates/s3_parquet_dao.tmpl
+	s3ParquetDaoTemplateString string
+	s3ParquetDaoTemplate       = template.Must(template.New("s3ParquetDao").Funcs(funcMap).Parse(s3ParquetDaoTemplateString))
+
+	//go:embed templates/multi_dao.tmpl
+	multiDaoTemplateString string
+	multiDaoTemplate       = template.Must(template.New("multiDao").Funcs(funcMap).Parse(multiDaoTemplateString))
 )
 
 type AwsTemplate struct {
@@ -138,9 +142,9 @@ func (t *AwsTemplate) GetAwsRouterFileCode() string {
 	return buf.String()
 }
 
-func (t *AwsTemplate) GetAwsDAOFileCode() string {
+func (t *AwsTemplate) GetDAOFileCode() string {
 	var buf strings.Builder
-	err := awsDaoTemplate.Execute(&buf, t)
+	err := daoTemplate.Execute(&buf, t)
 	if err != nil {
 		panic(err)
 	}
@@ -159,6 +163,33 @@ func (t *AwsTemplate) GetMongoDAOFileCode() string {
 func (t *AwsTemplate) GetDynamoDBDAOFileCode() string {
 	var buf strings.Builder
 	err := dynamodbDaoTemplate.Execute(&buf, t)
+	if err != nil {
+		panic(err)
+	}
+	return buf.String()
+}
+
+func (t *AwsTemplate) GetS3IonDAOFileCode() string {
+	var buf strings.Builder
+	err := s3IonDaoTemplate.Execute(&buf, t)
+	if err != nil {
+		panic(err)
+	}
+	return buf.String()
+}
+
+func (t *AwsTemplate) GetS3ParquetDAOFileCode() string {
+	var buf strings.Builder
+	err := s3ParquetDaoTemplate.Execute(&buf, t)
+	if err != nil {
+		panic(err)
+	}
+	return buf.String()
+}
+
+func (t *AwsTemplate) GetMultiDAOFileCode() string {
+	var buf strings.Builder
+	err := multiDaoTemplate.Execute(&buf, t)
 	if err != nil {
 		panic(err)
 	}
@@ -195,24 +226,6 @@ func (t *AwsServiceTemplate) GetAwsHelpersFileCode() string {
 func (t *AwsServiceTemplate) GetServiceMetadataRouteFileCode() string {
 	var buf strings.Builder
 	err := awsServiceMetadataRouteTemplate.Execute(&buf, t)
-	if err != nil {
-		panic(err)
-	}
-	return buf.String()
-}
-
-func (t *AwsServiceTemplate) GetMongoAwsServiceDaoFileCode() string {
-	var buf strings.Builder
-	err := mongoAwsServiceDaoTemplate.Execute(&buf, t.ServiceConfig)
-	if err != nil {
-		panic(err)
-	}
-	return buf.String()
-}
-
-func (t *AwsServiceTemplate) GetDynamoDBAwsServiceDaoFileCode() string {
-	var buf strings.Builder
-	err := dynamodbAwsServiceDaoTemplate.Execute(&buf, t.ServiceConfig)
 	if err != nil {
 		panic(err)
 	}

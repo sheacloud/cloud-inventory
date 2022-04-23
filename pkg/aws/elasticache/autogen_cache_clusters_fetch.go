@@ -42,7 +42,7 @@ func FetchCacheClusters(ctx context.Context, params *aws.AwsFetchInput) ([]*Cach
 		for _, object := range output.CacheClusters {
 
 			model := new(CacheCluster)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.AccountId = params.AccountId
 			model.Region = params.Region

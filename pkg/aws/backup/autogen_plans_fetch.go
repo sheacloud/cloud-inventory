@@ -42,7 +42,7 @@ func FetchBackupPlans(ctx context.Context, params *aws.AwsFetchInput) ([]*Backup
 		for _, object := range output.BackupPlansList {
 
 			model := new(BackupPlan)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.AccountId = params.AccountId
 			model.Region = params.Region

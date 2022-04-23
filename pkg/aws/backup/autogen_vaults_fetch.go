@@ -42,7 +42,7 @@ func FetchBackupVaults(ctx context.Context, params *aws.AwsFetchInput) ([]*Backu
 		for _, object := range output.BackupVaultList {
 
 			model := new(BackupVault)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.AccountId = params.AccountId
 			model.Region = params.Region

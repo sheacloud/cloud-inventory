@@ -79,7 +79,7 @@ func FetchServices(ctx context.Context, params *localAws.AwsFetchInput) ([]*Serv
 				}
 				for _, service := range result.Services {
 					model := new(Service)
-					copier.Copy(&model, &service)
+					copier.CopyWithOption(&model, &service, localAws.CopyOption)
 
 					model.Tags = ConvertTags(service.Tags)
 					model.AccountId = params.AccountId

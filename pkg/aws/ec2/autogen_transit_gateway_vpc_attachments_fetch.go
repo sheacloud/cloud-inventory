@@ -42,7 +42,7 @@ func FetchTransitGatewayVpcAttachments(ctx context.Context, params *aws.AwsFetch
 		for _, object := range output.TransitGatewayVpcAttachments {
 
 			model := new(TransitGatewayVpcAttachment)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

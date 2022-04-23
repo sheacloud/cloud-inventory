@@ -8,10 +8,10 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/aws/backup"
 )
 
-func IngestAwsBackupBackupVaults(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsBackupBackupVaults(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := backup.FetchBackupVaults(ctx, input)
 	if resources != nil {
-		err := dao.AWS().Backup().PutBackupVaults(ctx, resources)
+		err := dao.PutAwsBackupBackupVaults(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -20,10 +20,10 @@ func IngestAwsBackupBackupVaults(ctx context.Context, dao db.DAO, input *aws.Aws
 	return metadata, nil
 }
 
-func IngestAwsBackupBackupPlans(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsBackupBackupPlans(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := backup.FetchBackupPlans(ctx, input)
 	if resources != nil {
-		err := dao.AWS().Backup().PutBackupPlans(ctx, resources)
+		err := dao.PutAwsBackupBackupPlans(ctx, resources)
 		if err != nil {
 			return nil, err
 		}

@@ -42,7 +42,7 @@ func FetchNetworkAcls(ctx context.Context, params *aws.AwsFetchInput) ([]*Networ
 		for _, object := range output.NetworkAcls {
 
 			model := new(NetworkAcl)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

@@ -42,7 +42,7 @@ func FetchRoles(ctx context.Context, params *aws.AwsFetchInput) ([]*Role, *aws.A
 		for _, object := range output.Roles {
 
 			model := new(Role)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

@@ -52,7 +52,7 @@ func FetchAddresses(ctx context.Context, params *aws.AwsFetchInput) ([]*Address,
 		for _, object := range output.Addresses {
 
 			model := new(Address)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

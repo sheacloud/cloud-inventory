@@ -8,10 +8,10 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/aws/ec2"
 )
 
-func IngestAwsEC2Addresses(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2Addresses(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchAddresses(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutAddresses(ctx, resources)
+		err := dao.PutAwsEC2Addresses(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -20,10 +20,10 @@ func IngestAwsEC2Addresses(ctx context.Context, dao db.DAO, input *aws.AwsFetchI
 	return metadata, nil
 }
 
-func IngestAwsEC2DhcpOptions(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2DhcpOptions(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchDhcpOptions(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutDhcpOptions(ctx, resources)
+		err := dao.PutAwsEC2DhcpOptions(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -32,10 +32,10 @@ func IngestAwsEC2DhcpOptions(ctx context.Context, dao db.DAO, input *aws.AwsFetc
 	return metadata, nil
 }
 
-func IngestAwsEC2Images(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2Images(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchImages(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutImages(ctx, resources)
+		err := dao.PutAwsEC2Images(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -44,10 +44,10 @@ func IngestAwsEC2Images(ctx context.Context, dao db.DAO, input *aws.AwsFetchInpu
 	return metadata, nil
 }
 
-func IngestAwsEC2Instances(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2Instances(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchInstances(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutInstances(ctx, resources)
+		err := dao.PutAwsEC2Instances(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -56,10 +56,10 @@ func IngestAwsEC2Instances(ctx context.Context, dao db.DAO, input *aws.AwsFetchI
 	return metadata, nil
 }
 
-func IngestAwsEC2InternetGateways(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2InternetGateways(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchInternetGateways(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutInternetGateways(ctx, resources)
+		err := dao.PutAwsEC2InternetGateways(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -68,10 +68,10 @@ func IngestAwsEC2InternetGateways(ctx context.Context, dao db.DAO, input *aws.Aw
 	return metadata, nil
 }
 
-func IngestAwsEC2ManagedPrefixLists(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2ManagedPrefixLists(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchManagedPrefixLists(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutManagedPrefixLists(ctx, resources)
+		err := dao.PutAwsEC2ManagedPrefixLists(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -80,10 +80,10 @@ func IngestAwsEC2ManagedPrefixLists(ctx context.Context, dao db.DAO, input *aws.
 	return metadata, nil
 }
 
-func IngestAwsEC2NatGateways(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2NatGateways(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchNatGateways(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutNatGateways(ctx, resources)
+		err := dao.PutAwsEC2NatGateways(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -92,10 +92,10 @@ func IngestAwsEC2NatGateways(ctx context.Context, dao db.DAO, input *aws.AwsFetc
 	return metadata, nil
 }
 
-func IngestAwsEC2NetworkAcls(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2NetworkAcls(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchNetworkAcls(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutNetworkAcls(ctx, resources)
+		err := dao.PutAwsEC2NetworkAcls(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -104,10 +104,10 @@ func IngestAwsEC2NetworkAcls(ctx context.Context, dao db.DAO, input *aws.AwsFetc
 	return metadata, nil
 }
 
-func IngestAwsEC2NetworkInterfaces(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2NetworkInterfaces(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchNetworkInterfaces(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutNetworkInterfaces(ctx, resources)
+		err := dao.PutAwsEC2NetworkInterfaces(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -116,10 +116,10 @@ func IngestAwsEC2NetworkInterfaces(ctx context.Context, dao db.DAO, input *aws.A
 	return metadata, nil
 }
 
-func IngestAwsEC2PlacementGroups(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2PlacementGroups(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchPlacementGroups(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutPlacementGroups(ctx, resources)
+		err := dao.PutAwsEC2PlacementGroups(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -128,10 +128,10 @@ func IngestAwsEC2PlacementGroups(ctx context.Context, dao db.DAO, input *aws.Aws
 	return metadata, nil
 }
 
-func IngestAwsEC2ReservedInstances(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2ReservedInstances(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchReservedInstances(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutReservedInstances(ctx, resources)
+		err := dao.PutAwsEC2ReservedInstances(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -140,10 +140,10 @@ func IngestAwsEC2ReservedInstances(ctx context.Context, dao db.DAO, input *aws.A
 	return metadata, nil
 }
 
-func IngestAwsEC2RouteTables(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2RouteTables(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchRouteTables(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutRouteTables(ctx, resources)
+		err := dao.PutAwsEC2RouteTables(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -152,10 +152,10 @@ func IngestAwsEC2RouteTables(ctx context.Context, dao db.DAO, input *aws.AwsFetc
 	return metadata, nil
 }
 
-func IngestAwsEC2SecurityGroups(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2SecurityGroups(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchSecurityGroups(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutSecurityGroups(ctx, resources)
+		err := dao.PutAwsEC2SecurityGroups(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -164,10 +164,10 @@ func IngestAwsEC2SecurityGroups(ctx context.Context, dao db.DAO, input *aws.AwsF
 	return metadata, nil
 }
 
-func IngestAwsEC2Subnets(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2Subnets(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchSubnets(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutSubnets(ctx, resources)
+		err := dao.PutAwsEC2Subnets(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -176,10 +176,10 @@ func IngestAwsEC2Subnets(ctx context.Context, dao db.DAO, input *aws.AwsFetchInp
 	return metadata, nil
 }
 
-func IngestAwsEC2TransitGatewayPeeringAttachments(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2TransitGatewayPeeringAttachments(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchTransitGatewayPeeringAttachments(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutTransitGatewayPeeringAttachments(ctx, resources)
+		err := dao.PutAwsEC2TransitGatewayPeeringAttachments(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -188,10 +188,10 @@ func IngestAwsEC2TransitGatewayPeeringAttachments(ctx context.Context, dao db.DA
 	return metadata, nil
 }
 
-func IngestAwsEC2TransitGatewayRouteTables(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2TransitGatewayRouteTables(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchTransitGatewayRouteTables(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutTransitGatewayRouteTables(ctx, resources)
+		err := dao.PutAwsEC2TransitGatewayRouteTables(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -200,10 +200,10 @@ func IngestAwsEC2TransitGatewayRouteTables(ctx context.Context, dao db.DAO, inpu
 	return metadata, nil
 }
 
-func IngestAwsEC2TransitGatewayVpcAttachments(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2TransitGatewayVpcAttachments(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchTransitGatewayVpcAttachments(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutTransitGatewayVpcAttachments(ctx, resources)
+		err := dao.PutAwsEC2TransitGatewayVpcAttachments(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -212,10 +212,10 @@ func IngestAwsEC2TransitGatewayVpcAttachments(ctx context.Context, dao db.DAO, i
 	return metadata, nil
 }
 
-func IngestAwsEC2TransitGateways(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2TransitGateways(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchTransitGateways(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutTransitGateways(ctx, resources)
+		err := dao.PutAwsEC2TransitGateways(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -224,10 +224,10 @@ func IngestAwsEC2TransitGateways(ctx context.Context, dao db.DAO, input *aws.Aws
 	return metadata, nil
 }
 
-func IngestAwsEC2Volumes(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2Volumes(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchVolumes(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutVolumes(ctx, resources)
+		err := dao.PutAwsEC2Volumes(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -236,10 +236,10 @@ func IngestAwsEC2Volumes(ctx context.Context, dao db.DAO, input *aws.AwsFetchInp
 	return metadata, nil
 }
 
-func IngestAwsEC2VpcEndpoints(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2VpcEndpoints(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchVpcEndpoints(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutVpcEndpoints(ctx, resources)
+		err := dao.PutAwsEC2VpcEndpoints(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -248,10 +248,10 @@ func IngestAwsEC2VpcEndpoints(ctx context.Context, dao db.DAO, input *aws.AwsFet
 	return metadata, nil
 }
 
-func IngestAwsEC2VpcPeeringConnections(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2VpcPeeringConnections(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchVpcPeeringConnections(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutVpcPeeringConnections(ctx, resources)
+		err := dao.PutAwsEC2VpcPeeringConnections(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -260,10 +260,10 @@ func IngestAwsEC2VpcPeeringConnections(ctx context.Context, dao db.DAO, input *a
 	return metadata, nil
 }
 
-func IngestAwsEC2Vpcs(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2Vpcs(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchVpcs(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutVpcs(ctx, resources)
+		err := dao.PutAwsEC2Vpcs(ctx, resources)
 		if err != nil {
 			return nil, err
 		}
@@ -272,10 +272,10 @@ func IngestAwsEC2Vpcs(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput)
 	return metadata, nil
 }
 
-func IngestAwsEC2VpnGateways(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsEC2VpnGateways(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := ec2.FetchVpnGateways(ctx, input)
 	if resources != nil {
-		err := dao.AWS().EC2().PutVpnGateways(ctx, resources)
+		err := dao.PutAwsEC2VpnGateways(ctx, resources)
 		if err != nil {
 			return nil, err
 		}

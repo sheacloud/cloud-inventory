@@ -42,7 +42,7 @@ func FetchHostedZones(ctx context.Context, params *aws.AwsFetchInput) ([]*Hosted
 		for _, object := range output.HostedZones {
 
 			model := new(HostedZone)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.AccountId = params.AccountId
 			model.Region = params.Region

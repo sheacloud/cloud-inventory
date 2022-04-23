@@ -42,7 +42,7 @@ func FetchDBInstances(ctx context.Context, params *aws.AwsFetchInput) ([]*DBInst
 		for _, object := range output.DBInstances {
 
 			model := new(DBInstance)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.TagList)
 			model.AccountId = params.AccountId

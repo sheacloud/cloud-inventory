@@ -6,6 +6,9 @@ import (
 )
 
 func ConvertTags(tags []types.{{.TagObjectName}}) map[string]string {
+	if len(tags) == 0 {
+		return nil
+	}
 	tagMap := make(map[string]string)
 	for _, tag := range tags {
 		tagMap[*tag.Key] = *tag.Value

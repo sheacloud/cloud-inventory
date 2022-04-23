@@ -23,7 +23,7 @@ func PostProcessRestApi(ctx context.Context, params *localAws.AwsFetchInput, mod
 	model.Resources = []*Resource{}
 	for _, resource := range resourcesResponse.Items {
 		resourceModel := new(Resource)
-		err = copier.Copy(&resourceModel, &resource)
+		err = copier.CopyWithOption(&resourceModel, &resource, localAws.CopyOption)
 		if err != nil {
 			return fmt.Errorf("error copying resource %s in %s/%s: %w", *resource.Id, params.AccountId, params.Region, err)
 		}
@@ -39,7 +39,7 @@ func PostProcessRestApi(ctx context.Context, params *localAws.AwsFetchInput, mod
 	model.Stages = []*Stage{}
 	for _, stage := range stagesResposne.Item {
 		stageModel := new(Stage)
-		err = copier.Copy(&stageModel, &stage)
+		err = copier.CopyWithOption(&stageModel, &stage, localAws.CopyOption)
 		if err != nil {
 			return fmt.Errorf("error copying stage %s in %s/%s: %w", *stage.StageName, params.AccountId, params.Region, err)
 		}

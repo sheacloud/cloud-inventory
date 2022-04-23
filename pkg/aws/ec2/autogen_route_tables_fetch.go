@@ -42,7 +42,7 @@ func FetchRouteTables(ctx context.Context, params *aws.AwsFetchInput) ([]*RouteT
 		for _, object := range output.RouteTables {
 
 			model := new(RouteTable)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId

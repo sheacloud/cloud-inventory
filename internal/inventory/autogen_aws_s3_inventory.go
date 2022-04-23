@@ -8,10 +8,10 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/aws/s3"
 )
 
-func IngestAwsS3Buckets(ctx context.Context, dao db.DAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
+func IngestAwsS3Buckets(ctx context.Context, dao db.WriterDAO, input *aws.AwsFetchInput) (*aws.AwsFetchOutputMetadata, error) {
 	resources, metadata := s3.FetchBuckets(ctx, input)
 	if resources != nil {
-		err := dao.AWS().S3().PutBuckets(ctx, resources)
+		err := dao.PutAwsS3Buckets(ctx, resources)
 		if err != nil {
 			return nil, err
 		}

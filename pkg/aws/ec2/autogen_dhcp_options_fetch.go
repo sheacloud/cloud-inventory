@@ -42,7 +42,7 @@ func FetchDhcpOptions(ctx context.Context, params *aws.AwsFetchInput) ([]*DhcpOp
 		for _, object := range output.DhcpOptions {
 
 			model := new(DhcpOptions)
-			copier.Copy(&model, &object)
+			copier.CopyWithOption(&model, &object, aws.CopyOption)
 
 			model.Tags = ConvertTags(object.Tags)
 			model.AccountId = params.AccountId
