@@ -3,7 +3,6 @@ package viewgen
 import (
 	"fmt"
 	"reflect"
-	"strings"
 
 	"github.com/fatih/structtag"
 	"github.com/sirupsen/logrus"
@@ -105,11 +104,11 @@ func GetModelViews(cloud, service, resource string, model interface{}) ([]ModelV
 			continue
 		}
 
-		parquetTag, err := tags.Get("parquet")
+		ionTag, err := tags.Get("ion")
 		if err != nil {
 			panic(err)
 		}
-		modelPrimaryKey = strings.Split(parquetTag.Name, "=")[1]
+		modelPrimaryKey = ionTag.Name
 	}
 
 	if modelPrimaryKey == "" {

@@ -39,7 +39,7 @@ func main() {
 		panic(err)
 	}
 
-	err = codegen.GenerateAwsServiceCode(&config, "pkg/awscloud/")
+	err = codegen.GenerateAwsServiceCode(&config)
 	if err != nil {
 		panic(err)
 	}

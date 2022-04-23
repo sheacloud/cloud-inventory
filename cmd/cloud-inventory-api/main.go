@@ -3,13 +3,19 @@ package main
 import (
 	"context"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
-	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/gin-gonic/gin"
-	_ "github.com/sheacloud/cloud-inventory/docs"
+	"github.com/sheacloud/cloud-inventory/docs"
 	"github.com/sheacloud/cloud-inventory/internal/api"
+	"github.com/sheacloud/cloud-inventory/internal/db"
+	dynamoDao "github.com/sheacloud/cloud-inventory/internal/db/dynamodb"
+	mongoDao "github.com/sheacloud/cloud-inventory/internal/db/mongo"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 var (
@@ -34,7 +40,17 @@ func initOptions() {
 	viper.BindEnv("log_caller")
 	viper.SetDefault("log_caller", false)
 
+	viper.BindEnv("api_url")
+	viper.SetDefault("api_url", "localhost:3000")
+
+	// DAO settings
+	viper.BindEnv("database_type")
+
 	viper.BindEnv("s3_bucket")
+
+	viper.BindEnv("mongo_uri")
+
+	viper.BindEnv("dynamodb_table_prefix")
 }
 
 func initLogging() {
@@ -47,9 +63,31 @@ func initLogging() {
 }
 
 func validateOptions() {
-	if viper.GetString("s3_bucket") == "" {
-		panic("s3_bucket is required")
+	if viper.GetString("database_type") == "" {
+		panic("database_type is required")
 	}
+	if viper.GetString("database_type") != "mongo" && viper.GetString("database_type") != "dynamodb" && viper.GetString("database_type") != "s3parquet" {
+		panic("database_type must be one of mongo, dynamodb, s3parquet")
+	}
+}
+
+func initializeDAO(cfg aws.Config) db.ReaderDAO {
+
+	switch viper.GetString("database_type") {
+	case "mongo":
+		client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(viper.GetString("mongo_uri")))
+		if err != nil {
+			panic(err)
+		}
+		mongoDAO := mongoDao.NewMongoReaderDAO(client.Database("cloud-inventory"), 3)
+		return mongoDAO
+	case "dynamodb":
+		dynamoClient := dynamodb.NewFromConfig(cfg)
+		dynamoDAO := dynamoDao.NewDynamoDBReaderDAO(dynamoClient, 3)
+		return dynamoDAO
+	}
+
+	panic("No database selected")
 }
 
 func init() {
@@ -57,28 +95,18 @@ func init() {
 	initLogging()
 	validateOptions()
 
+	docs.SwaggerInfo.Host = viper.GetString("api_url")
+
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		panic(err)
 	}
 
-	s3Client := s3.NewFromConfig(cfg)
+	dao := initializeDAO(cfg)
 
-	router = api.GetRouter(s3Client, viper.GetString("s3_bucket"))
+	router = api.GetRouter(dao)
 }
 
-// @title           Cloud Inventory API
-// @version         1.0
-// @description     Query Cloud Inventory
-
-// @contact.name   Jon Shea
-// @contact.email  cloud-inventory@sheacloud.com
-
-// @license.name  MIT
-// @license.url   https://opensource.org/licenses/MIT
-
-// @host      localhost:8080
-// @BasePath  /api/v1
 func main() {
-	router.Run()
+	router.Run("localhost:3000")
 }

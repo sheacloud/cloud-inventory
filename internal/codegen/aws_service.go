@@ -25,23 +25,25 @@ func (c *AwsServiceConfig) HasRegionOverride() bool {
 
 type AwsResourceConfig struct {
 	Name                string              `hcl:"name,label"`
-	FetchFunction       string              `hcl:"fetch_function,attr"`        // the API function used to fetch the resource
-	ObjectName          string              `hcl:"object_name,attr"`           // the name of the object in the API
-	ObjectPluralName    string              `hcl:"object_plural_name"`         // the plural name of the object in the API
-	ObjectUniqueId      string              `hcl:"object_unique_id,attr"`      // the name of a field in the object that uniquely identifies it
-	ObjectResponseField string              `hcl:"object_response_field,attr"` // the name of the object in the API response
-	ModelOnly           bool                `hcl:"model_only,attr"`            // whether or not to only generate data models, not fetching code
-	Pagination          bool                `hcl:"pagination,attr"`            // whether or not the API supports pagination
-	UsePostProcessing   bool                `hcl:"use_post_processing,attr"`   // whether or not to use post processing
-	ConvertTags         bool                `hcl:"convert_tags,attr"`          // whether or not to convert tags to map[string]string
-	TagFieldName        string              `hcl:"tag_field_name,optional"`    // the name of the field that contains the tags
+	FetchFunction       string              `hcl:"fetch_function,attr"`           // the API function used to fetch the resource
+	ObjectSourceName    string              `hcl:"object_source_name,attr"`       // the name of the object in the API
+	ObjectSingularName  string              `hcl:"object_singular_name,optional"` // the singular name of the object
+	ObjectPluralName    string              `hcl:"object_plural_name"`            // the plural name of the object
+	ObjectUniqueId      string              `hcl:"object_unique_id,attr"`         // the name of a field in the object that uniquely identifies it
+	ObjectResponseField string              `hcl:"object_response_field,attr"`    // the name of the object in the API response
+	ModelOnly           bool                `hcl:"model_only,attr"`               // whether or not to only generate data models, not fetching code
+	Pagination          bool                `hcl:"pagination,attr"`               // whether or not the API supports pagination
+	UsePostProcessing   bool                `hcl:"use_post_processing,attr"`      // whether or not to use post processing
+	ConvertTags         bool                `hcl:"convert_tags,attr"`             // whether or not to convert tags to map[string]string
+	TagFieldName        string              `hcl:"tag_field_name,optional"`       // the name of the field that contains the tags
+	DisplayFields       []string            `hcl:"display_fields,optional"`       // the fields to display when listing resources
 	ExcludedFields      []string            `hcl:"excluded_fields,optional"`
 	ExtraFields         []*ExtraFieldConfig `hcl:"extra_field,block"`
 	Children            []*ChildConfig      `hcl:"child,block"`
 }
 
 func (c AwsResourceConfig) ObjectUniqueIdSnakeCase() string {
-	return toSnakeCase(c.ObjectUniqueId)
+	return ToSnakeCase(c.ObjectUniqueId)
 }
 
 type ExtraFieldConfig struct {
@@ -50,41 +52,59 @@ type ExtraFieldConfig struct {
 }
 
 type ChildConfig struct {
-	ObjectName     string              `hcl:"object_name"`
-	NewFieldName   string              `hcl:"new_field_name"`
-	FieldType      string              `hcl:"field_type"`
-	ExcludedFields []string            `hcl:"excluded_fields,optional"`
-	ExtraFields    []*ExtraFieldConfig `hcl:"extra_field,block"`
-	Children       []*ChildConfig      `hcl:"child,block"`
+	ObjectSourceName string              `hcl:"object_source_name"`
+	NewFieldName     string              `hcl:"new_field_name"`
+	FieldType        string              `hcl:"field_type"`
+	ExcludedFields   []string            `hcl:"excluded_fields,optional"`
+	ExtraFields      []*ExtraFieldConfig `hcl:"extra_field,block"`
+	Children         []*ChildConfig      `hcl:"child,block"`
 }
 
 var (
 	defaultAwsResourceFields = []*FieldModel{
 		{
-			Name: "AccountId",
-			Type: "string",
+			Name:        "AccountId",
+			Type:        "string",
+			IsTimeField: false,
 		},
 		{
-			Name: "Region",
-			Type: "string",
+			Name:        "Region",
+			Type:        "string",
+			IsTimeField: false,
 		},
 		{
-			Name:                 "ReportTime",
-			Type:                 "int64",
-			IsConvertedTimeField: true,
+			Name:        "ReportTime",
+			Type:        "int64",
+			IsTimeField: true,
+		},
+		{
+			Name:        "InventoryUUID",
+			Type:        "string",
+			IsTimeField: false,
 		},
 	}
 )
 
-func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) error {
-	apiRoutesBaseDirectory := "./internal/api/routes/awscloud/"
+func GenerateAwsServiceCode(template *AwsTemplate) error {
+
+	apiRoutesBaseDirectory := "./internal/api/routes/aws/"
+	baseDirectory := "./pkg/aws/"
+	interfacesDirectory := "./pkg/aws/interfaces/"
+	mongoDaoBaseDirectory := "./internal/db/mongo/"
+	dynamodbDaoBaseDirectory := "./internal/db/dynamodb/"
+	s3ionDaoBaseDirectory := "./internal/db/s3ion/"
+	s3parquetDaoBaseDirectory := "./internal/db/s3parquet/"
+	multiDaoBaseDirectory := "./internal/db/multi/"
+	inventoryBaseDirectory := "./internal/inventory/"
 
 	for _, service := range template.Services {
 		logrus.Info("Generating code for service " + service.Name)
-		makeDir(outputBaseDirectory + "services/" + service.Name)
 
-		serviceApiRoutePath := apiRoutesBaseDirectory + service.Name + "/"
-		makeDir(serviceApiRoutePath)
+		serviceDirectory := baseDirectory + service.Name + "/"
+		makeDir(serviceDirectory)
+
+		serviceApiRoutesDirectory := apiRoutesBaseDirectory + service.Name + "/"
+		makeDir(serviceApiRoutesDirectory)
 
 		var resourceStructs []*StructModel
 		var allReferencedStructs []*StructModel
@@ -110,23 +130,26 @@ func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) e
 		}
 
 		for _, resource := range service.Resources {
+			if resource.ObjectSingularName == "" {
+				resource.ObjectSingularName = resource.ObjectSourceName
+			}
 			utilizedFunctions = append(utilizedFunctions, resource.FetchFunction)
 
 			var foundObject types.Object
 			for _, pkg := range servicePackages {
-				foundObject = pkg.Types.Scope().Lookup(resource.ObjectName)
+				foundObject = pkg.Types.Scope().Lookup(resource.ObjectSourceName)
 				if foundObject != nil {
 					break
 				}
 			}
 			if foundObject == nil {
-				return errors.New("Could not find object " + resource.ObjectName + " in any of the loaded packages")
+				return errors.New("Could not find object " + resource.ObjectSourceName + " in any of the loaded packages")
 			}
 
 			//object is a types.Object == types.TypeName, i.e. "type DescribeInstancesOutput struct {}..."
 			object := foundObject.(*types.TypeName).Type().(*types.Named)
 
-			structModel, err := ParseStruct(object, resource.ExcludedFields)
+			structModel, err := ParseStruct(object, resource.ExcludedFields, &resource.ObjectSingularName)
 			if err != nil {
 				return err
 			}
@@ -143,9 +166,6 @@ func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) e
 			// Add children
 			PopulateChildStructs(structModel, resource.Children, servicePackages)
 
-			// Create any time field conversions
-			structModel.AddConvertedTimeFields()
-
 			structModel.ConvertTagFields()
 
 			// determine the field tags
@@ -153,7 +173,6 @@ func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) e
 
 			referencedStructs := structModel.GetReferencedStructs()
 			for _, s := range referencedStructs {
-				s.AddConvertedTimeFields()
 				s.PopulateFieldTags(resource.ObjectUniqueId)
 			}
 
@@ -170,6 +189,7 @@ func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) e
 		for i, resource := range service.Resources {
 			template := AwsResourceTemplate{
 				ServiceName:       service.Name,
+				ServiceCapName:    service.ServiceCapName,
 				ResourceStruct:    resourceStructs[i],
 				ResourceConfig:    resource,
 				SdkClientName:     service.ServiceCapName,
@@ -178,7 +198,8 @@ func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) e
 			}
 			template.DetermineRequiredImports()
 
-			outputPath := outputBaseDirectory + "services/" + service.Name + "/autogen_" + resource.Name + "_model.go"
+			// generate the resource model
+			outputPath := serviceDirectory + "autogen_" + resource.Name + "_model.go"
 			outputFile, err := os.Create(outputPath)
 			if err != nil {
 				panic(err)
@@ -187,23 +208,20 @@ func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) e
 			outputFile.WriteString(resourceFileCode)
 			outputFile.Close()
 
+			// generate the resource fetching code
 			if !resource.ModelOnly {
-				outputPath = outputBaseDirectory + "services/" + service.Name + "/autogen_" + resource.Name + "_fetch.go"
+				outputPath = serviceDirectory + "autogen_" + resource.Name + "_fetch.go"
 				outputFile, err = os.Create(outputPath)
 				if err != nil {
 					panic(err)
 				}
-				fetchFileCode := template.GetFetchingFileCode()
+				fetchFileCode := template.GetAwsFetchingFileCode()
 				outputFile.WriteString(fetchFileCode)
 				outputFile.Close()
 			}
 
-			logrus.WithFields(logrus.Fields{
-				"service": service.Name,
-			}).Info("Generated code for " + resource.Name)
-
 			// generate the API route code
-			outputPath = serviceApiRoutePath + "autogen_" + resource.Name + "_route.go"
+			outputPath = serviceApiRoutesDirectory + "autogen_" + resource.Name + "_route.go"
 			outputFile, err = os.Create(outputPath)
 			if err != nil {
 				panic(err)
@@ -212,20 +230,24 @@ func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) e
 			outputFile.WriteString(routeFileCode)
 			outputFile.Close()
 
+			logrus.WithFields(logrus.Fields{
+				"service": service.Name,
+			}).Info("Generated code for " + resource.Name)
 		}
 
+		// generate the service sub-models
 		referencedTemplate := AwsReferencedResourceTemplate{
 			ServiceName:       service.Name,
 			ReferencedStructs: allReferencedStructs,
 		}
 		referencedTemplate.DetermineRequiredImports()
 
-		outputPath := outputBaseDirectory + "services/" + service.Name + "/" + "autogen_referenced_models.go"
+		outputPath := serviceDirectory + "autogen_referenced_models.go"
 		outputFile, err := os.Create(outputPath)
 		if err != nil {
 			panic(err)
 		}
-		referencedResourceFileCode := referencedTemplate.GetReferencedResourceFileCode()
+		referencedResourceFileCode := referencedTemplate.GetAwsReferencedResourceFileCode()
 		outputFile.WriteString(referencedResourceFileCode)
 		outputFile.Close()
 
@@ -236,32 +258,53 @@ func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) e
 			SdkPath:           service.SdkPath,
 			SdkClientName:     service.ServiceCapName,
 			UtilizedFunctions: utilizedFunctions,
+			ServiceConfig:     service,
 		}
 
-		outputPath = outputBaseDirectory + "interfaces/" + "autogen_" + service.Name + "_client.go"
+		outputPath = interfacesDirectory + "autogen_" + service.Name + "_client_interface.go"
 		outputFile, err = os.Create(outputPath)
 		if err != nil {
 			panic(err)
 		}
-		clientFileCode := serviceTemplate.GetServiceClientInterfaceFileCode()
+		clientFileCode := serviceTemplate.GetAwsServiceClientInterfaceFileCode()
 		outputFile.WriteString(clientFileCode)
 		outputFile.Close()
 
 		// generate the helper code
 		if service.TagObjectName != "" {
-			outputPath = outputBaseDirectory + "services/" + service.Name + "/autogen_helper.go"
+			outputPath = serviceDirectory + "autogen_helper.go"
 			outputFile, err = os.Create(outputPath)
 			if err != nil {
 				panic(err)
 			}
-			helperFileCode := serviceTemplate.GetHelpersFileCode()
+			helperFileCode := serviceTemplate.GetAwsHelpersFileCode()
 			outputFile.WriteString(helperFileCode)
 			outputFile.Close()
 		}
+
+		// generate the metadata route code
+		outputPath = serviceApiRoutesDirectory + "autogen_metadata_route.go"
+		outputFile, err = os.Create(outputPath)
+		if err != nil {
+			panic(err)
+		}
+		metadataRouteFileCode := serviceTemplate.GetServiceMetadataRouteFileCode()
+		outputFile.WriteString(metadataRouteFileCode)
+		outputFile.Close()
+
+		// generate the inventory code
+		outputPath = inventoryBaseDirectory + "autogen_aws_" + service.Name + "_inventory.go"
+		outputFile, err = os.Create(outputPath)
+		if err != nil {
+			panic(err)
+		}
+		serviceInventoryFileCode := serviceTemplate.GetAwsServiceInventoryFileCode()
+		outputFile.WriteString(serviceInventoryFileCode)
+		outputFile.Close()
 	}
 
-	// generate client interface code
-	outputPath := outputBaseDirectory + "interfaces/autogen_client.go"
+	// generate aws client interface code
+	outputPath := baseDirectory + "autogen_client_interface.go"
 	outputFile, err := os.Create(outputPath)
 	if err != nil {
 		panic(err)
@@ -269,22 +312,22 @@ func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) e
 	clientInterfaceCode := template.GetClientInterfaceFileCode()
 	outputFile.WriteString(clientInterfaceCode)
 
-	// generate client code
-	outputPath = outputBaseDirectory + "autogen_client.go"
+	// generate aws client code
+	outputPath = baseDirectory + "autogen_client.go"
 	outputFile, err = os.Create(outputPath)
 	if err != nil {
 		panic(err)
 	}
-	clientCode := template.GetClientFileCode()
+	clientCode := template.GetAwsClientFileCode()
 	outputFile.WriteString(clientCode)
 
 	// generate catalog code
-	outputPath = "./internal/inventory/autogen_aws_catalog.go"
+	outputPath = inventoryBaseDirectory + "autogen_aws_catalog.go"
 	outputFile, err = os.Create(outputPath)
 	if err != nil {
 		panic(err)
 	}
-	catalogCode := template.GetCatalogFileCode()
+	catalogCode := template.GetAwsCatalogFileCode()
 	outputFile.WriteString(catalogCode)
 
 	// generate the implemented resources markdown
@@ -297,13 +340,73 @@ func GenerateAwsServiceCode(template *AwsTemplate, outputBaseDirectory string) e
 	outputFile.WriteString(implementedResourcesCode)
 
 	// generate aws router code
-	outputPath = "./internal/api/routes/awscloud/router.go"
+	outputPath = apiRoutesBaseDirectory + "autogen_router.go"
 	outputFile, err = os.Create(outputPath)
 	if err != nil {
 		panic(err)
 	}
 	awsRouterCode := template.GetAwsRouterFileCode()
 	outputFile.WriteString(awsRouterCode)
+	outputFile.Close()
+
+	// generate aws dao code
+	outputPath = "./internal/db/autogen_dao.go"
+	outputFile, err = os.Create(outputPath)
+	if err != nil {
+		panic(err)
+	}
+	awsDaoCode := template.GetDAOFileCode()
+	outputFile.WriteString(awsDaoCode)
+	outputFile.Close()
+
+	// generate mongo dao code
+	outputPath = mongoDaoBaseDirectory + "autogen_dao.go"
+	outputFile, err = os.Create(outputPath)
+	if err != nil {
+		panic(err)
+	}
+	mongoDaoCode := template.GetMongoDAOFileCode()
+	outputFile.WriteString(mongoDaoCode)
+	outputFile.Close()
+
+	// generate dynamodb dao code
+	outputPath = dynamodbDaoBaseDirectory + "autogen_dao.go"
+	outputFile, err = os.Create(outputPath)
+	if err != nil {
+		panic(err)
+	}
+	dynamodbDaoCode := template.GetDynamoDBDAOFileCode()
+	outputFile.WriteString(dynamodbDaoCode)
+	outputFile.Close()
+
+	// generate s3 ion dao code
+	outputPath = s3ionDaoBaseDirectory + "autogen_dao.go"
+	outputFile, err = os.Create(outputPath)
+	if err != nil {
+		panic(err)
+	}
+	s3IonDaoCode := template.GetS3IonDAOFileCode()
+	outputFile.WriteString(s3IonDaoCode)
+	outputFile.Close()
+
+	// generate s3 parquet dao code
+	outputPath = s3parquetDaoBaseDirectory + "autogen_dao.go"
+	outputFile, err = os.Create(outputPath)
+	if err != nil {
+		panic(err)
+	}
+	s3ParquetDaoCode := template.GetS3ParquetDAOFileCode()
+	outputFile.WriteString(s3ParquetDaoCode)
+	outputFile.Close()
+
+	// generate multi dao code
+	outputPath = multiDaoBaseDirectory + "autogen_dao.go"
+	outputFile, err = os.Create(outputPath)
+	if err != nil {
+		panic(err)
+	}
+	multiDaoCode := template.GetMultiDAOFileCode()
+	outputFile.WriteString(multiDaoCode)
 	outputFile.Close()
 
 	return nil
@@ -313,19 +416,19 @@ func PopulateChildStructs(structModel *StructModel, children []*ChildConfig, ser
 	for _, child := range children {
 		var foundObject types.Object
 		for _, pkg := range servicePackages {
-			foundObject = pkg.Types.Scope().Lookup(child.ObjectName)
+			foundObject = pkg.Types.Scope().Lookup(child.ObjectSourceName)
 			if foundObject != nil {
 				break
 			}
 		}
 		if foundObject == nil {
-			panic("Could not find object " + child.ObjectName + " in any of the loaded packages")
+			panic("Could not find object " + child.ObjectSourceName + " in any of the loaded packages")
 		}
 
 		//object is a types.Object == types.TypeName, i.e. "type DescribeInstancesOutput struct {}..."
 		object := foundObject.(*types.TypeName).Type().(*types.Named)
 
-		childStructModel, err := ParseStruct(object, child.ExcludedFields)
+		childStructModel, err := ParseStruct(object, child.ExcludedFields, nil)
 		if err != nil {
 			panic(err)
 		}

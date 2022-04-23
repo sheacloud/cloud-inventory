@@ -1,108 +1,121 @@
 package routes
 
 import (
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/sheacloud/cloud-inventory/internal/indexedstorage"
+	"github.com/sheacloud/cloud-inventory/internal/db"
 )
 
 type AwsQueryParameters struct {
-	ReportDate                   *string   `form:"report_date"`
-	AccountId                    *string   `form:"account_id"`
-	Region                       *string   `form:"region"`
-	TimeSelection                *string   `form:"time_selection"`
-	TimeSelectionReferenceString *string   `form:"time_selection_reference"`
-	TimeSelectionReference       time.Time `form:"-"`
+	ReportDate             *string           `form:"report_date"`
+	ReportDateUnixMilli    int64             `form:"-"`
+	AccountId              *string           `form:"account_id"`
+	Region                 *string           `form:"region"`
+	TimeSelection          *db.TimeSelection `form:"time_selection"`
+	TimeSelectionReference int64             `form:"time_selection_reference"`
+	PaginationToken        *string           `form:"pagination_token"`
+	PaginationData         *PaginationData   `form:"-"`
+	MaxResults             *int              `form:"max_results"`
+}
+
+type PaginationData struct {
+	DataFileKeys     []string `json:"data_file_keys"`
+	CurrentFileIndex int      `json:"current_file_index"`
+	CurrentRowIndex  int      `json:"current_row_index"`
 }
 
 func (p *AwsQueryParameters) Process() error {
+	var err error
 	if p.ReportDate == nil {
 		p.ReportDate = aws.String(time.Now().UTC().Format("2006-01-02"))
 	}
-	if p.TimeSelection == nil {
-		p.TimeSelection = aws.String("latest")
-		p.TimeSelectionReference = time.Time{}
+	reportDate, err := time.Parse("2006-01-02", *p.ReportDate)
+	if err != nil {
+		return err
 	}
-	if *p.TimeSelection != "latest" && p.TimeSelectionReferenceString == nil {
+	p.ReportDateUnixMilli = reportDate.UnixMilli()
+
+	if p.TimeSelection == nil {
+		selection := db.TimeSelectionLatest
+		p.TimeSelection = &selection
+		p.TimeSelectionReference = 0
+	}
+	if *p.TimeSelection != "latest" && p.TimeSelectionReference == 0 {
 		return fmt.Errorf("time_selection_reference must be set when time_selection is not 'latest'")
 	}
-	if p.TimeSelectionReferenceString != nil {
-		parsedTime, err := time.Parse(time.RFC3339, *p.TimeSelectionReferenceString)
+	if p.PaginationToken != nil {
+		dataBytes, err := base64.URLEncoding.DecodeString(*p.PaginationToken)
 		if err != nil {
-			return fmt.Errorf("time_selection_reference must be a valid RFC3339 timestamp")
+			return err
 		}
-		p.TimeSelectionReference = parsedTime
+		paginationData := PaginationData{}
+		err = json.Unmarshal(dataBytes, &paginationData)
+		if err != nil {
+			return err
+		}
+		p.PaginationData = &paginationData
+	}
+	if p.MaxResults == nil {
+		p.MaxResults = aws.Int(100)
+	} else {
+		if *p.MaxResults < 1 {
+			return fmt.Errorf("max_results must be >= 1")
+		} else if *p.MaxResults > 100 {
+			return fmt.Errorf("max_results must be <= 100")
+		}
 	}
 
 	return nil
-}
-
-func (p *AwsQueryParameters) GetRequestTimeSelection() indexedstorage.RequestTimeSelection {
-	return indexedstorage.RequestTimeSelection{
-		Option:         indexedstorage.RequestTimeSelectionOption(*p.TimeSelection),
-		ReferencedTime: p.TimeSelectionReference,
-	}
 }
 
 type AwsDiffParameters struct {
-	StartReportDate                   *string   `form:"start_report_date" binding:"required"`
-	StartTimeSelection                *string   `form:"start_time_selection"`
-	StartTimeSelectionReferenceString *string   `form:"start_time_selection_reference"`
-	StartTimeSelectionReference       time.Time `form:"-"`
-	EndReportDate                     *string   `form:"end_report_date" binding:"required"`
-	EndTimeSelection                  *string   `form:"end_time_selection"`
-	EndTimeSelectionReferenceString   *string   `form:"end_time_selection_reference"`
-	EndTimeSelectionReference         time.Time `form:"-"`
-	AccountId                         *string   `form:"account_id"`
-	Region                            *string   `form:"region"`
+	StartReportDate             *string           `form:"start_report_date" binding:"required"`
+	StartReportDateUnixMilli    int64             `form:"-"`
+	StartTimeSelection          *db.TimeSelection `form:"start_time_selection"`
+	StartTimeSelectionReference int64             `form:"start_time_selection_reference"`
+	EndReportDate               *string           `form:"end_report_date" binding:"required"`
+	EndReportDateUnixMilli      int64             `form:"-"`
+	EndTimeSelection            *db.TimeSelection `form:"end_time_selection"`
+	EndTimeSelectionReference   int64             `form:"end_time_selection_reference"`
+	AccountId                   *string           `form:"account_id"`
+	Region                      *string           `form:"region"`
 }
 
 func (p *AwsDiffParameters) Process() error {
+	var err error
+	startReportDate, err := time.Parse("2006-01-02", *p.StartReportDate)
+	if err != nil {
+		return err
+	}
+	p.StartReportDateUnixMilli = startReportDate.UnixMilli()
+
+	endReportDate, err := time.Parse("2006-01-02", *p.EndReportDate)
+	if err != nil {
+		return err
+	}
+	p.EndReportDateUnixMilli = endReportDate.UnixMilli()
+
 	if p.StartTimeSelection == nil {
-		p.StartTimeSelection = aws.String("latest")
-		p.StartTimeSelectionReference = time.Time{}
+		tmp := db.TimeSelectionLatest
+		p.StartTimeSelection = &tmp
+		p.StartTimeSelectionReference = 0
 	}
-	if *p.StartTimeSelection != "latest" && p.StartTimeSelectionReferenceString == nil {
+	if *p.StartTimeSelection != "latest" && p.StartTimeSelectionReference == 0 {
 		return fmt.Errorf("start_time_selection_reference must be set when start_time_selection is not 'latest'")
-	}
-	if p.StartTimeSelectionReferenceString != nil {
-		parsedTime, err := time.Parse(time.RFC3339, *p.StartTimeSelectionReferenceString)
-		if err != nil {
-			return fmt.Errorf("start_time_selection_reference must be a valid RFC3339 timestamp")
-		}
-		p.StartTimeSelectionReference = parsedTime
 	}
 
 	if p.EndTimeSelection == nil {
-		p.EndTimeSelection = aws.String("latest")
-		p.EndTimeSelectionReference = time.Time{}
+		tmp := db.TimeSelectionLatest
+		p.EndTimeSelection = &tmp
+		p.EndTimeSelectionReference = 0
 	}
-	if *p.EndTimeSelection != "latest" && p.EndTimeSelectionReferenceString == nil {
+	if *p.EndTimeSelection != "latest" && p.EndTimeSelectionReference == 0 {
 		return fmt.Errorf("end_time_selection_reference must be set when end_time_selection is not 'latest'")
-	}
-	if p.EndTimeSelectionReferenceString != nil {
-		parsedTime, err := time.Parse(time.RFC3339, *p.EndTimeSelectionReferenceString)
-		if err != nil {
-			return fmt.Errorf("end_time_selection_reference must be a valid RFC3339 timestamp")
-		}
-		p.EndTimeSelectionReference = parsedTime
 	}
 
 	return nil
-}
-
-func (p *AwsDiffParameters) GetRequestStartTimeSelection() indexedstorage.RequestTimeSelection {
-	return indexedstorage.RequestTimeSelection{
-		Option:         indexedstorage.RequestTimeSelectionOption(*p.StartTimeSelection),
-		ReferencedTime: p.StartTimeSelectionReference,
-	}
-}
-
-func (p *AwsDiffParameters) GetRequestEndTimeSelection() indexedstorage.RequestTimeSelection {
-	return indexedstorage.RequestTimeSelection{
-		Option:         indexedstorage.RequestTimeSelectionOption(*p.EndTimeSelection),
-		ReferencedTime: p.EndTimeSelectionReference,
-	}
 }

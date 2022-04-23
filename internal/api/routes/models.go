@@ -6,3 +6,17 @@ type Diff struct {
 	From interface{} `json:"from"`
 	To   interface{} `json:"to"`
 }
+
+type AwsMetadata struct {
+	Services []string `json:"services"`
+}
+
+type AwsResourceMetadata struct {
+	DateTimes     []int64  `json:"datetimes"`
+	IdField       string   `json:"id_field"`
+	DisplayFields []string `json:"display_fields"`
+}
+
+type AwsServiceMetadata struct {
+	Resources []string `json:"resources"`
+}

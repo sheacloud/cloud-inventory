@@ -7,6 +7,7 @@ These instructions are meant to showcase an example of how cloud-inventory can b
 1. An AWS account, with API credentials on your local machine
 2. Go 1.17+
 3. Terraform
+4. Docker
 
 ## Setting up your local environment
 
@@ -27,10 +28,18 @@ cd ./cloud-inventory
 ```
 go get ./...
 ```
+4. Run a MongoDB container
+```
+docker run -d -p 27017:27017 mongo
+```
+5. Configure MongoDB indexes
+```
+go run ./cmd/mongo-indexer
+```
 
 ## Deploying the necessary AWS infrastructure
 
-cloud-inventory requires an S3 bucket to store the inventory data, along with Glue table schemas to allow for Athena querying. These resources can be deployed with Terraform samples provided in this repo.
+cloud-inventory uses an S3 bucket to store the inventory data, along with Glue table schemas to allow for Athena querying. These resources can be deployed with Terraform samples provided in this repo.
 
 1. Enter the example terraform directory
 ```
@@ -47,11 +56,14 @@ terraform apply
 ```
 4. Export environment variables for use in later steps. Replace the values with those output by terraform, and set AWS_REGIONS to whatever regions you use
 ```
-export CLOUD_INVENTORY_S3_BUCKET="REPLACE_ME_WITH_S3_BUCKET_NAME"
 export CLOUD_INVENTORY_AWS_REGIONS="us-east-1,us-west-2"
 export CLOUD_INVENTORY_AWS_USE_LOCAL_CREDENTIALS="true"
-export CLOUD_INVENTORY_GLUE_DATABASE_NAME="REPLACE_ME_WITH_S3_BUCKET_NAME"
+export CLOUD_INVENTORY_MONGO_URI="mongodb://localhost:27017"
+export CLOUD_INVENTORY_DATABASE_TYPE="mongo"
+
 export CLOUD_INVENTORY_ATHENA_WORKGROUP_NAME="REPLACE_ME_WITH_S3_BUCKET_NAME"
+export CLOUD_INVENTORY_GLUE_DATABASE_NAME="REPLACE_ME_WITH_S3_BUCKET_NAME"
+export CLOUD_INVENTORY_S3_BUCKET="REPLACE_ME_WITH_S3_BUCKET_NAME"
 ```
 5. Change back to the root cloud-inventory directory
 ```
@@ -59,7 +71,7 @@ cd ../../
 ```
 6. Deploy the Athena views
 ```
-go run ./cmd/autogen-views
+go run ./cmd/autogen-athena-views
 ```
 
 ## Run an inventory fetch to populate data into S3
@@ -69,9 +81,9 @@ go run ./cmd/autogen-views
 go run ./cmd/fetch-inventory
 ```
 
-## View the data via Athena or the API
+## View the data via Athena, the API, or the UI
 
-See [QUICKSTART_ATHENA.md](QUICKSTART_ATHENA.md) or [QUICKSTART_API.md](QUICKSTART_API.md) to start querying the data
+See [QUICKSTART_ATHENA.md](QUICKSTART_ATHENA.md), [QUICKSTART_API.md](QUICKSTART_API.md), or [QUICKSTART_UI.md](QUICKSTART_UI.md) to start querying the data
 
 ## Next Steps
 

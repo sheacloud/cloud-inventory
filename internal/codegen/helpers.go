@@ -37,10 +37,14 @@ func makeDir(path string) {
 	}
 }
 
-func toSnakeCase(str string) string {
+func ToSnakeCase(str string) string {
 	snake := matchFirstCap.ReplaceAllString(str, "${1}_${2}")
 	snake = matchAllCap.ReplaceAllString(snake, "${1}_${2}")
 	return strings.ToLower(snake)
+}
+
+func ToSnakeHyphen(str string) string {
+	return strings.Replace(ToSnakeCase(str), "_", "-", -1)
 }
 
 func stringInList(s string, list []string) bool {
@@ -58,10 +62,6 @@ func isTimeField(s string) bool {
 
 func isTagField(s string) bool {
 	return s == "Tags" || s == "TagSet" || s == "TagList"
-}
-
-func isUnmodelableField(s string) bool {
-	return s == "github.com/Azure/go-autorest/autorest/date.Time" || s == "*github.com/Azure/go-autorest/autorest/date.Time"
 }
 
 func typeToParquetType(s string) string {
