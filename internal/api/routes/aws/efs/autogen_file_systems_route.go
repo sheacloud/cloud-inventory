@@ -19,14 +19,14 @@ type ListFileSystemsResponse struct {
 
 // GetFileSystemsMetadata godoc
 // @Summary      Get FileSystems Metadata
-// @Description  get a list of filesystems metadata
+// @Description  get a list of file_systems metadata
 // @Tags         aws efs
 // @Produce      json
 // @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
 // @Security     ApiKeyAuth
 // @Success      200  {array}   routes.AwsResourceMetadata
 // @Failure      400
-// @Router       /metadata/aws/efs/filesystems [get]
+// @Router       /metadata/aws/efs/file_systems [get]
 func GetFileSystemsMetadata(c *gin.Context, dao db.ReaderDAO) {
 	reportDateString := c.Query("report_date")
 	var reportDate time.Time
@@ -53,7 +53,7 @@ func GetFileSystemsMetadata(c *gin.Context, dao db.ReaderDAO) {
 
 // ListFileSystems godoc
 // @Summary      List FileSystems
-// @Description  get a list of filesystems
+// @Description  get a list of file_systems
 // @Tags         aws efs
 // @Produce      json
 // @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
@@ -66,7 +66,7 @@ func GetFileSystemsMetadata(c *gin.Context, dao db.ReaderDAO) {
 // @Security     ApiKeyAuth
 // @Success      200  {object}   ListFileSystemsResponse
 // @Failure      400
-// @Router       /inventory/aws/efs/filesystems [get]
+// @Router       /inventory/aws/efs/file_systems [get]
 func ListFileSystems(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
@@ -111,7 +111,7 @@ func ListFileSystems(c *gin.Context, dao db.ReaderDAO) {
 // @Success      200  {object}   efs.FileSystem
 // @Failure      400
 // @Failure 	 404
-// @Router       /inventory/aws/efs/filesystems/{file_system_id} [get]
+// @Router       /inventory/aws/efs/file_systems/{file_system_id} [get]
 func GetFileSystem(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
@@ -160,7 +160,7 @@ func GetFileSystem(c *gin.Context, dao db.ReaderDAO) {
 // @Security     ApiKeyAuth
 // @Success      200  {array}   routes.Diff
 // @Failure      400
-// @Router       /diff/aws/efs/filesystems [get]
+// @Router       /diff/aws/efs/file_systems [get]
 func DiffMultiFileSystems(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
@@ -223,7 +223,7 @@ func DiffMultiFileSystems(c *gin.Context, dao db.ReaderDAO) {
 // @Security     ApiKeyAuth
 // @Success      200  {array}   routes.Diff
 // @Failure      400
-// @Router       /diff/aws/efs/filesystems/{file_system_id} [get]
+// @Router       /diff/aws/efs/file_systems/{file_system_id} [get]
 func DiffSingleFileSystem(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {

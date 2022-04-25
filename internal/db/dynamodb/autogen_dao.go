@@ -448,7 +448,7 @@ func (dao *DynamoDBWriterDAO) PutAwsEFSFileSystems(ctx context.Context, resource
 		}
 		items[i] = item
 	}
-	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-efs-filesystems", items)
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-efs-file-systems", items)
 }
 func (dao *DynamoDBWriterDAO) PutAwsElastiCacheCacheClusters(ctx context.Context, resources []*elasticache.CacheCluster) error {
 	items := make([]map[string]types.AttributeValue, len(resources))
@@ -1838,7 +1838,7 @@ func (dao *DynamoDBReaderDAO) GetReferencedAwsECSTaskReportTime(ctx context.Cont
 }
 
 func (dao *DynamoDBReaderDAO) ListAwsEFSFileSystems(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*efs.FileSystem, error) {
-	tableName := "cloud-inventory-aws-efs-filesystems"
+	tableName := "cloud-inventory-aws-efs-file-systems"
 	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "file_system_id", nil)
 	if err != nil {
 		return nil, err
@@ -1852,7 +1852,7 @@ func (dao *DynamoDBReaderDAO) ListAwsEFSFileSystems(ctx context.Context, reportT
 }
 
 func (dao *DynamoDBReaderDAO) GetAwsEFSFileSystem(ctx context.Context, reportTimeUnixMilli int64, id string) (*efs.FileSystem, error) {
-	tableName := "cloud-inventory-aws-efs-filesystems"
+	tableName := "cloud-inventory-aws-efs-file-systems"
 	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "file_system_id")
 	if err != nil {
 		return nil, err
@@ -1866,11 +1866,11 @@ func (dao *DynamoDBReaderDAO) GetAwsEFSFileSystem(ctx context.Context, reportTim
 }
 
 func (dao *DynamoDBReaderDAO) GetAwsEFSFileSystemReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "efs", "filesystems")
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "efs", "file_systems")
 }
 
 func (dao *DynamoDBReaderDAO) GetReferencedAwsEFSFileSystemReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "efs", "filesystems")
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "efs", "file_systems")
 }
 
 func (dao *DynamoDBReaderDAO) ListAwsElastiCacheCacheClusters(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*elasticache.CacheCluster, error) {

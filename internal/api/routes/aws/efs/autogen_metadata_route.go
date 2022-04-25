@@ -19,7 +19,7 @@ import (
 func GetEFSMetadata(c *gin.Context) {
 	c.IndentedJSON(200, routes.AwsServiceMetadata{
 		Resources: []string{
-			"filesystems",
+			"file_systems",
 		},
 	})
 }

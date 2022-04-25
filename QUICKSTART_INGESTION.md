@@ -28,11 +28,18 @@ cd ./cloud-inventory
 ```
 go get ./...
 ```
-4. Run a MongoDB container
+4. Configure environment variables
+```
+export CLOUD_INVENTORY_AWS_REGIONS="us-east-1,us-west-2"
+export CLOUD_INVENTORY_AWS_USE_LOCAL_CREDENTIALS="true"
+export CLOUD_INVENTORY_MONGO_URI="mongodb://localhost:27017"
+export CLOUD_INVENTORY_DATABASE_TYPE="mongo"
+```
+5. Run a MongoDB container
 ```
 docker run -d -p 27017:27017 mongo
 ```
-5. Configure MongoDB indexes
+6. Configure MongoDB indexes
 ```
 go run ./cmd/mongo-indexer
 ```
@@ -56,11 +63,6 @@ terraform apply
 ```
 4. Export environment variables for use in later steps. Replace the values with those output by terraform, and set AWS_REGIONS to whatever regions you use
 ```
-export CLOUD_INVENTORY_AWS_REGIONS="us-east-1,us-west-2"
-export CLOUD_INVENTORY_AWS_USE_LOCAL_CREDENTIALS="true"
-export CLOUD_INVENTORY_MONGO_URI="mongodb://localhost:27017"
-export CLOUD_INVENTORY_DATABASE_TYPE="mongo"
-
 export CLOUD_INVENTORY_ATHENA_WORKGROUP_NAME="REPLACE_ME_WITH_S3_BUCKET_NAME"
 export CLOUD_INVENTORY_GLUE_DATABASE_NAME="REPLACE_ME_WITH_S3_BUCKET_NAME"
 export CLOUD_INVENTORY_S3_BUCKET="REPLACE_ME_WITH_S3_BUCKET_NAME"

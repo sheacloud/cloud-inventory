@@ -6795,7 +6795,7 @@ var doc = `{
                 }
             }
         },
-        "/diff/aws/efs/filesystems": {
+        "/diff/aws/efs/file_systems": {
             "get": {
                 "security": [
                     {
@@ -6894,7 +6894,7 @@ var doc = `{
                 }
             }
         },
-        "/diff/aws/efs/filesystems/{file_system_id}": {
+        "/diff/aws/efs/file_systems/{file_system_id}": {
             "get": {
                 "security": [
                     {
@@ -15904,14 +15904,14 @@ var doc = `{
                 }
             }
         },
-        "/inventory/aws/efs/filesystems": {
+        "/inventory/aws/efs/file_systems": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get a list of filesystems",
+                "description": "get a list of file_systems",
                 "produces": [
                     "application/json"
                 ],
@@ -15984,7 +15984,7 @@ var doc = `{
                 }
             }
         },
-        "/inventory/aws/efs/filesystems/{file_system_id}": {
+        "/inventory/aws/efs/file_systems/{file_system_id}": {
             "get": {
                 "security": [
                     {
@@ -20536,14 +20536,14 @@ var doc = `{
                 }
             }
         },
-        "/metadata/aws/efs/filesystems": {
+        "/metadata/aws/efs/file_systems": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get a list of filesystems metadata",
+                "description": "get a list of file_systems metadata",
                 "produces": [
                     "application/json"
                 ],

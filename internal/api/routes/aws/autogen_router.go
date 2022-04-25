@@ -224,7 +224,7 @@ func AddMetadataRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		ecs.GetTasksMetadata(c, dao)
 	})
 
-	r.GET("/efs/filesystems", func(c *gin.Context) {
+	r.GET("/efs/file_systems", func(c *gin.Context) {
 		efs.GetFileSystemsMetadata(c, dao)
 	})
 
@@ -535,10 +535,10 @@ func AddInventoryRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		ecs.GetTask(c, dao)
 	})
 
-	r.GET("/efs/filesystems", func(c *gin.Context) {
+	r.GET("/efs/file_systems", func(c *gin.Context) {
 		efs.ListFileSystems(c, dao)
 	})
-	r.GET("/efs/filesystems/:file_system_id", func(c *gin.Context) {
+	r.GET("/efs/file_systems/:file_system_id", func(c *gin.Context) {
 		efs.GetFileSystem(c, dao)
 	})
 
@@ -903,10 +903,10 @@ func AddDiffRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		ecs.DiffSingleTask(c, dao)
 	})
 
-	r.GET("/efs/filesystems", func(c *gin.Context) {
+	r.GET("/efs/file_systems", func(c *gin.Context) {
 		efs.DiffMultiFileSystems(c, dao)
 	})
-	r.GET("/efs/filesystems/:file_system_id", func(c *gin.Context) {
+	r.GET("/efs/file_systems/:file_system_id", func(c *gin.Context) {
 		efs.DiffSingleFileSystem(c, dao)
 	})
 

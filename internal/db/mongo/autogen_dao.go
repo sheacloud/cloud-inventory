@@ -481,7 +481,7 @@ func (dao *MongoWriterDAO) PutAwsEFSFileSystems(ctx context.Context, resources [
 	for i, resource := range resources {
 		writes[i] = resource
 	}
-	_, err := dao.db.Collection("aws.efs.filesystems").InsertMany(ctx, writes)
+	_, err := dao.db.Collection("aws.efs.file_systems").InsertMany(ctx, writes)
 
 	return err
 }
@@ -2199,7 +2199,7 @@ func (dao *MongoReaderDAO) ListAwsEFSFileSystems(ctx context.Context, reportTime
 	}
 
 	var results []*efs.FileSystem
-	cursor, err := dao.db.Collection("aws.efs.filesystems").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.efs.file_systems").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -2219,17 +2219,17 @@ func (dao *MongoReaderDAO) GetAwsEFSFileSystem(ctx context.Context, reportTimeUn
 	}
 
 	var result *efs.FileSystem
-	err := dao.db.Collection("aws.efs.filesystems").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.efs.file_systems").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsEFSFileSystemReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws.efs.filesystems"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.efs.file_systems"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsEFSFileSystemReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws.efs.filesystems"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.efs.file_systems"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsElastiCacheCacheClusters(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*elasticache.CacheCluster, error) {

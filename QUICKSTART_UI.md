@@ -6,11 +6,11 @@ This guide assumes you have already followed the steps outlined in [QUICKSTART_I
 ```
 go run ./cmd/cloud-inventory-api
 ```
-1. In a separate window, switch into the web directory
+2. In a separate window, switch into the web directory
 ```
 cd ./web/
 ```
-1. launch the UI
+3. launch the UI
 ```
 npm start
 ```

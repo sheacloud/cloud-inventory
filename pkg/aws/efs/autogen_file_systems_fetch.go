@@ -20,7 +20,7 @@ func FetchFileSystems(ctx context.Context, params *aws.AwsFetchInput) ([]*FileSy
 	inventoryResults := &meta.InventoryResults{
 		Cloud:      "aws",
 		Service:    "efs",
-		Resource:   "filesystems",
+		Resource:   "file_systems",
 		AccountId:  params.AccountId,
 		Region:     params.Region,
 		ReportTime: params.ReportTime,

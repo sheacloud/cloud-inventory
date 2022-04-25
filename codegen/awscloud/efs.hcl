@@ -4,7 +4,7 @@ aws_service "efs" {
   extra_utilized_functions = []
   tag_object_name          = "Tag"
 
-  resource "filesystems" {
+  resource "file_systems" {
     fetch_function        = "DescribeFileSystems"
     object_source_name    = "FileSystemDescription"
     object_singular_name  = "FileSystem"

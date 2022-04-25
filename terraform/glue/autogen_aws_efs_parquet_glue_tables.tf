@@ -1,6 +1,6 @@
 
-resource "aws_glue_catalog_table" "aws_efs_filesystems" {
-  name          = "aws_efs_filesystems"
+resource "aws_glue_catalog_table" "aws_efs_file_systems" {
+  name          = "aws_efs_file_systems"
   database_name = var.glue_database_name
   table_type    = "EXTERNAL_TABLE"
   parameters = {
@@ -13,7 +13,7 @@ resource "aws_glue_catalog_table" "aws_efs_filesystems" {
   }
 
   storage_descriptor {
-    location      = "s3://${var.s3_bucket_name}/inventory/aws/efs/filesystems/"
+    location      = "s3://${var.s3_bucket_name}/inventory/aws/efs/file_systems/"
     input_format  = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat"
     output_format = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat"
 

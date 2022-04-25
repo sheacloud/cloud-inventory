@@ -709,7 +709,7 @@ func (dao *S3ParquetWriterDAO) PutAwsEFSFileSystems(ctx context.Context, resourc
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "efs", "filesystems"}, resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "efs", "file_systems"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}

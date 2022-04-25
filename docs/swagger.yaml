@@ -11342,7 +11342,7 @@ paths:
       summary: Diff Task
       tags:
       - aws ecs
-  /diff/aws/efs/filesystems:
+  /diff/aws/efs/file_systems:
     get:
       description: get a diff of FileSystems between two points in time
       parameters:
@@ -11412,7 +11412,7 @@ paths:
       summary: Diff FileSystems
       tags:
       - aws efs
-  /diff/aws/efs/filesystems/{file_system_id}:
+  /diff/aws/efs/file_systems/{file_system_id}:
     get:
       description: get a diff of FileSystem between two points in time
       parameters:
@@ -17665,9 +17665,9 @@ paths:
       summary: Get a specific Task
       tags:
       - aws ecs
-  /inventory/aws/efs/filesystems:
+  /inventory/aws/efs/file_systems:
     get:
-      description: get a list of filesystems
+      description: get a list of file_systems
       parameters:
       - description: Which date to pull data from. Current date by default
         format: date
@@ -17720,7 +17720,7 @@ paths:
       summary: List FileSystems
       tags:
       - aws efs
-  /inventory/aws/efs/filesystems/{file_system_id}:
+  /inventory/aws/efs/file_systems/{file_system_id}:
     get:
       description: Get a specific FileSystem by its FileSystemId
       parameters:
@@ -20732,9 +20732,9 @@ paths:
       summary: Get EFS Metadata
       tags:
       - aws efs
-  /metadata/aws/efs/filesystems:
+  /metadata/aws/efs/file_systems:
     get:
-      description: get a list of filesystems metadata
+      description: get a list of file_systems metadata
       parameters:
       - description: Which date to pull data from. Current date by default
         format: date

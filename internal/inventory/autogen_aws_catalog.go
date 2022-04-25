@@ -296,7 +296,7 @@ var (
 			RegionOverrides: []string{},
 			Resources: []AwsCatalogResource{
 				{
-					ResourceName:  "filesystems",
+					ResourceName:  "file_systems",
 					ResourceModel: &efs.FileSystem{},
 					FetchFunction: IngestAwsEFSFileSystems,
 					UniqueIdField: "FileSystemId",

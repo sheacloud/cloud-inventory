@@ -54,7 +54,7 @@
  - tasks
 
 ## EFS
- - filesystems
+ - file_systems
 
 ## ElastiCache
  - cache_clusters

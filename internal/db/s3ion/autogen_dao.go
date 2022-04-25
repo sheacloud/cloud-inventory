@@ -586,7 +586,7 @@ func (dao *S3IonWriterDAO) PutAwsEFSFileSystems(ctx context.Context, resources [
 	if len(resources) == 0 {
 		return nil
 	}
-	file := dao.ionClient.GetResourceFile("aws", "efs", "filesystems", resources[0].ReportTime)
+	file := dao.ionClient.GetResourceFile("aws", "efs", "file_systems", resources[0].ReportTime)
 	file.Lock.Lock()
 	defer file.Lock.Unlock()
 

@@ -64,7 +64,7 @@ func (f *S3ParquetFile) Close(ctx context.Context) error {
 }
 
 func (c *S3ParquetClient) GetResourceFile(ctx context.Context, indices []string, reportDateUnixMilli int64, sampleObj interface{}) (*S3ParquetFile, error) {
-	reportDate := time.UnixMilli(reportDateUnixMilli)
+	reportDate := time.UnixMilli(reportDateUnixMilli).UTC()
 	indicesPath := strings.Join(indices, "/")
 	filePath := fmt.Sprintf("%s/%s/report_date=%s/", c.PathPrefix, indicesPath, reportDate.Format("2006-01-02"))
 	c.FilesLock.Lock()
@@ -97,7 +97,7 @@ func (c *S3ParquetClient) GetResourceFile(ctx context.Context, indices []string,
 }
 
 func (c *S3ParquetClient) FinishIndex(ctx context.Context, indices []string, reportDateUnixMilli int64) error {
-	reportDate := time.UnixMilli(reportDateUnixMilli)
+	reportDate := time.UnixMilli(reportDateUnixMilli).UTC()
 	indicesPath := strings.Join(indices, "/")
 	filePath := fmt.Sprintf("%s/%s/report_date=%s/", c.PathPrefix, indicesPath, reportDate.Format("2006-01-02"))
 	c.FilesLock.Lock()

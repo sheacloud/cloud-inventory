@@ -1,6 +1,6 @@
 
-resource "aws_dynamodb_table" "aws_efs_filesystems" {
-  name         = "cloud-inventory-aws-efs-filesystems"
+resource "aws_dynamodb_table" "aws_efs_file_systems" {
+  name         = "cloud-inventory-aws-efs-file-systems"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "_id"
 
