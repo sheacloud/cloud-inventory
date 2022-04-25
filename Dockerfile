@@ -14,4 +14,4 @@ ENV PATH=/bin
 COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=build /bin/fetch-inventory /bin/fetch-inventory
 
-CMD ["/bin/fetch-inventory"]dock
+CMD ["/bin/fetch-inventory"]
