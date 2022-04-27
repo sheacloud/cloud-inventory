@@ -30,7 +30,7 @@ var (
 			RegionOverrides: []string{{"{"}}{{if $serviceElement.HasRegionOverride}}"{{$serviceElement.RegionOverride}}"{{else}}{{end}}{{"},"}}
 			Resources: []AwsCatalogResource{
 {{range $resourceIndex, $resourceElement := $serviceElement.Resources}}				{
-					ResourceName: "{{$resourceElement.Name}}",
+					ResourceName: "{{$resourceElement.ObjectPluralSnakeName}}",
 					ResourceModel: &{{$serviceElement.Name}}.{{$resourceElement.ObjectSingularName}}{},
 					FetchFunction: IngestAws{{$serviceElement.ServiceCapName}}{{$resourceElement.ObjectPluralName}},
 					UniqueIdField: "{{$resourceElement.ObjectUniqueId}}",

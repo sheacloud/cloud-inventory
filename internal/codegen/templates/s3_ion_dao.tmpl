@@ -39,7 +39,7 @@ func (dao *S3IonWriterDAO) Finish(ctx context.Context) error {
     if len(resources) == 0 {
         return nil
     }
-    file := dao.ionClient.GetResourceFile("aws", "{{$serviceElement.Name}}", "{{$resourceElement.Name}}", resources[0].ReportTime)
+    file := dao.ionClient.GetResourceFile("aws", "{{$serviceElement.Name}}", "{{$resourceElement.ObjectPluralSnakeName}}", resources[0].ReportTime)
     file.Lock.Lock()
     defer file.Lock.Unlock()
 

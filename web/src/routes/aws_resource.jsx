@@ -93,22 +93,24 @@ function AwsResourceInventory() {
                     </Form>
                     <br />
                     <h2>Inventory</h2>
-                    {inventoryFetch.status === 'fetching' && <p>Loading inventory...</p>}
-                    {inventoryFetch.status === 'error' && <p>Error: {inventoryFetch.error}</p>}
-                    {inventoryFetch.status === 'fetched' && (
-                        <Accordion>
-                            {inventoryFetch.data[params.resource] && inventoryFetch.data[params.resource].map((resource, index) => (
-                                <Accordion.Item eventKey={resource[metadataFetch.data.id_field]}>
-                                    <Accordion.Header>{GetResourceName(resource, metadataFetch.data.display_fields)}</Accordion.Header>
-                                    <Accordion.Body>
-                                        <SyntaxHighlighter language="json" style={monokaiSublime}>
-                                            {JSON.stringify(resource, null, 2)}
-                                        </SyntaxHighlighter>
-                                    </Accordion.Body>
-                                </Accordion.Item>
-                            ))}
-                        </Accordion>
-                    )}
+                    <Container fluid style={{ overflow: 'auto', maxHeight: '60vh' }}>
+                        {inventoryFetch.status === 'fetching' && <p>Loading inventory...</p>}
+                        {inventoryFetch.status === 'error' && <p>Error: {inventoryFetch.error}</p>}
+                        {inventoryFetch.status === 'fetched' && (
+                            <Accordion>
+                                {inventoryFetch.data[params.resource] && inventoryFetch.data[params.resource].map((resource, index) => (
+                                    <Accordion.Item eventKey={resource[metadataFetch.data.id_field]}>
+                                        <Accordion.Header>{GetResourceName(resource, metadataFetch.data.display_fields)}</Accordion.Header>
+                                        <Accordion.Body>
+                                            <SyntaxHighlighter language="json" style={monokaiSublime}>
+                                                {JSON.stringify(resource, null, 2)}
+                                            </SyntaxHighlighter>
+                                        </Accordion.Body>
+                                    </Accordion.Item>
+                                ))}
+                            </Accordion>
+                        )}
+                    </Container>
                 </Container>
             )}
         </Container>

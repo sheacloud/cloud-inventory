@@ -6839,7 +6839,7 @@ paths:
       summary: Diff Api
       tags:
       - aws apigatewayv2
-  /diff/aws/backup/plans:
+  /diff/aws/backup/backup_plans:
     get:
       description: get a diff of BackupPlans between two points in time
       parameters:
@@ -6909,7 +6909,7 @@ paths:
       summary: Diff BackupPlans
       tags:
       - aws backup
-  /diff/aws/backup/plans/{backup_plan_arn}:
+  /diff/aws/backup/backup_plans/{backup_plan_arn}:
     get:
       description: get a diff of BackupPlan between two points in time
       parameters:
@@ -6984,7 +6984,7 @@ paths:
       summary: Diff BackupPlan
       tags:
       - aws backup
-  /diff/aws/backup/vaults:
+  /diff/aws/backup/backup_vaults:
     get:
       description: get a diff of BackupVaults between two points in time
       parameters:
@@ -7054,7 +7054,7 @@ paths:
       summary: Diff BackupVaults
       tags:
       - aws backup
-  /diff/aws/backup/vaults/{backup_vault_arn}:
+  /diff/aws/backup/backup_vaults/{backup_vault_arn}:
     get:
       description: get a diff of BackupVault between two points in time
       parameters:
@@ -14313,9 +14313,9 @@ paths:
       summary: Get a specific Api
       tags:
       - aws apigatewayv2
-  /inventory/aws/backup/plans:
+  /inventory/aws/backup/backup_plans:
     get:
-      description: get a list of plans
+      description: get a list of backup_plans
       parameters:
       - description: Which date to pull data from. Current date by default
         format: date
@@ -14368,7 +14368,7 @@ paths:
       summary: List BackupPlans
       tags:
       - aws backup
-  /inventory/aws/backup/plans/{backup_plan_arn}:
+  /inventory/aws/backup/backup_plans/{backup_plan_arn}:
     get:
       description: Get a specific BackupPlan by its BackupPlanArn
       parameters:
@@ -14421,9 +14421,9 @@ paths:
       summary: Get a specific BackupPlan
       tags:
       - aws backup
-  /inventory/aws/backup/vaults:
+  /inventory/aws/backup/backup_vaults:
     get:
-      description: get a list of vaults
+      description: get a list of backup_vaults
       parameters:
       - description: Which date to pull data from. Current date by default
         format: date
@@ -14476,7 +14476,7 @@ paths:
       summary: List BackupVaults
       tags:
       - aws backup
-  /inventory/aws/backup/vaults/{backup_vault_arn}:
+  /inventory/aws/backup/backup_vaults/{backup_vault_arn}:
     get:
       description: Get a specific BackupVault by its BackupVaultArn
       parameters:
@@ -19843,9 +19843,9 @@ paths:
       summary: Get Backup Metadata
       tags:
       - aws backup
-  /metadata/aws/backup/plans:
+  /metadata/aws/backup/backup_plans:
     get:
-      description: get a list of plans metadata
+      description: get a list of backup_plans metadata
       parameters:
       - description: Which date to pull data from. Current date by default
         format: date
@@ -19868,9 +19868,9 @@ paths:
       summary: Get BackupPlans Metadata
       tags:
       - aws backup
-  /metadata/aws/backup/vaults:
+  /metadata/aws/backup/backup_vaults:
     get:
-      description: get a list of vaults metadata
+      description: get a list of backup_vaults metadata
       parameters:
       - description: Which date to pull data from. Current date by default
         format: date

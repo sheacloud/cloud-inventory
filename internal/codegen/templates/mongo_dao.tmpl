@@ -66,7 +66,7 @@ func (dao *MongoWriterDAO) Finish(ctx context.Context) error {
     for i, resource := range resources {
         writes[i] = resource
     }
-    _, err := dao.db.Collection("aws.{{$serviceElement.Name}}.{{$resourceElement.Name}}").InsertMany(ctx, writes)
+    _, err := dao.db.Collection("aws.{{$serviceElement.Name}}.{{$resourceElement.ObjectPluralSnakeName}}").InsertMany(ctx, writes)
 
     return err
 }
@@ -86,7 +86,7 @@ func (dao *MongoReaderDAO) ListAws{{$serviceElement.ServiceCapName}}{{$resourceE
 	}
 
 	var results []*{{$serviceElement.Name}}.{{$resourceElement.ObjectSingularName}}
-	cursor, err := dao.db.Collection("aws.{{$serviceElement.Name}}.{{$resourceElement.Name}}").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.{{$serviceElement.Name}}.{{$resourceElement.ObjectPluralSnakeName}}").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -106,16 +106,16 @@ func (dao *MongoReaderDAO) GetAws{{$serviceElement.ServiceCapName}}{{$resourceEl
     }
 
 	var result *{{$serviceElement.Name}}.{{$resourceElement.ObjectSingularName}}
-	err := dao.db.Collection("aws.{{$serviceElement.Name}}.{{$resourceElement.Name}}").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.{{$serviceElement.Name}}.{{$resourceElement.ObjectPluralSnakeName}}").FindOne(ctx, filter).Decode(&result)
 
     return result, err
 }
 
 func (dao *MongoReaderDAO) GetAws{{$serviceElement.ServiceCapName}}{{$resourceElement.ObjectSingularName}}ReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-    return DistinctReportTimes(ctx, dao.db.Collection("aws.{{$serviceElement.Name}}.{{$resourceElement.Name}}"), reportDateUnixMilli)
+    return DistinctReportTimes(ctx, dao.db.Collection("aws.{{$serviceElement.Name}}.{{$resourceElement.ObjectPluralSnakeName}}"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAws{{$serviceElement.ServiceCapName}}{{$resourceElement.ObjectSingularName}}ReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-    return GetReportTime(ctx, dao.db.Collection("aws.{{$serviceElement.Name}}.{{$resourceElement.Name}}"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+    return GetReportTime(ctx, dao.db.Collection("aws.{{$serviceElement.Name}}.{{$resourceElement.ObjectPluralSnakeName}}"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 {{end}}{{end}}

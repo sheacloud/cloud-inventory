@@ -120,7 +120,7 @@ func (dao *S3ParquetWriterDAO) PutAwsBackupBackupVaults(ctx context.Context, res
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "backup", "vaults"}, resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "backup", "backup_vaults"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -139,7 +139,7 @@ func (dao *S3ParquetWriterDAO) PutAwsBackupBackupPlans(ctx context.Context, reso
 	if len(resources) == 0 {
 		return nil
 	}
-	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "backup", "plans"}, resources[0].ReportTime, resources[0])
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "backup", "backup_plans"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}

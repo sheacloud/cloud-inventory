@@ -1,6 +1,6 @@
 
-resource "aws_dynamodb_table" "aws_backup_vaults" {
-  name         = "cloud-inventory-aws-backup-vaults"
+resource "aws_dynamodb_table" "aws_backup_backup_vaults" {
+  name         = "cloud-inventory-aws-backup-backup-vaults"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "_id"
 
@@ -30,8 +30,8 @@ resource "aws_dynamodb_table" "aws_backup_vaults" {
     projection_type = "ALL"
   }
 }
-resource "aws_dynamodb_table" "aws_backup_plans" {
-  name         = "cloud-inventory-aws-backup-plans"
+resource "aws_dynamodb_table" "aws_backup_backup_plans" {
+  name         = "cloud-inventory-aws-backup-backup-plans"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "_id"
 

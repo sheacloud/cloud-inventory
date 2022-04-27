@@ -109,7 +109,7 @@ func (dao *MongoWriterDAO) PutAwsBackupBackupVaults(ctx context.Context, resourc
 	for i, resource := range resources {
 		writes[i] = resource
 	}
-	_, err := dao.db.Collection("aws.backup.vaults").InsertMany(ctx, writes)
+	_, err := dao.db.Collection("aws.backup.backup_vaults").InsertMany(ctx, writes)
 
 	return err
 }
@@ -121,7 +121,7 @@ func (dao *MongoWriterDAO) PutAwsBackupBackupPlans(ctx context.Context, resource
 	for i, resource := range resources {
 		writes[i] = resource
 	}
-	_, err := dao.db.Collection("aws.backup.plans").InsertMany(ctx, writes)
+	_, err := dao.db.Collection("aws.backup.backup_plans").InsertMany(ctx, writes)
 
 	return err
 }
@@ -804,7 +804,7 @@ func (dao *MongoReaderDAO) ListAwsBackupBackupVaults(ctx context.Context, report
 	}
 
 	var results []*backup.BackupVault
-	cursor, err := dao.db.Collection("aws.backup.vaults").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.backup.backup_vaults").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -824,17 +824,17 @@ func (dao *MongoReaderDAO) GetAwsBackupBackupVault(ctx context.Context, reportTi
 	}
 
 	var result *backup.BackupVault
-	err := dao.db.Collection("aws.backup.vaults").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.backup.backup_vaults").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsBackupBackupVaultReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws.backup.vaults"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.backup.backup_vaults"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsBackupBackupVaultReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws.backup.vaults"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.backup.backup_vaults"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsBackupBackupPlans(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*backup.BackupPlan, error) {
@@ -849,7 +849,7 @@ func (dao *MongoReaderDAO) ListAwsBackupBackupPlans(ctx context.Context, reportT
 	}
 
 	var results []*backup.BackupPlan
-	cursor, err := dao.db.Collection("aws.backup.plans").Find(ctx, filter)
+	cursor, err := dao.db.Collection("aws.backup.backup_plans").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -869,17 +869,17 @@ func (dao *MongoReaderDAO) GetAwsBackupBackupPlan(ctx context.Context, reportTim
 	}
 
 	var result *backup.BackupPlan
-	err := dao.db.Collection("aws.backup.plans").FindOne(ctx, filter).Decode(&result)
+	err := dao.db.Collection("aws.backup.backup_plans").FindOne(ctx, filter).Decode(&result)
 
 	return result, err
 }
 
 func (dao *MongoReaderDAO) GetAwsBackupBackupPlanReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.db.Collection("aws.backup.plans"), reportDateUnixMilli)
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.backup.backup_plans"), reportDateUnixMilli)
 }
 
 func (dao *MongoReaderDAO) GetReferencedAwsBackupBackupPlanReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.db.Collection("aws.backup.plans"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+	return GetReportTime(ctx, dao.db.Collection("aws.backup.backup_plans"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsCloudTrailTrails(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*cloudtrail.Trail, error) {

@@ -49,8 +49,6 @@ func initOptions() {
 	viper.BindEnv("s3_bucket")
 
 	viper.BindEnv("mongo_uri")
-
-	viper.BindEnv("dynamodb_table_prefix")
 }
 
 func initLogging() {
@@ -75,7 +73,11 @@ func initializeDAO(cfg aws.Config) db.ReaderDAO {
 
 	switch viper.GetString("database_type") {
 	case "mongo":
-		client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(viper.GetString("mongo_uri")))
+		mongoUri := viper.GetString("mongo_uri")
+		if mongoUri == "" {
+			panic("mongo_uri is required")
+		}
+		client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(mongoUri))
 		if err != nil {
 			panic(err)
 		}

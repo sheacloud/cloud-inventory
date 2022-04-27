@@ -24,7 +24,7 @@ func (c *AwsServiceConfig) HasRegionOverride() bool {
 }
 
 type AwsResourceConfig struct {
-	Name                string              `hcl:"name,label"`
+	Label               string              `hcl:"name,label"`
 	FetchFunction       string              `hcl:"fetch_function,attr"`           // the API function used to fetch the resource
 	ObjectSourceName    string              `hcl:"object_source_name,attr"`       // the name of the object in the API
 	ObjectSingularName  string              `hcl:"object_singular_name,optional"` // the singular name of the object
@@ -44,6 +44,14 @@ type AwsResourceConfig struct {
 
 func (c AwsResourceConfig) ObjectUniqueIdSnakeCase() string {
 	return ToSnakeCase(c.ObjectUniqueId)
+}
+
+func (c AwsResourceConfig) ObjectSingularSnakeName() string {
+	return ToSnakeCase((c.ObjectSingularName))
+}
+
+func (c AwsResourceConfig) ObjectPluralSnakeName() string {
+	return ToSnakeCase(c.ObjectPluralName)
 }
 
 type ExtraFieldConfig struct {
@@ -181,7 +189,7 @@ func GenerateAwsServiceCode(template *AwsTemplate) error {
 
 			logrus.WithFields(logrus.Fields{
 				"service": service.Name,
-			}).Info("Analyzed source code for " + resource.Name)
+			}).Info("Analyzed source code for " + resource.ObjectPluralName)
 		}
 
 		allReferencedStructs = DeduplicateStructs(allReferencedStructs)
@@ -199,7 +207,7 @@ func GenerateAwsServiceCode(template *AwsTemplate) error {
 			template.DetermineRequiredImports()
 
 			// generate the resource model
-			outputPath := serviceDirectory + "autogen_" + resource.Name + "_model.go"
+			outputPath := serviceDirectory + "autogen_" + resource.ObjectPluralSnakeName() + "_model.go"
 			outputFile, err := os.Create(outputPath)
 			if err != nil {
 				panic(err)
@@ -210,7 +218,7 @@ func GenerateAwsServiceCode(template *AwsTemplate) error {
 
 			// generate the resource fetching code
 			if !resource.ModelOnly {
-				outputPath = serviceDirectory + "autogen_" + resource.Name + "_fetch.go"
+				outputPath = serviceDirectory + "autogen_" + resource.ObjectPluralSnakeName() + "_fetch.go"
 				outputFile, err = os.Create(outputPath)
 				if err != nil {
 					panic(err)
@@ -221,7 +229,7 @@ func GenerateAwsServiceCode(template *AwsTemplate) error {
 			}
 
 			// generate the API route code
-			outputPath = serviceApiRoutesDirectory + "autogen_" + resource.Name + "_route.go"
+			outputPath = serviceApiRoutesDirectory + "autogen_" + resource.ObjectPluralSnakeName() + "_route.go"
 			outputFile, err = os.Create(outputPath)
 			if err != nil {
 				panic(err)
@@ -232,7 +240,7 @@ func GenerateAwsServiceCode(template *AwsTemplate) error {
 
 			logrus.WithFields(logrus.Fields{
 				"service": service.Name,
-			}).Info("Generated code for " + resource.Name)
+			}).Info("Generated code for " + resource.ObjectPluralName)
 		}
 
 		// generate the service sub-models

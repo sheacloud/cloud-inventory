@@ -66,14 +66,14 @@ func (dao *DynamoDBWriterDAO) Finish(ctx context.Context) error {
         }
         items[i] = item
     }
-    return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-{{$serviceElement.Name}}-{{toSnakeHyphen $resourceElement.Name}}", items)
+    return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-{{$serviceElement.Name}}-{{snakeToHyphen $resourceElement.ObjectPluralSnakeName}}", items)
 }
 {{end}}{{end}}
 
 
 {{range $serviceIndex, $serviceElement := .Services}}{{range $resourceIndex, $resourceElement := $serviceElement.Resources}}
 func (dao *DynamoDBReaderDAO) ListAws{{$serviceElement.ServiceCapName}}{{$resourceElement.ObjectPluralName}}(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*{{$serviceElement.Name}}.{{$resourceElement.ObjectSingularName}}, error) {
-    tableName := "cloud-inventory-aws-{{$serviceElement.Name}}-{{toSnakeHyphen $resourceElement.Name}}"
+    tableName := "cloud-inventory-aws-{{$serviceElement.Name}}-{{snakeToHyphen $resourceElement.ObjectPluralSnakeName}}"
     items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "{{toSnakeCase $resourceElement.ObjectUniqueId}}", nil)
     if err != nil {
         return nil, err
@@ -87,7 +87,7 @@ func (dao *DynamoDBReaderDAO) ListAws{{$serviceElement.ServiceCapName}}{{$resour
 }
 
 func (dao *DynamoDBReaderDAO) GetAws{{$serviceElement.ServiceCapName}}{{$resourceElement.ObjectSingularName}}(ctx context.Context, reportTimeUnixMilli int64, id string) (*{{$serviceElement.Name}}.{{$resourceElement.ObjectSingularName}}, error) {
-    tableName := "cloud-inventory-aws-{{$serviceElement.Name}}-{{toSnakeHyphen $resourceElement.Name}}"
+    tableName := "cloud-inventory-aws-{{$serviceElement.Name}}-{{snakeToHyphen $resourceElement.ObjectPluralSnakeName}}"
     item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "{{toSnakeCase $resourceElement.ObjectUniqueId}}")
     if err != nil {
         return nil, err
@@ -101,10 +101,10 @@ func (dao *DynamoDBReaderDAO) GetAws{{$serviceElement.ServiceCapName}}{{$resourc
 }
 
 func (dao *DynamoDBReaderDAO) GetAws{{$serviceElement.ServiceCapName}}{{$resourceElement.ObjectSingularName}}ReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-    return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "{{$serviceElement.Name}}", "{{$resourceElement.Name}}")
+    return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "{{$serviceElement.Name}}", "{{$resourceElement.ObjectPluralSnakeName}}")
 }
 
 func (dao *DynamoDBReaderDAO) GetReferencedAws{{$serviceElement.ServiceCapName}}{{$resourceElement.ObjectSingularName}}ReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-    return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "{{$serviceElement.Name}}", "{{$resourceElement.Name}}")
+    return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "{{$serviceElement.Name}}", "{{$resourceElement.ObjectPluralSnakeName}}")
 }
 {{end}}{{end}}

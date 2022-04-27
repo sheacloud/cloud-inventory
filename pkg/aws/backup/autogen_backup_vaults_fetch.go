@@ -20,7 +20,7 @@ func FetchBackupVaults(ctx context.Context, params *aws.AwsFetchInput) ([]*Backu
 	inventoryResults := &meta.InventoryResults{
 		Cloud:      "aws",
 		Service:    "backup",
-		Resource:   "vaults",
+		Resource:   "backup_vaults",
 		AccountId:  params.AccountId,
 		Region:     params.Region,
 		ReportTime: params.ReportTime,

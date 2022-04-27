@@ -4,7 +4,7 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 
 export default function HomePage() {
     return (
-        <Container fluid className="bg-opacity-50 vh-100" style={{ "maxHeight": "100vh" }}>
+        <Container fluid className="bg-opacity-50 vh-100" style={{ "maxHeight": "100vh", display: 'flex', flexDirection: 'column' }}>
             <Navbar bg="light" expand="lg">
                 <Navbar.Brand href="/">Cloud Inventory</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />

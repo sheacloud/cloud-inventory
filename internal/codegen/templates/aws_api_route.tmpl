@@ -19,14 +19,14 @@ type List{{.ResourceConfig.ObjectPluralName}}Response struct {
 
 // Get{{.ResourceConfig.ObjectPluralName}}Metadata godoc
 // @Summary      Get {{.ResourceConfig.ObjectPluralName}} Metadata
-// @Description  get a list of {{.ResourceConfig.Name}} metadata
+// @Description  get a list of {{.ResourceConfig.ObjectPluralSnakeName}} metadata
 // @Tags         aws {{.ServiceName}}
 // @Produce      json
 // @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
 // @Security     ApiKeyAuth
 // @Success      200  {array}   routes.AwsResourceMetadata
 // @Failure      400
-// @Router       /metadata/aws/{{.ServiceName}}/{{.ResourceConfig.Name}} [get]
+// @Router       /metadata/aws/{{.ServiceName}}/{{.ResourceConfig.ObjectPluralSnakeName}} [get]
 func Get{{.ResourceConfig.ObjectPluralName}}Metadata(c *gin.Context, dao db.ReaderDAO) {
 	reportDateString := c.Query("report_date")
 	var reportDate time.Time
@@ -54,7 +54,7 @@ func Get{{.ResourceConfig.ObjectPluralName}}Metadata(c *gin.Context, dao db.Read
 
 // List{{.ResourceConfig.ObjectPluralName}} godoc
 // @Summary      List {{.ResourceConfig.ObjectPluralName}}
-// @Description  get a list of {{.ResourceConfig.Name}}
+// @Description  get a list of {{.ResourceConfig.ObjectPluralSnakeName}}
 // @Tags         aws {{.ServiceName}}
 // @Produce      json
 // @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
@@ -67,7 +67,7 @@ func Get{{.ResourceConfig.ObjectPluralName}}Metadata(c *gin.Context, dao db.Read
 // @Security     ApiKeyAuth
 // @Success      200  {object}   List{{.ResourceConfig.ObjectPluralName}}Response
 // @Failure      400
-// @Router       /inventory/aws/{{.ServiceName}}/{{.ResourceConfig.Name}} [get]
+// @Router       /inventory/aws/{{.ServiceName}}/{{.ResourceConfig.ObjectPluralSnakeName}} [get]
 func List{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
@@ -113,7 +113,7 @@ func List{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, dao db.ReaderDAO) 
 // @Success      200  {object}   {{.ServiceName}}.{{.ResourceConfig.ObjectSingularName}}
 // @Failure      400
 // @Failure 	 404
-// @Router       /inventory/aws/{{.ServiceName}}/{{.ResourceConfig.Name}}/{{"{"}}{{.ResourceConfig.ObjectUniqueIdSnakeCase}}{{"}"}} [get]
+// @Router       /inventory/aws/{{.ServiceName}}/{{.ResourceConfig.ObjectPluralSnakeName}}/{{"{"}}{{.ResourceConfig.ObjectUniqueIdSnakeCase}}{{"}"}} [get]
 func Get{{.ResourceConfig.ObjectSingularName}}(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
@@ -163,7 +163,7 @@ func Get{{.ResourceConfig.ObjectSingularName}}(c *gin.Context, dao db.ReaderDAO)
 // @Security     ApiKeyAuth
 // @Success      200  {array}   routes.Diff
 // @Failure      400
-// @Router       /diff/aws/{{.ServiceName}}/{{.ResourceConfig.Name}} [get]
+// @Router       /diff/aws/{{.ServiceName}}/{{.ResourceConfig.ObjectPluralSnakeName}} [get]
 func DiffMulti{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
@@ -227,7 +227,7 @@ func DiffMulti{{.ResourceConfig.ObjectPluralName}}(c *gin.Context, dao db.Reader
 // @Security     ApiKeyAuth
 // @Success      200  {array}   routes.Diff
 // @Failure      400
-// @Router       /diff/aws/{{.ServiceName}}/{{.ResourceConfig.Name}}/{{"{"}}{{.ResourceConfig.ObjectUniqueIdSnakeCase}}{{"}"}} [get]
+// @Router       /diff/aws/{{.ServiceName}}/{{.ResourceConfig.ObjectPluralSnakeName}}/{{"{"}}{{.ResourceConfig.ObjectUniqueIdSnakeCase}}{{"}"}} [get]
 func DiffSingle{{.ResourceConfig.ObjectSingularName}}(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {

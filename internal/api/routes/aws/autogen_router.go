@@ -100,11 +100,11 @@ func AddMetadataRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		apigatewayv2.GetApisMetadata(c, dao)
 	})
 
-	r.GET("/backup/vaults", func(c *gin.Context) {
+	r.GET("/backup/backup_vaults", func(c *gin.Context) {
 		backup.GetBackupVaultsMetadata(c, dao)
 	})
 
-	r.GET("/backup/plans", func(c *gin.Context) {
+	r.GET("/backup/backup_plans", func(c *gin.Context) {
 		backup.GetBackupPlansMetadata(c, dao)
 	})
 
@@ -318,17 +318,17 @@ func AddInventoryRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		apigatewayv2.GetApi(c, dao)
 	})
 
-	r.GET("/backup/vaults", func(c *gin.Context) {
+	r.GET("/backup/backup_vaults", func(c *gin.Context) {
 		backup.ListBackupVaults(c, dao)
 	})
-	r.GET("/backup/vaults/:backup_vault_arn", func(c *gin.Context) {
+	r.GET("/backup/backup_vaults/:backup_vault_arn", func(c *gin.Context) {
 		backup.GetBackupVault(c, dao)
 	})
 
-	r.GET("/backup/plans", func(c *gin.Context) {
+	r.GET("/backup/backup_plans", func(c *gin.Context) {
 		backup.ListBackupPlans(c, dao)
 	})
-	r.GET("/backup/plans/:backup_plan_arn", func(c *gin.Context) {
+	r.GET("/backup/backup_plans/:backup_plan_arn", func(c *gin.Context) {
 		backup.GetBackupPlan(c, dao)
 	})
 
@@ -686,17 +686,17 @@ func AddDiffRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		apigatewayv2.DiffSingleApi(c, dao)
 	})
 
-	r.GET("/backup/vaults", func(c *gin.Context) {
+	r.GET("/backup/backup_vaults", func(c *gin.Context) {
 		backup.DiffMultiBackupVaults(c, dao)
 	})
-	r.GET("/backup/vaults/:backup_vault_arn", func(c *gin.Context) {
+	r.GET("/backup/backup_vaults/:backup_vault_arn", func(c *gin.Context) {
 		backup.DiffSingleBackupVault(c, dao)
 	})
 
-	r.GET("/backup/plans", func(c *gin.Context) {
+	r.GET("/backup/backup_plans", func(c *gin.Context) {
 		backup.DiffMultiBackupPlans(c, dao)
 	})
-	r.GET("/backup/plans/:backup_plan_arn", func(c *gin.Context) {
+	r.GET("/backup/backup_plans/:backup_plan_arn", func(c *gin.Context) {
 		backup.DiffSingleBackupPlan(c, dao)
 	})
 

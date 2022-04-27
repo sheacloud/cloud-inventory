@@ -11,8 +11,8 @@
  - apis
 
 ## Backup
- - vaults
- - plans
+ - backup_vaults
+ - backup_plans
 
 ## CloudTrail
  - trails

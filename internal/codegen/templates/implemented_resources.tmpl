@@ -5,6 +5,6 @@
 # AWS
 
 {{range $index, $element := .Services}}## {{$element.ServiceCapName}}
-{{range $index, $element := .Resources}} - {{$element.Name}}
+{{range $index, $element := .Resources}} - {{$element.ObjectPluralSnakeName}}
 {{end}}
 {{end}}

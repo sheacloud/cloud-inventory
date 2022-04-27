@@ -107,7 +107,7 @@ func (dao *DynamoDBWriterDAO) PutAwsBackupBackupVaults(ctx context.Context, reso
 		}
 		items[i] = item
 	}
-	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-backup-vaults", items)
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-backup-backup-vaults", items)
 }
 func (dao *DynamoDBWriterDAO) PutAwsBackupBackupPlans(ctx context.Context, resources []*backup.BackupPlan) error {
 	items := make([]map[string]types.AttributeValue, len(resources))
@@ -118,7 +118,7 @@ func (dao *DynamoDBWriterDAO) PutAwsBackupBackupPlans(ctx context.Context, resou
 		}
 		items[i] = item
 	}
-	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-backup-plans", items)
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-backup-backup-plans", items)
 }
 func (dao *DynamoDBWriterDAO) PutAwsCloudTrailTrails(ctx context.Context, resources []*cloudtrail.Trail) error {
 	items := make([]map[string]types.AttributeValue, len(resources))
@@ -722,7 +722,7 @@ func (dao *DynamoDBReaderDAO) GetReferencedAwsApiGatewayV2ApiReportTime(ctx cont
 }
 
 func (dao *DynamoDBReaderDAO) ListAwsBackupBackupVaults(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*backup.BackupVault, error) {
-	tableName := "cloud-inventory-aws-backup-vaults"
+	tableName := "cloud-inventory-aws-backup-backup-vaults"
 	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "backup_vault_arn", nil)
 	if err != nil {
 		return nil, err
@@ -736,7 +736,7 @@ func (dao *DynamoDBReaderDAO) ListAwsBackupBackupVaults(ctx context.Context, rep
 }
 
 func (dao *DynamoDBReaderDAO) GetAwsBackupBackupVault(ctx context.Context, reportTimeUnixMilli int64, id string) (*backup.BackupVault, error) {
-	tableName := "cloud-inventory-aws-backup-vaults"
+	tableName := "cloud-inventory-aws-backup-backup-vaults"
 	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "backup_vault_arn")
 	if err != nil {
 		return nil, err
@@ -750,15 +750,15 @@ func (dao *DynamoDBReaderDAO) GetAwsBackupBackupVault(ctx context.Context, repor
 }
 
 func (dao *DynamoDBReaderDAO) GetAwsBackupBackupVaultReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "backup", "vaults")
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "backup", "backup_vaults")
 }
 
 func (dao *DynamoDBReaderDAO) GetReferencedAwsBackupBackupVaultReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "backup", "vaults")
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "backup", "backup_vaults")
 }
 
 func (dao *DynamoDBReaderDAO) ListAwsBackupBackupPlans(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*backup.BackupPlan, error) {
-	tableName := "cloud-inventory-aws-backup-plans"
+	tableName := "cloud-inventory-aws-backup-backup-plans"
 	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "backup_plan_arn", nil)
 	if err != nil {
 		return nil, err
@@ -772,7 +772,7 @@ func (dao *DynamoDBReaderDAO) ListAwsBackupBackupPlans(ctx context.Context, repo
 }
 
 func (dao *DynamoDBReaderDAO) GetAwsBackupBackupPlan(ctx context.Context, reportTimeUnixMilli int64, id string) (*backup.BackupPlan, error) {
-	tableName := "cloud-inventory-aws-backup-plans"
+	tableName := "cloud-inventory-aws-backup-backup-plans"
 	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "backup_plan_arn")
 	if err != nil {
 		return nil, err
@@ -786,11 +786,11 @@ func (dao *DynamoDBReaderDAO) GetAwsBackupBackupPlan(ctx context.Context, report
 }
 
 func (dao *DynamoDBReaderDAO) GetAwsBackupBackupPlanReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
-	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "backup", "plans")
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "backup", "backup_plans")
 }
 
 func (dao *DynamoDBReaderDAO) GetReferencedAwsBackupBackupPlanReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
-	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "backup", "plans")
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "backup", "backup_plans")
 }
 
 func (dao *DynamoDBReaderDAO) ListAwsCloudTrailTrails(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*cloudtrail.Trail, error) {

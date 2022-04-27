@@ -12,22 +12,22 @@ import (
 	"time"
 )
 
-type ListBackupVaultsResponse struct {
-	BackupVaults    []*backup.BackupVault `json:"backup_vaults"`
-	PaginationToken *string               `json:"pagination_token,omitempty"`
+type ListBackupPlansResponse struct {
+	BackupPlans     []*backup.BackupPlan `json:"backup_plans"`
+	PaginationToken *string              `json:"pagination_token,omitempty"`
 }
 
-// GetBackupVaultsMetadata godoc
-// @Summary      Get BackupVaults Metadata
-// @Description  get a list of vaults metadata
+// GetBackupPlansMetadata godoc
+// @Summary      Get BackupPlans Metadata
+// @Description  get a list of backup_plans metadata
 // @Tags         aws backup
 // @Produce      json
 // @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
 // @Security     ApiKeyAuth
 // @Success      200  {array}   routes.AwsResourceMetadata
 // @Failure      400
-// @Router       /metadata/aws/backup/vaults [get]
-func GetBackupVaultsMetadata(c *gin.Context, dao db.ReaderDAO) {
+// @Router       /metadata/aws/backup/backup_plans [get]
+func GetBackupPlansMetadata(c *gin.Context, dao db.ReaderDAO) {
 	reportDateString := c.Query("report_date")
 	var reportDate time.Time
 	if reportDateString == "" {
@@ -36,7 +36,7 @@ func GetBackupVaultsMetadata(c *gin.Context, dao db.ReaderDAO) {
 		reportDate, _ = time.Parse("2006-01-02", reportDateString)
 	}
 
-	reportTimes, err := dao.GetAwsBackupBackupVaultReportTimes(c, reportDate.UnixMilli())
+	reportTimes, err := dao.GetAwsBackupBackupPlanReportTimes(c, reportDate.UnixMilli())
 	if err != nil {
 		c.AbortWithError(400, err)
 		return
@@ -44,16 +44,16 @@ func GetBackupVaultsMetadata(c *gin.Context, dao db.ReaderDAO) {
 
 	c.IndentedJSON(200, routes.AwsResourceMetadata{
 		DateTimes: reportTimes,
-		IdField:   "backup_vault_arn",
+		IdField:   "backup_plan_arn",
 		DisplayFields: []string{
-			"backup_vault_name",
+			"backup_plan_name",
 		},
 	})
 }
 
-// ListBackupVaults godoc
-// @Summary      List BackupVaults
-// @Description  get a list of vaults
+// ListBackupPlans godoc
+// @Summary      List BackupPlans
+// @Description  get a list of backup_plans
 // @Tags         aws backup
 // @Produce      json
 // @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
@@ -64,10 +64,10 @@ func GetBackupVaultsMetadata(c *gin.Context, dao db.ReaderDAO) {
 // @Param        pagination_token query string false "A pagination token. If this is specified, the next set of results is retrieved. The pagination token is returned in the response."
 // @Param        max_results query int false "The maximum number of results to return. Default is 100"
 // @Security     ApiKeyAuth
-// @Success      200  {object}   ListBackupVaultsResponse
+// @Success      200  {object}   ListBackupPlansResponse
 // @Failure      400
-// @Router       /inventory/aws/backup/vaults [get]
-func ListBackupVaults(c *gin.Context, dao db.ReaderDAO) {
+// @Router       /inventory/aws/backup/backup_plans [get]
+func ListBackupPlans(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -79,40 +79,40 @@ func ListBackupVaults(c *gin.Context, dao db.ReaderDAO) {
 		return
 	}
 
-	selectedTime, err := dao.GetReferencedAwsBackupBackupVaultReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
+	selectedTime, err := dao.GetReferencedAwsBackupBackupPlanReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	results, err := dao.ListAwsBackupBackupVaults(c, *selectedTime, params.AccountId, params.Region, nil, nil)
+	results, err := dao.ListAwsBackupBackupPlans(c, *selectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.IndentedJSON(200, ListBackupVaultsResponse{
-		BackupVaults: results,
+	c.IndentedJSON(200, ListBackupPlansResponse{
+		BackupPlans: results,
 	})
 }
 
-// GetBackupVault godoc
-// @Summary      Get a specific BackupVault
-// @Description  Get a specific BackupVault by its BackupVaultArn
+// GetBackupPlan godoc
+// @Summary      Get a specific BackupPlan
+// @Description  Get a specific BackupPlan by its BackupPlanArn
 // @Tags         aws backup
 // @Produce      json
 // @Param        report_date query string false  "Which date to pull data from. Current date by default" Format(date)
-// @Param        backup_vault_arn path string true "The backup_vault_arn of the BackupVault to retrieve"
+// @Param        backup_plan_arn path string true "The backup_plan_arn of the BackupPlan to retrieve"
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
 // @Param		 time_selection query string false  "How to select the time range to pull data from. 'latest' by default" Enums(latest, before, after, at)
 // @Param		 time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Security     ApiKeyAuth
-// @Success      200  {object}   backup.BackupVault
+// @Success      200  {object}   backup.BackupPlan
 // @Failure      400
 // @Failure 	 404
-// @Router       /inventory/aws/backup/vaults/{backup_vault_arn} [get]
-func GetBackupVault(c *gin.Context, dao db.ReaderDAO) {
+// @Router       /inventory/aws/backup/backup_plans/{backup_plan_arn} [get]
+func GetBackupPlan(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsQueryParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -123,19 +123,19 @@ func GetBackupVault(c *gin.Context, dao db.ReaderDAO) {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	id, err := url.QueryUnescape(c.Param("backup_vault_arn"))
+	id, err := url.QueryUnescape(c.Param("backup_plan_arn"))
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	selectedTime, err := dao.GetReferencedAwsBackupBackupVaultReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
+	selectedTime, err := dao.GetReferencedAwsBackupBackupPlanReportTime(c, params.ReportDateUnixMilli, *params.TimeSelection, params.TimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	result, err := dao.GetAwsBackupBackupVault(c, *selectedTime, id)
+	result, err := dao.GetAwsBackupBackupPlan(c, *selectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
@@ -144,9 +144,9 @@ func GetBackupVault(c *gin.Context, dao db.ReaderDAO) {
 	c.IndentedJSON(200, result)
 }
 
-// DiffMultiBackupVaults godoc
-// @Summary      Diff BackupVaults
-// @Description  get a diff of BackupVaults between two points in time
+// DiffMultiBackupPlans godoc
+// @Summary      Diff BackupPlans
+// @Description  get a diff of BackupPlans between two points in time
 // @Tags         aws backup
 // @Produce      json
 // @Param        start_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
@@ -160,8 +160,8 @@ func GetBackupVault(c *gin.Context, dao db.ReaderDAO) {
 // @Security     ApiKeyAuth
 // @Success      200  {array}   routes.Diff
 // @Failure      400
-// @Router       /diff/aws/backup/vaults [get]
-func DiffMultiBackupVaults(c *gin.Context, dao db.ReaderDAO) {
+// @Router       /diff/aws/backup/backup_plans [get]
+func DiffMultiBackupPlans(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -173,25 +173,25 @@ func DiffMultiBackupVaults(c *gin.Context, dao db.ReaderDAO) {
 		return
 	}
 
-	startSelectedTime, err := dao.GetReferencedAwsBackupBackupVaultReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
+	startSelectedTime, err := dao.GetReferencedAwsBackupBackupPlanReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	startResults, err := dao.ListAwsBackupBackupVaults(c, *startSelectedTime, params.AccountId, params.Region, nil, nil)
+	startResults, err := dao.ListAwsBackupBackupPlans(c, *startSelectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	endSelectedTime, err := dao.GetReferencedAwsBackupBackupVaultReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
+	endSelectedTime, err := dao.GetReferencedAwsBackupBackupPlanReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	endResults, err := dao.ListAwsBackupBackupVaults(c, *endSelectedTime, params.AccountId, params.Region, nil, nil)
+	endResults, err := dao.ListAwsBackupBackupPlans(c, *endSelectedTime, params.AccountId, params.Region, nil, nil)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
@@ -206,9 +206,9 @@ func DiffMultiBackupVaults(c *gin.Context, dao db.ReaderDAO) {
 	c.IndentedJSON(200, changelog)
 }
 
-// DiffSingleBackupVault godoc
-// @Summary      Diff BackupVault
-// @Description  get a diff of BackupVault between two points in time
+// DiffSingleBackupPlan godoc
+// @Summary      Diff BackupPlan
+// @Description  get a diff of BackupPlan between two points in time
 // @Tags         aws backup
 // @Produce      json
 // @Param        start_report_date query string true  "Which date to pull data from. Current date by default" Format(date)
@@ -219,12 +219,12 @@ func DiffMultiBackupVaults(c *gin.Context, dao db.ReaderDAO) {
 // @Param		 end_time_selection_reference query string false  "The reference time to use when selecting the time range to pull data from. Only used when time_selection is 'before', 'after', or 'at'." Format(dateTime)
 // @Param		 account_id query string false  "A specific account to pull data from. All accounts by default"
 // @Param		 region query string false  "A specific region to pull data from. All regions by default"
-// @Param        backup_vault_arn path string true "The backup_vault_arn of the BackupVault to retrieve"
+// @Param        backup_plan_arn path string true "The backup_plan_arn of the BackupPlan to retrieve"
 // @Security     ApiKeyAuth
 // @Success      200  {array}   routes.Diff
 // @Failure      400
-// @Router       /diff/aws/backup/vaults/{backup_vault_arn} [get]
-func DiffSingleBackupVault(c *gin.Context, dao db.ReaderDAO) {
+// @Router       /diff/aws/backup/backup_plans/{backup_plan_arn} [get]
+func DiffSingleBackupPlan(c *gin.Context, dao db.ReaderDAO) {
 	var params routes.AwsDiffParameters
 	if err := c.BindQuery(&params); err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
@@ -236,38 +236,38 @@ func DiffSingleBackupVault(c *gin.Context, dao db.ReaderDAO) {
 		return
 	}
 
-	id, err := url.QueryUnescape(c.Param("backup_vault_arn"))
+	id, err := url.QueryUnescape(c.Param("backup_plan_arn"))
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	startSelectedTime, err := dao.GetReferencedAwsBackupBackupVaultReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
+	startSelectedTime, err := dao.GetReferencedAwsBackupBackupPlanReportTime(c, params.StartReportDateUnixMilli, *params.StartTimeSelection, params.StartTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	startObject, err := dao.GetAwsBackupBackupVault(c, *startSelectedTime, id)
+	startObject, err := dao.GetAwsBackupBackupPlan(c, *startSelectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	endSelectedTime, err := dao.GetReferencedAwsBackupBackupVaultReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
+	endSelectedTime, err := dao.GetReferencedAwsBackupBackupPlanReportTime(c, params.EndReportDateUnixMilli, *params.EndTimeSelection, params.EndTimeSelectionReference)
 	if err != nil {
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	endObject, err := dao.GetAwsBackupBackupVault(c, *endSelectedTime, id)
+	endObject, err := dao.GetAwsBackupBackupPlan(c, *endSelectedTime, id)
 	if err != nil {
 		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
 	if startObject == nil && endObject == nil {
-		c.AbortWithStatusJSON(404, gin.H{"error": "No BackupVault found with backup_vault_arn " + id})
+		c.AbortWithStatusJSON(404, gin.H{"error": "No BackupPlan found with backup_plan_arn " + id})
 		return
 	} else {
 		changelog, err := diff.Diff(startObject, endObject)

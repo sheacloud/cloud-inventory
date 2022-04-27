@@ -63,7 +63,7 @@ func (dao *S3ParquetWriterDAO) Finish(ctx context.Context) error {
     if len(resources) == 0 {
         return nil
     }
-    file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "{{$serviceElement.Name}}", "{{$resourceElement.Name}}"}, resources[0].ReportTime, resources[0])
+    file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "{{$serviceElement.Name}}", "{{$resourceElement.ObjectPluralSnakeName}}"}, resources[0].ReportTime, resources[0])
     if err != nil {
         return err
     }

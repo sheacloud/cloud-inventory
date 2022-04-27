@@ -58,7 +58,7 @@ func initOptions() {
 	// DAO settings
 	viper.BindEnv("mongo_uri")
 
-	viper.BindEnv("dynamodb_table_prefix")
+	viper.BindEnv("enable_dynamodb")
 
 	viper.BindEnv("s3_bucket")
 }
@@ -102,7 +102,7 @@ func initializeDAOs(cfg aws.Config) db.WriterDAO {
 		mongoDAO = mongoDao.NewMongoWriterDAO(client.Database("cloud-inventory"), 3)
 		selectedDAOs = append(selectedDAOs, mongoDAO)
 	}
-	if viper.GetString("dynamodb_table_prefix") != "" {
+	if viper.GetString("enable_dynamodb") != "" {
 		dynamoClient := dynamodb.NewFromConfig(cfg)
 		dynamoDAO = dynamoDao.NewDynamoDBWriterDAO(dynamoClient, 3)
 		selectedDAOs = append(selectedDAOs, dynamoDAO)

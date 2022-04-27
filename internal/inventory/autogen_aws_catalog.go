@@ -74,13 +74,13 @@ var (
 			RegionOverrides: []string{},
 			Resources: []AwsCatalogResource{
 				{
-					ResourceName:  "vaults",
+					ResourceName:  "backup_vaults",
 					ResourceModel: &backup.BackupVault{},
 					FetchFunction: IngestAwsBackupBackupVaults,
 					UniqueIdField: "BackupVaultArn",
 				},
 				{
-					ResourceName:  "plans",
+					ResourceName:  "backup_plans",
 					ResourceModel: &backup.BackupPlan{},
 					FetchFunction: IngestAwsBackupBackupPlans,
 					UniqueIdField: "BackupPlanArn",

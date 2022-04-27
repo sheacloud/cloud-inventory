@@ -90,7 +90,7 @@ func (dao *S3IonWriterDAO) PutAwsBackupBackupVaults(ctx context.Context, resourc
 	if len(resources) == 0 {
 		return nil
 	}
-	file := dao.ionClient.GetResourceFile("aws", "backup", "vaults", resources[0].ReportTime)
+	file := dao.ionClient.GetResourceFile("aws", "backup", "backup_vaults", resources[0].ReportTime)
 	file.Lock.Lock()
 	defer file.Lock.Unlock()
 
@@ -106,7 +106,7 @@ func (dao *S3IonWriterDAO) PutAwsBackupBackupPlans(ctx context.Context, resource
 	if len(resources) == 0 {
 		return nil
 	}
-	file := dao.ionClient.GetResourceFile("aws", "backup", "plans", resources[0].ReportTime)
+	file := dao.ionClient.GetResourceFile("aws", "backup", "backup_plans", resources[0].ReportTime)
 	file.Lock.Lock()
 	defer file.Lock.Unlock()
 

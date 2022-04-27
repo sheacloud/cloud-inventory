@@ -1,6 +1,6 @@
 
-resource "aws_glue_catalog_table" "aws_backup_vaults" {
-  name          = "aws_backup_vaults"
+resource "aws_glue_catalog_table" "aws_backup_backup_vaults" {
+  name          = "aws_backup_backup_vaults"
   database_name = var.glue_database_name
   table_type    = "EXTERNAL_TABLE"
   parameters = {
@@ -13,7 +13,7 @@ resource "aws_glue_catalog_table" "aws_backup_vaults" {
   }
 
   storage_descriptor {
-    location      = "s3://${var.s3_bucket_name}/inventory/aws/backup/vaults/"
+    location      = "s3://${var.s3_bucket_name}/inventory/aws/backup/backup_vaults/"
     input_format  = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat"
     output_format = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat"
 
@@ -122,8 +122,8 @@ resource "aws_glue_catalog_table" "aws_backup_vaults" {
     type = "date"
   }
 }
-resource "aws_glue_catalog_table" "aws_backup_plans" {
-  name          = "aws_backup_plans"
+resource "aws_glue_catalog_table" "aws_backup_backup_plans" {
+  name          = "aws_backup_backup_plans"
   database_name = var.glue_database_name
   table_type    = "EXTERNAL_TABLE"
   parameters = {
@@ -136,7 +136,7 @@ resource "aws_glue_catalog_table" "aws_backup_plans" {
   }
 
   storage_descriptor {
-    location      = "s3://${var.s3_bucket_name}/inventory/aws/backup/plans/"
+    location      = "s3://${var.s3_bucket_name}/inventory/aws/backup/backup_plans/"
     input_format  = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat"
     output_format = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat"
 

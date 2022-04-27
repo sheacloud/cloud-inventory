@@ -9,7 +9,7 @@ import (
 var (
 	funcMap = template.FuncMap{
 		"toSnakeCase":   ToSnakeCase,
-		"toSnakeHyphen": ToSnakeHyphen,
+		"snakeToHyphen": SnakeToHyphen,
 	}
 
 	//go:embed templates/struct_source_code.tmpl

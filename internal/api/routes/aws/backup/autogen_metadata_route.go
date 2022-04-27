@@ -19,8 +19,8 @@ import (
 func GetBackupMetadata(c *gin.Context) {
 	c.IndentedJSON(200, routes.AwsServiceMetadata{
 		Resources: []string{
-			"vaults",
-			"plans",
+			"backup_vaults",
+			"backup_plans",
 		},
 	})
 }

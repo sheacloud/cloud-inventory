@@ -20,7 +20,7 @@ func Fetch{{.ResourceConfig.ObjectPluralName}}(ctx context.Context, params *aws.
 	inventoryResults := &meta.InventoryResults{
 		Cloud: "aws",
 		Service: "{{.ServiceName}}",
-		Resource: "{{.ResourceConfig.Name}}",
+		Resource: "{{.ResourceConfig.ObjectPluralSnakeName}}",
 		AccountId: params.AccountId,
 		Region: params.Region,
 		ReportTime: params.ReportTime,

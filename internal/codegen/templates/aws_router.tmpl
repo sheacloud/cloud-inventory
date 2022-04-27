@@ -36,7 +36,7 @@ func AddMetadataRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 
     {{range $serviceIndex, $serviceElement := .Services}}
 {{range $resourceIndex, $resourceElement := $serviceElement.Resources}}
-    r.GET("/{{$serviceElement.Name}}/{{$resourceElement.Name}}", func(c *gin.Context) {
+    r.GET("/{{$serviceElement.Name}}/{{$resourceElement.ObjectPluralSnakeName}}", func(c *gin.Context) {
 		{{$serviceElement.Name}}.Get{{$resourceElement.ObjectPluralName}}Metadata(c, dao)
 	})
 {{end}}
@@ -47,10 +47,10 @@ func AddInventoryRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 {{range $serviceIndex, $serviceElement := .Services}}
 
 {{range $resourceIndex, $resourceElement := $serviceElement.Resources}}
-    r.GET("/{{$serviceElement.Name}}/{{$resourceElement.Name}}", func(c *gin.Context) {
+    r.GET("/{{$serviceElement.Name}}/{{$resourceElement.ObjectPluralSnakeName}}", func(c *gin.Context) {
         {{$serviceElement.Name}}.List{{$resourceElement.ObjectPluralName}}(c, dao)
     })
-    r.GET("/{{$serviceElement.Name}}/{{$resourceElement.Name}}/:{{$resourceElement.ObjectUniqueIdSnakeCase}}", func(c *gin.Context) {
+    r.GET("/{{$serviceElement.Name}}/{{$resourceElement.ObjectPluralSnakeName}}/:{{$resourceElement.ObjectUniqueIdSnakeCase}}", func(c *gin.Context) {
         {{$serviceElement.Name}}.Get{{$resourceElement.ObjectSingularName}}(c, dao)
     })
 {{end}}
@@ -62,10 +62,10 @@ func AddDiffRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 {{range $serviceIndex, $serviceElement := .Services}}
 
 {{range $resourceIndex, $resourceElement := $serviceElement.Resources}}
-    r.GET("/{{$serviceElement.Name}}/{{$resourceElement.Name}}", func(c *gin.Context) {
+    r.GET("/{{$serviceElement.Name}}/{{$resourceElement.ObjectPluralSnakeName}}", func(c *gin.Context) {
         {{$serviceElement.Name}}.DiffMulti{{$resourceElement.ObjectPluralName}}(c, dao)
     })
-    r.GET("/{{$serviceElement.Name}}/{{$resourceElement.Name}}/:{{$resourceElement.ObjectUniqueIdSnakeCase}}", func(c *gin.Context) {
+    r.GET("/{{$serviceElement.Name}}/{{$resourceElement.ObjectPluralSnakeName}}/:{{$resourceElement.ObjectUniqueIdSnakeCase}}", func(c *gin.Context) {
         {{$serviceElement.Name}}.DiffSingle{{$resourceElement.ObjectSingularName}}(c, dao)
     })
 {{end}}

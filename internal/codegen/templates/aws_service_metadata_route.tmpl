@@ -19,7 +19,7 @@ import (
 func Get{{.ServiceConfig.ServiceCapName}}Metadata(c *gin.Context) {
 	c.IndentedJSON(200, routes.AwsServiceMetadata{
 		Resources: []string{
-{{range $index, $element := .ServiceConfig.Resources}}          "{{$element.Name}}",
+{{range $index, $element := .ServiceConfig.Resources}}          "{{$element.ObjectPluralSnakeName}}",
 {{end}}     },
 	})
 }

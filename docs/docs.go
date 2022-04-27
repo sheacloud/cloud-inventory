@@ -440,7 +440,7 @@ var doc = `{
                 }
             }
         },
-        "/diff/aws/backup/plans": {
+        "/diff/aws/backup/backup_plans": {
             "get": {
                 "security": [
                     {
@@ -539,7 +539,7 @@ var doc = `{
                 }
             }
         },
-        "/diff/aws/backup/plans/{backup_plan_arn}": {
+        "/diff/aws/backup/backup_plans/{backup_plan_arn}": {
             "get": {
                 "security": [
                     {
@@ -645,7 +645,7 @@ var doc = `{
                 }
             }
         },
-        "/diff/aws/backup/vaults": {
+        "/diff/aws/backup/backup_vaults": {
             "get": {
                 "security": [
                     {
@@ -744,7 +744,7 @@ var doc = `{
                 }
             }
         },
-        "/diff/aws/backup/vaults/{backup_vault_arn}": {
+        "/diff/aws/backup/backup_vaults/{backup_vault_arn}": {
             "get": {
                 "security": [
                     {
@@ -11006,14 +11006,14 @@ var doc = `{
                 }
             }
         },
-        "/inventory/aws/backup/plans": {
+        "/inventory/aws/backup/backup_plans": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get a list of plans",
+                "description": "get a list of backup_plans",
                 "produces": [
                     "application/json"
                 ],
@@ -11086,7 +11086,7 @@ var doc = `{
                 }
             }
         },
-        "/inventory/aws/backup/plans/{backup_plan_arn}": {
+        "/inventory/aws/backup/backup_plans/{backup_plan_arn}": {
             "get": {
                 "security": [
                     {
@@ -11164,14 +11164,14 @@ var doc = `{
                 }
             }
         },
-        "/inventory/aws/backup/vaults": {
+        "/inventory/aws/backup/backup_vaults": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get a list of vaults",
+                "description": "get a list of backup_vaults",
                 "produces": [
                     "application/json"
                 ],
@@ -11244,7 +11244,7 @@ var doc = `{
                 }
             }
         },
-        "/inventory/aws/backup/vaults/{backup_vault_arn}": {
+        "/inventory/aws/backup/backup_vaults/{backup_vault_arn}": {
             "get": {
                 "security": [
                     {
@@ -19110,14 +19110,14 @@ var doc = `{
                 }
             }
         },
-        "/metadata/aws/backup/plans": {
+        "/metadata/aws/backup/backup_plans": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get a list of plans metadata",
+                "description": "get a list of backup_plans metadata",
                 "produces": [
                     "application/json"
                 ],
@@ -19150,14 +19150,14 @@ var doc = `{
                 }
             }
         },
-        "/metadata/aws/backup/vaults": {
+        "/metadata/aws/backup/backup_vaults": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get a list of vaults metadata",
+                "description": "get a list of backup_vaults metadata",
                 "produces": [
                     "application/json"
                 ],

@@ -43,8 +43,8 @@ func ToSnakeCase(str string) string {
 	return strings.ToLower(snake)
 }
 
-func ToSnakeHyphen(str string) string {
-	return strings.Replace(ToSnakeCase(str), "_", "-", -1)
+func SnakeToHyphen(str string) string {
+	return strings.Replace(str, "_", "-", -1)
 }
 
 func stringInList(s string, list []string) bool {
