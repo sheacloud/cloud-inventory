@@ -4,8 +4,12 @@ package aws
 
 import (
 	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/acm"
 	"github.com/aws/aws-sdk-go-v2/service/apigateway"
 	"github.com/aws/aws-sdk-go-v2/service/apigatewayv2"
+	"github.com/aws/aws-sdk-go-v2/service/applicationautoscaling"
+	"github.com/aws/aws-sdk-go-v2/service/athena"
+	"github.com/aws/aws-sdk-go-v2/service/autoscaling"
 	"github.com/aws/aws-sdk-go-v2/service/backup"
 	"github.com/aws/aws-sdk-go-v2/service/cloudtrail"
 	"github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs"
@@ -30,8 +34,12 @@ import (
 )
 
 type AwsClient struct {
+	ACMClient                    interfaces.ACMClient
 	ApiGatewayClient             interfaces.ApiGatewayClient
 	ApiGatewayV2Client           interfaces.ApiGatewayV2Client
+	ApplicationAutoScalingClient interfaces.ApplicationAutoScalingClient
+	AthenaClient                 interfaces.AthenaClient
+	AutoScalingClient            interfaces.AutoScalingClient
 	BackupClient                 interfaces.BackupClient
 	CloudTrailClient             interfaces.CloudTrailClient
 	CloudWatchLogsClient         interfaces.CloudWatchLogsClient
@@ -55,8 +63,12 @@ type AwsClient struct {
 
 func NewAwsClient(cfg aws.Config) *AwsClient {
 	return &AwsClient{
+		ACMClient:                    acm.NewFromConfig(cfg),
 		ApiGatewayClient:             apigateway.NewFromConfig(cfg),
 		ApiGatewayV2Client:           apigatewayv2.NewFromConfig(cfg),
+		ApplicationAutoScalingClient: applicationautoscaling.NewFromConfig(cfg),
+		AthenaClient:                 athena.NewFromConfig(cfg),
+		AutoScalingClient:            autoscaling.NewFromConfig(cfg),
 		BackupClient:                 backup.NewFromConfig(cfg),
 		CloudTrailClient:             cloudtrail.NewFromConfig(cfg),
 		CloudWatchLogsClient:         cloudwatchlogs.NewFromConfig(cfg),
@@ -79,11 +91,23 @@ func NewAwsClient(cfg aws.Config) *AwsClient {
 	}
 }
 
+func (c *AwsClient) ACM() interfaces.ACMClient {
+	return c.ACMClient
+}
 func (c *AwsClient) ApiGateway() interfaces.ApiGatewayClient {
 	return c.ApiGatewayClient
 }
 func (c *AwsClient) ApiGatewayV2() interfaces.ApiGatewayV2Client {
 	return c.ApiGatewayV2Client
+}
+func (c *AwsClient) ApplicationAutoScaling() interfaces.ApplicationAutoScalingClient {
+	return c.ApplicationAutoScalingClient
+}
+func (c *AwsClient) Athena() interfaces.AthenaClient {
+	return c.AthenaClient
+}
+func (c *AwsClient) AutoScaling() interfaces.AutoScalingClient {
+	return c.AutoScalingClient
 }
 func (c *AwsClient) Backup() interfaces.BackupClient {
 	return c.BackupClient

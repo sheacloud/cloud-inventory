@@ -15,7 +15,7 @@ func main() {
 
 	var config codegen.AwsTemplate
 
-	configDirName := "./codegen/awscloud/"
+	configDirName := "./codegen/aws/"
 
 	combinedHCL := bytes.NewBuffer([]byte{})
 	files, err := ioutil.ReadDir(configDirName)

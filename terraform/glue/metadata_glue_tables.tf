@@ -62,12 +62,6 @@ resource "aws_glue_catalog_table" "meta_inventory_results" {
       parameters = {}
     }
     columns {
-      name       = "region"
-      type       = "string"
-      comment    = ""
-      parameters = {}
-    }
-    columns {
       name       = "fetched_resources"
       type       = "int"
       comment    = ""

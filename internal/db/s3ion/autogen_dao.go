@@ -6,8 +6,12 @@ import (
 	"context"
 	"fmt"
 	awsS3 "github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/acm"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/apigateway"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/apigatewayv2"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/applicationautoscaling"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/athena"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/autoscaling"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/backup"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudtrail"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatchlogs"
@@ -54,6 +58,22 @@ func (dao *S3IonWriterDAO) Finish(ctx context.Context) error {
 	return dao.ionClient.CloseAll(ctx)
 }
 
+func (dao *S3IonWriterDAO) PutAwsACMCertificates(ctx context.Context, resources []*acm.Certificate) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file := dao.ionClient.GetResourceFile("aws", "acm", "certificates", resources[0].ReportTime)
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Encoder.Encode(resource); err != nil {
+			return fmt.Errorf("failed to encode resource: %w", err)
+		}
+	}
+
+	return nil
+}
 func (dao *S3IonWriterDAO) PutAwsApiGatewayRestApis(ctx context.Context, resources []*apigateway.RestApi) error {
 	if len(resources) == 0 {
 		return nil
@@ -75,6 +95,102 @@ func (dao *S3IonWriterDAO) PutAwsApiGatewayV2Apis(ctx context.Context, resources
 		return nil
 	}
 	file := dao.ionClient.GetResourceFile("aws", "apigatewayv2", "apis", resources[0].ReportTime)
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Encoder.Encode(resource); err != nil {
+			return fmt.Errorf("failed to encode resource: %w", err)
+		}
+	}
+
+	return nil
+}
+func (dao *S3IonWriterDAO) PutAwsApplicationAutoScalingScalingPolicies(ctx context.Context, resources []*applicationautoscaling.ScalingPolicy) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file := dao.ionClient.GetResourceFile("aws", "applicationautoscaling", "scaling_policies", resources[0].ReportTime)
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Encoder.Encode(resource); err != nil {
+			return fmt.Errorf("failed to encode resource: %w", err)
+		}
+	}
+
+	return nil
+}
+func (dao *S3IonWriterDAO) PutAwsAthenaWorkGroups(ctx context.Context, resources []*athena.WorkGroup) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file := dao.ionClient.GetResourceFile("aws", "athena", "work_groups", resources[0].ReportTime)
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Encoder.Encode(resource); err != nil {
+			return fmt.Errorf("failed to encode resource: %w", err)
+		}
+	}
+
+	return nil
+}
+func (dao *S3IonWriterDAO) PutAwsAthenaDataCatalogs(ctx context.Context, resources []*athena.DataCatalog) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file := dao.ionClient.GetResourceFile("aws", "athena", "data_catalogs", resources[0].ReportTime)
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Encoder.Encode(resource); err != nil {
+			return fmt.Errorf("failed to encode resource: %w", err)
+		}
+	}
+
+	return nil
+}
+func (dao *S3IonWriterDAO) PutAwsAthenaDatabases(ctx context.Context, resources []*athena.Database) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file := dao.ionClient.GetResourceFile("aws", "athena", "databases", resources[0].ReportTime)
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Encoder.Encode(resource); err != nil {
+			return fmt.Errorf("failed to encode resource: %w", err)
+		}
+	}
+
+	return nil
+}
+func (dao *S3IonWriterDAO) PutAwsAutoScalingAutoScalingGroups(ctx context.Context, resources []*autoscaling.AutoScalingGroup) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file := dao.ionClient.GetResourceFile("aws", "autoscaling", "auto_scaling_groups", resources[0].ReportTime)
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Encoder.Encode(resource); err != nil {
+			return fmt.Errorf("failed to encode resource: %w", err)
+		}
+	}
+
+	return nil
+}
+func (dao *S3IonWriterDAO) PutAwsAutoScalingLaunchConfigurations(ctx context.Context, resources []*autoscaling.LaunchConfiguration) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file := dao.ionClient.GetResourceFile("aws", "autoscaling", "launch_configurations", resources[0].ReportTime)
 	file.Lock.Lock()
 	defer file.Lock.Unlock()
 

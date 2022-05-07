@@ -9,8 +9,12 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/google/uuid"
 	"github.com/sheacloud/cloud-inventory/internal/db"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/acm"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/apigateway"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/apigatewayv2"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/applicationautoscaling"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/athena"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/autoscaling"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/backup"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudtrail"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatchlogs"
@@ -76,6 +80,17 @@ func (dao *DynamoDBWriterDAO) Finish(ctx context.Context) error {
 	return nil
 }
 
+func (dao *DynamoDBWriterDAO) PutAwsACMCertificates(ctx context.Context, resources []*acm.Certificate) error {
+	items := make([]map[string]types.AttributeValue, len(resources))
+	for i, resource := range resources {
+		item, err := attributevalue.MarshalMap(resource)
+		if err != nil {
+			return err
+		}
+		items[i] = item
+	}
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-acm-certificates", items)
+}
 func (dao *DynamoDBWriterDAO) PutAwsApiGatewayRestApis(ctx context.Context, resources []*apigateway.RestApi) error {
 	items := make([]map[string]types.AttributeValue, len(resources))
 	for i, resource := range resources {
@@ -97,6 +112,72 @@ func (dao *DynamoDBWriterDAO) PutAwsApiGatewayV2Apis(ctx context.Context, resour
 		items[i] = item
 	}
 	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-apigatewayv2-apis", items)
+}
+func (dao *DynamoDBWriterDAO) PutAwsApplicationAutoScalingScalingPolicies(ctx context.Context, resources []*applicationautoscaling.ScalingPolicy) error {
+	items := make([]map[string]types.AttributeValue, len(resources))
+	for i, resource := range resources {
+		item, err := attributevalue.MarshalMap(resource)
+		if err != nil {
+			return err
+		}
+		items[i] = item
+	}
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-applicationautoscaling-scaling-policies", items)
+}
+func (dao *DynamoDBWriterDAO) PutAwsAthenaWorkGroups(ctx context.Context, resources []*athena.WorkGroup) error {
+	items := make([]map[string]types.AttributeValue, len(resources))
+	for i, resource := range resources {
+		item, err := attributevalue.MarshalMap(resource)
+		if err != nil {
+			return err
+		}
+		items[i] = item
+	}
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-athena-work-groups", items)
+}
+func (dao *DynamoDBWriterDAO) PutAwsAthenaDataCatalogs(ctx context.Context, resources []*athena.DataCatalog) error {
+	items := make([]map[string]types.AttributeValue, len(resources))
+	for i, resource := range resources {
+		item, err := attributevalue.MarshalMap(resource)
+		if err != nil {
+			return err
+		}
+		items[i] = item
+	}
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-athena-data-catalogs", items)
+}
+func (dao *DynamoDBWriterDAO) PutAwsAthenaDatabases(ctx context.Context, resources []*athena.Database) error {
+	items := make([]map[string]types.AttributeValue, len(resources))
+	for i, resource := range resources {
+		item, err := attributevalue.MarshalMap(resource)
+		if err != nil {
+			return err
+		}
+		items[i] = item
+	}
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-athena-databases", items)
+}
+func (dao *DynamoDBWriterDAO) PutAwsAutoScalingAutoScalingGroups(ctx context.Context, resources []*autoscaling.AutoScalingGroup) error {
+	items := make([]map[string]types.AttributeValue, len(resources))
+	for i, resource := range resources {
+		item, err := attributevalue.MarshalMap(resource)
+		if err != nil {
+			return err
+		}
+		items[i] = item
+	}
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-autoscaling-auto-scaling-groups", items)
+}
+func (dao *DynamoDBWriterDAO) PutAwsAutoScalingLaunchConfigurations(ctx context.Context, resources []*autoscaling.LaunchConfiguration) error {
+	items := make([]map[string]types.AttributeValue, len(resources))
+	for i, resource := range resources {
+		item, err := attributevalue.MarshalMap(resource)
+		if err != nil {
+			return err
+		}
+		items[i] = item
+	}
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-autoscaling-launch-configurations", items)
 }
 func (dao *DynamoDBWriterDAO) PutAwsBackupBackupVaults(ctx context.Context, resources []*backup.BackupVault) error {
 	items := make([]map[string]types.AttributeValue, len(resources))
@@ -649,6 +730,42 @@ func (dao *DynamoDBWriterDAO) PutAwsStorageGatewayGateways(ctx context.Context, 
 	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-storagegateway-gateways", items)
 }
 
+func (dao *DynamoDBReaderDAO) ListAwsACMCertificates(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*acm.Certificate, error) {
+	tableName := "cloud-inventory-aws-acm-certificates"
+	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "certificate_arn", nil)
+	if err != nil {
+		return nil, err
+	}
+	var resources []*acm.Certificate
+	err = attributevalue.UnmarshalListOfMaps(items, &resources)
+	if err != nil {
+		return nil, err
+	}
+	return resources, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsACMCertificate(ctx context.Context, reportTimeUnixMilli int64, id string) (*acm.Certificate, error) {
+	tableName := "cloud-inventory-aws-acm-certificates"
+	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "certificate_arn")
+	if err != nil {
+		return nil, err
+	}
+	var resource *acm.Certificate
+	err = attributevalue.UnmarshalMap(item, &resource)
+	if err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsACMCertificateReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "acm", "certificates")
+}
+
+func (dao *DynamoDBReaderDAO) GetReferencedAwsACMCertificateReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "acm", "certificates")
+}
+
 func (dao *DynamoDBReaderDAO) ListAwsApiGatewayRestApis(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*apigateway.RestApi, error) {
 	tableName := "cloud-inventory-aws-apigateway-rest-apis"
 	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "id", nil)
@@ -719,6 +836,222 @@ func (dao *DynamoDBReaderDAO) GetAwsApiGatewayV2ApiReportTimes(ctx context.Conte
 
 func (dao *DynamoDBReaderDAO) GetReferencedAwsApiGatewayV2ApiReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
 	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "apigatewayv2", "apis")
+}
+
+func (dao *DynamoDBReaderDAO) ListAwsApplicationAutoScalingScalingPolicies(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*applicationautoscaling.ScalingPolicy, error) {
+	tableName := "cloud-inventory-aws-applicationautoscaling-scaling-policies"
+	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "policy_arn", nil)
+	if err != nil {
+		return nil, err
+	}
+	var resources []*applicationautoscaling.ScalingPolicy
+	err = attributevalue.UnmarshalListOfMaps(items, &resources)
+	if err != nil {
+		return nil, err
+	}
+	return resources, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsApplicationAutoScalingScalingPolicy(ctx context.Context, reportTimeUnixMilli int64, id string) (*applicationautoscaling.ScalingPolicy, error) {
+	tableName := "cloud-inventory-aws-applicationautoscaling-scaling-policies"
+	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "policy_arn")
+	if err != nil {
+		return nil, err
+	}
+	var resource *applicationautoscaling.ScalingPolicy
+	err = attributevalue.UnmarshalMap(item, &resource)
+	if err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsApplicationAutoScalingScalingPolicyReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "applicationautoscaling", "scaling_policies")
+}
+
+func (dao *DynamoDBReaderDAO) GetReferencedAwsApplicationAutoScalingScalingPolicyReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "applicationautoscaling", "scaling_policies")
+}
+
+func (dao *DynamoDBReaderDAO) ListAwsAthenaWorkGroups(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*athena.WorkGroup, error) {
+	tableName := "cloud-inventory-aws-athena-work-groups"
+	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "name", nil)
+	if err != nil {
+		return nil, err
+	}
+	var resources []*athena.WorkGroup
+	err = attributevalue.UnmarshalListOfMaps(items, &resources)
+	if err != nil {
+		return nil, err
+	}
+	return resources, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsAthenaWorkGroup(ctx context.Context, reportTimeUnixMilli int64, id string) (*athena.WorkGroup, error) {
+	tableName := "cloud-inventory-aws-athena-work-groups"
+	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "name")
+	if err != nil {
+		return nil, err
+	}
+	var resource *athena.WorkGroup
+	err = attributevalue.UnmarshalMap(item, &resource)
+	if err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsAthenaWorkGroupReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "athena", "work_groups")
+}
+
+func (dao *DynamoDBReaderDAO) GetReferencedAwsAthenaWorkGroupReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "athena", "work_groups")
+}
+
+func (dao *DynamoDBReaderDAO) ListAwsAthenaDataCatalogs(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*athena.DataCatalog, error) {
+	tableName := "cloud-inventory-aws-athena-data-catalogs"
+	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "name", nil)
+	if err != nil {
+		return nil, err
+	}
+	var resources []*athena.DataCatalog
+	err = attributevalue.UnmarshalListOfMaps(items, &resources)
+	if err != nil {
+		return nil, err
+	}
+	return resources, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsAthenaDataCatalog(ctx context.Context, reportTimeUnixMilli int64, id string) (*athena.DataCatalog, error) {
+	tableName := "cloud-inventory-aws-athena-data-catalogs"
+	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "name")
+	if err != nil {
+		return nil, err
+	}
+	var resource *athena.DataCatalog
+	err = attributevalue.UnmarshalMap(item, &resource)
+	if err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsAthenaDataCatalogReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "athena", "data_catalogs")
+}
+
+func (dao *DynamoDBReaderDAO) GetReferencedAwsAthenaDataCatalogReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "athena", "data_catalogs")
+}
+
+func (dao *DynamoDBReaderDAO) ListAwsAthenaDatabases(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*athena.Database, error) {
+	tableName := "cloud-inventory-aws-athena-databases"
+	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "name", nil)
+	if err != nil {
+		return nil, err
+	}
+	var resources []*athena.Database
+	err = attributevalue.UnmarshalListOfMaps(items, &resources)
+	if err != nil {
+		return nil, err
+	}
+	return resources, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsAthenaDatabase(ctx context.Context, reportTimeUnixMilli int64, id string) (*athena.Database, error) {
+	tableName := "cloud-inventory-aws-athena-databases"
+	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "name")
+	if err != nil {
+		return nil, err
+	}
+	var resource *athena.Database
+	err = attributevalue.UnmarshalMap(item, &resource)
+	if err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsAthenaDatabaseReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "athena", "databases")
+}
+
+func (dao *DynamoDBReaderDAO) GetReferencedAwsAthenaDatabaseReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "athena", "databases")
+}
+
+func (dao *DynamoDBReaderDAO) ListAwsAutoScalingAutoScalingGroups(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*autoscaling.AutoScalingGroup, error) {
+	tableName := "cloud-inventory-aws-autoscaling-auto-scaling-groups"
+	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "auto_scaling_group_arn", nil)
+	if err != nil {
+		return nil, err
+	}
+	var resources []*autoscaling.AutoScalingGroup
+	err = attributevalue.UnmarshalListOfMaps(items, &resources)
+	if err != nil {
+		return nil, err
+	}
+	return resources, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsAutoScalingAutoScalingGroup(ctx context.Context, reportTimeUnixMilli int64, id string) (*autoscaling.AutoScalingGroup, error) {
+	tableName := "cloud-inventory-aws-autoscaling-auto-scaling-groups"
+	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "auto_scaling_group_arn")
+	if err != nil {
+		return nil, err
+	}
+	var resource *autoscaling.AutoScalingGroup
+	err = attributevalue.UnmarshalMap(item, &resource)
+	if err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsAutoScalingAutoScalingGroupReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "autoscaling", "auto_scaling_groups")
+}
+
+func (dao *DynamoDBReaderDAO) GetReferencedAwsAutoScalingAutoScalingGroupReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "autoscaling", "auto_scaling_groups")
+}
+
+func (dao *DynamoDBReaderDAO) ListAwsAutoScalingLaunchConfigurations(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*autoscaling.LaunchConfiguration, error) {
+	tableName := "cloud-inventory-aws-autoscaling-launch-configurations"
+	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "launch_configuration_arn", nil)
+	if err != nil {
+		return nil, err
+	}
+	var resources []*autoscaling.LaunchConfiguration
+	err = attributevalue.UnmarshalListOfMaps(items, &resources)
+	if err != nil {
+		return nil, err
+	}
+	return resources, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsAutoScalingLaunchConfiguration(ctx context.Context, reportTimeUnixMilli int64, id string) (*autoscaling.LaunchConfiguration, error) {
+	tableName := "cloud-inventory-aws-autoscaling-launch-configurations"
+	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "launch_configuration_arn")
+	if err != nil {
+		return nil, err
+	}
+	var resource *autoscaling.LaunchConfiguration
+	err = attributevalue.UnmarshalMap(item, &resource)
+	if err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsAutoScalingLaunchConfigurationReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "autoscaling", "launch_configurations")
+}
+
+func (dao *DynamoDBReaderDAO) GetReferencedAwsAutoScalingLaunchConfigurationReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "autoscaling", "launch_configurations")
 }
 
 func (dao *DynamoDBReaderDAO) ListAwsBackupBackupVaults(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*backup.BackupVault, error) {

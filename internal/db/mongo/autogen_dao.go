@@ -6,8 +6,12 @@ import (
 	"context"
 	"github.com/google/uuid"
 	"github.com/sheacloud/cloud-inventory/internal/db"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/acm"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/apigateway"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/apigatewayv2"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/applicationautoscaling"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/athena"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/autoscaling"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/backup"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudtrail"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatchlogs"
@@ -77,6 +81,18 @@ func (dao *MongoWriterDAO) Finish(ctx context.Context) error {
 	return nil
 }
 
+func (dao *MongoWriterDAO) PutAwsACMCertificates(ctx context.Context, resources []*acm.Certificate) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	writes := make([]interface{}, len(resources))
+	for i, resource := range resources {
+		writes[i] = resource
+	}
+	_, err := dao.db.Collection("aws.acm.certificates").InsertMany(ctx, writes)
+
+	return err
+}
 func (dao *MongoWriterDAO) PutAwsApiGatewayRestApis(ctx context.Context, resources []*apigateway.RestApi) error {
 	if len(resources) == 0 {
 		return nil
@@ -98,6 +114,78 @@ func (dao *MongoWriterDAO) PutAwsApiGatewayV2Apis(ctx context.Context, resources
 		writes[i] = resource
 	}
 	_, err := dao.db.Collection("aws.apigatewayv2.apis").InsertMany(ctx, writes)
+
+	return err
+}
+func (dao *MongoWriterDAO) PutAwsApplicationAutoScalingScalingPolicies(ctx context.Context, resources []*applicationautoscaling.ScalingPolicy) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	writes := make([]interface{}, len(resources))
+	for i, resource := range resources {
+		writes[i] = resource
+	}
+	_, err := dao.db.Collection("aws.applicationautoscaling.scaling_policies").InsertMany(ctx, writes)
+
+	return err
+}
+func (dao *MongoWriterDAO) PutAwsAthenaWorkGroups(ctx context.Context, resources []*athena.WorkGroup) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	writes := make([]interface{}, len(resources))
+	for i, resource := range resources {
+		writes[i] = resource
+	}
+	_, err := dao.db.Collection("aws.athena.work_groups").InsertMany(ctx, writes)
+
+	return err
+}
+func (dao *MongoWriterDAO) PutAwsAthenaDataCatalogs(ctx context.Context, resources []*athena.DataCatalog) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	writes := make([]interface{}, len(resources))
+	for i, resource := range resources {
+		writes[i] = resource
+	}
+	_, err := dao.db.Collection("aws.athena.data_catalogs").InsertMany(ctx, writes)
+
+	return err
+}
+func (dao *MongoWriterDAO) PutAwsAthenaDatabases(ctx context.Context, resources []*athena.Database) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	writes := make([]interface{}, len(resources))
+	for i, resource := range resources {
+		writes[i] = resource
+	}
+	_, err := dao.db.Collection("aws.athena.databases").InsertMany(ctx, writes)
+
+	return err
+}
+func (dao *MongoWriterDAO) PutAwsAutoScalingAutoScalingGroups(ctx context.Context, resources []*autoscaling.AutoScalingGroup) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	writes := make([]interface{}, len(resources))
+	for i, resource := range resources {
+		writes[i] = resource
+	}
+	_, err := dao.db.Collection("aws.autoscaling.auto_scaling_groups").InsertMany(ctx, writes)
+
+	return err
+}
+func (dao *MongoWriterDAO) PutAwsAutoScalingLaunchConfigurations(ctx context.Context, resources []*autoscaling.LaunchConfiguration) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	writes := make([]interface{}, len(resources))
+	for i, resource := range resources {
+		writes[i] = resource
+	}
+	_, err := dao.db.Collection("aws.autoscaling.launch_configurations").InsertMany(ctx, writes)
 
 	return err
 }
@@ -702,6 +790,51 @@ func (dao *MongoWriterDAO) PutAwsStorageGatewayGateways(ctx context.Context, res
 	return err
 }
 
+func (dao *MongoReaderDAO) ListAwsACMCertificates(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*acm.Certificate, error) {
+	filter := bson.D{
+		bson.E{"report_time", reportTimeUnixMilli},
+	}
+	if accountID != nil {
+		filter = append(filter, bson.E{Key: "account_id", Value: *accountID})
+	}
+	if region != nil {
+		filter = append(filter, bson.E{Key: "region", Value: *region})
+	}
+
+	var results []*acm.Certificate
+	cursor, err := dao.db.Collection("aws.acm.certificates").Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+
+	err = cursor.All(ctx, &results)
+	if err != nil {
+		return nil, err
+	}
+
+	return results, nil
+}
+
+func (dao *MongoReaderDAO) GetAwsACMCertificate(ctx context.Context, reportTimeUnixMilli int64, id string) (*acm.Certificate, error) {
+	filter := bson.D{
+		bson.E{"report_time", reportTimeUnixMilli},
+		bson.E{"certificate_arn", id},
+	}
+
+	var result *acm.Certificate
+	err := dao.db.Collection("aws.acm.certificates").FindOne(ctx, filter).Decode(&result)
+
+	return result, err
+}
+
+func (dao *MongoReaderDAO) GetAwsACMCertificateReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.acm.certificates"), reportDateUnixMilli)
+}
+
+func (dao *MongoReaderDAO) GetReferencedAwsACMCertificateReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.db.Collection("aws.acm.certificates"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+}
+
 func (dao *MongoReaderDAO) ListAwsApiGatewayRestApis(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*apigateway.RestApi, error) {
 	filter := bson.D{
 		bson.E{"report_time", reportTimeUnixMilli},
@@ -790,6 +923,276 @@ func (dao *MongoReaderDAO) GetAwsApiGatewayV2ApiReportTimes(ctx context.Context,
 
 func (dao *MongoReaderDAO) GetReferencedAwsApiGatewayV2ApiReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
 	return GetReportTime(ctx, dao.db.Collection("aws.apigatewayv2.apis"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+}
+
+func (dao *MongoReaderDAO) ListAwsApplicationAutoScalingScalingPolicies(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*applicationautoscaling.ScalingPolicy, error) {
+	filter := bson.D{
+		bson.E{"report_time", reportTimeUnixMilli},
+	}
+	if accountID != nil {
+		filter = append(filter, bson.E{Key: "account_id", Value: *accountID})
+	}
+	if region != nil {
+		filter = append(filter, bson.E{Key: "region", Value: *region})
+	}
+
+	var results []*applicationautoscaling.ScalingPolicy
+	cursor, err := dao.db.Collection("aws.applicationautoscaling.scaling_policies").Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+
+	err = cursor.All(ctx, &results)
+	if err != nil {
+		return nil, err
+	}
+
+	return results, nil
+}
+
+func (dao *MongoReaderDAO) GetAwsApplicationAutoScalingScalingPolicy(ctx context.Context, reportTimeUnixMilli int64, id string) (*applicationautoscaling.ScalingPolicy, error) {
+	filter := bson.D{
+		bson.E{"report_time", reportTimeUnixMilli},
+		bson.E{"policy_arn", id},
+	}
+
+	var result *applicationautoscaling.ScalingPolicy
+	err := dao.db.Collection("aws.applicationautoscaling.scaling_policies").FindOne(ctx, filter).Decode(&result)
+
+	return result, err
+}
+
+func (dao *MongoReaderDAO) GetAwsApplicationAutoScalingScalingPolicyReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.applicationautoscaling.scaling_policies"), reportDateUnixMilli)
+}
+
+func (dao *MongoReaderDAO) GetReferencedAwsApplicationAutoScalingScalingPolicyReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.db.Collection("aws.applicationautoscaling.scaling_policies"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+}
+
+func (dao *MongoReaderDAO) ListAwsAthenaWorkGroups(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*athena.WorkGroup, error) {
+	filter := bson.D{
+		bson.E{"report_time", reportTimeUnixMilli},
+	}
+	if accountID != nil {
+		filter = append(filter, bson.E{Key: "account_id", Value: *accountID})
+	}
+	if region != nil {
+		filter = append(filter, bson.E{Key: "region", Value: *region})
+	}
+
+	var results []*athena.WorkGroup
+	cursor, err := dao.db.Collection("aws.athena.work_groups").Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+
+	err = cursor.All(ctx, &results)
+	if err != nil {
+		return nil, err
+	}
+
+	return results, nil
+}
+
+func (dao *MongoReaderDAO) GetAwsAthenaWorkGroup(ctx context.Context, reportTimeUnixMilli int64, id string) (*athena.WorkGroup, error) {
+	filter := bson.D{
+		bson.E{"report_time", reportTimeUnixMilli},
+		bson.E{"name", id},
+	}
+
+	var result *athena.WorkGroup
+	err := dao.db.Collection("aws.athena.work_groups").FindOne(ctx, filter).Decode(&result)
+
+	return result, err
+}
+
+func (dao *MongoReaderDAO) GetAwsAthenaWorkGroupReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.athena.work_groups"), reportDateUnixMilli)
+}
+
+func (dao *MongoReaderDAO) GetReferencedAwsAthenaWorkGroupReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.db.Collection("aws.athena.work_groups"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+}
+
+func (dao *MongoReaderDAO) ListAwsAthenaDataCatalogs(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*athena.DataCatalog, error) {
+	filter := bson.D{
+		bson.E{"report_time", reportTimeUnixMilli},
+	}
+	if accountID != nil {
+		filter = append(filter, bson.E{Key: "account_id", Value: *accountID})
+	}
+	if region != nil {
+		filter = append(filter, bson.E{Key: "region", Value: *region})
+	}
+
+	var results []*athena.DataCatalog
+	cursor, err := dao.db.Collection("aws.athena.data_catalogs").Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+
+	err = cursor.All(ctx, &results)
+	if err != nil {
+		return nil, err
+	}
+
+	return results, nil
+}
+
+func (dao *MongoReaderDAO) GetAwsAthenaDataCatalog(ctx context.Context, reportTimeUnixMilli int64, id string) (*athena.DataCatalog, error) {
+	filter := bson.D{
+		bson.E{"report_time", reportTimeUnixMilli},
+		bson.E{"name", id},
+	}
+
+	var result *athena.DataCatalog
+	err := dao.db.Collection("aws.athena.data_catalogs").FindOne(ctx, filter).Decode(&result)
+
+	return result, err
+}
+
+func (dao *MongoReaderDAO) GetAwsAthenaDataCatalogReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.athena.data_catalogs"), reportDateUnixMilli)
+}
+
+func (dao *MongoReaderDAO) GetReferencedAwsAthenaDataCatalogReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.db.Collection("aws.athena.data_catalogs"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+}
+
+func (dao *MongoReaderDAO) ListAwsAthenaDatabases(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*athena.Database, error) {
+	filter := bson.D{
+		bson.E{"report_time", reportTimeUnixMilli},
+	}
+	if accountID != nil {
+		filter = append(filter, bson.E{Key: "account_id", Value: *accountID})
+	}
+	if region != nil {
+		filter = append(filter, bson.E{Key: "region", Value: *region})
+	}
+
+	var results []*athena.Database
+	cursor, err := dao.db.Collection("aws.athena.databases").Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+
+	err = cursor.All(ctx, &results)
+	if err != nil {
+		return nil, err
+	}
+
+	return results, nil
+}
+
+func (dao *MongoReaderDAO) GetAwsAthenaDatabase(ctx context.Context, reportTimeUnixMilli int64, id string) (*athena.Database, error) {
+	filter := bson.D{
+		bson.E{"report_time", reportTimeUnixMilli},
+		bson.E{"name", id},
+	}
+
+	var result *athena.Database
+	err := dao.db.Collection("aws.athena.databases").FindOne(ctx, filter).Decode(&result)
+
+	return result, err
+}
+
+func (dao *MongoReaderDAO) GetAwsAthenaDatabaseReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.athena.databases"), reportDateUnixMilli)
+}
+
+func (dao *MongoReaderDAO) GetReferencedAwsAthenaDatabaseReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.db.Collection("aws.athena.databases"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+}
+
+func (dao *MongoReaderDAO) ListAwsAutoScalingAutoScalingGroups(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*autoscaling.AutoScalingGroup, error) {
+	filter := bson.D{
+		bson.E{"report_time", reportTimeUnixMilli},
+	}
+	if accountID != nil {
+		filter = append(filter, bson.E{Key: "account_id", Value: *accountID})
+	}
+	if region != nil {
+		filter = append(filter, bson.E{Key: "region", Value: *region})
+	}
+
+	var results []*autoscaling.AutoScalingGroup
+	cursor, err := dao.db.Collection("aws.autoscaling.auto_scaling_groups").Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+
+	err = cursor.All(ctx, &results)
+	if err != nil {
+		return nil, err
+	}
+
+	return results, nil
+}
+
+func (dao *MongoReaderDAO) GetAwsAutoScalingAutoScalingGroup(ctx context.Context, reportTimeUnixMilli int64, id string) (*autoscaling.AutoScalingGroup, error) {
+	filter := bson.D{
+		bson.E{"report_time", reportTimeUnixMilli},
+		bson.E{"auto_scaling_group_arn", id},
+	}
+
+	var result *autoscaling.AutoScalingGroup
+	err := dao.db.Collection("aws.autoscaling.auto_scaling_groups").FindOne(ctx, filter).Decode(&result)
+
+	return result, err
+}
+
+func (dao *MongoReaderDAO) GetAwsAutoScalingAutoScalingGroupReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.autoscaling.auto_scaling_groups"), reportDateUnixMilli)
+}
+
+func (dao *MongoReaderDAO) GetReferencedAwsAutoScalingAutoScalingGroupReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.db.Collection("aws.autoscaling.auto_scaling_groups"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
+}
+
+func (dao *MongoReaderDAO) ListAwsAutoScalingLaunchConfigurations(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*autoscaling.LaunchConfiguration, error) {
+	filter := bson.D{
+		bson.E{"report_time", reportTimeUnixMilli},
+	}
+	if accountID != nil {
+		filter = append(filter, bson.E{Key: "account_id", Value: *accountID})
+	}
+	if region != nil {
+		filter = append(filter, bson.E{Key: "region", Value: *region})
+	}
+
+	var results []*autoscaling.LaunchConfiguration
+	cursor, err := dao.db.Collection("aws.autoscaling.launch_configurations").Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+
+	err = cursor.All(ctx, &results)
+	if err != nil {
+		return nil, err
+	}
+
+	return results, nil
+}
+
+func (dao *MongoReaderDAO) GetAwsAutoScalingLaunchConfiguration(ctx context.Context, reportTimeUnixMilli int64, id string) (*autoscaling.LaunchConfiguration, error) {
+	filter := bson.D{
+		bson.E{"report_time", reportTimeUnixMilli},
+		bson.E{"launch_configuration_arn", id},
+	}
+
+	var result *autoscaling.LaunchConfiguration
+	err := dao.db.Collection("aws.autoscaling.launch_configurations").FindOne(ctx, filter).Decode(&result)
+
+	return result, err
+}
+
+func (dao *MongoReaderDAO) GetAwsAutoScalingLaunchConfigurationReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.db.Collection("aws.autoscaling.launch_configurations"), reportDateUnixMilli)
+}
+
+func (dao *MongoReaderDAO) GetReferencedAwsAutoScalingLaunchConfigurationReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.db.Collection("aws.autoscaling.launch_configurations"), reportDateUnixMilli, timeSelection, timeReferenceUnixMilli)
 }
 
 func (dao *MongoReaderDAO) ListAwsBackupBackupVaults(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*backup.BackupVault, error) {

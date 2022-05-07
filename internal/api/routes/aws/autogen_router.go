@@ -5,8 +5,12 @@ package aws
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes"
+	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/acm"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/apigateway"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/apigatewayv2"
+	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/applicationautoscaling"
+	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/athena"
+	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/autoscaling"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/backup"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/cloudtrail"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/cloudwatchlogs"
@@ -41,8 +45,12 @@ import (
 func GetAwsMetadata(c *gin.Context) {
 	c.IndentedJSON(200, routes.AwsMetadata{
 		Services: []string{
+			"acm",
 			"apigateway",
 			"apigatewayv2",
+			"applicationautoscaling",
+			"athena",
+			"autoscaling",
 			"backup",
 			"cloudtrail",
 			"cloudwatchlogs",
@@ -70,8 +78,12 @@ func AddMetadataRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 
 	r.GET("/", GetAwsMetadata)
 
+	r.GET("/acm", acm.GetACMMetadata)
 	r.GET("/apigateway", apigateway.GetApiGatewayMetadata)
 	r.GET("/apigatewayv2", apigatewayv2.GetApiGatewayV2Metadata)
+	r.GET("/applicationautoscaling", applicationautoscaling.GetApplicationAutoScalingMetadata)
+	r.GET("/athena", athena.GetAthenaMetadata)
+	r.GET("/autoscaling", autoscaling.GetAutoScalingMetadata)
 	r.GET("/backup", backup.GetBackupMetadata)
 	r.GET("/cloudtrail", cloudtrail.GetCloudTrailMetadata)
 	r.GET("/cloudwatchlogs", cloudwatchlogs.GetCloudWatchLogsMetadata)
@@ -92,12 +104,40 @@ func AddMetadataRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 	r.GET("/sqs", sqs.GetSQSMetadata)
 	r.GET("/storagegateway", storagegateway.GetStorageGatewayMetadata)
 
+	r.GET("/acm/certificates", func(c *gin.Context) {
+		acm.GetCertificatesMetadata(c, dao)
+	})
+
 	r.GET("/apigateway/rest_apis", func(c *gin.Context) {
 		apigateway.GetRestApisMetadata(c, dao)
 	})
 
 	r.GET("/apigatewayv2/apis", func(c *gin.Context) {
 		apigatewayv2.GetApisMetadata(c, dao)
+	})
+
+	r.GET("/applicationautoscaling/scaling_policies", func(c *gin.Context) {
+		applicationautoscaling.GetScalingPoliciesMetadata(c, dao)
+	})
+
+	r.GET("/athena/work_groups", func(c *gin.Context) {
+		athena.GetWorkGroupsMetadata(c, dao)
+	})
+
+	r.GET("/athena/data_catalogs", func(c *gin.Context) {
+		athena.GetDataCatalogsMetadata(c, dao)
+	})
+
+	r.GET("/athena/databases", func(c *gin.Context) {
+		athena.GetDatabasesMetadata(c, dao)
+	})
+
+	r.GET("/autoscaling/auto_scaling_groups", func(c *gin.Context) {
+		autoscaling.GetAutoScalingGroupsMetadata(c, dao)
+	})
+
+	r.GET("/autoscaling/launch_configurations", func(c *gin.Context) {
+		autoscaling.GetLaunchConfigurationsMetadata(c, dao)
 	})
 
 	r.GET("/backup/backup_vaults", func(c *gin.Context) {
@@ -304,6 +344,13 @@ func AddMetadataRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 
 func AddInventoryRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 
+	r.GET("/acm/certificates", func(c *gin.Context) {
+		acm.ListCertificates(c, dao)
+	})
+	r.GET("/acm/certificates/:certificate_arn", func(c *gin.Context) {
+		acm.GetCertificate(c, dao)
+	})
+
 	r.GET("/apigateway/rest_apis", func(c *gin.Context) {
 		apigateway.ListRestApis(c, dao)
 	})
@@ -316,6 +363,48 @@ func AddInventoryRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 	})
 	r.GET("/apigatewayv2/apis/:api_id", func(c *gin.Context) {
 		apigatewayv2.GetApi(c, dao)
+	})
+
+	r.GET("/applicationautoscaling/scaling_policies", func(c *gin.Context) {
+		applicationautoscaling.ListScalingPolicies(c, dao)
+	})
+	r.GET("/applicationautoscaling/scaling_policies/:policy_arn", func(c *gin.Context) {
+		applicationautoscaling.GetScalingPolicy(c, dao)
+	})
+
+	r.GET("/athena/work_groups", func(c *gin.Context) {
+		athena.ListWorkGroups(c, dao)
+	})
+	r.GET("/athena/work_groups/:name", func(c *gin.Context) {
+		athena.GetWorkGroup(c, dao)
+	})
+
+	r.GET("/athena/data_catalogs", func(c *gin.Context) {
+		athena.ListDataCatalogs(c, dao)
+	})
+	r.GET("/athena/data_catalogs/:name", func(c *gin.Context) {
+		athena.GetDataCatalog(c, dao)
+	})
+
+	r.GET("/athena/databases", func(c *gin.Context) {
+		athena.ListDatabases(c, dao)
+	})
+	r.GET("/athena/databases/:name", func(c *gin.Context) {
+		athena.GetDatabase(c, dao)
+	})
+
+	r.GET("/autoscaling/auto_scaling_groups", func(c *gin.Context) {
+		autoscaling.ListAutoScalingGroups(c, dao)
+	})
+	r.GET("/autoscaling/auto_scaling_groups/:auto_scaling_group_arn", func(c *gin.Context) {
+		autoscaling.GetAutoScalingGroup(c, dao)
+	})
+
+	r.GET("/autoscaling/launch_configurations", func(c *gin.Context) {
+		autoscaling.ListLaunchConfigurations(c, dao)
+	})
+	r.GET("/autoscaling/launch_configurations/:launch_configuration_arn", func(c *gin.Context) {
+		autoscaling.GetLaunchConfiguration(c, dao)
 	})
 
 	r.GET("/backup/backup_vaults", func(c *gin.Context) {
@@ -672,6 +761,13 @@ func AddInventoryRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 
 func AddDiffRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 
+	r.GET("/acm/certificates", func(c *gin.Context) {
+		acm.DiffMultiCertificates(c, dao)
+	})
+	r.GET("/acm/certificates/:certificate_arn", func(c *gin.Context) {
+		acm.DiffSingleCertificate(c, dao)
+	})
+
 	r.GET("/apigateway/rest_apis", func(c *gin.Context) {
 		apigateway.DiffMultiRestApis(c, dao)
 	})
@@ -684,6 +780,48 @@ func AddDiffRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 	})
 	r.GET("/apigatewayv2/apis/:api_id", func(c *gin.Context) {
 		apigatewayv2.DiffSingleApi(c, dao)
+	})
+
+	r.GET("/applicationautoscaling/scaling_policies", func(c *gin.Context) {
+		applicationautoscaling.DiffMultiScalingPolicies(c, dao)
+	})
+	r.GET("/applicationautoscaling/scaling_policies/:policy_arn", func(c *gin.Context) {
+		applicationautoscaling.DiffSingleScalingPolicy(c, dao)
+	})
+
+	r.GET("/athena/work_groups", func(c *gin.Context) {
+		athena.DiffMultiWorkGroups(c, dao)
+	})
+	r.GET("/athena/work_groups/:name", func(c *gin.Context) {
+		athena.DiffSingleWorkGroup(c, dao)
+	})
+
+	r.GET("/athena/data_catalogs", func(c *gin.Context) {
+		athena.DiffMultiDataCatalogs(c, dao)
+	})
+	r.GET("/athena/data_catalogs/:name", func(c *gin.Context) {
+		athena.DiffSingleDataCatalog(c, dao)
+	})
+
+	r.GET("/athena/databases", func(c *gin.Context) {
+		athena.DiffMultiDatabases(c, dao)
+	})
+	r.GET("/athena/databases/:name", func(c *gin.Context) {
+		athena.DiffSingleDatabase(c, dao)
+	})
+
+	r.GET("/autoscaling/auto_scaling_groups", func(c *gin.Context) {
+		autoscaling.DiffMultiAutoScalingGroups(c, dao)
+	})
+	r.GET("/autoscaling/auto_scaling_groups/:auto_scaling_group_arn", func(c *gin.Context) {
+		autoscaling.DiffSingleAutoScalingGroup(c, dao)
+	})
+
+	r.GET("/autoscaling/launch_configurations", func(c *gin.Context) {
+		autoscaling.DiffMultiLaunchConfigurations(c, dao)
+	})
+	r.GET("/autoscaling/launch_configurations/:launch_configuration_arn", func(c *gin.Context) {
+		autoscaling.DiffSingleLaunchConfiguration(c, dao)
 	})
 
 	r.GET("/backup/backup_vaults", func(c *gin.Context) {

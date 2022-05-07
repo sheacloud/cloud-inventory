@@ -1,5 +1,147 @@
 basePath: /v1
 definitions:
+  acm.Certificate:
+    properties:
+      _id:
+        type: string
+      account_id:
+        type: string
+      certificate_arn:
+        type: string
+      certificate_authority_arn:
+        type: string
+      created_at:
+        type: integer
+      domain_name:
+        type: string
+      domain_validation_options:
+        items:
+          $ref: '#/definitions/acm.DomainValidation'
+        type: array
+      extended_key_usages:
+        items:
+          $ref: '#/definitions/acm.ExtendedKeyUsage'
+        type: array
+      failure_reason:
+        type: string
+      imported_at:
+        type: integer
+      in_use_by:
+        items:
+          type: string
+        type: array
+      issued_at:
+        type: integer
+      issuer:
+        type: string
+      key_algorithm:
+        type: string
+      key_usages:
+        items:
+          $ref: '#/definitions/acm.KeyUsage'
+        type: array
+      not_after:
+        type: integer
+      not_before:
+        type: integer
+      options:
+        $ref: '#/definitions/acm.CertificateOptions'
+      region:
+        type: string
+      renewal_eligibility:
+        type: string
+      renewal_summary:
+        $ref: '#/definitions/acm.RenewalSummary'
+      report_time:
+        type: integer
+      revocation_reason:
+        type: string
+      revoked_at:
+        type: integer
+      serial:
+        type: string
+      signature_algorithm:
+        type: string
+      status:
+        type: string
+      subject:
+        type: string
+      subject_alternative_names:
+        items:
+          type: string
+        type: array
+      tags:
+        additionalProperties:
+          type: string
+        type: object
+      type:
+        type: string
+    type: object
+  acm.CertificateOptions:
+    properties:
+      certificate_transparency_logging_preference:
+        type: string
+    type: object
+  acm.DomainValidation:
+    properties:
+      domain_name:
+        type: string
+      resource_record:
+        $ref: '#/definitions/acm.ResourceRecord'
+      validation_domain:
+        type: string
+      validation_emails:
+        items:
+          type: string
+        type: array
+      validation_method:
+        type: string
+      validation_status:
+        type: string
+    type: object
+  acm.ExtendedKeyUsage:
+    properties:
+      name:
+        type: string
+      oid:
+        type: string
+    type: object
+  acm.KeyUsage:
+    properties:
+      name:
+        type: string
+    type: object
+  acm.ListCertificatesResponse:
+    properties:
+      certificates:
+        items:
+          $ref: '#/definitions/acm.Certificate'
+        type: array
+      pagination_token:
+        type: string
+    type: object
+  acm.RenewalSummary:
+    properties:
+      domain_validation_options:
+        items:
+          $ref: '#/definitions/acm.DomainValidation'
+        type: array
+      renewal_status:
+        type: string
+      renewal_status_reason:
+        type: string
+      updated_at:
+        type: integer
+    type: object
+  acm.ResourceRecord:
+    properties:
+      name:
+        type: string
+      type:
+        type: string
+      value:
+        type: string
+    type: object
   apigateway.AccessLogSettings:
     properties:
       destination_arn:
@@ -559,6 +701,897 @@ definitions:
   apigatewayv2.TlsConfig:
     properties:
       server_name_to_verify:
+        type: string
+    type: object
+  applicationautoscaling.Alarm:
+    properties:
+      alarm_arn:
+        type: string
+      alarm_name:
+        type: string
+    type: object
+  applicationautoscaling.CustomizedMetricSpecification:
+    properties:
+      dimensions:
+        items:
+          $ref: '#/definitions/applicationautoscaling.MetricDimension'
+        type: array
+      metric_name:
+        type: string
+      namespace:
+        type: string
+      statistic:
+        type: string
+      unit:
+        type: string
+    type: object
+  applicationautoscaling.ListScalingPoliciesResponse:
+    properties:
+      pagination_token:
+        type: string
+      scaling_policies:
+        items:
+          $ref: '#/definitions/applicationautoscaling.ScalingPolicy'
+        type: array
+    type: object
+  applicationautoscaling.MetricDimension:
+    properties:
+      name:
+        type: string
+      value:
+        type: string
+    type: object
+  applicationautoscaling.PredefinedMetricSpecification:
+    properties:
+      predefined_metric_type:
+        type: string
+      resource_label:
+        type: string
+    type: object
+  applicationautoscaling.ScalingPolicy:
+    properties:
+      _id:
+        type: string
+      account_id:
+        type: string
+      alarms:
+        items:
+          $ref: '#/definitions/applicationautoscaling.Alarm'
+        type: array
+      creation_time:
+        type: integer
+      policy_arn:
+        type: string
+      policy_name:
+        type: string
+      policy_type:
+        type: string
+      region:
+        type: string
+      report_time:
+        type: integer
+      resource_id:
+        type: string
+      scalable_dimension:
+        type: string
+      service_namespace:
+        type: string
+      step_scaling_policy_configuration:
+        $ref: '#/definitions/applicationautoscaling.StepScalingPolicyConfiguration'
+      target_tracking_scaling_policy_configuration:
+        $ref: '#/definitions/applicationautoscaling.TargetTrackingScalingPolicyConfiguration'
+    type: object
+  applicationautoscaling.StepAdjustment:
+    properties:
+      metric_interval_lower_bound:
+        type: number
+      metric_interval_upper_bound:
+        type: number
+      scaling_adjustment:
+        type: integer
+    type: object
+  applicationautoscaling.StepScalingPolicyConfiguration:
+    properties:
+      adjustment_type:
+        type: string
+      cooldown:
+        type: integer
+      metric_aggregation_type:
+        type: string
+      min_adjustment_magnitude:
+        type: integer
+      step_adjustments:
+        items:
+          $ref: '#/definitions/applicationautoscaling.StepAdjustment'
+        type: array
+    type: object
+  applicationautoscaling.TargetTrackingScalingPolicyConfiguration:
+    properties:
+      customized_metric_specification:
+        $ref: '#/definitions/applicationautoscaling.CustomizedMetricSpecification'
+      disable_scale_in:
+        type: boolean
+      predefined_metric_specification:
+        $ref: '#/definitions/applicationautoscaling.PredefinedMetricSpecification'
+      scale_in_cooldown:
+        type: integer
+      scale_out_cooldown:
+        type: integer
+      target_value:
+        type: number
+    type: object
+  athena.AclConfiguration:
+    properties:
+      s3_acl_option:
+        type: string
+    type: object
+  athena.DataCatalog:
+    properties:
+      _id:
+        type: string
+      account_id:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      parameters:
+        additionalProperties:
+          type: string
+        type: object
+      region:
+        type: string
+      report_time:
+        type: integer
+      type:
+        type: string
+    type: object
+  athena.Database:
+    properties:
+      _id:
+        type: string
+      account_id:
+        type: string
+      data_catalog:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      parameters:
+        additionalProperties:
+          type: string
+        type: object
+      region:
+        type: string
+      report_time:
+        type: integer
+    type: object
+  athena.EncryptionConfiguration:
+    properties:
+      encryption_option:
+        type: string
+      kms_key:
+        type: string
+    type: object
+  athena.EngineVersion:
+    properties:
+      effective_engine_version:
+        type: string
+      selected_engine_version:
+        type: string
+    type: object
+  athena.ListDataCatalogsResponse:
+    properties:
+      data_catalogs:
+        items:
+          $ref: '#/definitions/athena.DataCatalog'
+        type: array
+      pagination_token:
+        type: string
+    type: object
+  athena.ListDatabasesResponse:
+    properties:
+      databases:
+        items:
+          $ref: '#/definitions/athena.Database'
+        type: array
+      pagination_token:
+        type: string
+    type: object
+  athena.ListWorkGroupsResponse:
+    properties:
+      pagination_token:
+        type: string
+      work_groups:
+        items:
+          $ref: '#/definitions/athena.WorkGroup'
+        type: array
+    type: object
+  athena.ResultConfiguration:
+    properties:
+      acl_configuration:
+        $ref: '#/definitions/athena.AclConfiguration'
+      encryption_configuration:
+        $ref: '#/definitions/athena.EncryptionConfiguration'
+      expected_bucket_owner:
+        type: string
+      output_location:
+        type: string
+    type: object
+  athena.WorkGroup:
+    properties:
+      _id:
+        type: string
+      account_id:
+        type: string
+      configuration:
+        $ref: '#/definitions/athena.WorkGroupConfiguration'
+      creation_time:
+        type: integer
+      description:
+        type: string
+      name:
+        type: string
+      region:
+        type: string
+      report_time:
+        type: integer
+      state:
+        type: string
+      tags:
+        additionalProperties:
+          type: string
+        type: object
+    type: object
+  athena.WorkGroupConfiguration:
+    properties:
+      bytes_scanned_cutoff_per_query:
+        type: integer
+      enforce_work_group_configuration:
+        type: boolean
+      engine_version:
+        $ref: '#/definitions/athena.EngineVersion'
+      publish_cloud_watch_metrics_enabled:
+        type: boolean
+      requester_pays_enabled:
+        type: boolean
+      result_configuration:
+        $ref: '#/definitions/athena.ResultConfiguration'
+    type: object
+  autoscaling.AcceleratorCountRequest:
+    properties:
+      max:
+        type: integer
+      min:
+        type: integer
+    type: object
+  autoscaling.AcceleratorTotalMemoryMiBRequest:
+    properties:
+      max:
+        type: integer
+      min:
+        type: integer
+    type: object
+  autoscaling.Alarm:
+    properties:
+      alarm_arn:
+        type: string
+      alarm_name:
+        type: string
+    type: object
+  autoscaling.AutoScalingGroup:
+    properties:
+      _id:
+        type: string
+      account_id:
+        type: string
+      auto_scaling_group_arn:
+        type: string
+      auto_scaling_group_name:
+        type: string
+      availability_zones:
+        items:
+          type: string
+        type: array
+      capacity_rebalance:
+        type: boolean
+      context:
+        type: string
+      created_time:
+        type: integer
+      default_cooldown:
+        type: integer
+      default_instance_warmup:
+        type: integer
+      desired_capacity:
+        type: integer
+      desired_capacity_type:
+        type: string
+      enabled_metrics:
+        items:
+          $ref: '#/definitions/autoscaling.EnabledMetric'
+        type: array
+      health_check_grace_period:
+        type: integer
+      health_check_type:
+        type: string
+      instances:
+        items:
+          $ref: '#/definitions/autoscaling.Instance'
+        type: array
+      launch_configuration_name:
+        type: string
+      launch_template:
+        $ref: '#/definitions/autoscaling.LaunchTemplateSpecification'
+      load_balancer_names:
+        items:
+          type: string
+        type: array
+      max_instance_lifetime:
+        type: integer
+      max_size:
+        type: integer
+      min_size:
+        type: integer
+      mixed_instances_policy:
+        $ref: '#/definitions/autoscaling.MixedInstancesPolicy'
+      new_instances_protected_from_scale_in:
+        type: boolean
+      placement_group:
+        type: string
+      predicted_capacity:
+        type: integer
+      region:
+        type: string
+      report_time:
+        type: integer
+      scaling_policies:
+        items:
+          $ref: '#/definitions/autoscaling.ScalingPolicy'
+        type: array
+      service_linked_role_arn:
+        type: string
+      status:
+        type: string
+      suspended_processes:
+        items:
+          $ref: '#/definitions/autoscaling.SuspendedProcess'
+        type: array
+      tags:
+        additionalProperties:
+          type: string
+        type: object
+      target_group_ar_ns:
+        items:
+          type: string
+        type: array
+      termination_policies:
+        items:
+          type: string
+        type: array
+      vpc_zone_identifier:
+        type: string
+      warm_pool_configuration:
+        $ref: '#/definitions/autoscaling.WarmPoolConfiguration'
+      warm_pool_size:
+        type: integer
+    type: object
+  autoscaling.BaselineEbsBandwidthMbpsRequest:
+    properties:
+      max:
+        type: integer
+      min:
+        type: integer
+    type: object
+  autoscaling.BlockDeviceMapping:
+    properties:
+      device_name:
+        type: string
+      ebs:
+        $ref: '#/definitions/autoscaling.Ebs'
+      no_device:
+        type: boolean
+      virtual_name:
+        type: string
+    type: object
+  autoscaling.CustomizedMetricSpecification:
+    properties:
+      dimensions:
+        items:
+          $ref: '#/definitions/autoscaling.MetricDimension'
+        type: array
+      metric_name:
+        type: string
+      namespace:
+        type: string
+      statistic:
+        type: string
+      unit:
+        type: string
+    type: object
+  autoscaling.Ebs:
+    properties:
+      delete_on_termination:
+        type: boolean
+      encrypted:
+        type: boolean
+      iops:
+        type: integer
+      snapshot_id:
+        type: string
+      throughput:
+        type: integer
+      volume_size:
+        type: integer
+      volume_type:
+        type: string
+    type: object
+  autoscaling.EnabledMetric:
+    properties:
+      granularity:
+        type: string
+      metric:
+        type: string
+    type: object
+  autoscaling.Instance:
+    properties:
+      availability_zone:
+        type: string
+      health_status:
+        type: string
+      instance_id:
+        type: string
+      instance_type:
+        type: string
+      launch_configuration_name:
+        type: string
+      launch_template:
+        $ref: '#/definitions/autoscaling.LaunchTemplateSpecification'
+      lifecycle_state:
+        type: string
+      protected_from_scale_in:
+        type: boolean
+      weighted_capacity:
+        type: string
+    type: object
+  autoscaling.InstanceMetadataOptions:
+    properties:
+      http_endpoint:
+        type: string
+      http_put_response_hop_limit:
+        type: integer
+      http_tokens:
+        type: string
+    type: object
+  autoscaling.InstanceMonitoring:
+    properties:
+      enabled:
+        type: boolean
+    type: object
+  autoscaling.InstanceRequirements:
+    properties:
+      accelerator_count:
+        $ref: '#/definitions/autoscaling.AcceleratorCountRequest'
+      accelerator_manufacturers:
+        items:
+          type: string
+        type: array
+      accelerator_names:
+        items:
+          type: string
+        type: array
+      accelerator_total_memory_mi_b:
+        $ref: '#/definitions/autoscaling.AcceleratorTotalMemoryMiBRequest'
+      accelerator_types:
+        items:
+          type: string
+        type: array
+      bare_metal:
+        type: string
+      baseline_ebs_bandwidth_mbps:
+        $ref: '#/definitions/autoscaling.BaselineEbsBandwidthMbpsRequest'
+      burstable_performance:
+        type: string
+      cpu_manufacturers:
+        items:
+          type: string
+        type: array
+      excluded_instance_types:
+        items:
+          type: string
+        type: array
+      instance_generations:
+        items:
+          type: string
+        type: array
+      local_storage:
+        type: string
+      local_storage_types:
+        items:
+          type: string
+        type: array
+      memory_gi_b_per_v_cpu:
+        $ref: '#/definitions/autoscaling.MemoryGiBPerVCpuRequest'
+      memory_mi_b:
+        $ref: '#/definitions/autoscaling.MemoryMiBRequest'
+      network_interface_count:
+        $ref: '#/definitions/autoscaling.NetworkInterfaceCountRequest'
+      on_demand_max_price_percentage_over_lowest_price:
+        type: integer
+      require_hibernate_support:
+        type: boolean
+      spot_max_price_percentage_over_lowest_price:
+        type: integer
+      total_local_storage_gb:
+        $ref: '#/definitions/autoscaling.TotalLocalStorageGBRequest'
+      v_cpu_count:
+        $ref: '#/definitions/autoscaling.VCpuCountRequest'
+    type: object
+  autoscaling.InstanceReusePolicy:
+    properties:
+      reuse_on_scale_in:
+        type: boolean
+    type: object
+  autoscaling.InstancesDistribution:
+    properties:
+      on_demand_allocation_strategy:
+        type: string
+      on_demand_base_capacity:
+        type: integer
+      on_demand_percentage_above_base_capacity:
+        type: integer
+      spot_allocation_strategy:
+        type: string
+      spot_instance_pools:
+        type: integer
+      spot_max_price:
+        type: string
+    type: object
+  autoscaling.LaunchConfiguration:
+    properties:
+      _id:
+        type: string
+      account_id:
+        type: string
+      associate_public_ip_address:
+        type: boolean
+      block_device_mappings:
+        items:
+          $ref: '#/definitions/autoscaling.BlockDeviceMapping'
+        type: array
+      classic_link_vpc_id:
+        type: string
+      classic_link_vpc_security_groups:
+        items:
+          type: string
+        type: array
+      created_time:
+        type: integer
+      ebs_optimized:
+        type: boolean
+      iam_instance_profile:
+        type: string
+      image_id:
+        type: string
+      instance_monitoring:
+        $ref: '#/definitions/autoscaling.InstanceMonitoring'
+      instance_type:
+        type: string
+      kernel_id:
+        type: string
+      key_name:
+        type: string
+      launch_configuration_arn:
+        type: string
+      launch_configuration_name:
+        type: string
+      metadata_options:
+        $ref: '#/definitions/autoscaling.InstanceMetadataOptions'
+      placement_tenancy:
+        type: string
+      ramdisk_id:
+        type: string
+      region:
+        type: string
+      report_time:
+        type: integer
+      security_groups:
+        items:
+          type: string
+        type: array
+      spot_price:
+        type: string
+      user_data:
+        type: string
+    type: object
+  autoscaling.LaunchTemplate:
+    properties:
+      launch_template_specification:
+        $ref: '#/definitions/autoscaling.LaunchTemplateSpecification'
+      overrides:
+        items:
+          $ref: '#/definitions/autoscaling.LaunchTemplateOverrides'
+        type: array
+    type: object
+  autoscaling.LaunchTemplateOverrides:
+    properties:
+      instance_requirements:
+        $ref: '#/definitions/autoscaling.InstanceRequirements'
+      instance_type:
+        type: string
+      launch_template_specification:
+        $ref: '#/definitions/autoscaling.LaunchTemplateSpecification'
+      weighted_capacity:
+        type: string
+    type: object
+  autoscaling.LaunchTemplateSpecification:
+    properties:
+      launch_template_id:
+        type: string
+      launch_template_name:
+        type: string
+      version:
+        type: string
+    type: object
+  autoscaling.ListAutoScalingGroupsResponse:
+    properties:
+      auto_scaling_groups:
+        items:
+          $ref: '#/definitions/autoscaling.AutoScalingGroup'
+        type: array
+      pagination_token:
+        type: string
+    type: object
+  autoscaling.ListLaunchConfigurationsResponse:
+    properties:
+      launch_configurations:
+        items:
+          $ref: '#/definitions/autoscaling.LaunchConfiguration'
+        type: array
+      pagination_token:
+        type: string
+    type: object
+  autoscaling.MemoryGiBPerVCpuRequest:
+    properties:
+      max:
+        type: number
+      min:
+        type: number
+    type: object
+  autoscaling.MemoryMiBRequest:
+    properties:
+      max:
+        type: integer
+      min:
+        type: integer
+    type: object
+  autoscaling.Metric:
+    properties:
+      dimensions:
+        items:
+          $ref: '#/definitions/autoscaling.MetricDimension'
+        type: array
+      metric_name:
+        type: string
+      namespace:
+        type: string
+    type: object
+  autoscaling.MetricDataQuery:
+    properties:
+      expression:
+        type: string
+      id:
+        type: string
+      label:
+        type: string
+      metric_stat:
+        $ref: '#/definitions/autoscaling.MetricStat'
+      return_data:
+        type: boolean
+    type: object
+  autoscaling.MetricDimension:
+    properties:
+      name:
+        type: string
+      value:
+        type: string
+    type: object
+  autoscaling.MetricStat:
+    properties:
+      metric:
+        $ref: '#/definitions/autoscaling.Metric'
+      stat:
+        type: string
+      unit:
+        type: string
+    type: object
+  autoscaling.MixedInstancesPolicy:
+    properties:
+      instances_distribution:
+        $ref: '#/definitions/autoscaling.InstancesDistribution'
+      launch_template:
+        $ref: '#/definitions/autoscaling.LaunchTemplate'
+    type: object
+  autoscaling.NetworkInterfaceCountRequest:
+    properties:
+      max:
+        type: integer
+      min:
+        type: integer
+    type: object
+  autoscaling.PredefinedMetricSpecification:
+    properties:
+      predefined_metric_type:
+        type: string
+      resource_label:
+        type: string
+    type: object
+  autoscaling.PredictiveScalingConfiguration:
+    properties:
+      max_capacity_breach_behavior:
+        type: string
+      max_capacity_buffer:
+        type: integer
+      metric_specifications:
+        items:
+          $ref: '#/definitions/autoscaling.PredictiveScalingMetricSpecification'
+        type: array
+      mode:
+        type: string
+      scheduling_buffer_time:
+        type: integer
+    type: object
+  autoscaling.PredictiveScalingCustomizedCapacityMetric:
+    properties:
+      metric_data_queries:
+        items:
+          $ref: '#/definitions/autoscaling.MetricDataQuery'
+        type: array
+    type: object
+  autoscaling.PredictiveScalingCustomizedLoadMetric:
+    properties:
+      metric_data_queries:
+        items:
+          $ref: '#/definitions/autoscaling.MetricDataQuery'
+        type: array
+    type: object
+  autoscaling.PredictiveScalingCustomizedScalingMetric:
+    properties:
+      metric_data_queries:
+        items:
+          $ref: '#/definitions/autoscaling.MetricDataQuery'
+        type: array
+    type: object
+  autoscaling.PredictiveScalingMetricSpecification:
+    properties:
+      customized_capacity_metric_specification:
+        $ref: '#/definitions/autoscaling.PredictiveScalingCustomizedCapacityMetric'
+      customized_load_metric_specification:
+        $ref: '#/definitions/autoscaling.PredictiveScalingCustomizedLoadMetric'
+      customized_scaling_metric_specification:
+        $ref: '#/definitions/autoscaling.PredictiveScalingCustomizedScalingMetric'
+      predefined_load_metric_specification:
+        $ref: '#/definitions/autoscaling.PredictiveScalingPredefinedLoadMetric'
+      predefined_metric_pair_specification:
+        $ref: '#/definitions/autoscaling.PredictiveScalingPredefinedMetricPair'
+      predefined_scaling_metric_specification:
+        $ref: '#/definitions/autoscaling.PredictiveScalingPredefinedScalingMetric'
+      target_value:
+        type: number
+    type: object
+  autoscaling.PredictiveScalingPredefinedLoadMetric:
+    properties:
+      predefined_metric_type:
+        type: string
+      resource_label:
+        type: string
+    type: object
+  autoscaling.PredictiveScalingPredefinedMetricPair:
+    properties:
+      predefined_metric_type:
+        type: string
+      resource_label:
+        type: string
+    type: object
+  autoscaling.PredictiveScalingPredefinedScalingMetric:
+    properties:
+      predefined_metric_type:
+        type: string
+      resource_label:
+        type: string
+    type: object
+  autoscaling.ScalingPolicy:
+    properties:
+      adjustment_type:
+        type: string
+      alarms:
+        items:
+          $ref: '#/definitions/autoscaling.Alarm'
+        type: array
+      auto_scaling_group_name:
+        type: string
+      cooldown:
+        type: integer
+      enabled:
+        type: boolean
+      estimated_instance_warmup:
+        type: integer
+      metric_aggregation_type:
+        type: string
+      min_adjustment_magnitude:
+        type: integer
+      min_adjustment_step:
+        type: integer
+      policy_arn:
+        type: string
+      policy_name:
+        type: string
+      policy_type:
+        type: string
+      predictive_scaling_configuration:
+        $ref: '#/definitions/autoscaling.PredictiveScalingConfiguration'
+      scaling_adjustment:
+        type: integer
+      step_adjustments:
+        items:
+          $ref: '#/definitions/autoscaling.StepAdjustment'
+        type: array
+      target_tracking_configuration:
+        $ref: '#/definitions/autoscaling.TargetTrackingConfiguration'
+    type: object
+  autoscaling.StepAdjustment:
+    properties:
+      metric_interval_lower_bound:
+        type: number
+      metric_interval_upper_bound:
+        type: number
+      scaling_adjustment:
+        type: integer
+    type: object
+  autoscaling.SuspendedProcess:
+    properties:
+      process_name:
+        type: string
+      suspension_reason:
+        type: string
+    type: object
+  autoscaling.TargetTrackingConfiguration:
+    properties:
+      customized_metric_specification:
+        $ref: '#/definitions/autoscaling.CustomizedMetricSpecification'
+      disable_scale_in:
+        type: boolean
+      predefined_metric_specification:
+        $ref: '#/definitions/autoscaling.PredefinedMetricSpecification'
+      target_value:
+        type: number
+    type: object
+  autoscaling.TotalLocalStorageGBRequest:
+    properties:
+      max:
+        type: number
+      min:
+        type: number
+    type: object
+  autoscaling.VCpuCountRequest:
+    properties:
+      max:
+        type: integer
+      min:
+        type: integer
+    type: object
+  autoscaling.WarmPoolConfiguration:
+    properties:
+      instance_reuse_policy:
+        $ref: '#/definitions/autoscaling.InstanceReusePolicy'
+      max_group_prepared_capacity:
+        type: integer
+      min_size:
+        type: integer
+      pool_state:
+        type: string
+      status:
         type: string
     type: object
   backup.AdvancedBackupSetting:
@@ -6549,6 +7582,151 @@ info:
   title: Cloud Inventory API
   version: "1.0"
 paths:
+  /diff/aws/acm/certificates:
+    get:
+      description: get a diff of Certificates between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Certificates
+      tags:
+      - aws acm
+  /diff/aws/acm/certificates/{certificate_arn}:
+    get:
+      description: get a diff of Certificate between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The certificate_arn of the Certificate to retrieve
+        in: path
+        name: certificate_arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Certificate
+      tags:
+      - aws acm
   /diff/aws/apigateway/rest_apis:
     get:
       description: get a diff of RestApis between two points in time
@@ -6839,6 +8017,876 @@ paths:
       summary: Diff Api
       tags:
       - aws apigatewayv2
+  /diff/aws/applicationautoscaling/scaling_policies:
+    get:
+      description: get a diff of ScalingPolicies between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff ScalingPolicies
+      tags:
+      - aws applicationautoscaling
+  /diff/aws/applicationautoscaling/scaling_policies/{policy_arn}:
+    get:
+      description: get a diff of ScalingPolicy between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The policy_arn of the ScalingPolicy to retrieve
+        in: path
+        name: policy_arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff ScalingPolicy
+      tags:
+      - aws applicationautoscaling
+  /diff/aws/athena/data_catalogs:
+    get:
+      description: get a diff of DataCatalogs between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff DataCatalogs
+      tags:
+      - aws athena
+  /diff/aws/athena/data_catalogs/{name}:
+    get:
+      description: get a diff of DataCatalog between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The name of the DataCatalog to retrieve
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff DataCatalog
+      tags:
+      - aws athena
+  /diff/aws/athena/databases:
+    get:
+      description: get a diff of Databases between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Databases
+      tags:
+      - aws athena
+  /diff/aws/athena/databases/{name}:
+    get:
+      description: get a diff of Database between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The name of the Database to retrieve
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Database
+      tags:
+      - aws athena
+  /diff/aws/athena/work_groups:
+    get:
+      description: get a diff of WorkGroups between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff WorkGroups
+      tags:
+      - aws athena
+  /diff/aws/athena/work_groups/{name}:
+    get:
+      description: get a diff of WorkGroup between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The name of the WorkGroup to retrieve
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff WorkGroup
+      tags:
+      - aws athena
+  /diff/aws/autoscaling/auto_scaling_groups:
+    get:
+      description: get a diff of AutoScalingGroups between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff AutoScalingGroups
+      tags:
+      - aws autoscaling
+  /diff/aws/autoscaling/auto_scaling_groups/{auto_scaling_group_arn}:
+    get:
+      description: get a diff of AutoScalingGroup between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The auto_scaling_group_arn of the AutoScalingGroup to retrieve
+        in: path
+        name: auto_scaling_group_arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff AutoScalingGroup
+      tags:
+      - aws autoscaling
+  /diff/aws/autoscaling/launch_configurations:
+    get:
+      description: get a diff of LaunchConfigurations between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff LaunchConfigurations
+      tags:
+      - aws autoscaling
+  /diff/aws/autoscaling/launch_configurations/{launch_configuration_arn}:
+    get:
+      description: get a diff of LaunchConfiguration between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The launch_configuration_arn of the LaunchConfiguration to retrieve
+        in: path
+        name: launch_configuration_arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff LaunchConfiguration
+      tags:
+      - aws autoscaling
   /diff/aws/backup/backup_plans:
     get:
       description: get a diff of BackupPlans between two points in time
@@ -14097,6 +16145,114 @@ paths:
       summary: Diff Gateway
       tags:
       - aws storagegateway
+  /inventory/aws/acm/certificates:
+    get:
+      description: get a list of certificates
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      - description: A pagination token. If this is specified, the next set of results
+          is retrieved. The pagination token is returned in the response.
+        in: query
+        name: pagination_token
+        type: string
+      - description: The maximum number of results to return. Default is 100
+        in: query
+        name: max_results
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/acm.ListCertificatesResponse'
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: List Certificates
+      tags:
+      - aws acm
+  /inventory/aws/acm/certificates/{certificate_arn}:
+    get:
+      description: Get a specific Certificate by its CertificateArn
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: The certificate_arn of the Certificate to retrieve
+        in: path
+        name: certificate_arn
+        required: true
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/acm.Certificate'
+        "400":
+          description: ""
+        "404":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get a specific Certificate
+      tags:
+      - aws acm
   /inventory/aws/apigateway/rest_apis:
     get:
       description: get a list of rest_apis
@@ -14313,6 +16469,654 @@ paths:
       summary: Get a specific Api
       tags:
       - aws apigatewayv2
+  /inventory/aws/applicationautoscaling/scaling_policies:
+    get:
+      description: get a list of scaling_policies
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      - description: A pagination token. If this is specified, the next set of results
+          is retrieved. The pagination token is returned in the response.
+        in: query
+        name: pagination_token
+        type: string
+      - description: The maximum number of results to return. Default is 100
+        in: query
+        name: max_results
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/applicationautoscaling.ListScalingPoliciesResponse'
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: List ScalingPolicies
+      tags:
+      - aws applicationautoscaling
+  /inventory/aws/applicationautoscaling/scaling_policies/{policy_arn}:
+    get:
+      description: Get a specific ScalingPolicy by its PolicyARN
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: The policy_arn of the ScalingPolicy to retrieve
+        in: path
+        name: policy_arn
+        required: true
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/applicationautoscaling.ScalingPolicy'
+        "400":
+          description: ""
+        "404":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get a specific ScalingPolicy
+      tags:
+      - aws applicationautoscaling
+  /inventory/aws/athena/data_catalogs:
+    get:
+      description: get a list of data_catalogs
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      - description: A pagination token. If this is specified, the next set of results
+          is retrieved. The pagination token is returned in the response.
+        in: query
+        name: pagination_token
+        type: string
+      - description: The maximum number of results to return. Default is 100
+        in: query
+        name: max_results
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/athena.ListDataCatalogsResponse'
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: List DataCatalogs
+      tags:
+      - aws athena
+  /inventory/aws/athena/data_catalogs/{name}:
+    get:
+      description: Get a specific DataCatalog by its Name
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: The name of the DataCatalog to retrieve
+        in: path
+        name: name
+        required: true
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/athena.DataCatalog'
+        "400":
+          description: ""
+        "404":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get a specific DataCatalog
+      tags:
+      - aws athena
+  /inventory/aws/athena/databases:
+    get:
+      description: get a list of databases
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      - description: A pagination token. If this is specified, the next set of results
+          is retrieved. The pagination token is returned in the response.
+        in: query
+        name: pagination_token
+        type: string
+      - description: The maximum number of results to return. Default is 100
+        in: query
+        name: max_results
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/athena.ListDatabasesResponse'
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: List Databases
+      tags:
+      - aws athena
+  /inventory/aws/athena/databases/{name}:
+    get:
+      description: Get a specific Database by its Name
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: The name of the Database to retrieve
+        in: path
+        name: name
+        required: true
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/athena.Database'
+        "400":
+          description: ""
+        "404":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get a specific Database
+      tags:
+      - aws athena
+  /inventory/aws/athena/work_groups:
+    get:
+      description: get a list of work_groups
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      - description: A pagination token. If this is specified, the next set of results
+          is retrieved. The pagination token is returned in the response.
+        in: query
+        name: pagination_token
+        type: string
+      - description: The maximum number of results to return. Default is 100
+        in: query
+        name: max_results
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/athena.ListWorkGroupsResponse'
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: List WorkGroups
+      tags:
+      - aws athena
+  /inventory/aws/athena/work_groups/{name}:
+    get:
+      description: Get a specific WorkGroup by its Name
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: The name of the WorkGroup to retrieve
+        in: path
+        name: name
+        required: true
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/athena.WorkGroup'
+        "400":
+          description: ""
+        "404":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get a specific WorkGroup
+      tags:
+      - aws athena
+  /inventory/aws/autoscaling/auto_scaling_groups:
+    get:
+      description: get a list of auto_scaling_groups
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      - description: A pagination token. If this is specified, the next set of results
+          is retrieved. The pagination token is returned in the response.
+        in: query
+        name: pagination_token
+        type: string
+      - description: The maximum number of results to return. Default is 100
+        in: query
+        name: max_results
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/autoscaling.ListAutoScalingGroupsResponse'
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: List AutoScalingGroups
+      tags:
+      - aws autoscaling
+  /inventory/aws/autoscaling/auto_scaling_groups/{auto_scaling_group_arn}:
+    get:
+      description: Get a specific AutoScalingGroup by its AutoScalingGroupARN
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: The auto_scaling_group_arn of the AutoScalingGroup to retrieve
+        in: path
+        name: auto_scaling_group_arn
+        required: true
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/autoscaling.AutoScalingGroup'
+        "400":
+          description: ""
+        "404":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get a specific AutoScalingGroup
+      tags:
+      - aws autoscaling
+  /inventory/aws/autoscaling/launch_configurations:
+    get:
+      description: get a list of launch_configurations
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      - description: A pagination token. If this is specified, the next set of results
+          is retrieved. The pagination token is returned in the response.
+        in: query
+        name: pagination_token
+        type: string
+      - description: The maximum number of results to return. Default is 100
+        in: query
+        name: max_results
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/autoscaling.ListLaunchConfigurationsResponse'
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: List LaunchConfigurations
+      tags:
+      - aws autoscaling
+  /inventory/aws/autoscaling/launch_configurations/{launch_configuration_arn}:
+    get:
+      description: Get a specific LaunchConfiguration by its LaunchConfigurationARN
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: The launch_configuration_arn of the LaunchConfiguration to retrieve
+        in: path
+        name: launch_configuration_arn
+        required: true
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/autoscaling.LaunchConfiguration'
+        "400":
+          description: ""
+        "404":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get a specific LaunchConfiguration
+      tags:
+      - aws autoscaling
   /inventory/aws/backup/backup_plans:
     get:
       description: get a list of backup_plans
@@ -19736,6 +22540,50 @@ paths:
       summary: Get Aws Metadata
       tags:
       - aws
+  /metadata/aws/acm:
+    get:
+      description: get a list of ACM metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get ACM Metadata
+      tags:
+      - aws acm
+  /metadata/aws/acm/certificates:
+    get:
+      description: get a list of certificates metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get Certificates Metadata
+      tags:
+      - aws acm
   /metadata/aws/apigateway:
     get:
       description: get a list of ApiGateway metadata
@@ -19824,6 +22672,213 @@ paths:
       summary: Get Apis Metadata
       tags:
       - aws apigatewayv2
+  /metadata/aws/applicationautoscaling:
+    get:
+      description: get a list of ApplicationAutoScaling metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get ApplicationAutoScaling Metadata
+      tags:
+      - aws applicationautoscaling
+  /metadata/aws/applicationautoscaling/scaling_policies:
+    get:
+      description: get a list of scaling_policies metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get ScalingPolicies Metadata
+      tags:
+      - aws applicationautoscaling
+  /metadata/aws/athena:
+    get:
+      description: get a list of Athena metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get Athena Metadata
+      tags:
+      - aws athena
+  /metadata/aws/athena/data_catalogs:
+    get:
+      description: get a list of data_catalogs metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get DataCatalogs Metadata
+      tags:
+      - aws athena
+  /metadata/aws/athena/databases:
+    get:
+      description: get a list of databases metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get Databases Metadata
+      tags:
+      - aws athena
+  /metadata/aws/athena/work_groups:
+    get:
+      description: get a list of work_groups metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get WorkGroups Metadata
+      tags:
+      - aws athena
+  /metadata/aws/autoscaling:
+    get:
+      description: get a list of AutoScaling metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get AutoScaling Metadata
+      tags:
+      - aws autoscaling
+  /metadata/aws/autoscaling/auto_scaling_groups:
+    get:
+      description: get a list of auto_scaling_groups metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get AutoScalingGroups Metadata
+      tags:
+      - aws autoscaling
+  /metadata/aws/autoscaling/launch_configurations:
+    get:
+      description: get a list of launch_configurations metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get LaunchConfigurations Metadata
+      tags:
+      - aws autoscaling
   /metadata/aws/backup:
     get:
       description: get a list of Backup metadata

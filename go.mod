@@ -5,14 +5,17 @@ go 1.17
 require (
 	github.com/amzn/ion-go v1.1.3
 	github.com/aws/aws-lambda-go v1.30.0
-	github.com/aws/aws-sdk-go-v2 v1.16.2
+	github.com/aws/aws-sdk-go-v2 v1.16.3
 	github.com/aws/aws-sdk-go-v2/config v1.15.3
 	github.com/aws/aws-sdk-go-v2/credentials v1.11.2
 	github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue v1.9.0
 	github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression v1.4.6
+	github.com/aws/aws-sdk-go-v2/service/acm v1.14.4
 	github.com/aws/aws-sdk-go-v2/service/apigateway v1.15.3
 	github.com/aws/aws-sdk-go-v2/service/apigatewayv2 v1.12.3
-	github.com/aws/aws-sdk-go-v2/service/athena v1.15.0
+	github.com/aws/aws-sdk-go-v2/service/applicationautoscaling v1.15.4
+	github.com/aws/aws-sdk-go-v2/service/athena v1.15.1
+	github.com/aws/aws-sdk-go-v2/service/autoscaling v1.23.1
 	github.com/aws/aws-sdk-go-v2/service/backup v1.15.4
 	github.com/aws/aws-sdk-go-v2/service/cloudtrail v1.15.5
 	github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs v1.15.4
@@ -60,8 +63,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.4.1 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.3 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.11.5 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.9 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.3 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.10 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.4 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.10 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/v4a v1.0.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/dynamodbstreams v1.13.3 // indirect

@@ -7,8 +7,12 @@ import (
 
 	"github.com/sheacloud/cloud-inventory/internal/db"
 	"github.com/sheacloud/cloud-inventory/pkg/aws"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/acm"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/apigateway"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/apigatewayv2"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/applicationautoscaling"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/athena"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/autoscaling"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/backup"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudtrail"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatchlogs"
@@ -46,6 +50,18 @@ type AwsCatalogService struct {
 var (
 	AwsCatalog = []AwsCatalogService{
 		{
+			ServiceName:     "acm",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "certificates",
+					ResourceModel: &acm.Certificate{},
+					FetchFunction: IngestAwsACMCertificates,
+					UniqueIdField: "CertificateArn",
+				},
+			},
+		},
+		{
 			ServiceName:     "apigateway",
 			RegionOverrides: []string{},
 			Resources: []AwsCatalogResource{
@@ -66,6 +82,60 @@ var (
 					ResourceModel: &apigatewayv2.Api{},
 					FetchFunction: IngestAwsApiGatewayV2Apis,
 					UniqueIdField: "ApiId",
+				},
+			},
+		},
+		{
+			ServiceName:     "applicationautoscaling",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "scaling_policies",
+					ResourceModel: &applicationautoscaling.ScalingPolicy{},
+					FetchFunction: IngestAwsApplicationAutoScalingScalingPolicies,
+					UniqueIdField: "PolicyARN",
+				},
+			},
+		},
+		{
+			ServiceName:     "athena",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "work_groups",
+					ResourceModel: &athena.WorkGroup{},
+					FetchFunction: IngestAwsAthenaWorkGroups,
+					UniqueIdField: "Name",
+				},
+				{
+					ResourceName:  "data_catalogs",
+					ResourceModel: &athena.DataCatalog{},
+					FetchFunction: IngestAwsAthenaDataCatalogs,
+					UniqueIdField: "Name",
+				},
+				{
+					ResourceName:  "databases",
+					ResourceModel: &athena.Database{},
+					FetchFunction: IngestAwsAthenaDatabases,
+					UniqueIdField: "Name",
+				},
+			},
+		},
+		{
+			ServiceName:     "autoscaling",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "auto_scaling_groups",
+					ResourceModel: &autoscaling.AutoScalingGroup{},
+					FetchFunction: IngestAwsAutoScalingAutoScalingGroups,
+					UniqueIdField: "AutoScalingGroupARN",
+				},
+				{
+					ResourceName:  "launch_configurations",
+					ResourceModel: &autoscaling.LaunchConfiguration{},
+					FetchFunction: IngestAwsAutoScalingLaunchConfigurations,
+					UniqueIdField: "LaunchConfigurationARN",
 				},
 			},
 		},

@@ -7,8 +7,12 @@ import (
 )
 
 type AwsClientInterface interface {
+	ACM() interfaces.ACMClient
 	ApiGateway() interfaces.ApiGatewayClient
 	ApiGatewayV2() interfaces.ApiGatewayV2Client
+	ApplicationAutoScaling() interfaces.ApplicationAutoScalingClient
+	Athena() interfaces.AthenaClient
+	AutoScaling() interfaces.AutoScalingClient
 	Backup() interfaces.BackupClient
 	CloudTrail() interfaces.CloudTrailClient
 	CloudWatchLogs() interfaces.CloudWatchLogsClient

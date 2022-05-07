@@ -4,11 +4,26 @@
 
 # AWS
 
+## ACM
+ - certificates
+
 ## ApiGateway
  - rest_apis
 
 ## ApiGatewayV2
  - apis
+
+## ApplicationAutoScaling
+ - scaling_policies
+
+## Athena
+ - work_groups
+ - data_catalogs
+ - databases
+
+## AutoScaling
+ - auto_scaling_groups
+ - launch_configurations
 
 ## Backup
  - backup_vaults

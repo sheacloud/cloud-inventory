@@ -6,8 +6,12 @@ import (
 	"context"
 	"fmt"
 	"github.com/sheacloud/cloud-inventory/internal/db"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/acm"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/apigateway"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/apigatewayv2"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/applicationautoscaling"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/athena"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/autoscaling"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/backup"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudtrail"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatchlogs"
@@ -141,6 +145,30 @@ func (dao *MultiWriterDAO) Finish(ctx context.Context) error {
 	return nil
 }
 
+func (dao *MultiWriterDAO) PutAwsACMCertificates(ctx context.Context, resources []*acm.Certificate) error {
+	var wg sync.WaitGroup
+
+	errors := []error{}
+	errorLock := sync.Mutex{}
+	for _, memberDao := range dao.daos {
+		wg.Add(1)
+		go func(memberDao db.WriterDAO) {
+			defer wg.Done()
+			err := memberDao.PutAwsACMCertificates(ctx, resources)
+			if err != nil {
+				errorLock.Lock()
+				errors = append(errors, err)
+				errorLock.Unlock()
+			}
+		}(memberDao)
+	}
+
+	wg.Wait()
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+	return nil
+}
 func (dao *MultiWriterDAO) PutAwsApiGatewayRestApis(ctx context.Context, resources []*apigateway.RestApi) error {
 	var wg sync.WaitGroup
 
@@ -175,6 +203,150 @@ func (dao *MultiWriterDAO) PutAwsApiGatewayV2Apis(ctx context.Context, resources
 		go func(memberDao db.WriterDAO) {
 			defer wg.Done()
 			err := memberDao.PutAwsApiGatewayV2Apis(ctx, resources)
+			if err != nil {
+				errorLock.Lock()
+				errors = append(errors, err)
+				errorLock.Unlock()
+			}
+		}(memberDao)
+	}
+
+	wg.Wait()
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+	return nil
+}
+func (dao *MultiWriterDAO) PutAwsApplicationAutoScalingScalingPolicies(ctx context.Context, resources []*applicationautoscaling.ScalingPolicy) error {
+	var wg sync.WaitGroup
+
+	errors := []error{}
+	errorLock := sync.Mutex{}
+	for _, memberDao := range dao.daos {
+		wg.Add(1)
+		go func(memberDao db.WriterDAO) {
+			defer wg.Done()
+			err := memberDao.PutAwsApplicationAutoScalingScalingPolicies(ctx, resources)
+			if err != nil {
+				errorLock.Lock()
+				errors = append(errors, err)
+				errorLock.Unlock()
+			}
+		}(memberDao)
+	}
+
+	wg.Wait()
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+	return nil
+}
+func (dao *MultiWriterDAO) PutAwsAthenaWorkGroups(ctx context.Context, resources []*athena.WorkGroup) error {
+	var wg sync.WaitGroup
+
+	errors := []error{}
+	errorLock := sync.Mutex{}
+	for _, memberDao := range dao.daos {
+		wg.Add(1)
+		go func(memberDao db.WriterDAO) {
+			defer wg.Done()
+			err := memberDao.PutAwsAthenaWorkGroups(ctx, resources)
+			if err != nil {
+				errorLock.Lock()
+				errors = append(errors, err)
+				errorLock.Unlock()
+			}
+		}(memberDao)
+	}
+
+	wg.Wait()
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+	return nil
+}
+func (dao *MultiWriterDAO) PutAwsAthenaDataCatalogs(ctx context.Context, resources []*athena.DataCatalog) error {
+	var wg sync.WaitGroup
+
+	errors := []error{}
+	errorLock := sync.Mutex{}
+	for _, memberDao := range dao.daos {
+		wg.Add(1)
+		go func(memberDao db.WriterDAO) {
+			defer wg.Done()
+			err := memberDao.PutAwsAthenaDataCatalogs(ctx, resources)
+			if err != nil {
+				errorLock.Lock()
+				errors = append(errors, err)
+				errorLock.Unlock()
+			}
+		}(memberDao)
+	}
+
+	wg.Wait()
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+	return nil
+}
+func (dao *MultiWriterDAO) PutAwsAthenaDatabases(ctx context.Context, resources []*athena.Database) error {
+	var wg sync.WaitGroup
+
+	errors := []error{}
+	errorLock := sync.Mutex{}
+	for _, memberDao := range dao.daos {
+		wg.Add(1)
+		go func(memberDao db.WriterDAO) {
+			defer wg.Done()
+			err := memberDao.PutAwsAthenaDatabases(ctx, resources)
+			if err != nil {
+				errorLock.Lock()
+				errors = append(errors, err)
+				errorLock.Unlock()
+			}
+		}(memberDao)
+	}
+
+	wg.Wait()
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+	return nil
+}
+func (dao *MultiWriterDAO) PutAwsAutoScalingAutoScalingGroups(ctx context.Context, resources []*autoscaling.AutoScalingGroup) error {
+	var wg sync.WaitGroup
+
+	errors := []error{}
+	errorLock := sync.Mutex{}
+	for _, memberDao := range dao.daos {
+		wg.Add(1)
+		go func(memberDao db.WriterDAO) {
+			defer wg.Done()
+			err := memberDao.PutAwsAutoScalingAutoScalingGroups(ctx, resources)
+			if err != nil {
+				errorLock.Lock()
+				errors = append(errors, err)
+				errorLock.Unlock()
+			}
+		}(memberDao)
+	}
+
+	wg.Wait()
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+	return nil
+}
+func (dao *MultiWriterDAO) PutAwsAutoScalingLaunchConfigurations(ctx context.Context, resources []*autoscaling.LaunchConfiguration) error {
+	var wg sync.WaitGroup
+
+	errors := []error{}
+	errorLock := sync.Mutex{}
+	for _, memberDao := range dao.daos {
+		wg.Add(1)
+		go func(memberDao db.WriterDAO) {
+			defer wg.Done()
+			err := memberDao.PutAwsAutoScalingLaunchConfigurations(ctx, resources)
 			if err != nil {
 				errorLock.Lock()
 				errors = append(errors, err)

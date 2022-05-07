@@ -4,8 +4,12 @@ package db
 
 import (
 	"context"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/acm"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/apigateway"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/apigatewayv2"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/applicationautoscaling"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/athena"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/autoscaling"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/backup"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudtrail"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatchlogs"
@@ -33,8 +37,15 @@ type WriterDAO interface {
 	WriteIngestionTimestamp(ctx context.Context, metadata *meta.IngestionTimestamp) error
 	FinishIndex(ctx context.Context, indices []string, reportDateUnixMilli int64) error
 	Finish(ctx context.Context) error
+	PutAwsACMCertificates(ctx context.Context, resources []*acm.Certificate) error
 	PutAwsApiGatewayRestApis(ctx context.Context, resources []*apigateway.RestApi) error
 	PutAwsApiGatewayV2Apis(ctx context.Context, resources []*apigatewayv2.Api) error
+	PutAwsApplicationAutoScalingScalingPolicies(ctx context.Context, resources []*applicationautoscaling.ScalingPolicy) error
+	PutAwsAthenaWorkGroups(ctx context.Context, resources []*athena.WorkGroup) error
+	PutAwsAthenaDataCatalogs(ctx context.Context, resources []*athena.DataCatalog) error
+	PutAwsAthenaDatabases(ctx context.Context, resources []*athena.Database) error
+	PutAwsAutoScalingAutoScalingGroups(ctx context.Context, resources []*autoscaling.AutoScalingGroup) error
+	PutAwsAutoScalingLaunchConfigurations(ctx context.Context, resources []*autoscaling.LaunchConfiguration) error
 	PutAwsBackupBackupVaults(ctx context.Context, resources []*backup.BackupVault) error
 	PutAwsBackupBackupPlans(ctx context.Context, resources []*backup.BackupPlan) error
 	PutAwsCloudTrailTrails(ctx context.Context, resources []*cloudtrail.Trail) error
@@ -88,6 +99,10 @@ type WriterDAO interface {
 }
 
 type ReaderDAO interface {
+	ListAwsACMCertificates(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*acm.Certificate, error)
+	GetAwsACMCertificate(ctx context.Context, reportTimeUnixMilli int64, id string) (*acm.Certificate, error)
+	GetAwsACMCertificateReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
+	GetReferencedAwsACMCertificateReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
 	ListAwsApiGatewayRestApis(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*apigateway.RestApi, error)
 	GetAwsApiGatewayRestApi(ctx context.Context, reportTimeUnixMilli int64, id string) (*apigateway.RestApi, error)
 	GetAwsApiGatewayRestApiReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
@@ -96,6 +111,30 @@ type ReaderDAO interface {
 	GetAwsApiGatewayV2Api(ctx context.Context, reportTimeUnixMilli int64, id string) (*apigatewayv2.Api, error)
 	GetAwsApiGatewayV2ApiReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
 	GetReferencedAwsApiGatewayV2ApiReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
+	ListAwsApplicationAutoScalingScalingPolicies(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*applicationautoscaling.ScalingPolicy, error)
+	GetAwsApplicationAutoScalingScalingPolicy(ctx context.Context, reportTimeUnixMilli int64, id string) (*applicationautoscaling.ScalingPolicy, error)
+	GetAwsApplicationAutoScalingScalingPolicyReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
+	GetReferencedAwsApplicationAutoScalingScalingPolicyReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
+	ListAwsAthenaWorkGroups(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*athena.WorkGroup, error)
+	GetAwsAthenaWorkGroup(ctx context.Context, reportTimeUnixMilli int64, id string) (*athena.WorkGroup, error)
+	GetAwsAthenaWorkGroupReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
+	GetReferencedAwsAthenaWorkGroupReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
+	ListAwsAthenaDataCatalogs(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*athena.DataCatalog, error)
+	GetAwsAthenaDataCatalog(ctx context.Context, reportTimeUnixMilli int64, id string) (*athena.DataCatalog, error)
+	GetAwsAthenaDataCatalogReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
+	GetReferencedAwsAthenaDataCatalogReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
+	ListAwsAthenaDatabases(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*athena.Database, error)
+	GetAwsAthenaDatabase(ctx context.Context, reportTimeUnixMilli int64, id string) (*athena.Database, error)
+	GetAwsAthenaDatabaseReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
+	GetReferencedAwsAthenaDatabaseReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
+	ListAwsAutoScalingAutoScalingGroups(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*autoscaling.AutoScalingGroup, error)
+	GetAwsAutoScalingAutoScalingGroup(ctx context.Context, reportTimeUnixMilli int64, id string) (*autoscaling.AutoScalingGroup, error)
+	GetAwsAutoScalingAutoScalingGroupReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
+	GetReferencedAwsAutoScalingAutoScalingGroupReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
+	ListAwsAutoScalingLaunchConfigurations(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*autoscaling.LaunchConfiguration, error)
+	GetAwsAutoScalingLaunchConfiguration(ctx context.Context, reportTimeUnixMilli int64, id string) (*autoscaling.LaunchConfiguration, error)
+	GetAwsAutoScalingLaunchConfigurationReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
+	GetReferencedAwsAutoScalingLaunchConfigurationReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
 	ListAwsBackupBackupVaults(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*backup.BackupVault, error)
 	GetAwsBackupBackupVault(ctx context.Context, reportTimeUnixMilli int64, id string) (*backup.BackupVault, error)
 	GetAwsBackupBackupVaultReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
