@@ -16,23 +16,30 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/aws/athena"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/autoscaling"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/backup"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudformation"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudfront"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudtrail"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatch"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatchlogs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/dynamodb"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/ec2"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/ecr"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/ecs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/efs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticache"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticloadbalancing"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticloadbalancingv2"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/iam"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/kms"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/lambda"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/rds"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/redshift"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/route53"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/s3"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/secretsmanager"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/sns"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/sqs"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/ssm"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/storagegateway"
 	"github.com/sheacloud/cloud-inventory/pkg/meta"
 )
@@ -201,6 +208,28 @@ func (dao *DynamoDBWriterDAO) PutAwsBackupBackupPlans(ctx context.Context, resou
 	}
 	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-backup-backup-plans", items)
 }
+func (dao *DynamoDBWriterDAO) PutAwsCloudFormationStacks(ctx context.Context, resources []*cloudformation.Stack) error {
+	items := make([]map[string]types.AttributeValue, len(resources))
+	for i, resource := range resources {
+		item, err := attributevalue.MarshalMap(resource)
+		if err != nil {
+			return err
+		}
+		items[i] = item
+	}
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-cloudformation-stacks", items)
+}
+func (dao *DynamoDBWriterDAO) PutAwsCloudFrontDistributions(ctx context.Context, resources []*cloudfront.Distribution) error {
+	items := make([]map[string]types.AttributeValue, len(resources))
+	for i, resource := range resources {
+		item, err := attributevalue.MarshalMap(resource)
+		if err != nil {
+			return err
+		}
+		items[i] = item
+	}
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-cloudfront-distributions", items)
+}
 func (dao *DynamoDBWriterDAO) PutAwsCloudTrailTrails(ctx context.Context, resources []*cloudtrail.Trail) error {
 	items := make([]map[string]types.AttributeValue, len(resources))
 	for i, resource := range resources {
@@ -211,6 +240,28 @@ func (dao *DynamoDBWriterDAO) PutAwsCloudTrailTrails(ctx context.Context, resour
 		items[i] = item
 	}
 	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-cloudtrail-trails", items)
+}
+func (dao *DynamoDBWriterDAO) PutAwsCloudWatchMetricAlarms(ctx context.Context, resources []*cloudwatch.MetricAlarm) error {
+	items := make([]map[string]types.AttributeValue, len(resources))
+	for i, resource := range resources {
+		item, err := attributevalue.MarshalMap(resource)
+		if err != nil {
+			return err
+		}
+		items[i] = item
+	}
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-cloudwatch-metric-alarms", items)
+}
+func (dao *DynamoDBWriterDAO) PutAwsCloudWatchCompositeAlarms(ctx context.Context, resources []*cloudwatch.CompositeAlarm) error {
+	items := make([]map[string]types.AttributeValue, len(resources))
+	for i, resource := range resources {
+		item, err := attributevalue.MarshalMap(resource)
+		if err != nil {
+			return err
+		}
+		items[i] = item
+	}
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-cloudwatch-composite-alarms", items)
 }
 func (dao *DynamoDBWriterDAO) PutAwsCloudWatchLogsLogGroups(ctx context.Context, resources []*cloudwatchlogs.LogGroup) error {
 	items := make([]map[string]types.AttributeValue, len(resources))
@@ -487,6 +538,17 @@ func (dao *DynamoDBWriterDAO) PutAwsEC2VpnGateways(ctx context.Context, resource
 	}
 	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-ec2-vpn-gateways", items)
 }
+func (dao *DynamoDBWriterDAO) PutAwsECRRepositories(ctx context.Context, resources []*ecr.Repository) error {
+	items := make([]map[string]types.AttributeValue, len(resources))
+	for i, resource := range resources {
+		item, err := attributevalue.MarshalMap(resource)
+		if err != nil {
+			return err
+		}
+		items[i] = item
+	}
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-ecr-repositories", items)
+}
 func (dao *DynamoDBWriterDAO) PutAwsECSClusters(ctx context.Context, resources []*ecs.Cluster) error {
 	items := make([]map[string]types.AttributeValue, len(resources))
 	for i, resource := range resources {
@@ -619,6 +681,17 @@ func (dao *DynamoDBWriterDAO) PutAwsIAMUsers(ctx context.Context, resources []*i
 	}
 	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-iam-users", items)
 }
+func (dao *DynamoDBWriterDAO) PutAwsKMSKeys(ctx context.Context, resources []*kms.Key) error {
+	items := make([]map[string]types.AttributeValue, len(resources))
+	for i, resource := range resources {
+		item, err := attributevalue.MarshalMap(resource)
+		if err != nil {
+			return err
+		}
+		items[i] = item
+	}
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-kms-keys", items)
+}
 func (dao *DynamoDBWriterDAO) PutAwsLambdaFunctions(ctx context.Context, resources []*lambda.Function) error {
 	items := make([]map[string]types.AttributeValue, len(resources))
 	for i, resource := range resources {
@@ -685,6 +758,17 @@ func (dao *DynamoDBWriterDAO) PutAwsS3Buckets(ctx context.Context, resources []*
 	}
 	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-s3-buckets", items)
 }
+func (dao *DynamoDBWriterDAO) PutAwsSecretsManagerSecrets(ctx context.Context, resources []*secretsmanager.Secret) error {
+	items := make([]map[string]types.AttributeValue, len(resources))
+	for i, resource := range resources {
+		item, err := attributevalue.MarshalMap(resource)
+		if err != nil {
+			return err
+		}
+		items[i] = item
+	}
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-secretsmanager-secrets", items)
+}
 func (dao *DynamoDBWriterDAO) PutAwsSNSTopics(ctx context.Context, resources []*sns.Topic) error {
 	items := make([]map[string]types.AttributeValue, len(resources))
 	for i, resource := range resources {
@@ -717,6 +801,17 @@ func (dao *DynamoDBWriterDAO) PutAwsSQSQueues(ctx context.Context, resources []*
 		items[i] = item
 	}
 	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-sqs-queues", items)
+}
+func (dao *DynamoDBWriterDAO) PutAwsSSMParameters(ctx context.Context, resources []*ssm.Parameter) error {
+	items := make([]map[string]types.AttributeValue, len(resources))
+	for i, resource := range resources {
+		item, err := attributevalue.MarshalMap(resource)
+		if err != nil {
+			return err
+		}
+		items[i] = item
+	}
+	return BatchWriteItems(ctx, dao.client, dao.maxRetries, "cloud-inventory-aws-ssm-parameters", items)
 }
 func (dao *DynamoDBWriterDAO) PutAwsStorageGatewayGateways(ctx context.Context, resources []*storagegateway.Gateway) error {
 	items := make([]map[string]types.AttributeValue, len(resources))
@@ -1126,6 +1221,78 @@ func (dao *DynamoDBReaderDAO) GetReferencedAwsBackupBackupPlanReportTime(ctx con
 	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "backup", "backup_plans")
 }
 
+func (dao *DynamoDBReaderDAO) ListAwsCloudFormationStacks(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*cloudformation.Stack, error) {
+	tableName := "cloud-inventory-aws-cloudformation-stacks"
+	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "stack_id", nil)
+	if err != nil {
+		return nil, err
+	}
+	var resources []*cloudformation.Stack
+	err = attributevalue.UnmarshalListOfMaps(items, &resources)
+	if err != nil {
+		return nil, err
+	}
+	return resources, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsCloudFormationStack(ctx context.Context, reportTimeUnixMilli int64, id string) (*cloudformation.Stack, error) {
+	tableName := "cloud-inventory-aws-cloudformation-stacks"
+	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "stack_id")
+	if err != nil {
+		return nil, err
+	}
+	var resource *cloudformation.Stack
+	err = attributevalue.UnmarshalMap(item, &resource)
+	if err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsCloudFormationStackReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "cloudformation", "stacks")
+}
+
+func (dao *DynamoDBReaderDAO) GetReferencedAwsCloudFormationStackReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "cloudformation", "stacks")
+}
+
+func (dao *DynamoDBReaderDAO) ListAwsCloudFrontDistributions(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*cloudfront.Distribution, error) {
+	tableName := "cloud-inventory-aws-cloudfront-distributions"
+	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "arn", nil)
+	if err != nil {
+		return nil, err
+	}
+	var resources []*cloudfront.Distribution
+	err = attributevalue.UnmarshalListOfMaps(items, &resources)
+	if err != nil {
+		return nil, err
+	}
+	return resources, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsCloudFrontDistribution(ctx context.Context, reportTimeUnixMilli int64, id string) (*cloudfront.Distribution, error) {
+	tableName := "cloud-inventory-aws-cloudfront-distributions"
+	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "arn")
+	if err != nil {
+		return nil, err
+	}
+	var resource *cloudfront.Distribution
+	err = attributevalue.UnmarshalMap(item, &resource)
+	if err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsCloudFrontDistributionReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "cloudfront", "distributions")
+}
+
+func (dao *DynamoDBReaderDAO) GetReferencedAwsCloudFrontDistributionReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "cloudfront", "distributions")
+}
+
 func (dao *DynamoDBReaderDAO) ListAwsCloudTrailTrails(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*cloudtrail.Trail, error) {
 	tableName := "cloud-inventory-aws-cloudtrail-trails"
 	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "trail_arn", nil)
@@ -1160,6 +1327,78 @@ func (dao *DynamoDBReaderDAO) GetAwsCloudTrailTrailReportTimes(ctx context.Conte
 
 func (dao *DynamoDBReaderDAO) GetReferencedAwsCloudTrailTrailReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
 	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "cloudtrail", "trails")
+}
+
+func (dao *DynamoDBReaderDAO) ListAwsCloudWatchMetricAlarms(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*cloudwatch.MetricAlarm, error) {
+	tableName := "cloud-inventory-aws-cloudwatch-metric-alarms"
+	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "alarm_arn", nil)
+	if err != nil {
+		return nil, err
+	}
+	var resources []*cloudwatch.MetricAlarm
+	err = attributevalue.UnmarshalListOfMaps(items, &resources)
+	if err != nil {
+		return nil, err
+	}
+	return resources, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsCloudWatchMetricAlarm(ctx context.Context, reportTimeUnixMilli int64, id string) (*cloudwatch.MetricAlarm, error) {
+	tableName := "cloud-inventory-aws-cloudwatch-metric-alarms"
+	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "alarm_arn")
+	if err != nil {
+		return nil, err
+	}
+	var resource *cloudwatch.MetricAlarm
+	err = attributevalue.UnmarshalMap(item, &resource)
+	if err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsCloudWatchMetricAlarmReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "cloudwatch", "metric_alarms")
+}
+
+func (dao *DynamoDBReaderDAO) GetReferencedAwsCloudWatchMetricAlarmReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "cloudwatch", "metric_alarms")
+}
+
+func (dao *DynamoDBReaderDAO) ListAwsCloudWatchCompositeAlarms(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*cloudwatch.CompositeAlarm, error) {
+	tableName := "cloud-inventory-aws-cloudwatch-composite-alarms"
+	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "alarm_arn", nil)
+	if err != nil {
+		return nil, err
+	}
+	var resources []*cloudwatch.CompositeAlarm
+	err = attributevalue.UnmarshalListOfMaps(items, &resources)
+	if err != nil {
+		return nil, err
+	}
+	return resources, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsCloudWatchCompositeAlarm(ctx context.Context, reportTimeUnixMilli int64, id string) (*cloudwatch.CompositeAlarm, error) {
+	tableName := "cloud-inventory-aws-cloudwatch-composite-alarms"
+	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "alarm_arn")
+	if err != nil {
+		return nil, err
+	}
+	var resource *cloudwatch.CompositeAlarm
+	err = attributevalue.UnmarshalMap(item, &resource)
+	if err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsCloudWatchCompositeAlarmReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "cloudwatch", "composite_alarms")
+}
+
+func (dao *DynamoDBReaderDAO) GetReferencedAwsCloudWatchCompositeAlarmReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "cloudwatch", "composite_alarms")
 }
 
 func (dao *DynamoDBReaderDAO) ListAwsCloudWatchLogsLogGroups(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*cloudwatchlogs.LogGroup, error) {
@@ -2062,6 +2301,42 @@ func (dao *DynamoDBReaderDAO) GetReferencedAwsEC2VpnGatewayReportTime(ctx contex
 	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "ec2", "vpn_gateways")
 }
 
+func (dao *DynamoDBReaderDAO) ListAwsECRRepositories(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ecr.Repository, error) {
+	tableName := "cloud-inventory-aws-ecr-repositories"
+	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "repository_arn", nil)
+	if err != nil {
+		return nil, err
+	}
+	var resources []*ecr.Repository
+	err = attributevalue.UnmarshalListOfMaps(items, &resources)
+	if err != nil {
+		return nil, err
+	}
+	return resources, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsECRRepository(ctx context.Context, reportTimeUnixMilli int64, id string) (*ecr.Repository, error) {
+	tableName := "cloud-inventory-aws-ecr-repositories"
+	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "repository_arn")
+	if err != nil {
+		return nil, err
+	}
+	var resource *ecr.Repository
+	err = attributevalue.UnmarshalMap(item, &resource)
+	if err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsECRRepositoryReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "ecr", "repositories")
+}
+
+func (dao *DynamoDBReaderDAO) GetReferencedAwsECRRepositoryReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "ecr", "repositories")
+}
+
 func (dao *DynamoDBReaderDAO) ListAwsECSClusters(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ecs.Cluster, error) {
 	tableName := "cloud-inventory-aws-ecs-clusters"
 	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "cluster_arn", nil)
@@ -2494,6 +2769,42 @@ func (dao *DynamoDBReaderDAO) GetReferencedAwsIAMUserReportTime(ctx context.Cont
 	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "iam", "users")
 }
 
+func (dao *DynamoDBReaderDAO) ListAwsKMSKeys(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*kms.Key, error) {
+	tableName := "cloud-inventory-aws-kms-keys"
+	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "arn", nil)
+	if err != nil {
+		return nil, err
+	}
+	var resources []*kms.Key
+	err = attributevalue.UnmarshalListOfMaps(items, &resources)
+	if err != nil {
+		return nil, err
+	}
+	return resources, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsKMSKey(ctx context.Context, reportTimeUnixMilli int64, id string) (*kms.Key, error) {
+	tableName := "cloud-inventory-aws-kms-keys"
+	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "arn")
+	if err != nil {
+		return nil, err
+	}
+	var resource *kms.Key
+	err = attributevalue.UnmarshalMap(item, &resource)
+	if err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsKMSKeyReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "kms", "keys")
+}
+
+func (dao *DynamoDBReaderDAO) GetReferencedAwsKMSKeyReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "kms", "keys")
+}
+
 func (dao *DynamoDBReaderDAO) ListAwsLambdaFunctions(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*lambda.Function, error) {
 	tableName := "cloud-inventory-aws-lambda-functions"
 	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "function_arn", nil)
@@ -2710,6 +3021,42 @@ func (dao *DynamoDBReaderDAO) GetReferencedAwsS3BucketReportTime(ctx context.Con
 	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "s3", "buckets")
 }
 
+func (dao *DynamoDBReaderDAO) ListAwsSecretsManagerSecrets(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*secretsmanager.Secret, error) {
+	tableName := "cloud-inventory-aws-secretsmanager-secrets"
+	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "arn", nil)
+	if err != nil {
+		return nil, err
+	}
+	var resources []*secretsmanager.Secret
+	err = attributevalue.UnmarshalListOfMaps(items, &resources)
+	if err != nil {
+		return nil, err
+	}
+	return resources, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsSecretsManagerSecret(ctx context.Context, reportTimeUnixMilli int64, id string) (*secretsmanager.Secret, error) {
+	tableName := "cloud-inventory-aws-secretsmanager-secrets"
+	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "arn")
+	if err != nil {
+		return nil, err
+	}
+	var resource *secretsmanager.Secret
+	err = attributevalue.UnmarshalMap(item, &resource)
+	if err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsSecretsManagerSecretReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "secretsmanager", "secrets")
+}
+
+func (dao *DynamoDBReaderDAO) GetReferencedAwsSecretsManagerSecretReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "secretsmanager", "secrets")
+}
+
 func (dao *DynamoDBReaderDAO) ListAwsSNSTopics(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*sns.Topic, error) {
 	tableName := "cloud-inventory-aws-sns-topics"
 	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "topic_arn", nil)
@@ -2816,6 +3163,42 @@ func (dao *DynamoDBReaderDAO) GetAwsSQSQueueReportTimes(ctx context.Context, rep
 
 func (dao *DynamoDBReaderDAO) GetReferencedAwsSQSQueueReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
 	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "sqs", "queues")
+}
+
+func (dao *DynamoDBReaderDAO) ListAwsSSMParameters(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ssm.Parameter, error) {
+	tableName := "cloud-inventory-aws-ssm-parameters"
+	items, _, err := ListItems(ctx, dao.client, tableName, reportTimeUnixMilli, "name", nil)
+	if err != nil {
+		return nil, err
+	}
+	var resources []*ssm.Parameter
+	err = attributevalue.UnmarshalListOfMaps(items, &resources)
+	if err != nil {
+		return nil, err
+	}
+	return resources, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsSSMParameter(ctx context.Context, reportTimeUnixMilli int64, id string) (*ssm.Parameter, error) {
+	tableName := "cloud-inventory-aws-ssm-parameters"
+	item, err := GetItem(ctx, dao.client, tableName, reportTimeUnixMilli, id, "name")
+	if err != nil {
+		return nil, err
+	}
+	var resource *ssm.Parameter
+	err = attributevalue.UnmarshalMap(item, &resource)
+	if err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+func (dao *DynamoDBReaderDAO) GetAwsSSMParameterReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error) {
+	return DistinctReportTimes(ctx, dao.client, reportDateUnixMilli, "aws", "ssm", "parameters")
+}
+
+func (dao *DynamoDBReaderDAO) GetReferencedAwsSSMParameterReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection db.TimeSelection, timeReferenceUnixMilli int64) (*int64, error) {
+	return GetReportTime(ctx, dao.client, reportDateUnixMilli, timeSelection, timeReferenceUnixMilli, "aws", "ssm", "parameters")
 }
 
 func (dao *DynamoDBReaderDAO) ListAwsStorageGatewayGateways(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*storagegateway.Gateway, error) {

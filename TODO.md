@@ -1,15 +1,10 @@
 # New Services
  - app mesh
- - cloudformation
- - cloudfront
- - cloudwatch (alarms)
- - cloudwatch (events)
  - cognito
  - datasync
  - dax
  - detective
  - docdb
- - ecr
  - elasticsearch
  - EMR
  - eventbridge
@@ -18,13 +13,10 @@
  - glue
  - guardduty?
  - kinesis
- - kms
  - network firewall
  - opensearch
  - ram
  - savingsplans
- - secrets manager
- - systems manager
  - shield 
  - waf
  - wafv2

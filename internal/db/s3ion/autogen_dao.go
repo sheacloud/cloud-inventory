@@ -13,23 +13,30 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/aws/athena"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/autoscaling"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/backup"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudformation"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudfront"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudtrail"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatch"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatchlogs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/dynamodb"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/ec2"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/ecr"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/ecs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/efs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticache"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticloadbalancing"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticloadbalancingv2"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/iam"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/kms"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/lambda"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/rds"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/redshift"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/route53"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/s3"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/secretsmanager"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/sns"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/sqs"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/ssm"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/storagegateway"
 	"github.com/sheacloud/cloud-inventory/pkg/meta"
 )
@@ -234,11 +241,75 @@ func (dao *S3IonWriterDAO) PutAwsBackupBackupPlans(ctx context.Context, resource
 
 	return nil
 }
+func (dao *S3IonWriterDAO) PutAwsCloudFormationStacks(ctx context.Context, resources []*cloudformation.Stack) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file := dao.ionClient.GetResourceFile("aws", "cloudformation", "stacks", resources[0].ReportTime)
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Encoder.Encode(resource); err != nil {
+			return fmt.Errorf("failed to encode resource: %w", err)
+		}
+	}
+
+	return nil
+}
+func (dao *S3IonWriterDAO) PutAwsCloudFrontDistributions(ctx context.Context, resources []*cloudfront.Distribution) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file := dao.ionClient.GetResourceFile("aws", "cloudfront", "distributions", resources[0].ReportTime)
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Encoder.Encode(resource); err != nil {
+			return fmt.Errorf("failed to encode resource: %w", err)
+		}
+	}
+
+	return nil
+}
 func (dao *S3IonWriterDAO) PutAwsCloudTrailTrails(ctx context.Context, resources []*cloudtrail.Trail) error {
 	if len(resources) == 0 {
 		return nil
 	}
 	file := dao.ionClient.GetResourceFile("aws", "cloudtrail", "trails", resources[0].ReportTime)
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Encoder.Encode(resource); err != nil {
+			return fmt.Errorf("failed to encode resource: %w", err)
+		}
+	}
+
+	return nil
+}
+func (dao *S3IonWriterDAO) PutAwsCloudWatchMetricAlarms(ctx context.Context, resources []*cloudwatch.MetricAlarm) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file := dao.ionClient.GetResourceFile("aws", "cloudwatch", "metric_alarms", resources[0].ReportTime)
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Encoder.Encode(resource); err != nil {
+			return fmt.Errorf("failed to encode resource: %w", err)
+		}
+	}
+
+	return nil
+}
+func (dao *S3IonWriterDAO) PutAwsCloudWatchCompositeAlarms(ctx context.Context, resources []*cloudwatch.CompositeAlarm) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file := dao.ionClient.GetResourceFile("aws", "cloudwatch", "composite_alarms", resources[0].ReportTime)
 	file.Lock.Lock()
 	defer file.Lock.Unlock()
 
@@ -650,6 +721,22 @@ func (dao *S3IonWriterDAO) PutAwsEC2VpnGateways(ctx context.Context, resources [
 
 	return nil
 }
+func (dao *S3IonWriterDAO) PutAwsECRRepositories(ctx context.Context, resources []*ecr.Repository) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file := dao.ionClient.GetResourceFile("aws", "ecr", "repositories", resources[0].ReportTime)
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Encoder.Encode(resource); err != nil {
+			return fmt.Errorf("failed to encode resource: %w", err)
+		}
+	}
+
+	return nil
+}
 func (dao *S3IonWriterDAO) PutAwsECSClusters(ctx context.Context, resources []*ecs.Cluster) error {
 	if len(resources) == 0 {
 		return nil
@@ -842,6 +929,22 @@ func (dao *S3IonWriterDAO) PutAwsIAMUsers(ctx context.Context, resources []*iam.
 
 	return nil
 }
+func (dao *S3IonWriterDAO) PutAwsKMSKeys(ctx context.Context, resources []*kms.Key) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file := dao.ionClient.GetResourceFile("aws", "kms", "keys", resources[0].ReportTime)
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Encoder.Encode(resource); err != nil {
+			return fmt.Errorf("failed to encode resource: %w", err)
+		}
+	}
+
+	return nil
+}
 func (dao *S3IonWriterDAO) PutAwsLambdaFunctions(ctx context.Context, resources []*lambda.Function) error {
 	if len(resources) == 0 {
 		return nil
@@ -938,6 +1041,22 @@ func (dao *S3IonWriterDAO) PutAwsS3Buckets(ctx context.Context, resources []*s3.
 
 	return nil
 }
+func (dao *S3IonWriterDAO) PutAwsSecretsManagerSecrets(ctx context.Context, resources []*secretsmanager.Secret) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file := dao.ionClient.GetResourceFile("aws", "secretsmanager", "secrets", resources[0].ReportTime)
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Encoder.Encode(resource); err != nil {
+			return fmt.Errorf("failed to encode resource: %w", err)
+		}
+	}
+
+	return nil
+}
 func (dao *S3IonWriterDAO) PutAwsSNSTopics(ctx context.Context, resources []*sns.Topic) error {
 	if len(resources) == 0 {
 		return nil
@@ -975,6 +1094,22 @@ func (dao *S3IonWriterDAO) PutAwsSQSQueues(ctx context.Context, resources []*sqs
 		return nil
 	}
 	file := dao.ionClient.GetResourceFile("aws", "sqs", "queues", resources[0].ReportTime)
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Encoder.Encode(resource); err != nil {
+			return fmt.Errorf("failed to encode resource: %w", err)
+		}
+	}
+
+	return nil
+}
+func (dao *S3IonWriterDAO) PutAwsSSMParameters(ctx context.Context, resources []*ssm.Parameter) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file := dao.ionClient.GetResourceFile("aws", "ssm", "parameters", resources[0].ReportTime)
 	file.Lock.Lock()
 	defer file.Lock.Unlock()
 

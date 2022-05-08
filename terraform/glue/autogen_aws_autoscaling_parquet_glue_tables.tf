@@ -194,7 +194,7 @@ resource "aws_glue_catalog_table" "aws_autoscaling_auto_scaling_groups" {
       parameters = {}
     }
     columns {
-      name       = "target_group_ar_ns"
+      name       = "target_group_arns"
       type       = "array<string>"
       comment    = ""
       parameters = {}

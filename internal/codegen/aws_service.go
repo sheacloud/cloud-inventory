@@ -141,7 +141,9 @@ func GenerateAwsServiceCode(template *AwsTemplate) error {
 			if resource.ObjectSingularName == "" {
 				resource.ObjectSingularName = resource.ObjectSourceName
 			}
-			utilizedFunctions = append(utilizedFunctions, resource.FetchFunction)
+			if !stringInList(resource.FetchFunction, utilizedFunctions) {
+				utilizedFunctions = append(utilizedFunctions, resource.FetchFunction)
+			}
 
 			var foundObject types.Object
 			for _, pkg := range servicePackages {

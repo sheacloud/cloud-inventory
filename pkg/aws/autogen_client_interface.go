@@ -14,22 +14,29 @@ type AwsClientInterface interface {
 	Athena() interfaces.AthenaClient
 	AutoScaling() interfaces.AutoScalingClient
 	Backup() interfaces.BackupClient
+	CloudFormation() interfaces.CloudFormationClient
+	CloudFront() interfaces.CloudFrontClient
 	CloudTrail() interfaces.CloudTrailClient
+	CloudWatch() interfaces.CloudWatchClient
 	CloudWatchLogs() interfaces.CloudWatchLogsClient
 	DynamoDB() interfaces.DynamoDBClient
 	EC2() interfaces.EC2Client
+	ECR() interfaces.ECRClient
 	ECS() interfaces.ECSClient
 	EFS() interfaces.EFSClient
 	ElastiCache() interfaces.ElastiCacheClient
 	ElasticLoadBalancing() interfaces.ElasticLoadBalancingClient
 	ElasticLoadBalancingV2() interfaces.ElasticLoadBalancingV2Client
 	IAM() interfaces.IAMClient
+	KMS() interfaces.KMSClient
 	Lambda() interfaces.LambdaClient
 	RDS() interfaces.RDSClient
 	Redshift() interfaces.RedshiftClient
 	Route53() interfaces.Route53Client
 	S3() interfaces.S3Client
+	SecretsManager() interfaces.SecretsManagerClient
 	SNS() interfaces.SNSClient
 	SQS() interfaces.SQSClient
+	SSM() interfaces.SSMClient
 	StorageGateway() interfaces.StorageGatewayClient
 }

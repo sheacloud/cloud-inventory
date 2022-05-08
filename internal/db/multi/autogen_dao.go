@@ -13,23 +13,30 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/aws/athena"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/autoscaling"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/backup"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudformation"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudfront"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudtrail"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatch"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatchlogs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/dynamodb"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/ec2"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/ecr"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/ecs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/efs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticache"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticloadbalancing"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticloadbalancingv2"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/iam"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/kms"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/lambda"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/rds"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/redshift"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/route53"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/s3"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/secretsmanager"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/sns"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/sqs"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/ssm"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/storagegateway"
 	"github.com/sheacloud/cloud-inventory/pkg/meta"
 	"sync"
@@ -409,6 +416,54 @@ func (dao *MultiWriterDAO) PutAwsBackupBackupPlans(ctx context.Context, resource
 	}
 	return nil
 }
+func (dao *MultiWriterDAO) PutAwsCloudFormationStacks(ctx context.Context, resources []*cloudformation.Stack) error {
+	var wg sync.WaitGroup
+
+	errors := []error{}
+	errorLock := sync.Mutex{}
+	for _, memberDao := range dao.daos {
+		wg.Add(1)
+		go func(memberDao db.WriterDAO) {
+			defer wg.Done()
+			err := memberDao.PutAwsCloudFormationStacks(ctx, resources)
+			if err != nil {
+				errorLock.Lock()
+				errors = append(errors, err)
+				errorLock.Unlock()
+			}
+		}(memberDao)
+	}
+
+	wg.Wait()
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+	return nil
+}
+func (dao *MultiWriterDAO) PutAwsCloudFrontDistributions(ctx context.Context, resources []*cloudfront.Distribution) error {
+	var wg sync.WaitGroup
+
+	errors := []error{}
+	errorLock := sync.Mutex{}
+	for _, memberDao := range dao.daos {
+		wg.Add(1)
+		go func(memberDao db.WriterDAO) {
+			defer wg.Done()
+			err := memberDao.PutAwsCloudFrontDistributions(ctx, resources)
+			if err != nil {
+				errorLock.Lock()
+				errors = append(errors, err)
+				errorLock.Unlock()
+			}
+		}(memberDao)
+	}
+
+	wg.Wait()
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+	return nil
+}
 func (dao *MultiWriterDAO) PutAwsCloudTrailTrails(ctx context.Context, resources []*cloudtrail.Trail) error {
 	var wg sync.WaitGroup
 
@@ -419,6 +474,54 @@ func (dao *MultiWriterDAO) PutAwsCloudTrailTrails(ctx context.Context, resources
 		go func(memberDao db.WriterDAO) {
 			defer wg.Done()
 			err := memberDao.PutAwsCloudTrailTrails(ctx, resources)
+			if err != nil {
+				errorLock.Lock()
+				errors = append(errors, err)
+				errorLock.Unlock()
+			}
+		}(memberDao)
+	}
+
+	wg.Wait()
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+	return nil
+}
+func (dao *MultiWriterDAO) PutAwsCloudWatchMetricAlarms(ctx context.Context, resources []*cloudwatch.MetricAlarm) error {
+	var wg sync.WaitGroup
+
+	errors := []error{}
+	errorLock := sync.Mutex{}
+	for _, memberDao := range dao.daos {
+		wg.Add(1)
+		go func(memberDao db.WriterDAO) {
+			defer wg.Done()
+			err := memberDao.PutAwsCloudWatchMetricAlarms(ctx, resources)
+			if err != nil {
+				errorLock.Lock()
+				errors = append(errors, err)
+				errorLock.Unlock()
+			}
+		}(memberDao)
+	}
+
+	wg.Wait()
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+	return nil
+}
+func (dao *MultiWriterDAO) PutAwsCloudWatchCompositeAlarms(ctx context.Context, resources []*cloudwatch.CompositeAlarm) error {
+	var wg sync.WaitGroup
+
+	errors := []error{}
+	errorLock := sync.Mutex{}
+	for _, memberDao := range dao.daos {
+		wg.Add(1)
+		go func(memberDao db.WriterDAO) {
+			defer wg.Done()
+			err := memberDao.PutAwsCloudWatchCompositeAlarms(ctx, resources)
 			if err != nil {
 				errorLock.Lock()
 				errors = append(errors, err)
@@ -1033,6 +1136,30 @@ func (dao *MultiWriterDAO) PutAwsEC2VpnGateways(ctx context.Context, resources [
 	}
 	return nil
 }
+func (dao *MultiWriterDAO) PutAwsECRRepositories(ctx context.Context, resources []*ecr.Repository) error {
+	var wg sync.WaitGroup
+
+	errors := []error{}
+	errorLock := sync.Mutex{}
+	for _, memberDao := range dao.daos {
+		wg.Add(1)
+		go func(memberDao db.WriterDAO) {
+			defer wg.Done()
+			err := memberDao.PutAwsECRRepositories(ctx, resources)
+			if err != nil {
+				errorLock.Lock()
+				errors = append(errors, err)
+				errorLock.Unlock()
+			}
+		}(memberDao)
+	}
+
+	wg.Wait()
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+	return nil
+}
 func (dao *MultiWriterDAO) PutAwsECSClusters(ctx context.Context, resources []*ecs.Cluster) error {
 	var wg sync.WaitGroup
 
@@ -1321,6 +1448,30 @@ func (dao *MultiWriterDAO) PutAwsIAMUsers(ctx context.Context, resources []*iam.
 	}
 	return nil
 }
+func (dao *MultiWriterDAO) PutAwsKMSKeys(ctx context.Context, resources []*kms.Key) error {
+	var wg sync.WaitGroup
+
+	errors := []error{}
+	errorLock := sync.Mutex{}
+	for _, memberDao := range dao.daos {
+		wg.Add(1)
+		go func(memberDao db.WriterDAO) {
+			defer wg.Done()
+			err := memberDao.PutAwsKMSKeys(ctx, resources)
+			if err != nil {
+				errorLock.Lock()
+				errors = append(errors, err)
+				errorLock.Unlock()
+			}
+		}(memberDao)
+	}
+
+	wg.Wait()
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+	return nil
+}
 func (dao *MultiWriterDAO) PutAwsLambdaFunctions(ctx context.Context, resources []*lambda.Function) error {
 	var wg sync.WaitGroup
 
@@ -1465,6 +1616,30 @@ func (dao *MultiWriterDAO) PutAwsS3Buckets(ctx context.Context, resources []*s3.
 	}
 	return nil
 }
+func (dao *MultiWriterDAO) PutAwsSecretsManagerSecrets(ctx context.Context, resources []*secretsmanager.Secret) error {
+	var wg sync.WaitGroup
+
+	errors := []error{}
+	errorLock := sync.Mutex{}
+	for _, memberDao := range dao.daos {
+		wg.Add(1)
+		go func(memberDao db.WriterDAO) {
+			defer wg.Done()
+			err := memberDao.PutAwsSecretsManagerSecrets(ctx, resources)
+			if err != nil {
+				errorLock.Lock()
+				errors = append(errors, err)
+				errorLock.Unlock()
+			}
+		}(memberDao)
+	}
+
+	wg.Wait()
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+	return nil
+}
 func (dao *MultiWriterDAO) PutAwsSNSTopics(ctx context.Context, resources []*sns.Topic) error {
 	var wg sync.WaitGroup
 
@@ -1523,6 +1698,30 @@ func (dao *MultiWriterDAO) PutAwsSQSQueues(ctx context.Context, resources []*sqs
 		go func(memberDao db.WriterDAO) {
 			defer wg.Done()
 			err := memberDao.PutAwsSQSQueues(ctx, resources)
+			if err != nil {
+				errorLock.Lock()
+				errors = append(errors, err)
+				errorLock.Unlock()
+			}
+		}(memberDao)
+	}
+
+	wg.Wait()
+	if len(errors) > 0 {
+		return fmt.Errorf("%v", errors)
+	}
+	return nil
+}
+func (dao *MultiWriterDAO) PutAwsSSMParameters(ctx context.Context, resources []*ssm.Parameter) error {
+	var wg sync.WaitGroup
+
+	errors := []error{}
+	errorLock := sync.Mutex{}
+	for _, memberDao := range dao.daos {
+		wg.Add(1)
+		go func(memberDao db.WriterDAO) {
+			defer wg.Done()
+			err := memberDao.PutAwsSSMParameters(ctx, resources)
 			if err != nil {
 				errorLock.Lock()
 				errors = append(errors, err)

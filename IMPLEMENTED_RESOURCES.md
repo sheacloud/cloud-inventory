@@ -29,8 +29,18 @@
  - backup_vaults
  - backup_plans
 
+## CloudFormation
+ - stacks
+
+## CloudFront
+ - distributions
+
 ## CloudTrail
  - trails
+
+## CloudWatch
+ - metric_alarms
+ - composite_alarms
 
 ## CloudWatchLogs
  - log_groups
@@ -63,6 +73,9 @@
  - vpcs
  - vpn_gateways
 
+## ECR
+ - repositories
+
 ## ECS
  - clusters
  - services
@@ -87,6 +100,9 @@
  - roles
  - users
 
+## KMS
+ - keys
+
 ## Lambda
  - functions
 
@@ -103,12 +119,18 @@
 ## S3
  - buckets
 
+## SecretsManager
+ - secrets
+
 ## SNS
  - topics
  - subscriptions
 
 ## SQS
  - queues
+
+## SSM
+ - parameters
 
 ## StorageGateway
  - gateways

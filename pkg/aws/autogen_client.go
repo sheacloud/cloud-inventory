@@ -11,23 +11,30 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/athena"
 	"github.com/aws/aws-sdk-go-v2/service/autoscaling"
 	"github.com/aws/aws-sdk-go-v2/service/backup"
+	"github.com/aws/aws-sdk-go-v2/service/cloudformation"
+	"github.com/aws/aws-sdk-go-v2/service/cloudfront"
 	"github.com/aws/aws-sdk-go-v2/service/cloudtrail"
+	"github.com/aws/aws-sdk-go-v2/service/cloudwatch"
 	"github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"github.com/aws/aws-sdk-go-v2/service/ecr"
 	"github.com/aws/aws-sdk-go-v2/service/ecs"
 	"github.com/aws/aws-sdk-go-v2/service/efs"
 	"github.com/aws/aws-sdk-go-v2/service/elasticache"
 	"github.com/aws/aws-sdk-go-v2/service/elasticloadbalancing"
 	"github.com/aws/aws-sdk-go-v2/service/elasticloadbalancingv2"
 	"github.com/aws/aws-sdk-go-v2/service/iam"
+	"github.com/aws/aws-sdk-go-v2/service/kms"
 	"github.com/aws/aws-sdk-go-v2/service/lambda"
 	"github.com/aws/aws-sdk-go-v2/service/rds"
 	"github.com/aws/aws-sdk-go-v2/service/redshift"
 	"github.com/aws/aws-sdk-go-v2/service/route53"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
 	"github.com/aws/aws-sdk-go-v2/service/sns"
 	"github.com/aws/aws-sdk-go-v2/service/sqs"
+	"github.com/aws/aws-sdk-go-v2/service/ssm"
 	"github.com/aws/aws-sdk-go-v2/service/storagegateway"
 
 	"github.com/sheacloud/cloud-inventory/pkg/aws/interfaces"
@@ -41,23 +48,30 @@ type AwsClient struct {
 	AthenaClient                 interfaces.AthenaClient
 	AutoScalingClient            interfaces.AutoScalingClient
 	BackupClient                 interfaces.BackupClient
+	CloudFormationClient         interfaces.CloudFormationClient
+	CloudFrontClient             interfaces.CloudFrontClient
 	CloudTrailClient             interfaces.CloudTrailClient
+	CloudWatchClient             interfaces.CloudWatchClient
 	CloudWatchLogsClient         interfaces.CloudWatchLogsClient
 	DynamoDBClient               interfaces.DynamoDBClient
 	EC2Client                    interfaces.EC2Client
+	ECRClient                    interfaces.ECRClient
 	ECSClient                    interfaces.ECSClient
 	EFSClient                    interfaces.EFSClient
 	ElastiCacheClient            interfaces.ElastiCacheClient
 	ElasticLoadBalancingClient   interfaces.ElasticLoadBalancingClient
 	ElasticLoadBalancingV2Client interfaces.ElasticLoadBalancingV2Client
 	IAMClient                    interfaces.IAMClient
+	KMSClient                    interfaces.KMSClient
 	LambdaClient                 interfaces.LambdaClient
 	RDSClient                    interfaces.RDSClient
 	RedshiftClient               interfaces.RedshiftClient
 	Route53Client                interfaces.Route53Client
 	S3Client                     interfaces.S3Client
+	SecretsManagerClient         interfaces.SecretsManagerClient
 	SNSClient                    interfaces.SNSClient
 	SQSClient                    interfaces.SQSClient
+	SSMClient                    interfaces.SSMClient
 	StorageGatewayClient         interfaces.StorageGatewayClient
 }
 
@@ -70,23 +84,30 @@ func NewAwsClient(cfg aws.Config) *AwsClient {
 		AthenaClient:                 athena.NewFromConfig(cfg),
 		AutoScalingClient:            autoscaling.NewFromConfig(cfg),
 		BackupClient:                 backup.NewFromConfig(cfg),
+		CloudFormationClient:         cloudformation.NewFromConfig(cfg),
+		CloudFrontClient:             cloudfront.NewFromConfig(cfg),
 		CloudTrailClient:             cloudtrail.NewFromConfig(cfg),
+		CloudWatchClient:             cloudwatch.NewFromConfig(cfg),
 		CloudWatchLogsClient:         cloudwatchlogs.NewFromConfig(cfg),
 		DynamoDBClient:               dynamodb.NewFromConfig(cfg),
 		EC2Client:                    ec2.NewFromConfig(cfg),
+		ECRClient:                    ecr.NewFromConfig(cfg),
 		ECSClient:                    ecs.NewFromConfig(cfg),
 		EFSClient:                    efs.NewFromConfig(cfg),
 		ElastiCacheClient:            elasticache.NewFromConfig(cfg),
 		ElasticLoadBalancingClient:   elasticloadbalancing.NewFromConfig(cfg),
 		ElasticLoadBalancingV2Client: elasticloadbalancingv2.NewFromConfig(cfg),
 		IAMClient:                    iam.NewFromConfig(cfg),
+		KMSClient:                    kms.NewFromConfig(cfg),
 		LambdaClient:                 lambda.NewFromConfig(cfg),
 		RDSClient:                    rds.NewFromConfig(cfg),
 		RedshiftClient:               redshift.NewFromConfig(cfg),
 		Route53Client:                route53.NewFromConfig(cfg),
 		S3Client:                     s3.NewFromConfig(cfg),
+		SecretsManagerClient:         secretsmanager.NewFromConfig(cfg),
 		SNSClient:                    sns.NewFromConfig(cfg),
 		SQSClient:                    sqs.NewFromConfig(cfg),
+		SSMClient:                    ssm.NewFromConfig(cfg),
 		StorageGatewayClient:         storagegateway.NewFromConfig(cfg),
 	}
 }
@@ -112,8 +133,17 @@ func (c *AwsClient) AutoScaling() interfaces.AutoScalingClient {
 func (c *AwsClient) Backup() interfaces.BackupClient {
 	return c.BackupClient
 }
+func (c *AwsClient) CloudFormation() interfaces.CloudFormationClient {
+	return c.CloudFormationClient
+}
+func (c *AwsClient) CloudFront() interfaces.CloudFrontClient {
+	return c.CloudFrontClient
+}
 func (c *AwsClient) CloudTrail() interfaces.CloudTrailClient {
 	return c.CloudTrailClient
+}
+func (c *AwsClient) CloudWatch() interfaces.CloudWatchClient {
+	return c.CloudWatchClient
 }
 func (c *AwsClient) CloudWatchLogs() interfaces.CloudWatchLogsClient {
 	return c.CloudWatchLogsClient
@@ -123,6 +153,9 @@ func (c *AwsClient) DynamoDB() interfaces.DynamoDBClient {
 }
 func (c *AwsClient) EC2() interfaces.EC2Client {
 	return c.EC2Client
+}
+func (c *AwsClient) ECR() interfaces.ECRClient {
+	return c.ECRClient
 }
 func (c *AwsClient) ECS() interfaces.ECSClient {
 	return c.ECSClient
@@ -142,6 +175,9 @@ func (c *AwsClient) ElasticLoadBalancingV2() interfaces.ElasticLoadBalancingV2Cl
 func (c *AwsClient) IAM() interfaces.IAMClient {
 	return c.IAMClient
 }
+func (c *AwsClient) KMS() interfaces.KMSClient {
+	return c.KMSClient
+}
 func (c *AwsClient) Lambda() interfaces.LambdaClient {
 	return c.LambdaClient
 }
@@ -157,11 +193,17 @@ func (c *AwsClient) Route53() interfaces.Route53Client {
 func (c *AwsClient) S3() interfaces.S3Client {
 	return c.S3Client
 }
+func (c *AwsClient) SecretsManager() interfaces.SecretsManagerClient {
+	return c.SecretsManagerClient
+}
 func (c *AwsClient) SNS() interfaces.SNSClient {
 	return c.SNSClient
 }
 func (c *AwsClient) SQS() interfaces.SQSClient {
 	return c.SQSClient
+}
+func (c *AwsClient) SSM() interfaces.SSMClient {
+	return c.SSMClient
 }
 func (c *AwsClient) StorageGateway() interfaces.StorageGatewayClient {
 	return c.StorageGatewayClient

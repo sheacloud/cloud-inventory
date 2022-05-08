@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/aws/retry"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
@@ -123,7 +124,11 @@ func initializeDAOs(cfg aws.Config) db.WriterDAO {
 }
 
 func main() {
-	cfg, err := config.LoadDefaultConfig(context.TODO())
+	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRetryer(func() aws.Retryer {
+		retyer := retry.AddWithMaxAttempts(retry.NewStandard(), 10)
+		retry.AddWithMaxBackoffDelay(retyer, time.Second*60)
+		return retyer
+	}))
 	if err != nil {
 		panic(err)
 	}

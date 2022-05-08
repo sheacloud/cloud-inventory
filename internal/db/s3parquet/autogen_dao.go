@@ -13,23 +13,30 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/aws/athena"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/autoscaling"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/backup"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudformation"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudfront"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudtrail"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatch"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatchlogs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/dynamodb"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/ec2"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/ecr"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/ecs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/efs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticache"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticloadbalancing"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticloadbalancingv2"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/iam"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/kms"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/lambda"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/rds"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/redshift"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/route53"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/s3"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/secretsmanager"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/sns"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/sqs"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/ssm"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/storagegateway"
 	"github.com/sheacloud/cloud-inventory/pkg/meta"
 )
@@ -291,11 +298,87 @@ func (dao *S3ParquetWriterDAO) PutAwsBackupBackupPlans(ctx context.Context, reso
 
 	return nil
 }
+func (dao *S3ParquetWriterDAO) PutAwsCloudFormationStacks(ctx context.Context, resources []*cloudformation.Stack) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "cloudformation", "stacks"}, resources[0].ReportTime, resources[0])
+	if err != nil {
+		return err
+	}
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Write(resource); err != nil {
+			return fmt.Errorf("failed to write resource: %w", err)
+		}
+	}
+
+	return nil
+}
+func (dao *S3ParquetWriterDAO) PutAwsCloudFrontDistributions(ctx context.Context, resources []*cloudfront.Distribution) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "cloudfront", "distributions"}, resources[0].ReportTime, resources[0])
+	if err != nil {
+		return err
+	}
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Write(resource); err != nil {
+			return fmt.Errorf("failed to write resource: %w", err)
+		}
+	}
+
+	return nil
+}
 func (dao *S3ParquetWriterDAO) PutAwsCloudTrailTrails(ctx context.Context, resources []*cloudtrail.Trail) error {
 	if len(resources) == 0 {
 		return nil
 	}
 	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "cloudtrail", "trails"}, resources[0].ReportTime, resources[0])
+	if err != nil {
+		return err
+	}
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Write(resource); err != nil {
+			return fmt.Errorf("failed to write resource: %w", err)
+		}
+	}
+
+	return nil
+}
+func (dao *S3ParquetWriterDAO) PutAwsCloudWatchMetricAlarms(ctx context.Context, resources []*cloudwatch.MetricAlarm) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "cloudwatch", "metric_alarms"}, resources[0].ReportTime, resources[0])
+	if err != nil {
+		return err
+	}
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Write(resource); err != nil {
+			return fmt.Errorf("failed to write resource: %w", err)
+		}
+	}
+
+	return nil
+}
+func (dao *S3ParquetWriterDAO) PutAwsCloudWatchCompositeAlarms(ctx context.Context, resources []*cloudwatch.CompositeAlarm) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "cloudwatch", "composite_alarms"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}
@@ -785,6 +868,25 @@ func (dao *S3ParquetWriterDAO) PutAwsEC2VpnGateways(ctx context.Context, resourc
 
 	return nil
 }
+func (dao *S3ParquetWriterDAO) PutAwsECRRepositories(ctx context.Context, resources []*ecr.Repository) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ecr", "repositories"}, resources[0].ReportTime, resources[0])
+	if err != nil {
+		return err
+	}
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Write(resource); err != nil {
+			return fmt.Errorf("failed to write resource: %w", err)
+		}
+	}
+
+	return nil
+}
 func (dao *S3ParquetWriterDAO) PutAwsECSClusters(ctx context.Context, resources []*ecs.Cluster) error {
 	if len(resources) == 0 {
 		return nil
@@ -1013,6 +1115,25 @@ func (dao *S3ParquetWriterDAO) PutAwsIAMUsers(ctx context.Context, resources []*
 
 	return nil
 }
+func (dao *S3ParquetWriterDAO) PutAwsKMSKeys(ctx context.Context, resources []*kms.Key) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "kms", "keys"}, resources[0].ReportTime, resources[0])
+	if err != nil {
+		return err
+	}
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Write(resource); err != nil {
+			return fmt.Errorf("failed to write resource: %w", err)
+		}
+	}
+
+	return nil
+}
 func (dao *S3ParquetWriterDAO) PutAwsLambdaFunctions(ctx context.Context, resources []*lambda.Function) error {
 	if len(resources) == 0 {
 		return nil
@@ -1127,6 +1248,25 @@ func (dao *S3ParquetWriterDAO) PutAwsS3Buckets(ctx context.Context, resources []
 
 	return nil
 }
+func (dao *S3ParquetWriterDAO) PutAwsSecretsManagerSecrets(ctx context.Context, resources []*secretsmanager.Secret) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "secretsmanager", "secrets"}, resources[0].ReportTime, resources[0])
+	if err != nil {
+		return err
+	}
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Write(resource); err != nil {
+			return fmt.Errorf("failed to write resource: %w", err)
+		}
+	}
+
+	return nil
+}
 func (dao *S3ParquetWriterDAO) PutAwsSNSTopics(ctx context.Context, resources []*sns.Topic) error {
 	if len(resources) == 0 {
 		return nil
@@ -1170,6 +1310,25 @@ func (dao *S3ParquetWriterDAO) PutAwsSQSQueues(ctx context.Context, resources []
 		return nil
 	}
 	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "sqs", "queues"}, resources[0].ReportTime, resources[0])
+	if err != nil {
+		return err
+	}
+	file.Lock.Lock()
+	defer file.Lock.Unlock()
+
+	for _, resource := range resources {
+		if err := file.Write(resource); err != nil {
+			return fmt.Errorf("failed to write resource: %w", err)
+		}
+	}
+
+	return nil
+}
+func (dao *S3ParquetWriterDAO) PutAwsSSMParameters(ctx context.Context, resources []*ssm.Parameter) error {
+	if len(resources) == 0 {
+		return nil
+	}
+	file, err := dao.parquetClient.GetResourceFile(ctx, []string{"aws", "ssm", "parameters"}, resources[0].ReportTime, resources[0])
 	if err != nil {
 		return err
 	}

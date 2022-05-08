@@ -11,23 +11,30 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/aws/athena"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/autoscaling"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/backup"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudformation"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudfront"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudtrail"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatch"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatchlogs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/dynamodb"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/ec2"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/ecr"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/ecs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/efs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticache"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticloadbalancing"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticloadbalancingv2"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/iam"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/kms"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/lambda"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/rds"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/redshift"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/route53"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/s3"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/secretsmanager"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/sns"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/sqs"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/ssm"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/storagegateway"
 	"github.com/sheacloud/cloud-inventory/pkg/meta"
 )
@@ -48,7 +55,11 @@ type WriterDAO interface {
 	PutAwsAutoScalingLaunchConfigurations(ctx context.Context, resources []*autoscaling.LaunchConfiguration) error
 	PutAwsBackupBackupVaults(ctx context.Context, resources []*backup.BackupVault) error
 	PutAwsBackupBackupPlans(ctx context.Context, resources []*backup.BackupPlan) error
+	PutAwsCloudFormationStacks(ctx context.Context, resources []*cloudformation.Stack) error
+	PutAwsCloudFrontDistributions(ctx context.Context, resources []*cloudfront.Distribution) error
 	PutAwsCloudTrailTrails(ctx context.Context, resources []*cloudtrail.Trail) error
+	PutAwsCloudWatchMetricAlarms(ctx context.Context, resources []*cloudwatch.MetricAlarm) error
+	PutAwsCloudWatchCompositeAlarms(ctx context.Context, resources []*cloudwatch.CompositeAlarm) error
 	PutAwsCloudWatchLogsLogGroups(ctx context.Context, resources []*cloudwatchlogs.LogGroup) error
 	PutAwsDynamoDBTables(ctx context.Context, resources []*dynamodb.Table) error
 	PutAwsEC2Addresses(ctx context.Context, resources []*ec2.Address) error
@@ -74,6 +85,7 @@ type WriterDAO interface {
 	PutAwsEC2VpcPeeringConnections(ctx context.Context, resources []*ec2.VpcPeeringConnection) error
 	PutAwsEC2Vpcs(ctx context.Context, resources []*ec2.Vpc) error
 	PutAwsEC2VpnGateways(ctx context.Context, resources []*ec2.VpnGateway) error
+	PutAwsECRRepositories(ctx context.Context, resources []*ecr.Repository) error
 	PutAwsECSClusters(ctx context.Context, resources []*ecs.Cluster) error
 	PutAwsECSServices(ctx context.Context, resources []*ecs.Service) error
 	PutAwsECSTasks(ctx context.Context, resources []*ecs.Task) error
@@ -86,15 +98,18 @@ type WriterDAO interface {
 	PutAwsIAMPolicies(ctx context.Context, resources []*iam.Policy) error
 	PutAwsIAMRoles(ctx context.Context, resources []*iam.Role) error
 	PutAwsIAMUsers(ctx context.Context, resources []*iam.User) error
+	PutAwsKMSKeys(ctx context.Context, resources []*kms.Key) error
 	PutAwsLambdaFunctions(ctx context.Context, resources []*lambda.Function) error
 	PutAwsRDSDBClusters(ctx context.Context, resources []*rds.DBCluster) error
 	PutAwsRDSDBInstances(ctx context.Context, resources []*rds.DBInstance) error
 	PutAwsRedshiftClusters(ctx context.Context, resources []*redshift.Cluster) error
 	PutAwsRoute53HostedZones(ctx context.Context, resources []*route53.HostedZone) error
 	PutAwsS3Buckets(ctx context.Context, resources []*s3.Bucket) error
+	PutAwsSecretsManagerSecrets(ctx context.Context, resources []*secretsmanager.Secret) error
 	PutAwsSNSTopics(ctx context.Context, resources []*sns.Topic) error
 	PutAwsSNSSubscriptions(ctx context.Context, resources []*sns.Subscription) error
 	PutAwsSQSQueues(ctx context.Context, resources []*sqs.Queue) error
+	PutAwsSSMParameters(ctx context.Context, resources []*ssm.Parameter) error
 	PutAwsStorageGatewayGateways(ctx context.Context, resources []*storagegateway.Gateway) error
 }
 
@@ -143,10 +158,26 @@ type ReaderDAO interface {
 	GetAwsBackupBackupPlan(ctx context.Context, reportTimeUnixMilli int64, id string) (*backup.BackupPlan, error)
 	GetAwsBackupBackupPlanReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
 	GetReferencedAwsBackupBackupPlanReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
+	ListAwsCloudFormationStacks(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*cloudformation.Stack, error)
+	GetAwsCloudFormationStack(ctx context.Context, reportTimeUnixMilli int64, id string) (*cloudformation.Stack, error)
+	GetAwsCloudFormationStackReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
+	GetReferencedAwsCloudFormationStackReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
+	ListAwsCloudFrontDistributions(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*cloudfront.Distribution, error)
+	GetAwsCloudFrontDistribution(ctx context.Context, reportTimeUnixMilli int64, id string) (*cloudfront.Distribution, error)
+	GetAwsCloudFrontDistributionReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
+	GetReferencedAwsCloudFrontDistributionReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
 	ListAwsCloudTrailTrails(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*cloudtrail.Trail, error)
 	GetAwsCloudTrailTrail(ctx context.Context, reportTimeUnixMilli int64, id string) (*cloudtrail.Trail, error)
 	GetAwsCloudTrailTrailReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
 	GetReferencedAwsCloudTrailTrailReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
+	ListAwsCloudWatchMetricAlarms(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*cloudwatch.MetricAlarm, error)
+	GetAwsCloudWatchMetricAlarm(ctx context.Context, reportTimeUnixMilli int64, id string) (*cloudwatch.MetricAlarm, error)
+	GetAwsCloudWatchMetricAlarmReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
+	GetReferencedAwsCloudWatchMetricAlarmReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
+	ListAwsCloudWatchCompositeAlarms(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*cloudwatch.CompositeAlarm, error)
+	GetAwsCloudWatchCompositeAlarm(ctx context.Context, reportTimeUnixMilli int64, id string) (*cloudwatch.CompositeAlarm, error)
+	GetAwsCloudWatchCompositeAlarmReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
+	GetReferencedAwsCloudWatchCompositeAlarmReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
 	ListAwsCloudWatchLogsLogGroups(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*cloudwatchlogs.LogGroup, error)
 	GetAwsCloudWatchLogsLogGroup(ctx context.Context, reportTimeUnixMilli int64, id string) (*cloudwatchlogs.LogGroup, error)
 	GetAwsCloudWatchLogsLogGroupReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
@@ -247,6 +278,10 @@ type ReaderDAO interface {
 	GetAwsEC2VpnGateway(ctx context.Context, reportTimeUnixMilli int64, id string) (*ec2.VpnGateway, error)
 	GetAwsEC2VpnGatewayReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
 	GetReferencedAwsEC2VpnGatewayReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
+	ListAwsECRRepositories(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ecr.Repository, error)
+	GetAwsECRRepository(ctx context.Context, reportTimeUnixMilli int64, id string) (*ecr.Repository, error)
+	GetAwsECRRepositoryReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
+	GetReferencedAwsECRRepositoryReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
 	ListAwsECSClusters(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ecs.Cluster, error)
 	GetAwsECSCluster(ctx context.Context, reportTimeUnixMilli int64, id string) (*ecs.Cluster, error)
 	GetAwsECSClusterReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
@@ -295,6 +330,10 @@ type ReaderDAO interface {
 	GetAwsIAMUser(ctx context.Context, reportTimeUnixMilli int64, id string) (*iam.User, error)
 	GetAwsIAMUserReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
 	GetReferencedAwsIAMUserReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
+	ListAwsKMSKeys(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*kms.Key, error)
+	GetAwsKMSKey(ctx context.Context, reportTimeUnixMilli int64, id string) (*kms.Key, error)
+	GetAwsKMSKeyReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
+	GetReferencedAwsKMSKeyReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
 	ListAwsLambdaFunctions(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*lambda.Function, error)
 	GetAwsLambdaFunction(ctx context.Context, reportTimeUnixMilli int64, id string) (*lambda.Function, error)
 	GetAwsLambdaFunctionReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
@@ -319,6 +358,10 @@ type ReaderDAO interface {
 	GetAwsS3Bucket(ctx context.Context, reportTimeUnixMilli int64, id string) (*s3.Bucket, error)
 	GetAwsS3BucketReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
 	GetReferencedAwsS3BucketReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
+	ListAwsSecretsManagerSecrets(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*secretsmanager.Secret, error)
+	GetAwsSecretsManagerSecret(ctx context.Context, reportTimeUnixMilli int64, id string) (*secretsmanager.Secret, error)
+	GetAwsSecretsManagerSecretReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
+	GetReferencedAwsSecretsManagerSecretReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
 	ListAwsSNSTopics(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*sns.Topic, error)
 	GetAwsSNSTopic(ctx context.Context, reportTimeUnixMilli int64, id string) (*sns.Topic, error)
 	GetAwsSNSTopicReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
@@ -331,6 +374,10 @@ type ReaderDAO interface {
 	GetAwsSQSQueue(ctx context.Context, reportTimeUnixMilli int64, id string) (*sqs.Queue, error)
 	GetAwsSQSQueueReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
 	GetReferencedAwsSQSQueueReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
+	ListAwsSSMParameters(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*ssm.Parameter, error)
+	GetAwsSSMParameter(ctx context.Context, reportTimeUnixMilli int64, id string) (*ssm.Parameter, error)
+	GetAwsSSMParameterReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)
+	GetReferencedAwsSSMParameterReportTime(ctx context.Context, reportDateUnixMilli int64, timeSelection TimeSelection, timeReferenceUnixMilli int64) (*int64, error)
 	ListAwsStorageGatewayGateways(ctx context.Context, reportTimeUnixMilli int64, accountID, region *string, limit, offset *int64) ([]*storagegateway.Gateway, error)
 	GetAwsStorageGatewayGateway(ctx context.Context, reportTimeUnixMilli int64, id string) (*storagegateway.Gateway, error)
 	GetAwsStorageGatewayGatewayReportTimes(ctx context.Context, reportDateUnixMilli int64) ([]int64, error)

@@ -1062,7 +1062,7 @@ definitions:
         additionalProperties:
           type: string
         type: object
-      target_group_ar_ns:
+      target_group_arns:
         items:
           type: string
         type: array
@@ -1710,6 +1710,671 @@ definitions:
       pagination_token:
         type: string
     type: object
+  cloudformation.ListStacksResponse:
+    properties:
+      pagination_token:
+        type: string
+      stacks:
+        items:
+          $ref: '#/definitions/cloudformation.Stack'
+        type: array
+    type: object
+  cloudformation.Output:
+    properties:
+      description:
+        type: string
+      export_name:
+        type: string
+      output_key:
+        type: string
+      output_value:
+        type: string
+    type: object
+  cloudformation.Parameter:
+    properties:
+      parameter_key:
+        type: string
+      parameter_value:
+        type: string
+      resolved_value:
+        type: string
+      use_previous_value:
+        type: boolean
+    type: object
+  cloudformation.RollbackConfiguration:
+    properties:
+      monitoring_time_in_minutes:
+        type: integer
+      rollback_triggers:
+        items:
+          $ref: '#/definitions/cloudformation.RollbackTrigger'
+        type: array
+    type: object
+  cloudformation.RollbackTrigger:
+    properties:
+      arn:
+        type: string
+      type:
+        type: string
+    type: object
+  cloudformation.Stack:
+    properties:
+      _id:
+        type: string
+      account_id:
+        type: string
+      capabilities:
+        items:
+          type: string
+        type: array
+      change_set_id:
+        type: string
+      creation_time:
+        type: integer
+      deletion_time:
+        type: integer
+      description:
+        type: string
+      disable_rollback:
+        type: boolean
+      drift_information:
+        $ref: '#/definitions/cloudformation.StackDriftInformation'
+      enable_termination_protection:
+        type: boolean
+      last_updated_time:
+        type: integer
+      notification_arns:
+        items:
+          type: string
+        type: array
+      outputs:
+        items:
+          $ref: '#/definitions/cloudformation.Output'
+        type: array
+      parameters:
+        items:
+          $ref: '#/definitions/cloudformation.Parameter'
+        type: array
+      parent_id:
+        type: string
+      region:
+        type: string
+      report_time:
+        type: integer
+      role_arn:
+        type: string
+      rollback_configuration:
+        $ref: '#/definitions/cloudformation.RollbackConfiguration'
+      root_id:
+        type: string
+      stack_id:
+        type: string
+      stack_name:
+        type: string
+      stack_status:
+        type: string
+      stack_status_reason:
+        type: string
+      tags:
+        additionalProperties:
+          type: string
+        type: object
+      timeout_in_minutes:
+        type: integer
+    type: object
+  cloudformation.StackDriftInformation:
+    properties:
+      last_check_timestamp:
+        type: integer
+      stack_drift_status:
+        type: string
+    type: object
+  cloudfront.ActiveTrustedKeyGroups:
+    properties:
+      enabled:
+        type: boolean
+      items:
+        items:
+          $ref: '#/definitions/cloudfront.KGKeyPairIds'
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.ActiveTrustedSigners:
+    properties:
+      enabled:
+        type: boolean
+      items:
+        items:
+          $ref: '#/definitions/cloudfront.Signer'
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.AliasICPRecordal:
+    properties:
+      cname:
+        type: string
+      icp_recordal_status:
+        type: string
+    type: object
+  cloudfront.Aliases:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.AllowedMethods:
+    properties:
+      cached_methods:
+        $ref: '#/definitions/cloudfront.CachedMethods'
+      items:
+        items:
+          type: string
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.CacheBehavior:
+    properties:
+      allowed_methods:
+        $ref: '#/definitions/cloudfront.AllowedMethods'
+      cache_policy_id:
+        type: string
+      compress:
+        type: boolean
+      default_ttl:
+        type: integer
+      field_level_encryption_id:
+        type: string
+      forwarded_values:
+        $ref: '#/definitions/cloudfront.ForwardedValues'
+      function_associations:
+        $ref: '#/definitions/cloudfront.FunctionAssociations'
+      lambda_function_associations:
+        $ref: '#/definitions/cloudfront.LambdaFunctionAssociations'
+      max_ttl:
+        type: integer
+      min_ttl:
+        type: integer
+      origin_request_policy_id:
+        type: string
+      path_pattern:
+        type: string
+      realtime_log_config_arn:
+        type: string
+      response_headers_policy_id:
+        type: string
+      smooth_streaming:
+        type: boolean
+      target_origin_id:
+        type: string
+      trusted_key_groups:
+        $ref: '#/definitions/cloudfront.TrustedKeyGroups'
+      trusted_signers:
+        $ref: '#/definitions/cloudfront.TrustedSigners'
+      viewer_protocol_policy:
+        type: string
+    type: object
+  cloudfront.CacheBehaviors:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/cloudfront.CacheBehavior'
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.CachedMethods:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.CookieNames:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.CookiePreference:
+    properties:
+      forward:
+        type: string
+      whitelisted_names:
+        $ref: '#/definitions/cloudfront.CookieNames'
+    type: object
+  cloudfront.CustomErrorResponse:
+    properties:
+      error_caching_min_ttl:
+        type: integer
+      error_code:
+        type: integer
+      response_code:
+        type: string
+      response_page_path:
+        type: string
+    type: object
+  cloudfront.CustomErrorResponses:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/cloudfront.CustomErrorResponse'
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.CustomHeaders:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/cloudfront.OriginCustomHeader'
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.CustomOriginConfig:
+    properties:
+      http_port:
+        type: integer
+      https_port:
+        type: integer
+      origin_keepalive_timeout:
+        type: integer
+      origin_protocol_policy:
+        type: string
+      origin_read_timeout:
+        type: integer
+      origin_ssl_protocols:
+        $ref: '#/definitions/cloudfront.OriginSslProtocols'
+    type: object
+  cloudfront.DefaultCacheBehavior:
+    properties:
+      allowed_methods:
+        $ref: '#/definitions/cloudfront.AllowedMethods'
+      cache_policy_id:
+        type: string
+      compress:
+        type: boolean
+      default_ttl:
+        type: integer
+      field_level_encryption_id:
+        type: string
+      forwarded_values:
+        $ref: '#/definitions/cloudfront.ForwardedValues'
+      function_associations:
+        $ref: '#/definitions/cloudfront.FunctionAssociations'
+      lambda_function_associations:
+        $ref: '#/definitions/cloudfront.LambdaFunctionAssociations'
+      max_ttl:
+        type: integer
+      min_ttl:
+        type: integer
+      origin_request_policy_id:
+        type: string
+      realtime_log_config_arn:
+        type: string
+      response_headers_policy_id:
+        type: string
+      smooth_streaming:
+        type: boolean
+      target_origin_id:
+        type: string
+      trusted_key_groups:
+        $ref: '#/definitions/cloudfront.TrustedKeyGroups'
+      trusted_signers:
+        $ref: '#/definitions/cloudfront.TrustedSigners'
+      viewer_protocol_policy:
+        type: string
+    type: object
+  cloudfront.Distribution:
+    properties:
+      _id:
+        type: string
+      account_id:
+        type: string
+      active_trusted_key_groups:
+        $ref: '#/definitions/cloudfront.ActiveTrustedKeyGroups'
+      active_trusted_signers:
+        $ref: '#/definitions/cloudfront.ActiveTrustedSigners'
+      alias_icp_recordals:
+        items:
+          $ref: '#/definitions/cloudfront.AliasICPRecordal'
+        type: array
+      arn:
+        type: string
+      distribution_config:
+        $ref: '#/definitions/cloudfront.DistributionConfig'
+      domain_name:
+        type: string
+      id:
+        type: string
+      in_progress_invalidation_batches:
+        type: integer
+      last_modified_time:
+        type: integer
+      region:
+        type: string
+      report_time:
+        type: integer
+      status:
+        type: string
+      tags:
+        additionalProperties:
+          type: string
+        type: object
+    type: object
+  cloudfront.DistributionConfig:
+    properties:
+      aliases:
+        $ref: '#/definitions/cloudfront.Aliases'
+      cache_behaviors:
+        $ref: '#/definitions/cloudfront.CacheBehaviors'
+      caller_reference:
+        type: string
+      comment:
+        type: string
+      custom_error_responses:
+        $ref: '#/definitions/cloudfront.CustomErrorResponses'
+      default_cache_behavior:
+        $ref: '#/definitions/cloudfront.DefaultCacheBehavior'
+      default_root_object:
+        type: string
+      enabled:
+        type: boolean
+      http_version:
+        type: string
+      is_ipv6_enabled:
+        type: boolean
+      logging:
+        $ref: '#/definitions/cloudfront.LoggingConfig'
+      origin_groups:
+        $ref: '#/definitions/cloudfront.OriginGroups'
+      origins:
+        $ref: '#/definitions/cloudfront.Origins'
+      price_class:
+        type: string
+      restrictions:
+        $ref: '#/definitions/cloudfront.Restrictions'
+      viewer_certificate:
+        $ref: '#/definitions/cloudfront.ViewerCertificate'
+      web_acl_id:
+        type: string
+    type: object
+  cloudfront.ForwardedValues:
+    properties:
+      cookies:
+        $ref: '#/definitions/cloudfront.CookiePreference'
+      headers:
+        $ref: '#/definitions/cloudfront.Headers'
+      query_string:
+        type: boolean
+      query_string_cache_keys:
+        $ref: '#/definitions/cloudfront.QueryStringCacheKeys'
+    type: object
+  cloudfront.FunctionAssociation:
+    properties:
+      event_type:
+        type: string
+      function_arn:
+        type: string
+    type: object
+  cloudfront.FunctionAssociations:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/cloudfront.FunctionAssociation'
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.GeoRestriction:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+      quantity:
+        type: integer
+      restriction_type:
+        type: string
+    type: object
+  cloudfront.Headers:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.KGKeyPairIds:
+    properties:
+      key_group_id:
+        type: string
+      key_pair_ids:
+        $ref: '#/definitions/cloudfront.KeyPairIds'
+    type: object
+  cloudfront.KeyPairIds:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.LambdaFunctionAssociation:
+    properties:
+      event_type:
+        type: string
+      include_body:
+        type: boolean
+      lambda_function_arn:
+        type: string
+    type: object
+  cloudfront.LambdaFunctionAssociations:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/cloudfront.LambdaFunctionAssociation'
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.ListDistributionsResponse:
+    properties:
+      distributions:
+        items:
+          $ref: '#/definitions/cloudfront.Distribution'
+        type: array
+      pagination_token:
+        type: string
+    type: object
+  cloudfront.LoggingConfig:
+    properties:
+      bucket:
+        type: string
+      enabled:
+        type: boolean
+      include_cookies:
+        type: boolean
+      prefix:
+        type: string
+    type: object
+  cloudfront.Origin:
+    properties:
+      connection_attempts:
+        type: integer
+      connection_timeout:
+        type: integer
+      custom_headers:
+        $ref: '#/definitions/cloudfront.CustomHeaders'
+      custom_origin_config:
+        $ref: '#/definitions/cloudfront.CustomOriginConfig'
+      domain_name:
+        type: string
+      id:
+        type: string
+      origin_path:
+        type: string
+      origin_shield:
+        $ref: '#/definitions/cloudfront.OriginShield'
+      s3_origin_config:
+        $ref: '#/definitions/cloudfront.S3OriginConfig'
+    type: object
+  cloudfront.OriginCustomHeader:
+    properties:
+      header_name:
+        type: string
+      header_value:
+        type: string
+    type: object
+  cloudfront.OriginGroup:
+    properties:
+      failover_criteria:
+        $ref: '#/definitions/cloudfront.OriginGroupFailoverCriteria'
+      id:
+        type: string
+      members:
+        $ref: '#/definitions/cloudfront.OriginGroupMembers'
+    type: object
+  cloudfront.OriginGroupFailoverCriteria:
+    properties:
+      status_codes:
+        $ref: '#/definitions/cloudfront.StatusCodes'
+    type: object
+  cloudfront.OriginGroupMember:
+    properties:
+      origin_id:
+        type: string
+    type: object
+  cloudfront.OriginGroupMembers:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/cloudfront.OriginGroupMember'
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.OriginGroups:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/cloudfront.OriginGroup'
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.OriginShield:
+    properties:
+      enabled:
+        type: boolean
+      origin_shield_region:
+        type: string
+    type: object
+  cloudfront.OriginSslProtocols:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.Origins:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/cloudfront.Origin'
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.QueryStringCacheKeys:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.Restrictions:
+    properties:
+      geo_restriction:
+        $ref: '#/definitions/cloudfront.GeoRestriction'
+    type: object
+  cloudfront.S3OriginConfig:
+    properties:
+      origin_access_identity:
+        type: string
+    type: object
+  cloudfront.Signer:
+    properties:
+      aws_account_number:
+        type: string
+      key_pair_ids:
+        $ref: '#/definitions/cloudfront.KeyPairIds'
+    type: object
+  cloudfront.StatusCodes:
+    properties:
+      items:
+        items:
+          type: integer
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.TrustedKeyGroups:
+    properties:
+      enabled:
+        type: boolean
+      items:
+        items:
+          type: string
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.TrustedSigners:
+    properties:
+      enabled:
+        type: boolean
+      items:
+        items:
+          type: string
+        type: array
+      quantity:
+        type: integer
+    type: object
+  cloudfront.ViewerCertificate:
+    properties:
+      acm_certificate_arn:
+        type: string
+      certificate:
+        type: string
+      certificate_source:
+        type: string
+      cloud_front_default_certificate:
+        type: boolean
+      iam_certificate_id:
+        type: string
+      minimum_protocol_version:
+        type: string
+      ssl_support_method:
+        type: string
+    type: object
   cloudtrail.GetTrailStatusOutput:
     properties:
       is_logging:
@@ -1799,6 +2464,196 @@ definitions:
       status:
         $ref: '#/definitions/cloudtrail.GetTrailStatusOutput'
       trail_arn:
+        type: string
+    type: object
+  cloudwatch.CompositeAlarm:
+    properties:
+      _id:
+        type: string
+      account_id:
+        type: string
+      actions_enabled:
+        type: boolean
+      alarm_actions:
+        items:
+          type: string
+        type: array
+      alarm_arn:
+        type: string
+      alarm_configuration_updated_timestamp:
+        type: integer
+      alarm_description:
+        type: string
+      alarm_name:
+        type: string
+      alarm_rule:
+        type: string
+      insufficient_data_actions:
+        items:
+          type: string
+        type: array
+      ok_actions:
+        items:
+          type: string
+        type: array
+      region:
+        type: string
+      report_time:
+        type: integer
+      state_reason:
+        type: string
+      state_reason_data:
+        type: string
+      state_updated_timestamp:
+        type: integer
+      state_value:
+        type: string
+      tags:
+        additionalProperties:
+          type: string
+        type: object
+    type: object
+  cloudwatch.Dimension:
+    properties:
+      name:
+        type: string
+      value:
+        type: string
+    type: object
+  cloudwatch.ListCompositeAlarmsResponse:
+    properties:
+      composite_alarms:
+        items:
+          $ref: '#/definitions/cloudwatch.CompositeAlarm'
+        type: array
+      pagination_token:
+        type: string
+    type: object
+  cloudwatch.ListMetricAlarmsResponse:
+    properties:
+      metric_alarms:
+        items:
+          $ref: '#/definitions/cloudwatch.MetricAlarm'
+        type: array
+      pagination_token:
+        type: string
+    type: object
+  cloudwatch.Metric:
+    properties:
+      dimensions:
+        items:
+          $ref: '#/definitions/cloudwatch.Dimension'
+        type: array
+      metric_name:
+        type: string
+      namespace:
+        type: string
+    type: object
+  cloudwatch.MetricAlarm:
+    properties:
+      _id:
+        type: string
+      account_id:
+        type: string
+      actions_enabled:
+        type: boolean
+      alarm_actions:
+        items:
+          type: string
+        type: array
+      alarm_arn:
+        type: string
+      alarm_configuration_updated_timestamp:
+        type: integer
+      alarm_description:
+        type: string
+      alarm_name:
+        type: string
+      comparison_operator:
+        type: string
+      datapoints_to_alarm:
+        type: integer
+      dimensions:
+        items:
+          $ref: '#/definitions/cloudwatch.Dimension'
+        type: array
+      evaluate_low_sample_count_percentile:
+        type: string
+      evaluation_periods:
+        type: integer
+      extended_statistic:
+        type: string
+      insufficient_data_actions:
+        items:
+          type: string
+        type: array
+      metric_name:
+        type: string
+      metrics:
+        items:
+          $ref: '#/definitions/cloudwatch.MetricDataQuery'
+        type: array
+      namespace:
+        type: string
+      ok_actions:
+        items:
+          type: string
+        type: array
+      period:
+        type: integer
+      region:
+        type: string
+      report_time:
+        type: integer
+      state_reason:
+        type: string
+      state_reason_data:
+        type: string
+      state_updated_timestamp:
+        type: integer
+      state_value:
+        type: string
+      statistic:
+        type: string
+      tags:
+        additionalProperties:
+          type: string
+        type: object
+      threshold:
+        type: number
+      threshold_metric_id:
+        type: string
+      treat_missing_data:
+        type: string
+      unit:
+        type: string
+    type: object
+  cloudwatch.MetricDataQuery:
+    properties:
+      account_id:
+        type: string
+      expression:
+        type: string
+      id:
+        type: string
+      label:
+        type: string
+      metric_stat:
+        $ref: '#/definitions/cloudwatch.MetricStat'
+      period:
+        type: integer
+      return_data:
+        type: boolean
+    type: object
+  cloudwatch.MetricStat:
+    properties:
+      metric:
+        $ref: '#/definitions/cloudwatch.Metric'
+      period:
+        type: integer
+      stat:
+        type: string
+      unit:
         type: string
     type: object
   cloudwatchlogs.ListLogGroupsResponse:
@@ -4044,6 +4899,58 @@ definitions:
       vpn_gateway_id:
         type: string
     type: object
+  ecr.EncryptionConfiguration:
+    properties:
+      encryption_type:
+        type: string
+      kms_key:
+        type: string
+    type: object
+  ecr.ImageScanningConfiguration:
+    properties:
+      scan_on_push:
+        type: boolean
+    type: object
+  ecr.ListRepositoriesResponse:
+    properties:
+      pagination_token:
+        type: string
+      repositories:
+        items:
+          $ref: '#/definitions/ecr.Repository'
+        type: array
+    type: object
+  ecr.Repository:
+    properties:
+      _id:
+        type: string
+      account_id:
+        type: string
+      created_at:
+        type: integer
+      encryption_configuration:
+        $ref: '#/definitions/ecr.EncryptionConfiguration'
+      image_scanning_configuration:
+        $ref: '#/definitions/ecr.ImageScanningConfiguration'
+      image_tag_mutability:
+        type: string
+      region:
+        type: string
+      registry_id:
+        type: string
+      report_time:
+        type: integer
+      repository_arn:
+        type: string
+      repository_name:
+        type: string
+      repository_uri:
+        type: string
+      tags:
+        additionalProperties:
+          type: string
+        type: object
+    type: object
   ecs.Attachment:
     properties:
       details:
@@ -5716,6 +6623,117 @@ definitions:
       user_name:
         type: string
     type: object
+  kms.AliasListEntry:
+    properties:
+      alias_arn:
+        type: string
+      alias_name:
+        type: string
+      creation_date:
+        type: integer
+      last_updated_date:
+        type: integer
+      target_key_id:
+        type: string
+    type: object
+  kms.Key:
+    properties:
+      _id:
+        type: string
+      account_id:
+        type: string
+      aliases:
+        items:
+          $ref: '#/definitions/kms.AliasListEntry'
+        type: array
+      arn:
+        type: string
+      aws_account_id:
+        type: string
+      cloud_hsm_cluster_id:
+        type: string
+      creation_date:
+        type: integer
+      custom_key_store_id:
+        type: string
+      customer_master_key_spec:
+        type: string
+      deletion_date:
+        type: integer
+      description:
+        type: string
+      enabled:
+        type: boolean
+      encryption_algorithms:
+        items:
+          type: string
+        type: array
+      expiration_model:
+        type: string
+      key_id:
+        type: string
+      key_manager:
+        type: string
+      key_spec:
+        type: string
+      key_state:
+        type: string
+      key_usage:
+        type: string
+      mac_algorithms:
+        items:
+          type: string
+        type: array
+      multi_region:
+        type: boolean
+      multi_region_configuration:
+        $ref: '#/definitions/kms.MultiRegionConfiguration'
+      origin:
+        type: string
+      pending_deletion_window_in_days:
+        type: integer
+      region:
+        type: string
+      report_time:
+        type: integer
+      signing_algorithms:
+        items:
+          type: string
+        type: array
+      tags:
+        additionalProperties:
+          type: string
+        type: object
+      valid_to:
+        type: integer
+    type: object
+  kms.ListKeysResponse:
+    properties:
+      keys:
+        items:
+          $ref: '#/definitions/kms.Key'
+        type: array
+      pagination_token:
+        type: string
+    type: object
+  kms.MultiRegionConfiguration:
+    properties:
+      multi_region_key_type:
+        type: string
+      primary_key:
+        $ref: '#/definitions/kms.MultiRegionKey'
+      replica_keys:
+        items:
+          $ref: '#/definitions/kms.MultiRegionKey'
+        type: array
+    type: object
+  kms.MultiRegionKey:
+    properties:
+      arn:
+        type: string
+      region:
+        type: string
+    type: object
   lambda.DeadLetterConfig:
     properties:
       target_arn:
@@ -7336,6 +8354,82 @@ definitions:
       storage_class:
         type: string
     type: object
+  secretsmanager.ListSecretResponse:
+    properties:
+      pagination_token:
+        type: string
+      secret:
+        items:
+          $ref: '#/definitions/secretsmanager.Secret'
+        type: array
+    type: object
+  secretsmanager.ListSecretsResponse:
+    properties:
+      pagination_token:
+        type: string
+      secrets:
+        items:
+          $ref: '#/definitions/secretsmanager.Secret'
+        type: array
+    type: object
+  secretsmanager.RotationRulesType:
+    properties:
+      automatically_after_days:
+        type: integer
+      duration:
+        type: string
+      schedule_expression:
+        type: string
+    type: object
+  secretsmanager.Secret:
+    properties:
+      _id:
+        type: string
+      account_id:
+        type: string
+      arn:
+        type: string
+      created_date:
+        type: integer
+      deleted_date:
+        type: integer
+      description:
+        type: string
+      kms_key_id:
+        type: string
+      last_accessed_date:
+        type: integer
+      last_changed_date:
+        type: integer
+      last_rotated_date:
+        type: integer
+      name:
+        type: string
+      owning_service:
+        type: string
+      primary_region:
+        type: string
+      region:
+        type: string
+      report_time:
+        type: integer
+      rotation_enabled:
+        type: boolean
+      rotation_lambda_arn:
+        type: string
+      rotation_rules:
+        $ref: '#/definitions/secretsmanager.RotationRulesType'
+      secret_versions_to_stages:
+        additionalProperties:
+          items:
+            type: string
+          type: array
+        type: object
+      tags:
+        additionalProperties:
+          type: string
+        type: object
+    type: object
   sns.ListSubscriptionsResponse:
     properties:
       pagination_token:
@@ -7493,6 +8587,59 @@ definitions:
         type: object
       visibility_timeout:
         type: integer
+    type: object
+  ssm.ListParametersResponse:
+    properties:
+      pagination_token:
+        type: string
+      parameters:
+        items:
+          $ref: '#/definitions/ssm.Parameter'
+        type: array
+    type: object
+  ssm.Parameter:
+    properties:
+      _id:
+        type: string
+      account_id:
+        type: string
+      allowed_pattern:
+        type: string
+      data_type:
+        type: string
+      description:
+        type: string
+      key_id:
+        type: string
+      last_modified_date:
+        type: integer
+      last_modified_user:
+        type: string
+      name:
+        type: string
+      policies:
+        items:
+          $ref: '#/definitions/ssm.ParameterInlinePolicy'
+        type: array
+      region:
+        type: string
+      report_time:
+        type: integer
+      tier:
+        type: string
+      type:
+        type: string
+      version:
+        type: integer
+    type: object
+  ssm.ParameterInlinePolicy:
+    properties:
+      policy_status:
+        type: string
+      policy_text:
+        type: string
+      policy_type:
+        type: string
     type: object
   storagegateway.Gateway:
     properties:
@@ -9177,6 +10324,296 @@ paths:
       summary: Diff BackupVault
       tags:
       - aws backup
+  /diff/aws/cloudformation/stacks:
+    get:
+      description: get a diff of Stacks between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Stacks
+      tags:
+      - aws cloudformation
+  /diff/aws/cloudformation/stacks/{stack_id}:
+    get:
+      description: get a diff of Stack between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The stack_id of the Stack to retrieve
+        in: path
+        name: stack_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Stack
+      tags:
+      - aws cloudformation
+  /diff/aws/cloudfront/distributions:
+    get:
+      description: get a diff of Distributions between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Distributions
+      tags:
+      - aws cloudfront
+  /diff/aws/cloudfront/distributions/{arn}:
+    get:
+      description: get a diff of Distribution between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The arn of the Distribution to retrieve
+        in: path
+        name: arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Distribution
+      tags:
+      - aws cloudfront
   /diff/aws/cloudtrail/trails:
     get:
       description: get a diff of Trails between two points in time
@@ -9322,6 +10759,296 @@ paths:
       summary: Diff Trail
       tags:
       - aws cloudtrail
+  /diff/aws/cloudwatch/composite_alarms:
+    get:
+      description: get a diff of CompositeAlarms between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff CompositeAlarms
+      tags:
+      - aws cloudwatch
+  /diff/aws/cloudwatch/composite_alarms/{alarm_arn}:
+    get:
+      description: get a diff of CompositeAlarm between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The alarm_arn of the CompositeAlarm to retrieve
+        in: path
+        name: alarm_arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff CompositeAlarm
+      tags:
+      - aws cloudwatch
+  /diff/aws/cloudwatch/metric_alarms:
+    get:
+      description: get a diff of MetricAlarms between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff MetricAlarms
+      tags:
+      - aws cloudwatch
+  /diff/aws/cloudwatch/metric_alarms/{alarm_arn}:
+    get:
+      description: get a diff of MetricAlarm between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The alarm_arn of the MetricAlarm to retrieve
+        in: path
+        name: alarm_arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff MetricAlarm
+      tags:
+      - aws cloudwatch
   /diff/aws/cloudwatchlogs/log_groups:
     get:
       description: get a diff of LogGroups between two points in time
@@ -12955,6 +14682,151 @@ paths:
       summary: Diff VpnGateway
       tags:
       - aws ec2
+  /diff/aws/ecr/repositories:
+    get:
+      description: get a diff of Repositories between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Repositories
+      tags:
+      - aws ecr
+  /diff/aws/ecr/repositories/{repository_arn}:
+    get:
+      description: get a diff of Repository between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The repository_arn of the Repository to retrieve
+        in: path
+        name: repository_arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Repository
+      tags:
+      - aws ecr
   /diff/aws/ecs/clusters:
     get:
       description: get a diff of Clusters between two points in time
@@ -14695,6 +16567,151 @@ paths:
       summary: Diff User
       tags:
       - aws iam
+  /diff/aws/kms/keys:
+    get:
+      description: get a diff of Keys between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Keys
+      tags:
+      - aws kms
+  /diff/aws/kms/keys/{arn}:
+    get:
+      description: get a diff of Key between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The arn of the Key to retrieve
+        in: path
+        name: arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Key
+      tags:
+      - aws kms
   /diff/aws/lambda/functions:
     get:
       description: get a diff of Functions between two points in time
@@ -15565,6 +17582,296 @@ paths:
       summary: Diff Bucket
       tags:
       - aws s3
+  /diff/aws/secretsmanager/secret:
+    get:
+      description: get a diff of Secret between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Secret
+      tags:
+      - aws secretsmanager
+  /diff/aws/secretsmanager/secret/{arn}:
+    get:
+      description: get a diff of Secret between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The arn of the Secret to retrieve
+        in: path
+        name: arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Secret
+      tags:
+      - aws secretsmanager
+  /diff/aws/secretsmanager/secrets:
+    get:
+      description: get a diff of Secrets between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Secrets
+      tags:
+      - aws secretsmanager
+  /diff/aws/secretsmanager/secrets/{arn}:
+    get:
+      description: get a diff of Secret between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The arn of the Secret to retrieve
+        in: path
+        name: arn
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Secret
+      tags:
+      - aws secretsmanager
   /diff/aws/sns/subscriptions:
     get:
       description: get a diff of Subscriptions between two points in time
@@ -16000,6 +18307,151 @@ paths:
       summary: Diff Queue
       tags:
       - aws sqs
+  /diff/aws/ssm/parameters:
+    get:
+      description: get a diff of Parameters between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Parameters
+      tags:
+      - aws ssm
+  /diff/aws/ssm/parameters/{name}:
+    get:
+      description: get a diff of Parameter between two points in time
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: start_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: start_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: start_time_selection_reference
+        type: string
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: end_report_date
+        required: true
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: end_time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: end_time_selection_reference
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: The name of the Parameter to retrieve
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.Diff'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Diff Parameter
+      tags:
+      - aws ssm
   /diff/aws/storagegateway/gateways:
     get:
       description: get a diff of Gateways between two points in time
@@ -17333,6 +19785,222 @@ paths:
       summary: Get a specific BackupVault
       tags:
       - aws backup
+  /inventory/aws/cloudformation/stacks:
+    get:
+      description: get a list of stacks
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      - description: A pagination token. If this is specified, the next set of results
+          is retrieved. The pagination token is returned in the response.
+        in: query
+        name: pagination_token
+        type: string
+      - description: The maximum number of results to return. Default is 100
+        in: query
+        name: max_results
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/cloudformation.ListStacksResponse'
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: List Stacks
+      tags:
+      - aws cloudformation
+  /inventory/aws/cloudformation/stacks/{stack_id}:
+    get:
+      description: Get a specific Stack by its StackId
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: The stack_id of the Stack to retrieve
+        in: path
+        name: stack_id
+        required: true
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/cloudformation.Stack'
+        "400":
+          description: ""
+        "404":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get a specific Stack
+      tags:
+      - aws cloudformation
+  /inventory/aws/cloudfront/distributions:
+    get:
+      description: get a list of distributions
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      - description: A pagination token. If this is specified, the next set of results
+          is retrieved. The pagination token is returned in the response.
+        in: query
+        name: pagination_token
+        type: string
+      - description: The maximum number of results to return. Default is 100
+        in: query
+        name: max_results
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/cloudfront.ListDistributionsResponse'
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: List Distributions
+      tags:
+      - aws cloudfront
+  /inventory/aws/cloudfront/distributions/{arn}:
+    get:
+      description: Get a specific Distribution by its ARN
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: The arn of the Distribution to retrieve
+        in: path
+        name: arn
+        required: true
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/cloudfront.Distribution'
+        "400":
+          description: ""
+        "404":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get a specific Distribution
+      tags:
+      - aws cloudfront
   /inventory/aws/cloudtrail/trails:
     get:
       description: get a list of trails
@@ -17441,6 +20109,222 @@ paths:
       summary: Get a specific Trail
       tags:
       - aws cloudtrail
+  /inventory/aws/cloudwatch/composite_alarms:
+    get:
+      description: get a list of composite_alarms
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      - description: A pagination token. If this is specified, the next set of results
+          is retrieved. The pagination token is returned in the response.
+        in: query
+        name: pagination_token
+        type: string
+      - description: The maximum number of results to return. Default is 100
+        in: query
+        name: max_results
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/cloudwatch.ListCompositeAlarmsResponse'
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: List CompositeAlarms
+      tags:
+      - aws cloudwatch
+  /inventory/aws/cloudwatch/composite_alarms/{alarm_arn}:
+    get:
+      description: Get a specific CompositeAlarm by its AlarmArn
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: The alarm_arn of the CompositeAlarm to retrieve
+        in: path
+        name: alarm_arn
+        required: true
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/cloudwatch.CompositeAlarm'
+        "400":
+          description: ""
+        "404":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get a specific CompositeAlarm
+      tags:
+      - aws cloudwatch
+  /inventory/aws/cloudwatch/metric_alarms:
+    get:
+      description: get a list of metric_alarms
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      - description: A pagination token. If this is specified, the next set of results
+          is retrieved. The pagination token is returned in the response.
+        in: query
+        name: pagination_token
+        type: string
+      - description: The maximum number of results to return. Default is 100
+        in: query
+        name: max_results
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/cloudwatch.ListMetricAlarmsResponse'
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: List MetricAlarms
+      tags:
+      - aws cloudwatch
+  /inventory/aws/cloudwatch/metric_alarms/{alarm_arn}:
+    get:
+      description: Get a specific MetricAlarm by its AlarmArn
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: The alarm_arn of the MetricAlarm to retrieve
+        in: path
+        name: alarm_arn
+        required: true
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/cloudwatch.MetricAlarm'
+        "400":
+          description: ""
+        "404":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get a specific MetricAlarm
+      tags:
+      - aws cloudwatch
   /inventory/aws/cloudwatchlogs/log_groups:
     get:
       description: get a list of log_groups
@@ -20145,6 +23029,114 @@ paths:
       summary: Get a specific VpnGateway
       tags:
       - aws ec2
+  /inventory/aws/ecr/repositories:
+    get:
+      description: get a list of repositories
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      - description: A pagination token. If this is specified, the next set of results
+          is retrieved. The pagination token is returned in the response.
+        in: query
+        name: pagination_token
+        type: string
+      - description: The maximum number of results to return. Default is 100
+        in: query
+        name: max_results
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ecr.ListRepositoriesResponse'
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: List Repositories
+      tags:
+      - aws ecr
+  /inventory/aws/ecr/repositories/{repository_arn}:
+    get:
+      description: Get a specific Repository by its RepositoryArn
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: The repository_arn of the Repository to retrieve
+        in: path
+        name: repository_arn
+        required: true
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ecr.Repository'
+        "400":
+          description: ""
+        "404":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get a specific Repository
+      tags:
+      - aws ecr
   /inventory/aws/ecs/clusters:
     get:
       description: get a list of clusters
@@ -21441,6 +24433,114 @@ paths:
       summary: Get a specific User
       tags:
       - aws iam
+  /inventory/aws/kms/keys:
+    get:
+      description: get a list of keys
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      - description: A pagination token. If this is specified, the next set of results
+          is retrieved. The pagination token is returned in the response.
+        in: query
+        name: pagination_token
+        type: string
+      - description: The maximum number of results to return. Default is 100
+        in: query
+        name: max_results
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/kms.ListKeysResponse'
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: List Keys
+      tags:
+      - aws kms
+  /inventory/aws/kms/keys/{arn}:
+    get:
+      description: Get a specific Key by its Arn
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: The arn of the Key to retrieve
+        in: path
+        name: arn
+        required: true
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/kms.Key'
+        "400":
+          description: ""
+        "404":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get a specific Key
+      tags:
+      - aws kms
   /inventory/aws/lambda/functions:
     get:
       description: get a list of functions
@@ -22089,6 +25189,222 @@ paths:
       summary: Get a specific Bucket
       tags:
       - aws s3
+  /inventory/aws/secretsmanager/secret:
+    get:
+      description: get a list of secret
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      - description: A pagination token. If this is specified, the next set of results
+          is retrieved. The pagination token is returned in the response.
+        in: query
+        name: pagination_token
+        type: string
+      - description: The maximum number of results to return. Default is 100
+        in: query
+        name: max_results
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/secretsmanager.ListSecretResponse'
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: List Secret
+      tags:
+      - aws secretsmanager
+  /inventory/aws/secretsmanager/secret/{arn}:
+    get:
+      description: Get a specific Secret by its ARN
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: The arn of the Secret to retrieve
+        in: path
+        name: arn
+        required: true
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/secretsmanager.Secret'
+        "400":
+          description: ""
+        "404":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get a specific Secret
+      tags:
+      - aws secretsmanager
+  /inventory/aws/secretsmanager/secrets:
+    get:
+      description: get a list of secrets
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      - description: A pagination token. If this is specified, the next set of results
+          is retrieved. The pagination token is returned in the response.
+        in: query
+        name: pagination_token
+        type: string
+      - description: The maximum number of results to return. Default is 100
+        in: query
+        name: max_results
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/secretsmanager.ListSecretsResponse'
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: List Secrets
+      tags:
+      - aws secretsmanager
+  /inventory/aws/secretsmanager/secrets/{arn}:
+    get:
+      description: Get a specific Secret by its ARN
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: The arn of the Secret to retrieve
+        in: path
+        name: arn
+        required: true
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/secretsmanager.Secret'
+        "400":
+          description: ""
+        "404":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get a specific Secret
+      tags:
+      - aws secretsmanager
   /inventory/aws/sns/subscriptions:
     get:
       description: get a list of subscriptions
@@ -22413,6 +25729,114 @@ paths:
       summary: Get a specific Queue
       tags:
       - aws sqs
+  /inventory/aws/ssm/parameters:
+    get:
+      description: get a list of parameters
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      - description: A pagination token. If this is specified, the next set of results
+          is retrieved. The pagination token is returned in the response.
+        in: query
+        name: pagination_token
+        type: string
+      - description: The maximum number of results to return. Default is 100
+        in: query
+        name: max_results
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ssm.ListParametersResponse'
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: List Parameters
+      tags:
+      - aws ssm
+  /inventory/aws/ssm/parameters/{name}:
+    get:
+      description: Get a specific Parameter by its Name
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      - description: The name of the Parameter to retrieve
+        in: path
+        name: name
+        required: true
+        type: string
+      - description: A specific account to pull data from. All accounts by default
+        in: query
+        name: account_id
+        type: string
+      - description: A specific region to pull data from. All regions by default
+        in: query
+        name: region
+        type: string
+      - description: How to select the time range to pull data from. 'latest' by default
+        enum:
+        - latest
+        - before
+        - after
+        - at
+        in: query
+        name: time_selection
+        type: string
+      - description: The reference time to use when selecting the time range to pull
+          data from. Only used when time_selection is 'before', 'after', or 'at'.
+        format: dateTime
+        in: query
+        name: time_selection_reference
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ssm.Parameter'
+        "400":
+          description: ""
+        "404":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get a specific Parameter
+      tags:
+      - aws ssm
   /inventory/aws/storagegateway/gateways:
     get:
       description: get a list of gateways
@@ -22948,6 +26372,94 @@ paths:
       summary: Get BackupVaults Metadata
       tags:
       - aws backup
+  /metadata/aws/cloudformation:
+    get:
+      description: get a list of CloudFormation metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get CloudFormation Metadata
+      tags:
+      - aws cloudformation
+  /metadata/aws/cloudformation/stacks:
+    get:
+      description: get a list of stacks metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get Stacks Metadata
+      tags:
+      - aws cloudformation
+  /metadata/aws/cloudfront:
+    get:
+      description: get a list of CloudFront metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get CloudFront Metadata
+      tags:
+      - aws cloudfront
+  /metadata/aws/cloudfront/distributions:
+    get:
+      description: get a list of distributions metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get Distributions Metadata
+      tags:
+      - aws cloudfront
   /metadata/aws/cloudtrail:
     get:
       description: get a list of CloudTrail metadata
@@ -22992,6 +26504,75 @@ paths:
       summary: Get Trails Metadata
       tags:
       - aws cloudtrail
+  /metadata/aws/cloudwatch:
+    get:
+      description: get a list of CloudWatch metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get CloudWatch Metadata
+      tags:
+      - aws cloudwatch
+  /metadata/aws/cloudwatch/composite_alarms:
+    get:
+      description: get a list of composite_alarms metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get CompositeAlarms Metadata
+      tags:
+      - aws cloudwatch
+  /metadata/aws/cloudwatch/metric_alarms:
+    get:
+      description: get a list of metric_alarms metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get MetricAlarms Metadata
+      tags:
+      - aws cloudwatch
   /metadata/aws/cloudwatchlogs:
     get:
       description: get a list of CloudWatchLogs metadata
@@ -23674,6 +27255,50 @@ paths:
       summary: Get VpnGateways Metadata
       tags:
       - aws ec2
+  /metadata/aws/ecr:
+    get:
+      description: get a list of ECR metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get ECR Metadata
+      tags:
+      - aws ecr
+  /metadata/aws/ecr/repositories:
+    get:
+      description: get a list of repositories metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get Repositories Metadata
+      tags:
+      - aws ecr
   /metadata/aws/ecs:
     get:
       description: get a list of ECS metadata
@@ -24088,6 +27713,50 @@ paths:
       summary: Get Users Metadata
       tags:
       - aws iam
+  /metadata/aws/kms:
+    get:
+      description: get a list of KMS metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get KMS Metadata
+      tags:
+      - aws kms
+  /metadata/aws/kms/keys:
+    get:
+      description: get a list of keys metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get Keys Metadata
+      tags:
+      - aws kms
   /metadata/aws/lambda:
     get:
       description: get a list of Lambda metadata
@@ -24333,6 +28002,75 @@ paths:
       summary: Get Buckets Metadata
       tags:
       - aws s3
+  /metadata/aws/secretsmanager:
+    get:
+      description: get a list of SecretsManager metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get SecretsManager Metadata
+      tags:
+      - aws secretsmanager
+  /metadata/aws/secretsmanager/secret:
+    get:
+      description: get a list of secret metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get Secret Metadata
+      tags:
+      - aws secretsmanager
+  /metadata/aws/secretsmanager/secrets:
+    get:
+      description: get a list of secrets metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get Secrets Metadata
+      tags:
+      - aws secretsmanager
   /metadata/aws/sns:
     get:
       description: get a list of SNS metadata
@@ -24446,6 +28184,50 @@ paths:
       summary: Get Queues Metadata
       tags:
       - aws sqs
+  /metadata/aws/ssm:
+    get:
+      description: get a list of SSM metadata
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsServiceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get SSM Metadata
+      tags:
+      - aws ssm
+  /metadata/aws/ssm/parameters:
+    get:
+      description: get a list of parameters metadata
+      parameters:
+      - description: Which date to pull data from. Current date by default
+        format: date
+        in: query
+        name: report_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/routes.AwsResourceMetadata'
+            type: array
+        "400":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Get Parameters Metadata
+      tags:
+      - aws ssm
   /metadata/aws/storagegateway:
     get:
       description: get a list of StorageGateway metadata

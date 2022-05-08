@@ -14,23 +14,30 @@ import (
 	"github.com/sheacloud/cloud-inventory/pkg/aws/athena"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/autoscaling"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/backup"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudformation"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudfront"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudtrail"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatch"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/cloudwatchlogs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/dynamodb"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/ec2"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/ecr"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/ecs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/efs"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticache"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticloadbalancing"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/elasticloadbalancingv2"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/iam"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/kms"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/lambda"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/rds"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/redshift"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/route53"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/s3"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/secretsmanager"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/sns"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/sqs"
+	"github.com/sheacloud/cloud-inventory/pkg/aws/ssm"
 	"github.com/sheacloud/cloud-inventory/pkg/aws/storagegateway"
 )
 
@@ -158,6 +165,30 @@ var (
 			},
 		},
 		{
+			ServiceName:     "cloudformation",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "stacks",
+					ResourceModel: &cloudformation.Stack{},
+					FetchFunction: IngestAwsCloudFormationStacks,
+					UniqueIdField: "StackId",
+				},
+			},
+		},
+		{
+			ServiceName:     "cloudfront",
+			RegionOverrides: []string{"us-east-1"},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "distributions",
+					ResourceModel: &cloudfront.Distribution{},
+					FetchFunction: IngestAwsCloudFrontDistributions,
+					UniqueIdField: "ARN",
+				},
+			},
+		},
+		{
 			ServiceName:     "cloudtrail",
 			RegionOverrides: []string{},
 			Resources: []AwsCatalogResource{
@@ -166,6 +197,24 @@ var (
 					ResourceModel: &cloudtrail.Trail{},
 					FetchFunction: IngestAwsCloudTrailTrails,
 					UniqueIdField: "TrailARN",
+				},
+			},
+		},
+		{
+			ServiceName:     "cloudwatch",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "metric_alarms",
+					ResourceModel: &cloudwatch.MetricAlarm{},
+					FetchFunction: IngestAwsCloudWatchMetricAlarms,
+					UniqueIdField: "AlarmArn",
+				},
+				{
+					ResourceName:  "composite_alarms",
+					ResourceModel: &cloudwatch.CompositeAlarm{},
+					FetchFunction: IngestAwsCloudWatchCompositeAlarms,
+					UniqueIdField: "AlarmArn",
 				},
 			},
 		},
@@ -338,6 +387,18 @@ var (
 			},
 		},
 		{
+			ServiceName:     "ecr",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "repositories",
+					ResourceModel: &ecr.Repository{},
+					FetchFunction: IngestAwsECRRepositories,
+					UniqueIdField: "RepositoryArn",
+				},
+			},
+		},
+		{
 			ServiceName:     "ecs",
 			RegionOverrides: []string{},
 			Resources: []AwsCatalogResource{
@@ -446,6 +507,18 @@ var (
 			},
 		},
 		{
+			ServiceName:     "kms",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "keys",
+					ResourceModel: &kms.Key{},
+					FetchFunction: IngestAwsKMSKeys,
+					UniqueIdField: "Arn",
+				},
+			},
+		},
+		{
 			ServiceName:     "lambda",
 			RegionOverrides: []string{},
 			Resources: []AwsCatalogResource{
@@ -512,6 +585,18 @@ var (
 			},
 		},
 		{
+			ServiceName:     "secretsmanager",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "secrets",
+					ResourceModel: &secretsmanager.Secret{},
+					FetchFunction: IngestAwsSecretsManagerSecrets,
+					UniqueIdField: "ARN",
+				},
+			},
+		},
+		{
 			ServiceName:     "sns",
 			RegionOverrides: []string{},
 			Resources: []AwsCatalogResource{
@@ -538,6 +623,18 @@ var (
 					ResourceModel: &sqs.Queue{},
 					FetchFunction: IngestAwsSQSQueues,
 					UniqueIdField: "QueueArn",
+				},
+			},
+		},
+		{
+			ServiceName:     "ssm",
+			RegionOverrides: []string{},
+			Resources: []AwsCatalogResource{
+				{
+					ResourceName:  "parameters",
+					ResourceModel: &ssm.Parameter{},
+					FetchFunction: IngestAwsSSMParameters,
+					UniqueIdField: "Name",
 				},
 			},
 		},

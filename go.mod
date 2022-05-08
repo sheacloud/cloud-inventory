@@ -17,20 +17,27 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/athena v1.15.1
 	github.com/aws/aws-sdk-go-v2/service/autoscaling v1.23.1
 	github.com/aws/aws-sdk-go-v2/service/backup v1.15.4
+	github.com/aws/aws-sdk-go-v2/service/cloudformation v1.20.4
+	github.com/aws/aws-sdk-go-v2/service/cloudfront v1.17.0
 	github.com/aws/aws-sdk-go-v2/service/cloudtrail v1.15.5
+	github.com/aws/aws-sdk-go-v2/service/cloudwatch v1.18.2
 	github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs v1.15.4
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.36.0
+	github.com/aws/aws-sdk-go-v2/service/ecr v1.17.4
 	github.com/aws/aws-sdk-go-v2/service/elasticache v1.20.5
 	github.com/aws/aws-sdk-go-v2/service/elasticloadbalancing v1.14.3
 	github.com/aws/aws-sdk-go-v2/service/elasticloadbalancingv2 v1.18.3
 	github.com/aws/aws-sdk-go-v2/service/iam v1.18.3
+	github.com/aws/aws-sdk-go-v2/service/kms v1.17.1
 	github.com/aws/aws-sdk-go-v2/service/lambda v1.22.0
 	github.com/aws/aws-sdk-go-v2/service/rds v1.20.0
 	github.com/aws/aws-sdk-go-v2/service/redshift v1.23.0
 	github.com/aws/aws-sdk-go-v2/service/route53 v1.20.3
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.26.5
+	github.com/aws/aws-sdk-go-v2/service/secretsmanager v1.15.6
 	github.com/aws/aws-sdk-go-v2/service/sns v1.17.4
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.18.3
+	github.com/aws/aws-sdk-go-v2/service/ssm v1.27.0
 	github.com/aws/aws-sdk-go-v2/service/storagegateway v1.17.0
 	github.com/aws/aws-sdk-go-v2/service/sts v1.16.3
 	github.com/aws/smithy-go v1.11.2
@@ -74,7 +81,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.13.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.11.3 // indirect
-	github.com/fsnotify/fsnotify v1.5.3 // indirect
+	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-openapi/jsonpointer v0.19.5 // indirect
 	github.com/go-openapi/jsonreference v0.20.0 // indirect

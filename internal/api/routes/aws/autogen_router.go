@@ -12,23 +12,30 @@ import (
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/athena"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/autoscaling"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/backup"
+	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/cloudformation"
+	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/cloudfront"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/cloudtrail"
+	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/cloudwatch"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/cloudwatchlogs"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/dynamodb"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/ec2"
+	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/ecr"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/ecs"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/efs"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/elasticache"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/elasticloadbalancing"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/elasticloadbalancingv2"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/iam"
+	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/kms"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/lambda"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/rds"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/redshift"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/route53"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/s3"
+	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/secretsmanager"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/sns"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/sqs"
+	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/ssm"
 	"github.com/sheacloud/cloud-inventory/internal/api/routes/aws/storagegateway"
 	"github.com/sheacloud/cloud-inventory/internal/db"
 )
@@ -52,23 +59,30 @@ func GetAwsMetadata(c *gin.Context) {
 			"athena",
 			"autoscaling",
 			"backup",
+			"cloudformation",
+			"cloudfront",
 			"cloudtrail",
+			"cloudwatch",
 			"cloudwatchlogs",
 			"dynamodb",
 			"ec2",
+			"ecr",
 			"ecs",
 			"efs",
 			"elasticache",
 			"elasticloadbalancing",
 			"elasticloadbalancingv2",
 			"iam",
+			"kms",
 			"lambda",
 			"rds",
 			"redshift",
 			"route53",
 			"s3",
+			"secretsmanager",
 			"sns",
 			"sqs",
+			"ssm",
 			"storagegateway",
 		},
 	})
@@ -85,23 +99,30 @@ func AddMetadataRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 	r.GET("/athena", athena.GetAthenaMetadata)
 	r.GET("/autoscaling", autoscaling.GetAutoScalingMetadata)
 	r.GET("/backup", backup.GetBackupMetadata)
+	r.GET("/cloudformation", cloudformation.GetCloudFormationMetadata)
+	r.GET("/cloudfront", cloudfront.GetCloudFrontMetadata)
 	r.GET("/cloudtrail", cloudtrail.GetCloudTrailMetadata)
+	r.GET("/cloudwatch", cloudwatch.GetCloudWatchMetadata)
 	r.GET("/cloudwatchlogs", cloudwatchlogs.GetCloudWatchLogsMetadata)
 	r.GET("/dynamodb", dynamodb.GetDynamoDBMetadata)
 	r.GET("/ec2", ec2.GetEC2Metadata)
+	r.GET("/ecr", ecr.GetECRMetadata)
 	r.GET("/ecs", ecs.GetECSMetadata)
 	r.GET("/efs", efs.GetEFSMetadata)
 	r.GET("/elasticache", elasticache.GetElastiCacheMetadata)
 	r.GET("/elasticloadbalancing", elasticloadbalancing.GetElasticLoadBalancingMetadata)
 	r.GET("/elasticloadbalancingv2", elasticloadbalancingv2.GetElasticLoadBalancingV2Metadata)
 	r.GET("/iam", iam.GetIAMMetadata)
+	r.GET("/kms", kms.GetKMSMetadata)
 	r.GET("/lambda", lambda.GetLambdaMetadata)
 	r.GET("/rds", rds.GetRDSMetadata)
 	r.GET("/redshift", redshift.GetRedshiftMetadata)
 	r.GET("/route53", route53.GetRoute53Metadata)
 	r.GET("/s3", s3.GetS3Metadata)
+	r.GET("/secretsmanager", secretsmanager.GetSecretsManagerMetadata)
 	r.GET("/sns", sns.GetSNSMetadata)
 	r.GET("/sqs", sqs.GetSQSMetadata)
+	r.GET("/ssm", ssm.GetSSMMetadata)
 	r.GET("/storagegateway", storagegateway.GetStorageGatewayMetadata)
 
 	r.GET("/acm/certificates", func(c *gin.Context) {
@@ -148,8 +169,24 @@ func AddMetadataRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		backup.GetBackupPlansMetadata(c, dao)
 	})
 
+	r.GET("/cloudformation/stacks", func(c *gin.Context) {
+		cloudformation.GetStacksMetadata(c, dao)
+	})
+
+	r.GET("/cloudfront/distributions", func(c *gin.Context) {
+		cloudfront.GetDistributionsMetadata(c, dao)
+	})
+
 	r.GET("/cloudtrail/trails", func(c *gin.Context) {
 		cloudtrail.GetTrailsMetadata(c, dao)
+	})
+
+	r.GET("/cloudwatch/metric_alarms", func(c *gin.Context) {
+		cloudwatch.GetMetricAlarmsMetadata(c, dao)
+	})
+
+	r.GET("/cloudwatch/composite_alarms", func(c *gin.Context) {
+		cloudwatch.GetCompositeAlarmsMetadata(c, dao)
 	})
 
 	r.GET("/cloudwatchlogs/log_groups", func(c *gin.Context) {
@@ -252,6 +289,10 @@ func AddMetadataRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		ec2.GetVpnGatewaysMetadata(c, dao)
 	})
 
+	r.GET("/ecr/repositories", func(c *gin.Context) {
+		ecr.GetRepositoriesMetadata(c, dao)
+	})
+
 	r.GET("/ecs/clusters", func(c *gin.Context) {
 		ecs.GetClustersMetadata(c, dao)
 	})
@@ -300,6 +341,10 @@ func AddMetadataRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		iam.GetUsersMetadata(c, dao)
 	})
 
+	r.GET("/kms/keys", func(c *gin.Context) {
+		kms.GetKeysMetadata(c, dao)
+	})
+
 	r.GET("/lambda/functions", func(c *gin.Context) {
 		lambda.GetFunctionsMetadata(c, dao)
 	})
@@ -324,6 +369,10 @@ func AddMetadataRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		s3.GetBucketsMetadata(c, dao)
 	})
 
+	r.GET("/secretsmanager/secrets", func(c *gin.Context) {
+		secretsmanager.GetSecretsMetadata(c, dao)
+	})
+
 	r.GET("/sns/topics", func(c *gin.Context) {
 		sns.GetTopicsMetadata(c, dao)
 	})
@@ -334,6 +383,10 @@ func AddMetadataRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 
 	r.GET("/sqs/queues", func(c *gin.Context) {
 		sqs.GetQueuesMetadata(c, dao)
+	})
+
+	r.GET("/ssm/parameters", func(c *gin.Context) {
+		ssm.GetParametersMetadata(c, dao)
 	})
 
 	r.GET("/storagegateway/gateways", func(c *gin.Context) {
@@ -421,11 +474,39 @@ func AddInventoryRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		backup.GetBackupPlan(c, dao)
 	})
 
+	r.GET("/cloudformation/stacks", func(c *gin.Context) {
+		cloudformation.ListStacks(c, dao)
+	})
+	r.GET("/cloudformation/stacks/:stack_id", func(c *gin.Context) {
+		cloudformation.GetStack(c, dao)
+	})
+
+	r.GET("/cloudfront/distributions", func(c *gin.Context) {
+		cloudfront.ListDistributions(c, dao)
+	})
+	r.GET("/cloudfront/distributions/:arn", func(c *gin.Context) {
+		cloudfront.GetDistribution(c, dao)
+	})
+
 	r.GET("/cloudtrail/trails", func(c *gin.Context) {
 		cloudtrail.ListTrails(c, dao)
 	})
 	r.GET("/cloudtrail/trails/:trail_arn", func(c *gin.Context) {
 		cloudtrail.GetTrail(c, dao)
+	})
+
+	r.GET("/cloudwatch/metric_alarms", func(c *gin.Context) {
+		cloudwatch.ListMetricAlarms(c, dao)
+	})
+	r.GET("/cloudwatch/metric_alarms/:alarm_arn", func(c *gin.Context) {
+		cloudwatch.GetMetricAlarm(c, dao)
+	})
+
+	r.GET("/cloudwatch/composite_alarms", func(c *gin.Context) {
+		cloudwatch.ListCompositeAlarms(c, dao)
+	})
+	r.GET("/cloudwatch/composite_alarms/:alarm_arn", func(c *gin.Context) {
+		cloudwatch.GetCompositeAlarm(c, dao)
 	})
 
 	r.GET("/cloudwatchlogs/log_groups", func(c *gin.Context) {
@@ -603,6 +684,13 @@ func AddInventoryRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		ec2.GetVpnGateway(c, dao)
 	})
 
+	r.GET("/ecr/repositories", func(c *gin.Context) {
+		ecr.ListRepositories(c, dao)
+	})
+	r.GET("/ecr/repositories/:repository_arn", func(c *gin.Context) {
+		ecr.GetRepository(c, dao)
+	})
+
 	r.GET("/ecs/clusters", func(c *gin.Context) {
 		ecs.ListClusters(c, dao)
 	})
@@ -687,6 +775,13 @@ func AddInventoryRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		iam.GetUser(c, dao)
 	})
 
+	r.GET("/kms/keys", func(c *gin.Context) {
+		kms.ListKeys(c, dao)
+	})
+	r.GET("/kms/keys/:arn", func(c *gin.Context) {
+		kms.GetKey(c, dao)
+	})
+
 	r.GET("/lambda/functions", func(c *gin.Context) {
 		lambda.ListFunctions(c, dao)
 	})
@@ -729,6 +824,13 @@ func AddInventoryRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		s3.GetBucket(c, dao)
 	})
 
+	r.GET("/secretsmanager/secrets", func(c *gin.Context) {
+		secretsmanager.ListSecrets(c, dao)
+	})
+	r.GET("/secretsmanager/secrets/:arn", func(c *gin.Context) {
+		secretsmanager.GetSecret(c, dao)
+	})
+
 	r.GET("/sns/topics", func(c *gin.Context) {
 		sns.ListTopics(c, dao)
 	})
@@ -748,6 +850,13 @@ func AddInventoryRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 	})
 	r.GET("/sqs/queues/:queue_arn", func(c *gin.Context) {
 		sqs.GetQueue(c, dao)
+	})
+
+	r.GET("/ssm/parameters", func(c *gin.Context) {
+		ssm.ListParameters(c, dao)
+	})
+	r.GET("/ssm/parameters/:name", func(c *gin.Context) {
+		ssm.GetParameter(c, dao)
 	})
 
 	r.GET("/storagegateway/gateways", func(c *gin.Context) {
@@ -838,11 +947,39 @@ func AddDiffRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		backup.DiffSingleBackupPlan(c, dao)
 	})
 
+	r.GET("/cloudformation/stacks", func(c *gin.Context) {
+		cloudformation.DiffMultiStacks(c, dao)
+	})
+	r.GET("/cloudformation/stacks/:stack_id", func(c *gin.Context) {
+		cloudformation.DiffSingleStack(c, dao)
+	})
+
+	r.GET("/cloudfront/distributions", func(c *gin.Context) {
+		cloudfront.DiffMultiDistributions(c, dao)
+	})
+	r.GET("/cloudfront/distributions/:arn", func(c *gin.Context) {
+		cloudfront.DiffSingleDistribution(c, dao)
+	})
+
 	r.GET("/cloudtrail/trails", func(c *gin.Context) {
 		cloudtrail.DiffMultiTrails(c, dao)
 	})
 	r.GET("/cloudtrail/trails/:trail_arn", func(c *gin.Context) {
 		cloudtrail.DiffSingleTrail(c, dao)
+	})
+
+	r.GET("/cloudwatch/metric_alarms", func(c *gin.Context) {
+		cloudwatch.DiffMultiMetricAlarms(c, dao)
+	})
+	r.GET("/cloudwatch/metric_alarms/:alarm_arn", func(c *gin.Context) {
+		cloudwatch.DiffSingleMetricAlarm(c, dao)
+	})
+
+	r.GET("/cloudwatch/composite_alarms", func(c *gin.Context) {
+		cloudwatch.DiffMultiCompositeAlarms(c, dao)
+	})
+	r.GET("/cloudwatch/composite_alarms/:alarm_arn", func(c *gin.Context) {
+		cloudwatch.DiffSingleCompositeAlarm(c, dao)
 	})
 
 	r.GET("/cloudwatchlogs/log_groups", func(c *gin.Context) {
@@ -1020,6 +1157,13 @@ func AddDiffRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		ec2.DiffSingleVpnGateway(c, dao)
 	})
 
+	r.GET("/ecr/repositories", func(c *gin.Context) {
+		ecr.DiffMultiRepositories(c, dao)
+	})
+	r.GET("/ecr/repositories/:repository_arn", func(c *gin.Context) {
+		ecr.DiffSingleRepository(c, dao)
+	})
+
 	r.GET("/ecs/clusters", func(c *gin.Context) {
 		ecs.DiffMultiClusters(c, dao)
 	})
@@ -1104,6 +1248,13 @@ func AddDiffRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		iam.DiffSingleUser(c, dao)
 	})
 
+	r.GET("/kms/keys", func(c *gin.Context) {
+		kms.DiffMultiKeys(c, dao)
+	})
+	r.GET("/kms/keys/:arn", func(c *gin.Context) {
+		kms.DiffSingleKey(c, dao)
+	})
+
 	r.GET("/lambda/functions", func(c *gin.Context) {
 		lambda.DiffMultiFunctions(c, dao)
 	})
@@ -1146,6 +1297,13 @@ func AddDiffRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 		s3.DiffSingleBucket(c, dao)
 	})
 
+	r.GET("/secretsmanager/secrets", func(c *gin.Context) {
+		secretsmanager.DiffMultiSecrets(c, dao)
+	})
+	r.GET("/secretsmanager/secrets/:arn", func(c *gin.Context) {
+		secretsmanager.DiffSingleSecret(c, dao)
+	})
+
 	r.GET("/sns/topics", func(c *gin.Context) {
 		sns.DiffMultiTopics(c, dao)
 	})
@@ -1165,6 +1323,13 @@ func AddDiffRoutes(r *gin.RouterGroup, dao db.ReaderDAO) {
 	})
 	r.GET("/sqs/queues/:queue_arn", func(c *gin.Context) {
 		sqs.DiffSingleQueue(c, dao)
+	})
+
+	r.GET("/ssm/parameters", func(c *gin.Context) {
+		ssm.DiffMultiParameters(c, dao)
+	})
+	r.GET("/ssm/parameters/:name", func(c *gin.Context) {
+		ssm.DiffSingleParameter(c, dao)
 	})
 
 	r.GET("/storagegateway/gateways", func(c *gin.Context) {

@@ -38,6 +38,7 @@ func makeDir(path string) {
 }
 
 func ToSnakeCase(str string) string {
+	str = strings.Replace(str, "ARNs", "Arns", -1) // ARNs breaks the snake case comversion and makes it ..._ar_ns
 	snake := matchFirstCap.ReplaceAllString(str, "${1}_${2}")
 	snake = matchAllCap.ReplaceAllString(snake, "${1}_${2}")
 	return strings.ToLower(snake)
